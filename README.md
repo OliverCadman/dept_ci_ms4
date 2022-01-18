@@ -69,6 +69,7 @@ As a client who is looking for a dep musician, I want...
 5. To hear samples of a dep's music, so I can be confident that they will provide a good service.
 6. To be able to message a potential dep from within the website, so that no unneccesary time is wasted.
 7. To be notified when I have received a response from a dep I have messaged, so I can confirm the arrangement quickly and smoothly.
+8. To be able to send a confirmed dep a document with job details (with location, timings, number of sets etc), to allow for effective communication.
 8. To be able to pay the dep for their services from within the website, so I can easily take account of all my outgoings.
 9. Payments to be secure, so I can be confident that my money is going where it is supposed to.
 10. To be able to leave reviews/ratings on deps I have worked with, so I can make other clients aware of their expertise (or lack thereof).
@@ -94,8 +95,10 @@ As a Tier One member of the website, I want...
 As a Tier Two member of the website, I want...
 
 1. All privileges provided by Tier One Membership.
-2. To have access to a job listing, so I can more granularly find jobs which are in my area.
-3. To be listed at the top of searches when a potential client is searching for a dep, so I can have a better chance of getting the work.
+2. To have access to a job listing, so I can find jobs which are in my area.
+3. To be able to filter jobs by location or type (live performance, session work etc) so I can more granularly search for a suitable job.
+4. To be listed at the top of searches when a potential client is searching for a dep, so I can have a better chance of getting the work.
+
 
 
 
