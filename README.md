@@ -23,6 +23,25 @@ Also, due to Covid-19, connecting with other artists and finding work has been d
 
 ## Strategy
 
+### Stakeholder Interviews
+
+What problems/pain-points do you experience when searching for a dep?
+
+* *"My immediate network is limited by the number of musicians in my contact list"*
+
+* *"My immediate network is limited to the locality of the area which I live and work."*
+
+* *"It takes a lot of time and effort to source a suitable dep, especially when the situation is time-sensitive"*
+
+* *"A dep's availability (or lack thereof) can only be determined through a phone call or text, which is not time-effective."*
+
+* *"A limited network of deps in the local area can result in travelling a long distance to a gig, which increases environmental impact."*
+
+* *"There's a lack of opportunity to make myself more discoverable among a wider network of musicians."*
+
+
+
+
 
 
 
