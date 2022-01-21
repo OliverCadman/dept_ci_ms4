@@ -141,6 +141,67 @@ Taking the project goal and the user stories into account, below is bulletted su
 
 ### Scope
 
+#### Functional Requirements
+
+##### User Interface
+
+* Users must be able to navigate and use the website with minimum cognitive overload.
+* Users must be provided a clear path through the searching, messaging and booking process, with sufficient indicators and feedback.
+* Users should be provided notifications to users when they have been contacted.
+* Ensure the design of the website is responsive on all device sizes.
+
+##### Authorization/User Management
+
+* Users must be allowed to register, confirm their email address, login and logout to the website.
+* Users must be able to reset their password, should they need to.
+
+##### Profiles
+
+* Allow users to create and edit a profile.
+* Allow users to upload samples of their music to their profile.
+* Implement a music player to allow for playback of their music.
+* Provide a calendar for users to show their availability. 
+* Display star rating and reviews.
+
+##### Tier One/Tier Two Content
+
+* Messaging between users of the website.
+* Notifications to users who have been contacted.
+* A page listing the musicians using the service.
+* Search/filter functionality to filter for a musician specializing in a specific genre/style.
+
+##### Tier Two Content
+
+* Create a paywall between Tier One and Tier Two content.
+* Place links to Tier Two profiles at the top of the list of musicians on the relevant page.
+* Create a page displaying a list of jobs offered by clients, offered only to Tier Two users.
+* Allow users to upgrade from a Tier One to a Tier Two account.
+
+##### Booking
+
+* Provide a page with a form to allow for users to message a potential dep with a job offer.
+* Provide a page with a form to allow for users to message a confirmed dep with job details.
+
+##### Messaging
+
+* Messaging functionality between deps and clients.
+* Ability to message clients/deps from profiles, artist-list page and notifications.
+
+##### Notifications
+
+* Display a clickable icon in the navbar, along with account of a user's unread notifications.
+* A dropdown list of all notifications a user has received.
+* When a notification has been read, update the database accordingly.
+
+
+
+
+
+
+
+
+
+
 
 
 
