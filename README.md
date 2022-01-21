@@ -39,6 +39,16 @@ What problems/pain points do you experience when searching for a dep?
 
 * *"There's a lack of opportunity to make myself more discoverable among a wider network of musicians."*
 
+## Ideal Users
+
+* Musicians/artists operating in the music industry who need to 'dep' out a gig.
+* Musicians/artists operating in the music industry who are looking for job opportunities.
+* Bookers/band-leaders/producers who are in need of a last-minute musician/artist to provide their services.
+
+## Project Goal
+
+To provide a sleek, efficient and trustworthy booking service, enabling musicians to dep out their gigs and for clients to find dep musicians, all with minimum stress.
+
 ### User Stories
 
 #### First-Time Visitors
@@ -82,13 +92,14 @@ As a client who is looking for a dep musician, I want...
 As a Tier One member of the website, I want...
 
 1. To be able to upload samples of my music to my profile, so I can showcase my skills and expertise.
-2. A link to my profile to be listed on a page, so potential clients will be able to find me easily.
+2. A link to my profile to be listed on a page, so potential clients/musicians will be able to find me easily.
+3. To be able to find other musicians using the service, so I am able to find a dep easily in the case that I can't make a gig.
 3. To be notified when I get a job offer from a client, so I can respond quickly and professionally.
-4. To be able to message potential clients with a response without leaving the website, to make the process run as smoothly as possible.
+4. To be able to message potential clients/musicians with a response without leaving the website, to make the process run as smoothly as possible.
 5. To be able to message other members of the website, so I can grow my network.
 6. To be paid for my services from within the website, so I don't have to log in to another app/website to achieve this.
 7. To keep track of my earnings on my profile, so I can take account of how much I am earning from the service.
-8. To display reviews/ratings from past clients for who I have provided services, so I can improve my reputation in the community.
+8. To display reviews/ratings from past clients/musicians for who I have provided services, so I can improve my reputation in the community.
 
 ##### Tier Two Membership (Paid)
 
@@ -97,4 +108,46 @@ As a Tier Two member of the website, I want...
 1. All privileges provided by Tier One Membership.
 2. To have access to a job listing, so I can find jobs that are in my area.
 3. To be able to filter jobs by location or type (live performance, session work etc) so I can more granularly search for a suitable job.
-4. To be listed at the top of searches when a potential client is searching for a dep, so I can have a better chance of getting the work.
+4. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
+
+### User Stories Summary
+
+Taking all of the user stories into account, the ne
+
+#### User Needs
+
+* To be able to navigate the site intuitively and with ease.
+* To be able to register, log in, and log out.
+* To be able to subscribe to a Tier 1 or Tier 2 subscription.
+* To be able to upgrade from a Tier 1 to a Tier 2 subscription.
+* To be able to find other musicians to dep a gig to.
+* To be able to display a calendar of days where I am available/unvailable.
+* To be able to find listed jobs.
+* To hear samples of a potential dep's music.
+* To be able to message a potential dep with a job offer.
+* To be able to receive a message from a contacted dep, to receive confirmation or refusal of a request.
+* To be able to send details of a job to a confirmed dep.
+* To be notified whenever I receive a message from another user of the website.
+* To be able to send/receive payments through the website.
+
+#### Project Objectives
+
+* To allow all users of the website to navigate the website with minimum cognitive overload.
+* To allow musicians to dep out their gigs with ease.
+* To offer clients a stress-free way to find a dep musician to provide their services.
+* To provide an end-to-end searching, messaging and booking service for all users.
+* To paywall features between Tier One/Tier Two users.
+* To provide incentives for Tier One users to upgrade to Tier Two.
+
+
+
+
+
+
+
+
+
+
+
+
+
