@@ -110,9 +110,9 @@ As a Tier Two member of the website, I want...
 3. To be able to filter jobs by location or type (live performance, session work etc) so I can more granularly search for a suitable job.
 4. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
 
-### User Stories Summary
+### Strategy Summary
 
-Taking all of the user stories into account, the ne
+Taking the project goal and the user stories into account, below is bulletted summary of the user needs and project objectives, required to achieve an MVP.
 
 #### User Needs
 
@@ -121,7 +121,7 @@ Taking all of the user stories into account, the ne
 * To be able to subscribe to a Tier 1 or Tier 2 subscription.
 * To be able to upgrade from a Tier 1 to a Tier 2 subscription.
 * To be able to find other musicians to dep a gig to.
-* To be able to display a calendar of days where I am available/unvailable.
+* To be able to display a calendar of days where I am available/unavailable.
 * To be able to find listed jobs.
 * To hear samples of a potential dep's music.
 * To be able to message a potential dep with a job offer.
@@ -136,8 +136,12 @@ Taking all of the user stories into account, the ne
 * To allow musicians to dep out their gigs with ease.
 * To offer clients a stress-free way to find a dep musician to provide their services.
 * To provide an end-to-end searching, messaging and booking service for all users.
-* To paywall features between Tier One/Tier Two users.
-* To provide incentives for Tier One users to upgrade to Tier Two.
+* To paywall features between Tier 1/Tier 2 users.
+* To provide incentives for Tier 1 users to upgrade to Tier 2.
+
+### Scope
+
+
 
 
 
