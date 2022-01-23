@@ -275,7 +275,6 @@ Each item in the list of engagements will be clickable, taking the user to the b
 
 Additionally, details on profile 'completeness' will be displayed through a graphical progress bar, along with metric data of the user's number of jobs, repeat business and past clients they have worked with.
 
-
 #### Find a Dep
 
 The list of deps will be categorized by instrument/expertise, each represented by a link. For instance, a user can click a button for 'Keyboard Players', and be taken to a page listing keyboard players.
@@ -298,6 +297,11 @@ Additionally, the invitee and inviter will be able to message each other through
 #### Booking Form
 
 If a dep has accepted an invite, the member offering the gig can use a form to provide all details pertaining to the engagement, including a file input which will handle PDFs for sheet music.
+
+#### Booking Confirmation
+
+Once a dep has received a confirmed booking, they will be sent an email with the full details of the engagement. This will be downloadable to a PDF format.
+An email will also be sent to both parties involved in the booking.
 
 #### Post a Job
 
