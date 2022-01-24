@@ -321,7 +321,7 @@ The member who posted the job will then receive notification of a dep's interest
 
 ### Wireframes
 
-![Link to Home Page Wireframe](documentation/wireframes/dept_homepage.pdf)
+[Link to Home Page Wireframe](documentation/wireframes/dept_homepage.pdf)
 
 
 
