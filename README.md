@@ -317,6 +317,12 @@ Deps can register their interest in a particular job by messaging the member who
 
 The member who posted the job will then receive notification of a dep's interest. The notification will prompt to either accept or decline the request, or visit the dep's profile.
 
+## Skeleton
+
+### Wireframes
+
+![Link to Home Page Wireframe](documentation/wireframes/dept_homepage.pdf)
+
 
 
 
