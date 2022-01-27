@@ -328,6 +328,7 @@ The member who posted the job will then receive notification of a dep's interest
 * [Profile](documentation/wireframes/dept_profile.pdf)
 * [Find a Dep (Instrument List)](documentation/wireframes/dept_find_a_dep.pdf)
 * [Find a Dep (Dep List)](documentation/wireframes/dept_dep_list.pdf)
+* [Job List Page](documentation/wireframes/dept_find_a_job.pdf)
 * [Dashboard](documentation/wireframes/dept_dashboard.pdf)
 
 
