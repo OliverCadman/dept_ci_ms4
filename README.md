@@ -333,6 +333,7 @@ The member who posted the job will then receive notification of a dep's interest
 * [Enquiries](documentation/wireframes/dept_enquiries.pdf)
 * [Booking Form](documentation/wireframes/dept_booking_form.pdf)
 * [Booking Confirmation](documentation/wireframes/dept_booking_confirmation.pdf)
+* [Messages](documentation/wireframes/dept_messages.pdf)
 
 
 
