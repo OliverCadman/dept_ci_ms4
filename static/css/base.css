@@ -1,3 +1,11 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;600&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;600&family=Lato:wght@300;400;700&family=Oxygen:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;600&family=Lato:wght@300;400;700&family=Oxygen:wght@300;400&family=Varela+Round&display=swap');
+
+
+
+
 body, html {
     min-height: 100%,
 }
@@ -5,4 +13,26 @@ body, html {
 body {
     padding: 0;
     margin: 0;
+}
+
+/* Navbar */
+
+.notification-message-links {
+    padding: 0;
+}
+
+.notification-message-links li {
+    display: inline-block;
+    margin: 0;
+}
+
+@media screen and (max-width:767px) {
+    .navbar-brand {
+        order: 1;
+    }
+
+    .navbar-toggler {
+        order: 0;
+        
+    }
 }

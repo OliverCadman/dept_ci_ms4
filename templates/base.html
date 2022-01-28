@@ -9,6 +9,8 @@
     {% block core_css %}
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static "css/base.css"%}">
     {% endblock %}
     <!-- Extra CSS Files -->
@@ -22,6 +24,27 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Notification/Message/Signin Links for Mobile -->
+            <div class="d-md-none d-block">
+                {% include "includes/notification-message-links.html" %}
+            </div>
+            <a href="#" class="navbar-brand d-none d-md-block">Dept</a>
+            <button class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#main-nav"
+            aria-controls="mobileNavigation"
+            aria-expanded="False"
+            aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        {% include "includes/navigation.html" %}
+        <!-- Notification/Message/Signin Links for iPad/Laptop/Desktop -->
+        <div class="d-none d-md-block">
+            {% include "includes/notification-message-links.html" %}
+        </div>
+    </nav>
     <!-- Website Content -->
     {% block content %}
     {% endblock %}
