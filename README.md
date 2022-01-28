@@ -331,6 +331,9 @@ The member who posted the job will then receive notification of a dep's interest
 * [Job List Page](documentation/wireframes/dept_find_a_job.pdf)
 * [Dashboard](documentation/wireframes/dept_dashboard.pdf)
 * [Enquiries](documentation/wireframes/dept_enquiries.pdf)
+* [Booking Form](documentation/wireframes/dept_booking_form.pdf)
+* [Booking Confirmation](documentation/wireframes/dept_booking_confirmation.pdf)
+
 
 
 
