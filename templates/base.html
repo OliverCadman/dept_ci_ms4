@@ -24,13 +24,13 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
             <!-- Notification/Message/Signin Links for Mobile -->
             <div class="d-md-none d-block">
                 {% include "includes/notification-message-links.html" %}
             </div>
-            <a href="#" class="navbar-brand d-none d-md-block">Dept</a>
+            
             <button class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#main-nav"
@@ -39,8 +39,9 @@
             aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        {% include "includes/navigation.html" %}
-        <!-- Notification/Message/Signin Links for iPad/Laptop/Desktop -->
+            {% include "includes/navigation.html" %}
+            <!-- Notification/Message/Signin Links for iPad/Laptop/Desktop -->
+            <a href="#" class="navbar-brand d-none d-md-block">Dept</a>
         <div class="d-none d-md-block">
             {% include "includes/notification-message-links.html" %}
         </div>
