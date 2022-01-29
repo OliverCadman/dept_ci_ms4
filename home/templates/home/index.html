@@ -1,22 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
 {% endblock %}
+
 {% block title %} DepT {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-lg-7">
-                <div class="row">
-                    <div class="col-lg-4 logo-desktop">
-                        <figure>
-                            <img src="{{ MEDIA_URL }}dept-logo.png" id="dept-logo" alt="DepT Logo">
-                        </figure>
-                    </div>
-                </div>
+<section class="hero-section">
+    <div class="container" id="home-hero-container">
+        <figure>
+            <!--TODO: Add variable width and height to image for performance -->
+            <img src="{{ MEDIA_URL }}dept-logo.png" id="dept-logo" alt="DepT Logo" width="225" height="225">
+        </figure>
+        <h1 class="text-light">Created by Artists, for Artists.</h1>
+    </div>
+    <hr class="hero-block-divider" align="center">
+        <div class="hero-header">
+            <p class="lead font-weight-bold mt-4 text-light">
+                The world's best musicians and singers for hire.
+            </p>
+            <div class="cta-btns mx-auto">
+                <a href="#" class="btn rounded-0 btn-dark">Register</a>
+                <a href="#" class="btn rounded-0 btn-dark">Find a Dep</a>
             </div>
+        </div>
+        <div class="header-hero-bg">
+            <figure>
+                <img src="{{ MEDIA_URL }}home-hero.jpg" id="home-hero-image" alt="Home Hero Image">
+            </figure>
         </div>
     </div>
 </section>

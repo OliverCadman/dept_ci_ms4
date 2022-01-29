@@ -1,0 +1,74 @@
+#home-hero-container {
+    padding: 40px 0 0 0;
+    margin: 0;
+    height: 100%;
+}
+
+#dept-logo {
+    width: 175px;
+    height: 175px;
+    position: absolute;
+    top: 80px;
+    left: 25px;
+}
+
+.hero-section {
+    background-color: #45425a;
+    padding: 16rem 0 6rem 0;
+    position: relative;
+}
+
+.hero-block-divider {
+    border: 2px solid white;
+    width: 97%;
+    margin: 0 auto !important;
+}
+
+.hero-section h1 {
+    position: absolute;
+    top: 140px;
+    left: 210px;
+}
+
+.hero-header {
+    width: 50%;
+    text-align: center;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 0
+}
+
+
+#home-hero-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    object-fit: cover;
+
+}
+
+.header-hero-bg {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: grey;
+}
+
+.header-hero-bg:after {
+        background: linear-gradient(-85deg, transparent 5%, transparent 50%, #45425a 50%, #45425a 100%);
+        content: '';
+        width: 25%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+}
