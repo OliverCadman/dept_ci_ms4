@@ -224,8 +224,24 @@
        padding: 6rem 2rem;
    }
 
+   .section-header h3 {
+       font-size: 2.4rem;
+   }
+
    .dept-details {
        margin-top: 1.5rem;
+   }
+
+   .dept-details i {
+       font-size: 4rem;
+   }
+
+   .dept-details p {
+       font-size: 1.25rem;
+   }
+
+   .list-circle-text p {
+       font-size: 1.25rem;
    }
 
    /* Subscribe Section */

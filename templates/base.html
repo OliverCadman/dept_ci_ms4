@@ -24,6 +24,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-md bg-sm-light">
         <div class="container-fluid">
             <!-- Notification/Message/Signin Links for Mobile -->
@@ -51,7 +52,45 @@
     <!-- Website Content -->
     {% block content %}
     {% endblock %}
-
+    <!-- Footer -->
+    <footer class="base-footer">
+        <div class="container-fluid">
+            <div class="row justify-content-between">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="about-dept">
+                        <p>Dept is an online networking and gig marketplace, where the world's top musicians can easily dep out their gigs, increase their revenue through their art, and build communities.</p>
+                        <a href="mailto:o.cadman@live.co.uk">hello@dept.com</a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">Sign In</a>
+                        </li>
+                        <li>
+                            <a href="#">F.A.Q</a>
+                        </li>
+                        <li>
+                            <a href="#">Privacy</a>
+                        </li>
+                    </ul>
+                    <ul class="footer-links d-lg-none d-none d-md-block">
+                        {% include 'includes/footer-social-links.html' %}
+                    </ul>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block">
+                    <ul class="footer-links">
+                        {% include 'includes/footer-social-links.html' %}
+                    </ul>
+                </div>
+                <div class="col-12 d-lg-none d-md-none d-sm-block">
+                    <ul class="footer-links">
+                        {% include 'includes/footer-social-links.html' %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Custom JavaScript -->
     {% block custom_js %}
     {% endblock %}

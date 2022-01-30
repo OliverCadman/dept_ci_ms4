@@ -41,6 +41,20 @@ body {
     font-size: 1.5rem;
 }
 
+/* Footer */
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
 @media screen and (min-width: 992px) {
     #main-nav ul li a {
         text-decoration: none;
@@ -55,6 +69,8 @@ body {
         font-size: 2.5rem;
         margin-right: 1rem;
     }
+
+    /* Footer */
 
 }
 
