@@ -1,3 +1,7 @@
+/* .section-divider {
+    border: 2px solid #eee;
+} */
+
 /* Hero Section */
 .hero-section-sm {
     position: relative;
@@ -63,6 +67,64 @@
     color: #eee;
     font-size: 1.4rem;
     text-align: center;
+}
+
+/* Featured Links */
+
+.featured-section {
+    background-color: #d6d6d6;
+}
+
+.featured-header {
+    padding: 1.5rem 0;
+}
+
+.link-card {
+    width: 100%;
+    height: 150px;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.9)
+}
+
+#vocals-link {
+    background: url("../../../media/dept_vocals.jpg") no-repeat;
+    background-size: cover; 
+}
+
+#bass-link {
+    background: url("../../../media/dept_bass.jpg") no-repeat;
+    background-size: cover;
+}
+
+#keyboard-link {
+    background: url("../../../media/dept_keyboard.jpg") no-repeat;
+    background-size: cover;
+}
+
+#guitar-link {
+    background: url("../../../media/dept_guitar.jpg") no-repeat;
+    background-size: cover;
+}
+
+#drums-link {
+    background: url("../../../media/dept_drums.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#trumpet-link {
+    background: url("../../../media/dept_trumpet.jpg") no-repeat;
+    background-size: cover;
+}
+
+.featured-link-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 10px;
+    font-family: "Oxygen", sans-serif;
+    color: #fafafa;
 }
 
 /* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
@@ -166,5 +228,50 @@
         top: 0;
         left: 0;
         z-index: 2;
+    }
+
+    /* Featured Instruments Section */
+
+    .link-card {
+        height: 250px;
+        margin-bottom: 2rem;
+    }
+
+
+    .inner-fade {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+    }
+
+    .opaque-overlay {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .link-card:hover .inner-fade {
+        opacity: 1;
+        /* transform: translateY(-50%);
+        -ms-transform: translateY(-50%); */
+    }
+
+    .link-card:hover .opaque-overlay {
+        opacity: 1
+    }
+
+    .fade-text {
+        font-family: "Oxygen", sans-serif;
+        color: #fafafa;
+        font-size: 1.1rem;
     }
 }  
