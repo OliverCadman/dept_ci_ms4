@@ -148,6 +148,32 @@
     margin-bottom: 0.75rem;
 }
 
+/* How DepT Works */
+
+.how-dept-works-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 4px solid black;
+    display: inline-block;
+    text-align: center;
+    line-height: 2.1rem;
+}
+
+.list-circle-text {
+    display: inline-block;
+}
+
+.list-circle-text p {
+    font-size: .9rem;
+}
+
 /* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
 @media screen and (min-width: 390px) and (max-width:414px) {
     #home-hero-container-sm {
@@ -307,5 +333,38 @@
     }
 
     /* Dept Details */
+
+    /* How DepT Works */
+
+    .how-dept-works-list li {
+        position: relative;
+    }
+
+    .how-dept-works-list>li:nth-child(2) {
+        left: 3em;
+    }
+
+    .how-dept-works-list li:not(:last-child)::after {
+        content: '';
+        width: 5px;
+        content: '';
+        width: 5px;
+        height: 75px;
+        background-color: black;
+        display: block;
+        transform: rotate(-20deg);
+        left: 40px;
+        position: relative;
+    }
+
+   
+
+    .how-dept-works-list>li:nth-child(3) {
+        left: 6em;
+    }
+
+    .how-dept-works-list>li:nth-child(4) {
+        left: 9em;
+    }
 
 }  
