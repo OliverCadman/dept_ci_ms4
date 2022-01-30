@@ -77,6 +77,11 @@
 
 .featured-header {
     padding: 1.5rem 0;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.featured-header h2 {
+    font-weight: 600;
 }
 
 .link-card {
@@ -84,7 +89,8 @@
     height: 150px;
     display: inline-block;
     position: relative;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.9)
+    box-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    margin-bottom: 1rem;
 }
 
 #vocals-link {
@@ -127,6 +133,21 @@
     color: #fafafa;
 }
 
+/* DepT Details */
+
+.dept-detail-container {
+    padding: 2rem 1.4rem;
+}
+
+.dept-details {
+    text-align: center;
+}
+
+.dept-details i {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+}
+
 /* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
 @media screen and (min-width: 390px) and (max-width:414px) {
     #home-hero-container-sm {
@@ -134,9 +155,15 @@
     }
 }
 
-
+/* iPad */
 @media screen and (min-width: 768px) {
-    
+   .dept-detail-container {
+       padding: 6rem 2rem;
+   }
+
+   .dept-details {
+       margin-top: 1.5rem;
+   }
 }
 
 /* Large Screens */
@@ -232,6 +259,10 @@
 
     /* Featured Instruments Section */
 
+    .featured-header h2 {
+        font-size: 2.5rem;
+    }
+
     .link-card {
         height: 250px;
         margin-bottom: 2rem;
@@ -274,4 +305,7 @@
         color: #fafafa;
         font-size: 1.1rem;
     }
+
+    /* Dept Details */
+
 }  
