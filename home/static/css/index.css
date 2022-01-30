@@ -341,6 +341,10 @@
         color: #222;
     }
 
+    .home-btn {
+        margin: 0 1rem;
+    }
+
     .hero-header {
         width: 50%;
         text-align: center;
