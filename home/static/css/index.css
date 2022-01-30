@@ -311,7 +311,7 @@
     }
 
     .hero-section-lg {
-        background-color: #45425a;
+        background-color: #1a2342;
         padding: 16rem 0 6rem 0;
         position: relative;
     }
@@ -334,6 +334,11 @@
     .hero-section-lg p,
     .cta-btns a {
         font-family: "Oxygen", sans-serif;
+    }
+
+    .cta-btns a {
+        background-color: #eee;
+        color: #222;
     }
 
     .hero-header {
@@ -360,7 +365,6 @@
         height: 100%;
         position: absolute;
         object-fit: cover;
-
     }
 
     .header-hero-bg {
@@ -373,7 +377,7 @@
     }
 
     .header-hero-bg:after {
-        background: linear-gradient(-85deg, transparent 5%, transparent 50%, #45425a 50%, #45425a 100%);
+        background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
         content: '';
         width: 25%;
         height: 100%;
@@ -465,6 +469,57 @@
 
     .how-dept-works-list>li:nth-child(4) {
         left: 9em;
+    }
+
+    /* Subscribe Section */
+
+    #subscribe-section {
+        position: relative;
+        min-height: 400px;
+        background-color: #1a2342;
+    }
+
+    .subscribe-hero {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background-color: grey;
+    }
+
+    .subscribe-hero:after {
+          background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+          content: '';
+          width: 25%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+    }
+
+    #subscribe-hero-img-lg {
+         width: 100%;
+         height: 100%;
+         position: absolute;
+         object-fit: cover;
+    }
+
+    .get-started-wrapper {
+        text-align: center;
+        color: #eee;
+        width: 40%;
+    }
+
+    .get-started-wrapper p {
+        font-family: "Josefin Sans", sans-serif;
+        font-weight: bold;
+        font-size: 2.4rem;
+    }
+
+    .get-started-wrapper a {
+        background-color: #eee;
     }
 
 }  

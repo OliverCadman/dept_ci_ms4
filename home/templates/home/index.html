@@ -24,13 +24,13 @@
                 The world's best musicians and singers for hire.
             </p>
             <div class="cta-btns mx-auto">
-                <a href="#" class="btn rounded-0 btn-dark home-btn">Register</a>
-                <a href="#" class="btn rounded-0 btn-dark home-btn">Find a Dep</a>
+                <a href="#" class="btn home-btn">Register</a>
+                <a href="#" class="btn home-btn">Find a Dep</a>
             </div>
         </div>
         <div class="header-hero-bg">
             <figure>
-                <img src="{{ MEDIA_URL }}home-hero.jpg" id="home-hero-image" alt="Home Hero Image">
+                <img src="{{ MEDIA_URL }}home-hero-lg.jpg" id="home-hero-image" alt="Home Hero Image">
             </figure>
         </div>
     </div>
@@ -218,8 +218,8 @@
     </div>
 </section>
 <!-- Subscribe CTA -->
-<section id="subscribe-section-sm">
-    <div class="container-fluid d-lg-none d-sm-block">
+<section id="subscribe-section-sm" class="d-lg-none d-sm-block">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="subscribe-container">
@@ -230,6 +230,21 @@
                 </div>
             </div>
         </div>
+    </div>
+</section>
+<section id="subscribe-section" class="d-none d-lg-flex align-items-center">
+    <div class="container" id="subscribe-container">
+       <div class="get-started-wrapper">
+            <p>Get Started for Free</p>
+            <div class="cta-btns mx-auto">
+                <a href="#" class="btn">Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="subscribe-hero">
+        <figure>
+            <img src="{{ MEDIA_URL }}dept_subscribe_lg.jpg" alt="Subscribe to DepT" width="600" height="400" id="subscribe-hero-img-lg">
+        </figure>
     </div>
 </section>
 </main>

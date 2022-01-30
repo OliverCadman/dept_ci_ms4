@@ -99,6 +99,7 @@ body {
 
     .base-footer {
         padding: 5rem 2rem;
+        position: relative;
     }
 
     .footer-links-wrapper {
