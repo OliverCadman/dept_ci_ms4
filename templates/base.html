@@ -24,7 +24,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-md bg-sm-light">
         <div class="container-fluid">
             <!-- Notification/Message/Signin Links for Mobile -->
             <div class="d-md-none d-block">
@@ -37,11 +37,13 @@
             aria-controls="mobileNavigation"
             aria-expanded="False"
             aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon">
+                    <i class="fas fa-bars navbar-mobile-toggler"></i>
+                </span>
             </button>
             {% include "includes/navigation.html" %}
             <!-- Notification/Message/Signin Links for iPad/Laptop/Desktop -->
-            <a href="#" class="navbar-brand d-none d-md-block">Dept</a>
+            {% comment %} <a href="#" class="navbar-brand d-none d-md-block">Dept</a> {% endcomment %}
         <div class="d-none d-md-block">
             {% include "includes/notification-message-links.html" %}
         </div>

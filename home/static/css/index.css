@@ -1,68 +1,163 @@
-#home-hero-container {
-    padding: 40px 0 0 0;
-    margin: 0;
-    height: 100%;
-}
-
-#dept-logo {
-    width: 175px;
-    height: 175px;
-    position: absolute;
-    top: 80px;
-    left: 25px;
-}
-
-.hero-section {
-    background-color: #45425a;
-    padding: 16rem 0 6rem 0;
+/* Hero Section */
+.hero-section-sm {
     position: relative;
 }
 
-.hero-block-divider {
-    border: 2px solid white;
-    width: 97%;
-    margin: 0 auto !important;
+#dept-logo-sm {
+    width: 100px;
+    height: 100px;
 }
 
-.hero-section h1 {
-    position: absolute;
-    top: 140px;
-    left: 210px;
+.jumbotron {
+    padding: 2rem 0.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef83;
+    border-radius: .3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
 }
 
-.hero-header {
-    width: 50%;
+.p-lead-sm {
+    position: relative;
+    bottom: -140px;
+}
+
+.p-lead-sm p {
+    font-family: "Oxygen", sans-serif;
+    color: #eee;
     text-align: center;
+    font-size: 1.2rem;
 }
 
-.hero-content {
-    text-align: center;
+.cta-btns {
+    display: flex;
+    justify-content: center;
 }
 
-.hero-content {
+/* .opaque-overlay {
     position: absolute;
-    bottom: 0
-}
-
-
-#home-hero-image {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: cover;
-
-}
-
-.header-hero-bg {
-    position: absolute;
-    width: 50%;
-    height: 100%;
     top: 0;
-    right: 0;
-    background-color: grey;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 1;
+} */
+
+/* Header (Mobile & Tablet) */
+#home-hero-container-sm {
+    background: url("../../../media/home-hero-dimmed.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 85vh;
 }
 
-.header-hero-bg:after {
+#home-hero-container-sm h1 {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 700;
+    color: #eee;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+/* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
+@media screen and (min-width: 390px) and (max-width:414px) {
+    #home-hero-container-sm {
+        height: 70vh;
+    }
+}
+
+
+@media screen and (min-width: 768px) {
+    
+}
+
+/* Large Screens */
+@media screen and (min-width:992px) {
+
+    /* Hero Section */
+    #home-hero-container {
+        padding: 40px 0 0 0;
+        margin: 0;
+        height: 100%;
+    }
+
+    #dept-logo {
+        width: 175px;
+        height: 175px;
+        position: absolute;
+        top: 80px;
+        left: 25px;
+    }
+
+    .hero-section-lg {
+        background-color: #45425a;
+        padding: 16rem 0 6rem 0;
+        position: relative;
+    }
+
+    .hero-block-divider {
+        border: 2px solid white;
+        width: 97%;
+        margin: 0 auto !important;
+    }
+
+    .hero-section-lg h1 {
+        position: absolute;
+        top: 140px;
+        left: 210px;
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 2.2rem;
+        font-weight: bold;
+    }
+
+    .hero-section-lg p,
+    .cta-btns a {
+        font-family: "Oxygen", sans-serif;
+    }
+
+    .hero-header {
+        width: 50%;
+        text-align: center;
+    }
+
+    .cta-btns a {
+        font-size: 1.5rem;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-content {
+        position: absolute;
+        bottom: 0
+    }
+
+
+    #home-hero-image {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        object-fit: cover;
+
+    }
+
+    .header-hero-bg {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background-color: grey;
+    }
+
+    .header-hero-bg:after {
         background: linear-gradient(-85deg, transparent 5%, transparent 50%, #45425a 50%, #45425a 100%);
         content: '';
         width: 25%;
@@ -71,4 +166,5 @@
         top: 0;
         left: 0;
         z-index: 2;
-}
+    }
+}  
