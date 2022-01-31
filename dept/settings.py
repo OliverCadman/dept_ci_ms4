@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'channels',
     'home',
     'jobs',
+
+    # Other
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +83,9 @@ TEMPLATES = [
         },
     },
 ]
+
+# Crispy Forms Template Framework
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 ASGI_APPLICATION = 'dept.asgi.application'
 WSGI_APPLICATION = 'dept.wsgi.application'
