@@ -64,9 +64,15 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 footer-links-wrapper">
                     <ul class="footer-links">
+                        {% if not request.user.is_authenticated %}
                         <li>
-                            <a href="#">Sign In</a>
+                            <a href="{% url 'account_login' %}">Sign In</a>
                         </li>
+                        {% else %}
+                        <li>
+                            <a href="{% url 'account_logout' %}">Sign Out</a>
+                        </li>
+                        {% endif %}
                         <li>
                             <a href="#">F.A.Q</a>
                         </li>
