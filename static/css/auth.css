@@ -9,3 +9,23 @@
     display: flex;
     justify-content: center;
 }
+
+.auth-button-wrapper {
+    width: 100%;
+
+}
+
+.auth-btn {
+    background-color: #1a2342;
+    color: #eee;
+    font-family: "Oxygen", sans-serif;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+#google-svg {
+    width: 25px;
+    height: 25px;
+    margin-right: 1rem;
+
+}
