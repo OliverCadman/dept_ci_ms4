@@ -317,6 +317,15 @@ Deps can register their interest in a particular job by messaging the member who
 
 The member who posted the job will then receive notification of a dep's interest. The notification will prompt to either accept or decline the request, or visit the dep's profile.
 
+## Database Structure
+
+The project makes use of the SQlite Relational Database to handle data served throughout the website during development, and will be migrated to postgresql upon deployment.
+
+### Schema 
+
+![Database Schema for DepT Website](documentation/er_diagram/dept_er_diagram_1.pdf)
+
+
 ## Skeleton
 
 ### Wireframes
