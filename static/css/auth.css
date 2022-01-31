@@ -1,0 +1,11 @@
+.auth-container {
+    padding-top: 50px;
+    min-height: 85vh;
+    background-color: #eeebeb;
+}
+
+.auth-form-wrapper {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+}

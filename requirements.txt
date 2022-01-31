@@ -7,11 +7,13 @@ cffi==1.15.0
 channels==3.0.4
 charset-normalizer==2.0.11
 constantly==15.1.0
+crispy-bootstrap5==0.6
 cryptography==36.0.1
 daphne==3.0.2
 defusedxml==0.7.1
 Django==4.0.1
 django-allauth==0.47.0
+django-crispy-forms==1.14.0
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
