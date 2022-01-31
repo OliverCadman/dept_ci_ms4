@@ -5,7 +5,7 @@
 }
 
 .auth-form-wrapper {
-    background-color: #fff;
+    /* background-color: #fff; */
     display: flex;
     justify-content: center;
 }
@@ -23,9 +23,33 @@
     margin: 2rem 0;
 }
 
+.auth-form {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5)
+}
+
+
+
 #google-svg {
     width: 25px;
     height: 25px;
     margin-right: 1rem;
 
+}
+
+@media screen and (min-width: 992px) {
+    .auth-container {
+        padding-top: 7rem;
+    }
+
+    .auth-form {
+        margin: 3rem 0;
+    }
+
+    .auth-btn:hover {
+        background-color: #2b3a72;
+        color: #eee;
+    }
 }
