@@ -1,7 +1,25 @@
 <ul class="notification-message-links">
+    {% if request.user.is_authenticated %}
+    <li>
+        <a href="{% url 'account_logout' %}">
+            <span><i class="far fa-bell sign-in-icon"></i></span>
+        </a>
+    </li>
     <li>
         <a href="#">
+            <span><i class="far fa-envelope sign-in-icon"></i></span>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'account_logout' %}">
+            <i class="fas fa-sign-out sign-in-icon"></i>
+        </a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{% url 'account_login' %}">
             <span><i class="fas fa-sign-in sign-in-icon"></i></span>
         </a>
     </li>
+    {% endif %}
 </ul>
