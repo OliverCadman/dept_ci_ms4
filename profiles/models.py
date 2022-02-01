@@ -18,6 +18,16 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class AudioFile(models.Model):
+
+    file = models.FileField(upload_to="audio")
+    title = models.CharField(max_length=100)
+    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
+                                     related_name="users_tracks")
+
+    def __str__(self):
+        return self.title
+
 
 class Instrument(models.Model):
 
