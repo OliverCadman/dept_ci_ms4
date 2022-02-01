@@ -1,4 +1,56 @@
 .subscription-choice-container {
     height: 85vh;
- 
+    padding-top: 85px;
+}
+
+#subscription-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 60%;
+    height: 40%;
+    background-color: #1a2342;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    z-index: 3;
+
+}
+
+
+.subscription-choice-card {
+   -webkit-box-shadow: 2px 7px 20px 2px rgba(0, 0, 0, 0.31);
+   box-shadow: 2px 7px 20px 2px rgba(0, 0, 0, 0.31);
+   padding: 2rem 1rem;
+   border-radius: 20px;
+   background-color: #fff;
+   position: relative;
+   z-index: 10;
+
+}
+
+.subscription-details {
+position: relative;
+    
+}
+
+.price-font-large {
+    font-size: 3rem;
+}
+
+.per-month {
+    color: #929090;
+}
+
+.subscription-header {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 2rem;
+    font-weight: 300;
+    
+}
+
+.subscription-price {
+    font-family: "Oxygen", sans-serif;
+
 }

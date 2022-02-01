@@ -11,15 +11,35 @@
 
 <!-- Content -->
 {% block content %}
+<section>
     <!-- Container to display choices on cards -->
-    <div class="container-fluid subscription-choice-container pt-4">
-        <div class="row d-flex justify-content-md-between">
-            <div class="col-12 col-md-6">
-                
+    <div id="subscription-background"></div>
+    <div class="container-fluid subscription-choice-container">
+        <div class="row h-100 d-flex justify-content-md-around align-items-center">
+            <div class="col-12 col-md-3 subscription-choice-card">
+                <div class="subscription-details">
+                    <h1 class="subscription-header text-center">
+                        Tier One
+                    </h1>
+                    <div class="subscription-price">
+                        <p class="text-center price-font-large mb-0">Free</p>
+                    </div>
+                    <hr>
+                </div>
             </div>
-            <div class="col-12 col-md-6">
-                
+            <div class="col-12 col-md-3 subscription-choice-card">
+                <div class="subscription-details">
+                    <h2 class="subscription-header text-center">
+                        Tier Two
+                    </h2>
+                    <div class="subscription-price">
+                        <p class="text-center price-font-large mb-0">£8.99</p>
+                        <p class="text-center per-month">/month</p>
+                    </div>
+                </div>
+                <hr>
             </div>
         </div>
     </div>
+</section>
 {% endblock %}
