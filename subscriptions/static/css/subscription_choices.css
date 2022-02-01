@@ -15,9 +15,7 @@
     margin-right: auto;
     text-align: center;
     z-index: 3;
-
 }
-
 
 .subscription-choice-card {
    -webkit-box-shadow: 2px 7px 20px 2px rgba(0, 0, 0, 0.31);
@@ -32,14 +30,26 @@
 }
 
 .subscription-choice-card:hover {
-    transform: scale(1.075);
+    transform: scale(1.03);
     transition: 0.2s ease-in-out;
     cursor: pointer;
 }
 
-.subscription-details {
+.benefits-list {
+    list-style: none;
+    font-family: "Oxygen", sans-serif;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+}
 
-    
+.benefits-list li {
+    margin: 0.3rem 0;
+}
+
+.check-icon {
+    color: #27942c
 }
 
 .price-font-large {

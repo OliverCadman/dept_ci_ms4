@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 
+from django.conf import settings
+
 import os
 if os.path.exists("env.py"):
     import env
@@ -9,7 +11,17 @@ if os.path.exists("env.py"):
 
 class SubscriptionChoiceView(View):
     def get(self, request):
-        return render(request, "subscriptions/subscription_choices.html")
+
+        tier_one_price = settings.TIER_ONE_PRICE
+        tier_two_price = settings.TIER_TWO_PRICE
+
+        context = {
+            "tier_one_price": tier_one_price,
+            "tier_two_price": tier_two_price
+        }
+
+        return render(request, "subscriptions/subscription_choices.html",
+                      context=context)
 
 
 @csrf_exempt
