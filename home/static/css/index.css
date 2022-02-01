@@ -57,7 +57,7 @@
 
 /* Header (Mobile & Tablet) */
 #home-hero-container-sm {
-    background: url("../../../media/home-hero-dimmed.jpg") no-repeat;
+    background: url("../../../media/home-hero-dimmed.webp") no-repeat;
     background-size: cover;
     background-position: center;
     height: 85vh;
@@ -97,33 +97,33 @@
 }
 
 #vocals-link {
-    background: url("../../../media/dept_vocals.jpg") no-repeat;
+    background: url("../../../media/dept_vocals.webp") no-repeat;
     background-size: cover; 
 }
 
 #bass-link {
-    background: url("../../../media/dept_bass.jpg") no-repeat;
+    background: url("../../../media/dept_bass.webp") no-repeat;
     background-size: cover;
 }
 
 #keyboard-link {
-    background: url("../../../media/dept_keyboard.jpg") no-repeat;
+    background: url("../../../media/dept_keyboard.webp") no-repeat;
     background-size: cover;
 }
 
 #guitar-link {
-    background: url("../../../media/dept_guitar.jpg") no-repeat;
+    background: url("../../../media/dept_guitar.webp") no-repeat;
     background-size: cover;
 }
 
 #drums-link {
-    background: url("../../../media/dept_drums.jpg") no-repeat;
+    background: url("../../../media/dept_drums.webp") no-repeat;
     background-size: cover;
     background-position: center;
 }
 
 #trumpet-link {
-    background: url("../../../media/dept_trumpet.jpg") no-repeat;
+    background: url("../../../media/dept_trumpet.webp") no-repeat;
     background-size: cover;
 }
 
@@ -252,7 +252,7 @@
    }
 
    .subscribe-container {
-       background: url("../../../media/dept_subscribe_background.jpg") no-repeat;
+       background: url("../../../media/dept_subscribe_background.webp") no-repeat;
        background-size: cover;
        background-position: center;
        min-height: 450px;
