@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class UserProfile(models.Model):
@@ -93,6 +94,23 @@ class UnavailableDate(models.Model):
     def __str__(self):
 
         return self.date
+
+
+@receiver(post_save, sender=User)
+def create_or_update_user(sender, instance, created, **kwargs):
+    """
+    Create a User Profile when a user registers,
+    or update the profile if it's already been created.
+    """
+
+    if created:
+        UserProfile.objects.create(user=instance)
+    
+    # Otherwise, save the profile.
+    instance.userprofile.save()
+
+    
+
 
     
 
