@@ -8,8 +8,8 @@
     top: 0;
     right: 0;
     left: 0;
-    width: 60%;
-    height: 40%;
+    width: 100%;
+    height: 30%;
     background-color: #1a2342;
     margin-left: auto;
     margin-right: auto;
@@ -27,11 +27,18 @@
    background-color: #fff;
    position: relative;
    z-index: 10;
+   transition: 0.2s ease-in-out;
 
 }
 
+.subscription-choice-card:hover {
+    transform: scale(1.075);
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
 .subscription-details {
-position: relative;
+
     
 }
 
@@ -52,5 +59,10 @@ position: relative;
 
 .subscription-price {
     font-family: "Oxygen", sans-serif;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    padding: 0.3rem 1.75rem;
+    width: fit-content;
+    border-radius: 3px;
 
 }
