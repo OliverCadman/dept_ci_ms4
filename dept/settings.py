@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'channels',
     'home',
     'jobs',
     'profiles',
@@ -82,9 +81,11 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/profiles'
+LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'dept.urls'
+
+DOMAIN_NAME = "http://127.0.0.1:8000/"
 
 TEMPLATES = [
     {
@@ -110,7 +111,6 @@ TEMPLATES = [
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-ASGI_APPLICATION = 'dept.asgi.application'
 WSGI_APPLICATION = 'dept.wsgi.application'
 
 
