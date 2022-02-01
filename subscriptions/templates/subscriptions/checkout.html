@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Subscribe{% endblock %}
+
+{% block content %}
+ <div class="togethere-background"></div>
+    <div class="sr-root">
+      <div class="sr-main">
+        <header class="sr-header">
+          <div class="sr-header__logo"></div>
+        </header>
+        <h1>Choose a collaboration plan</h1>
+
+        <div class="price-table-container">
+          <section>
+            <form action="{% url 'checkout' %}" method="POST">
+              <input type="hidden" value="{{tier_one_price_id}}" id="basicPrice" name="priceId">
+              <img
+                src="/img/starter.png"
+                width="120"
+                height="120"
+                />
+              <div class="name">Starter</div>
+              <div class="price">$12</div>
+              <div class="duration">per month</div>
+              <button id="basic-plan-btn">Select</button>
+            </form>
+          </section>
+          <section>
+            <form action="{% url 'checkout' %}" method="POST">
+              <input type="hidden" value="{{tier_two_price_id}}" id="proPrice" name="priceId">
+              <img
+                src="/img/professional.png"
+                width="120"
+                height="120"
+                />
+              <div class="name">Professional</div>
+              <div class="price">$18</div>
+              <div class="duration">per month</div>
+              <button id="pro-plan-btn">Select</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div id="error-message" class="error-message"></div>
+{% endblock %}
