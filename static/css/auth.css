@@ -7,10 +7,11 @@
 .auth-header {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
+    color: #
 }
 
 .prepend-append-hr {
-    border-top: 1px solid #aaa;
+    border-top: 3px solid #ddd;
     text-align: center;
     position: relative;
 
@@ -29,6 +30,16 @@
     /* background-color: #fff; */
     display: flex;
     justify-content: center;
+}
+
+.textInput {
+    border-radius: 40px;
+    padding: 1rem;
+}
+
+.form-label,
+.textInput {
+    font-family: "Oxygen", sans-serif;
 }
 
 .auth-button-wrapper {
@@ -50,8 +61,6 @@
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.5)
 }
-
-
 
 #google-svg {
     width: 25px;
@@ -80,11 +89,22 @@
         height: 100%;
     }
 
-    .sign-in-prompt:before {
-        content: '';
-        width: 50px;
-        height: 300px;
-        background-color: #f0a0a0;
-        position: absolute;
+    .sign-in-prompt h3 {
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 3rem;
+        font-weight: 400;
+        text-align: center;
+        padding-top: 4rem;
     }
+
+    .sign-in-prompt-btn {
+        padding: 1rem 2.2rem;
+        background-color: #7e6a6a;
+        color: #eee;
+        font-family: "Oxygen", sans-serif;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        margin-top: 2rem;
+    }
+
 }
