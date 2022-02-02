@@ -33,8 +33,40 @@ class SubscriptionChoiceView(View):
 
 @csrf_exempt
 def create_checkout_session(request):
-    pass
+    """
+    Creates a Stripe checkout session, handling either Tier One
+    or Tier Two subscription events being sent from checkout.js"
 
+    Returns the session id to be passed as an argument to in the
+    URL upon redirection to Stripe's dedicated payment portal.
+    """
+    if request.method == "POST":
+
+        current_user = UserProfile.objects.get(user=request.user)
+        price_id = request.POST["price_id"]
+        print(price_id)
+
+        if not current_user.is_paid:
+            DOMAIN_ROOT = settings.DOMAIN_ROOT
+            success_url = DOMAIN_ROOT + "subscribe/success?session_id="
+            cancel_url = DOMAIN_ROOT + "subscribe/cancelled"
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                success_url=success_url + "{CHECKOUT_SESSION_ID}",
+                cancel_url = cancel_url,
+                mode="subscription",
+                line_items=[{
+                    'price': price_id,
+                    'quantity': 1
+                }]
+            )
+
+            return JsonResponse({"session_id": checkout_session["id"]})
+        
+        except stripe.error.CardError as e:
+            print(e)
 
 
 
