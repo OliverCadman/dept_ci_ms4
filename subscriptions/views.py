@@ -11,6 +11,9 @@ import stripe
 
 
 class SubscriptionChoiceView(View):
+    """
+    Handles the view displaying subscription options.
+    """
     def get(self, request):
 
         tier_one_price = settings.TIER_ONE_PRICE
@@ -29,6 +32,15 @@ class SubscriptionChoiceView(View):
 
         return render(request, "subscriptions/subscription_choices.html",
                       context=context)
+
+@csrf_exempt
+def get_stripe_public_key(request):
+    """
+    Returns the stripe public key to be handled in 'js/checkout.js'
+    to allow for redirect to Stripe checkout.
+    """
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    return JsonResponse({"public_key": stripe_public_key})
                       
 
 @csrf_exempt
