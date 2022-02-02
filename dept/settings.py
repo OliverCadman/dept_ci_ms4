@@ -159,6 +159,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Subscription Tier Prices 
+TIER_ONE_PRICE = "0.00"
+TIER_TWO_PRICE = "8.99"
+
+# Stripe API Credentials 
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
