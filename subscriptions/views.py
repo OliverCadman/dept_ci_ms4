@@ -12,7 +12,8 @@ import stripe
 
 class SubscriptionChoiceView(View):
     """
-    Handles the view displaying subscription options.
+    View to display the two-tier subscription
+    options to the user.
     """
     def get(self, request):
 
@@ -36,12 +37,12 @@ class SubscriptionChoiceView(View):
 @csrf_exempt
 def get_stripe_public_key(request):
     """
-    Returns the stripe public key to be handled in 'js/checkout.js'
-    to allow for redirect to Stripe checkout.
+    Returns the Stripe public key to be handled in
+    'js/checkout.js'
     """
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    return JsonResponse({"public_key": stripe_public_key})
-                      
+    if request.method == "GET":
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        return JsonResponse({"public_key": stripe_public_key})
 
 @csrf_exempt
 def create_checkout_session(request):
@@ -50,7 +51,7 @@ def create_checkout_session(request):
     or Tier Two subscription events being sent from checkout.js"
 
     Returns the session id to be passed as an argument to in the
-    URL upon redirection to Stripe's dedicated payment portal.
+    URL upon redirection to Stripe's dedicated paymentz
     """
     if request.method == "POST":
 
@@ -69,7 +70,7 @@ def create_checkout_session(request):
                 success_url=success_url + "{CHECKOUT_SESSION_ID}",
                 cancel_url = cancel_url,
                 mode="subscription",
-                payment_method_types=["card"],
+                payment_method_types=['card'],
                 line_items=[{
                     'price': price_id,
                     'quantity': 1
@@ -81,6 +82,25 @@ def create_checkout_session(request):
         except stripe.error.CardError as e:
             print(e)
 
+        
+class CheckoutSuccessView(View):
+    """
+    View to inform user that the payment and subscription
+    is successful.
+    """
+    def get(self, request):
+        print(request)
+        return render(request, "subscriptions/success.html")
+
+
+class CheckoutCancelledView(View):
+    """
+    View to inform user that the checkout session has been
+    cancelled.
+    """
+    def get(self, request):
+        print(request)
+        return render(request, "subscriptions/cancel.html")
 
 
 
