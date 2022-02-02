@@ -69,6 +69,7 @@ def create_checkout_session(request):
                 success_url=success_url + "{CHECKOUT_SESSION_ID}",
                 cancel_url = cancel_url,
                 mode="subscription",
+                payment_method_types=["card"],
                 line_items=[{
                     'price': price_id,
                     'quantity': 1
