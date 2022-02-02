@@ -82,6 +82,10 @@ def create_checkout_session(request):
         except stripe.error.CardError as e:
             print(e)
 
+
+def webhook(request):
+    pass
+
         
 class CheckoutSuccessView(View):
     """
@@ -101,6 +105,8 @@ class CheckoutCancelledView(View):
     def get(self, request):
         print(request)
         return render(request, "subscriptions/cancel.html")
+
+        
 
 
 
