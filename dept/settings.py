@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+if os.path.exists("env.py"):
+    import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +31,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 SITE_ID = 2
+
+
 
 
 # Application definition
@@ -82,11 +86,10 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'dept.urls'
 
-DOMAIN_NAME = "http://127.0.0.1:8000/"
+DOMAIN_ROOT = "http://127.0.0.1:8000/"
 
 TEMPLATES = [
     {
@@ -128,6 +131,16 @@ DATABASES = {
 # Email confirmation to be used in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = '/'
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -163,9 +176,14 @@ USE_TZ = True
 TIER_ONE_PRICE = "0.00"
 TIER_TWO_PRICE = "8.99"
 
+# Price IDs to be used in Stripe
+STRIPE_TIERONE_PRICE_ID = os.environ.get("STRIPE_TIERONE_PRICE_ID")
+STRIPE_TIERTWO_PRICE_ID = os.environ.get("STRIPE_TIERTWO_PRICE_ID")
+
 # Stripe API Credentials 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
 
 
 # Static files (CSS, JavaScript, Images)
