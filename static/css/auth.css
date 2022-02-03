@@ -1,3 +1,7 @@
+.auth-section {
+    background-color: #fefefe;
+}
+
 .auth-container {
     padding-top: 39px;
     min-height: 85vh;
@@ -7,6 +11,10 @@
 .auth-header {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
+}
+
+.auth-header.verify {
+    color: #202020;
 }
 
 .prepend-append-hr {
@@ -44,14 +52,16 @@
 .form-label,
 .textInput,
 .form-check-label,
-.secondaryAction {
+.secondaryAction,
+.auth-info {
     font-family: "Oxygen", sans-serif;
 }
 
 .auth-button-wrapper {
     width: 100%;
-
 }
+
+
 
 .auth-btn {
     background-color: #1a2342;
@@ -59,6 +69,10 @@
     font-family: "Oxygen", sans-serif;
     width: 100%;
     margin: 1rem 0;
+}
+
+.auth-btn.confirm-email {
+    width: 25%;
 }
 
 .auth-form {
@@ -76,6 +90,11 @@
 }
 
 @media screen and (min-width: 992px) {
+
+    .dept-logo-lg {
+        width: 300px;
+        height: 300px;
+    }
 
     .auth-bg-lg {
         background: url("../../media/signup-bg-1.webp") no-repeat;
