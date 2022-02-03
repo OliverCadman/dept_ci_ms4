@@ -1,5 +1,5 @@
 .auth-container {
-    padding-top: 50px;
+    padding-top: 39px;
     min-height: 85vh;
     background-color: #eeebeb;
 }
@@ -7,7 +7,6 @@
 .auth-header {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
-    color: #
 }
 
 .prepend-append-hr {
@@ -15,6 +14,12 @@
     text-align: center;
     position: relative;
 
+}
+
+.page-header {
+    color: white;
+    position: relative;
+    z-index: 5;
 }
 
 .text-in-hr {
@@ -26,15 +31,12 @@
     font-family: "Oxygen", sans-serif;
 }
 
-.auth-form-wrapper {
-    /* background-color: #fff; */
-    display: flex;
-    justify-content: center;
-}
+/* .auth-form-wrapper {
+   max-width: 750px;
+} */
 
 .textInput {
     border-radius: 40px;
-    padding: 1rem;
 }
 
 .form-label,
@@ -52,7 +54,7 @@
     color: #eee;
     font-family: "Oxygen", sans-serif;
     width: 100%;
-    margin: 2rem 0;
+    margin-bottom: 2rem;
 }
 
 .auth-form {
@@ -70,9 +72,30 @@
 }
 
 @media screen and (min-width: 992px) {
+
+    .auth-bg-lg {
+        background: url("../../media/signup-bg-1.webp") no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+
     .auth-section {
         padding-top: 2rem;
         position: relative;
+    }
+
+    .auth-container {
+        background-color: transparent;
+    }
+
+    .auth-header-wrapper {
+        background-color: #1a2342;
+    }
+
+    .auth-header {
+        font-size: 3.5rem;
+        color: #fafafa;
     }
 
     .auth-form {
@@ -104,7 +127,6 @@
         font-family: "Oxygen", sans-serif;
         border-radius: 50px;
         font-size: 1.3rem;
-        margin-top: 2rem;
     }
 
 }
