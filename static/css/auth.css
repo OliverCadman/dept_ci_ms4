@@ -13,7 +13,7 @@
     border-top: 3px solid #ddd;
     text-align: center;
     position: relative;
-
+    margin: 1rem 0;
 }
 
 .page-header {
@@ -29,6 +29,7 @@
     top: -0.8rem;
     padding: 15px;
     font-family: "Oxygen", sans-serif;
+
 }
 
 /* .auth-form-wrapper {
@@ -39,8 +40,11 @@
     border-radius: 40px;
 }
 
+
 .form-label,
-.textInput {
+.textInput,
+.form-check-label,
+.secondaryAction {
     font-family: "Oxygen", sans-serif;
 }
 
@@ -54,7 +58,7 @@
     color: #eee;
     font-family: "Oxygen", sans-serif;
     width: 100%;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 }
 
 .auth-form {
