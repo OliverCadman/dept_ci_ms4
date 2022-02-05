@@ -113,25 +113,19 @@ class UnavailableDate(models.Model):
         return self.date
 
 
-# @receiver(post_save, sender=User)
-# def create_or_update_user(sender, instance, created, **kwargs):
-#     """
-#     Create a User Profile when a user registers,
-#     or update the profile if it's already been created.
-#     """
-#     if created:
-#         UserProfile.objects.create(user=instance)
-#         print(UserProfile.objects.get(user=instance))
+@receiver(post_save, sender=User)
+def create_or_update_user(sender, instance, created, **kwargs):
+    """
+    Create a User Profile when a user registers,
+    or update the profile if it's already been created.
+    """
+    if created:
+        UserProfile.objects.create(user=instance)
+        print(UserProfile.objects.get(user=instance))
     
-#     # Otherwise, save the profile.
-#     instance.userprofile.save()
+    # Otherwise, save the profile.
+    instance.userprofile.save()
 
-@receiver(email_confirmed)
-def create_profile(request, email_address, **kwargs):
-    """ Create a Profile when a user signs up """
-    user_model = get_user_model()
-    user = user_model.objects.get(emailaddress=email_address)
-    UserProfile.objects.create(user=user)
 
 
 
