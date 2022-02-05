@@ -1,18 +1,25 @@
+import email
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django_countries.fields import CountryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from allauth.account.signals import email_confirmed
+
+import datetime
 
 
 class UserProfile(models.Model):
-
+ 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=60, null=True, blank=True)
     last_name = models.CharField(max_length=60, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     country = CountryField(blank_label="Country", null=True, blank=True)
+    subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.user.username
@@ -106,18 +113,27 @@ class UnavailableDate(models.Model):
         return self.date
 
 
-@receiver(post_save, sender=User)
-def create_or_update_user(sender, instance, created, **kwargs):
-    """
-    Create a User Profile when a user registers,
-    or update the profile if it's already been created.
-    """
-
-    if created:
-        UserProfile.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def create_or_update_user(sender, instance, created, **kwargs):
+#     """
+#     Create a User Profile when a user registers,
+#     or update the profile if it's already been created.
+#     """
+#     if created:
+#         UserProfile.objects.create(user=instance)
+#         print(UserProfile.objects.get(user=instance))
     
-    # Otherwise, save the profile.
-    instance.userprofile.save()
+#     # Otherwise, save the profile.
+#     instance.userprofile.save()
+
+@receiver(email_confirmed)
+def create_profile(request, email_address, **kwargs):
+    """ Create a Profile when a user signs up """
+    user_model = get_user_model()
+    user = user_model.objects.get(emailaddress=email_address)
+    UserProfile.objects.create(user=user)
+
+
 
     
 
