@@ -10,8 +10,9 @@ $(document).ready(function() {
    document.querySelectorAll(".checkout-portal").forEach(function() {
      $(function() {
          // Requests backend for stripe public key and returns result in json format
-         fetch("config")
-         .then((res) => { return res.json(); })
+         fetch("/subscribe/config/")
+         .then((res) => { 
+            return res.json(); })
          .then((data) => {
              // Initialize Stripe object
              stripe = Stripe(data.public_key)
@@ -23,7 +24,7 @@ $(document).ready(function() {
                  const inputId = e.target.parentElement.children[1].id
                  if (inputId === "tier_one_price_id") {
                     $.post({
-                      url: "checkout",
+                      url: "/subscribe/checkout/",
                       data: {
                         price_id: $("#tier_one_price_id").val(),
                       },
@@ -31,6 +32,7 @@ $(document).ready(function() {
                         return res;
                       },
                     }).then((data) => {
+                        console.log(data)
                       if (data.error) {
                           // TODO: Customise error handling
                         throw Error("An error has occurred!");
@@ -44,7 +46,7 @@ $(document).ready(function() {
 
                  } else {
                      $.post({
-                       url: "checkout",
+                       url: "/subscribe/checkout/",
                        data: {
                          price_id: $("#tier_two_price_id").val(),
                        },

@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %} Success! {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "css/subscription_success.css" %}">
+{% endblock %}
 
 {% block content %}
 <div style="padding-top: 20rem">Woohoo!</div>
