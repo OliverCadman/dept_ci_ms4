@@ -194,7 +194,7 @@ class CheckoutSuccessView(View):
     is successful.
     """
     def get(self, request):
-        print(request.session['CHECKOUT'])
+  
         return render(request, "subscriptions/success.html")
 
 

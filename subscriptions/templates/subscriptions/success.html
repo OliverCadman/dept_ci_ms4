@@ -4,9 +4,50 @@
 {% block title %} Success! {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static "css/subscription_success.css" %}">
+<link rel="stylesheet" href="{% static "css/success.css" %}">
 {% endblock %}
 
 {% block content %}
-<div style="padding-top: 20rem">Woohoo!</div>
+    <section class="hero-section-lg d-none d-lg-block">
+        <div id="success-hero-container">
+            <div id="success-header" class="ms-4">
+                <h1>Thankyou</h1>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste facere unde saepe harum modi consectetur maxime explicabo. Molestias mollitia, et enim quo inventore accusamus dolorem deserunt omnis facilis ab sunt placeat impedit animi cupiditate neque velit debitis nesciunt! Debitis, labore.</p>
+            </div>
+        </div>
+        <div class="success-button-container">
+            <div class="success-button-wrapper">
+                <div id="success-button-header">
+                    <h2 class="text-center">
+                       Get yourself noticed
+                    </h2>
+                </div>
+                <hr>
+                <div class="success-lead">
+                    <p>
+                        Your chances of being hired are much higher if you have a complete profile.
+                    </p>
+                    <p>
+                       Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                    </p>
+                </div>
+                <div id="success-buttons">
+                    <ul id="success-btn-list">
+                        <li>
+                            <a href="#" class="btn">Build my Profile</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn">Find a Dep</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn">Post a Job</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn">Browse the Job List</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
