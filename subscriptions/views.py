@@ -1,11 +1,15 @@
+from importlib.metadata import metadata
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from allauth.account.decorators import login_required
 from django.views import View
 from django.conf import settings
 
 from profiles.models import UserProfile
+
+from .webhook_handler import StripeWH_Handler
 
 import stripe
 import json
@@ -46,6 +50,7 @@ def get_stripe_public_key(request):
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return JsonResponse({"public_key": stripe_public_key})
 
+@login_required
 @csrf_exempt
 def create_checkout_session(request):
     """
@@ -58,8 +63,11 @@ def create_checkout_session(request):
     if request.method == "POST":
 
         current_user = UserProfile.objects.get(user=request.user)
+        print(type(current_user))
+        print("current user:", current_user.is_paid)
+     
         price_id = request.POST["price_id"]
-        print(price_id)
+
 
         if not current_user.is_paid:
             DOMAIN_ROOT = settings.DOMAIN_ROOT
@@ -76,13 +84,19 @@ def create_checkout_session(request):
                 line_items=[{
                     'price': price_id,
                     'quantity': 1
-                }]
+                }],
+                customer_email = current_user.user.email,
+                metadata={
+                    "customer_username": request.user.username
+                }
             )
 
+            request.session["CHECKOUT"] = True
             return JsonResponse({"session_id": checkout_session["id"]})
         
         except stripe.error.CardError as e:
             print(e)
+
 
 @require_POST
 @csrf_exempt
@@ -105,18 +119,39 @@ def webhook(request):
   # Handle the event
   if event["type"] == 'payment_intent.succeeded':
     payment_intent = event.data.object # contains a stripe.PaymentIntent
-    print('PaymentIntent was successful!')
+
   elif event["type"] == 'payment_method.attached':
     payment_method = event.data.object # contains a stripe.PaymentMethod
-    print('PaymentMethod was attached to a Customer!')
+    pass
   elif event["type"] == 'invoice.upcoming':
-    print("Invoice is upcoming")
+    pass
   elif event["type"] == 'payment_intent.requires_action':
-    print('You broke twat')
+    pass
   else:
-    print('Unhandled event type {}'.format(event.type))
+    pass
 
-  return HttpResponse(status=200)
+
+  handler = StripeWH_Handler(request)
+
+
+  event_map = {
+      'customer.subscription.created': handler.handle_customer_subscription_created,
+      'checkout.session.completed': handler.handle_checkout_completed,
+      'charge.succeeded': handler.handle_payment_intent_succeeded,
+      'payment_intent.payment_failed': handler.handle_payment_intent_failed,
+      'invoice.created': handler.handle_invoice_created,
+      'invoice.payment_action_required': handler.handle_invoice_requires_action,
+      'invoice.upcoming': handler.handle_invoice_upcoming,
+  }
+
+  event_type = event['type']
+
+
+  event_handler = event_map.get(event_type, handler.handle_event)
+
+  response = event_handler(event)
+
+  return response
 
 
 # @csrf_exempt
@@ -159,7 +194,7 @@ class CheckoutSuccessView(View):
     is successful.
     """
     def get(self, request):
-        print(request)
+        print(request.session['CHECKOUT'])
         return render(request, "subscriptions/success.html")
 
 
