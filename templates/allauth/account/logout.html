@@ -5,17 +5,35 @@
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Out" %}</h1>
+<section class="auth-section">
+  <div class="container auth-container">
+    <div class="row">
+      <div class="col-12 col-lg-8 mt-4">
+        <h1 class="auth-header dark">{% trans "Sign Out" %}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-8 mt-4">
+        <p class="auth-info">{% trans 'Are you sure you want to sign out?' %}</p>
+        <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <div class="auth-btn-wrapper">
+            <button type="submit" class="btn auth-btn narrow">{% trans 'Sign Out' %}</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-lg-4">
+        <div class="float-end float-md-none">
+          <figure>
+              <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="200" height="200" class="dept-logo-lg">
+          </figure>
 
-<p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button type="submit">{% trans 'Sign Out' %}</button>
-</form>
-
-
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
