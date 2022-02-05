@@ -8,6 +8,44 @@
 {% endblock %}
 
 {% block content %}
+    <section class="hero-section-sm d-block d-lg-none">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 success-header mt-3">
+                    <div id="dept-logo-wrapper-sm">
+                        <figure>
+                            <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
+                        </figure>
+                    </div>
+                    <h1 class="text-center">Thankyou</h1>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam provident aperiam quos ratione optio impedit aspernatur sed quisquam, voluptates praesentium eligendi odit et saepe beatae assumenda ipsa quibusdam nostrum, inventore ducimus commodi tempore? Tempora nam fugit dolorem placeat ipsam necessitatibus?</p>
+                </div>
+            </div>
+    </section>
+    <section id="profile-prompt-section-sm" class="d-block d-lg-none">
+        <div class="row">
+            <div class="col-12">
+                <div class="profile-prompt-container">
+                    <div id="profile-prompt-header" class="mt-4 text-center">
+                        <h2>Get yourself noticed</h2>
+                    </div>
+                    <hr>
+                    <div class="profile-prompt-lead text-center">
+                        <p>
+                            Your chances of being hired are much higher if you have a complete profile.
+                        </p>
+                        <p>
+                            Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                        </p>
+                    </div>
+                     <div class="success-buttons">
+                            <a href="#" class="btn">Build my Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        </div>
     <section class="hero-section-lg d-none d-lg-block">
         <div id="success-hero-container">
             <div id="dept-logo-wrapper">
@@ -15,7 +53,7 @@
                     <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="300" height="300" id="dept-logo">
                 </figure>
             </div>
-            <div id="success-header" class="ms-4">
+            <div class="success-header" class="ms-4">
                 <h1>Thankyou</h1>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste facere unde saepe harum modi consectetur maxime explicabo. Molestias mollitia, et enim quo inventore accusamus dolorem deserunt omnis facilis ab sunt placeat impedit animi cupiditate neque velit debitis nesciunt! Debitis, labore.</p>
             </div>
@@ -28,7 +66,7 @@
                     </h2>
                 </div>
                 <hr>
-                <div class="success-lead">
+                <div class="profile-prompt-lead text-center">
                     <p>
                         Your chances of being hired are much higher if you have a complete profile.
                     </p>
@@ -36,7 +74,7 @@
                        Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
                     </p>
                 </div>
-                <div id="success-buttons">
+                <div class="success-buttons">
                             <a href="#" class="btn">Build my Profile</a>
                 </div>
             </div>

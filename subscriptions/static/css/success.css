@@ -2,6 +2,11 @@
     margin: 0;
 }
 
+.hero-section-sm {
+    background-color: #1a2342;
+    padding-top: 60px;
+}
+
 .hero-section-lg {
     background-color: #1a2342;
     position: relative;
@@ -29,17 +34,22 @@
      z-index: 2;
  }
 
-#success-header h1 {
+.success-header h1 {
     font-family: "Josefin Sans", sans-serif;
     font-size: 4rem;
     color: #fefefe;
     clear: both;
 }
 
-#success-header p {
+.success-header p {
     font-family: "Oxygen", sans-serif;
     color: #fefefe;
     clear: both;
+}
+
+#profile-prompt-section-sm {
+    background-color: #fdf4a5;
+    padding: 3rem 1rem;
 }
 
 .success-button-wrapper {
@@ -51,7 +61,12 @@
     transform: translate(-40%, -50%);
 }
 
-#success-button-header h2 {
+.profile-prompt-lead p {
+    font-family: "Oxygen", sans-serif;
+}
+
+#success-button-header h2,
+#profile-prompt-header h2 {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 400;
     font-size: 1.6rem;
@@ -64,13 +79,26 @@
     padding: 0;
 }
 
-#success-buttons a {
+.success-buttons a {
     font-family: "Open Sans", sans-serif;
     background-color: #252525;
     color: #fefefe;
     width: 100%;
     text-align: center;
     margin: 0 auto;
+}
+
+#dept-logo-wrapper-sm {
+    display: flex;
+    justify-content: center;
+}
+
+#dept-logo-sm {
+   margin: 0 auto;
+}
+
+#dept-logo-wrapper {
+    width: 50%;
 }
 
 #dept-logo {
