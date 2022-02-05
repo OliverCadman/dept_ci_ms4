@@ -1,13 +1,12 @@
 #success-hero-container {
     margin: 0;
-    height: 30vh;
 }
 
 .hero-section-lg {
     background-color: #1a2342;
-    padding: 16rem 0 6rem 0;
     position: relative;
     margin-top: 4rem;
+    height: 80vh;
 }
 
  .success-button-container {
@@ -34,11 +33,13 @@
     font-family: "Josefin Sans", sans-serif;
     font-size: 4rem;
     color: #fefefe;
+    clear: both;
 }
 
 #success-header p {
     font-family: "Oxygen", sans-serif;
     color: #fefefe;
+    clear: both;
 }
 
 .success-button-wrapper {
@@ -63,11 +64,18 @@
     padding: 0;
 }
 
-#success-btn-list li a {
+#success-buttons a {
     font-family: "Open Sans", sans-serif;
     background-color: #252525;
     color: #fefefe;
-    width: 75%;
+    width: 100%;
     text-align: center;
-    margin: 1rem 0;
+    margin: 0 auto;
+}
+
+#dept-logo {
+    width: 200px;
+    height: 200px;
+    margin: 2rem 0 0 1rem;
+    float: right;
 }
