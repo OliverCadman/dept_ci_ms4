@@ -10,32 +10,6 @@ from allauth.account.signals import email_confirmed
 import datetime
 
 
-class UserProfile(models.Model):
- 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=60, null=True, blank=True)
-    last_name = models.CharField(max_length=60, null=True, blank=True)
-    city = models.CharField(max_length=50, null=True, blank=True)
-    country = CountryField(blank_label="Country", null=True, blank=True)
-    subscription_chosen = models.BooleanField(default=False)
-    is_paid = models.BooleanField(default=False)
-
-
-    def __str__(self):
-        return self.user.username
-
-
-class AudioFile(models.Model):
-
-    file = models.FileField(upload_to="audio")
-    title = models.CharField(max_length=100)
-    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="users_tracks")
-
-    def __str__(self):
-        return self.title
-
-
 class Instrument(models.Model):
 
     # Assigning first value in 'choices' tuple to avoid
@@ -93,12 +67,38 @@ class Instrument(models.Model):
     ]
 
     instrument_name = models.CharField(max_length=50,
-                                       choices=INSTRUMENTS, default="")
-    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="related_user")
+                                       choices=INSTRUMENTS, null=True, blank=True)
 
     def __str__(self):
         return self.instrument_name
+
+
+class UserProfile(models.Model):
+ 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=60, null=True, blank=True)
+    last_name = models.CharField(max_length=60, null=True, blank=True)
+    city = models.CharField(max_length=50, null=True, blank=True)
+    country = CountryField(blank_label="Country", null=True, blank=True)
+    instruments_played = models.ManyToManyField(Instrument)
+    subscription_chosen = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.user.username
+
+
+class AudioFile(models.Model):
+
+    file = models.FileField(upload_to="audio")
+    title = models.CharField(max_length=100)
+    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
+                                     related_name="users_tracks")
+
+    def __str__(self):
+        return self.title
+
 
 
 
