@@ -1,19 +1,27 @@
 .auth-section {
-    background-color: #fefefe;
+    background-color: #1a2342;
+    padding: 3rem 0;
 }
 
 .auth-container {
     padding-top: 39px;
-    min-height: 85vh;
-    background-color: #eeebeb;
+    /* min-height: 85vh; */
+    background-color: #1a2342;
+}
+
+.auth-section.verify,
+.auth-container.verify {
+    background-color: #fefefe;
 }
 
 .auth-header {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
+    color: #fefefe;
+    font-size: 2.5rem;
 }
 
-.auth-header.verify {
+.auth-header.dark {
     color: #202020;
 }
 
@@ -71,7 +79,7 @@
     margin: 1rem 0;
 }
 
-.auth-btn.confirm-email {
+.auth-btn.narrow {
     width: 25%;
 }
 
@@ -89,6 +97,19 @@
 
 }
 
+@media screen and (min-width: 768px) {
+    .auth-container {
+        min-height: 60vh;
+    }
+
+    .auth-form-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+   
+    }
+}
+
 @media screen and (min-width: 992px) {
 
     .dept-logo-lg {
@@ -99,7 +120,7 @@
     .auth-bg-lg {
         background: url("../../media/signup-bg-1.webp") no-repeat;
         background-size: cover;
-        background-position: center;
+        background-position: top;
     }
 
 
@@ -119,6 +140,10 @@
     .auth-header {
         font-size: 3.5rem;
         color: #fafafa;
+    }
+
+    .auth-form-wrapper {
+        display: block;
     }
 
     .auth-form {

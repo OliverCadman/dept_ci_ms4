@@ -11,11 +11,12 @@
   <div class="container-fluid auth-container">
     <div class="row">
       <div class="col-12 auth-header-wrapper">
-        <h1 class="auth-header mt-4 ms-lg-4 text-uppercase">{% trans "Sign up " %}</h1>
+        <h1 class="auth-header mt-4 ms-lg-4 text-uppercase d-none d-lg-block">{% trans "Sign up " %}</h1>
       </div>
     </div>
     <div class="row d-flex justify-content-center">
-      <div class="col-12 col-lg-5 ms-5">
+      <div class="col-12 col-md-8 col-lg-5 ms-lg-5">
+        <h1 class="auth-header mt-4 ms-lg-4 text-uppercase d-block d-lg-none">{% trans "Sign up " %}</h1>
         <div class="auth-form-wrapper">
           <form class="signup auth-form" id="signup_form" method="post" action="{% url 'account_signup' %}">
             <div class="auth-button-wrapper">
