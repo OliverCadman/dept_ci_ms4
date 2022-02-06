@@ -334,6 +334,8 @@ The project makes use of the SQlite Relational Database to handle data served th
 * [Register](documentation/wireframes/dept_register.pdf)
 * [Subscribe](documentation/wireframes/dept_subscribe.pdf)
 * [Sign In](documentation/wireframes/dept_sign_in.pdf)
+* [Edit Profile (Page 1)](documentation/wireframes/dept_edit_profile_1.pdf)
+* [Edit Profile (Page 2)](documentation/wireframes/dept_edit_profile_2.pdf)
 * [Profile](documentation/wireframes/dept_profile.pdf)
 * [Find a Dep (Instrument List)](documentation/wireframes/dept_find_a_dep.pdf)
 * [Find a Dep (Dep List)](documentation/wireframes/dept_dep_list.pdf)
