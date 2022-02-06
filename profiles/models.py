@@ -66,11 +66,60 @@ class Instrument(models.Model):
         (VIBRAPHONE, "vibraphone")
     ]
 
-    instrument_name = models.CharField(max_length=50,
+    instrument_name = models.CharField(max_length=50, unique=True,
                                        choices=INSTRUMENTS, null=True, blank=True)
 
     def __str__(self):
         return self.instrument_name
+
+
+class Genre(models.Model):
+
+    POP = "Pop"
+    ROCK = "Rock"
+    JAZZ = "Jazz"
+    CLASSICAL = "Classical"
+    FUNK = "Funk"
+    SOUL = "Soul"
+    RNB = "RnB"
+    PUNK = "Punk"
+    LATIN = "Latin"
+    BOSSA_NOVA = "Bossa Nova"
+    HIP_HOP = "Hip Hop"
+    METAL = "Metal"
+    PROG_ROCK = "Prog Rock"
+    EXPERIMENTAL = "Experimental"
+    AMBIENT = "Ambient"
+    CLUB_MUSIC = "Club Music"
+    HOUSE = "House"
+
+    GENRES = [
+        (POP, "pop"),
+        (ROCK, "rock"),
+        (JAZZ, "jazz"),
+        (CLASSICAL, "classical"),
+        (FUNK, "funk"),
+        (SOUL, "soul"),
+        (RNB, "rnb"),
+        (PUNK, "punk"),
+        (LATIN, "latin"),
+        (BOSSA_NOVA, "bossa_nova"),
+        (HIP_HOP, "hip_hop"),
+        (METAL, "metal"),
+        (PROG_ROCK, "prog_rock"),
+        (EXPERIMENTAL, "experimental"),
+        (AMBIENT, "ambient"),
+        (CLUB_MUSIC, "club_music"),
+        (HOUSE, "house")
+    ]
+
+    genre_name = models.CharField(max_length=50, choices=GENRES, 
+                                  null=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.genre_name
+
+
 
 
 class UserProfile(models.Model):
@@ -81,6 +130,8 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=50, null=True, blank=True)
     country = CountryField(blank_label="Country", null=True, blank=True)
     instruments_played = models.ManyToManyField(Instrument)
+    genres = models.ManyToManyField(Genre)
+    user_info = models.TextField(null=True, blank=True)
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
 
