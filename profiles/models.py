@@ -2,6 +2,7 @@ import email
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.forms import ImageField
 from django_countries.fields import CountryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -73,6 +74,7 @@ class Instrument(models.Model):
         return self.instrument_name
 
 
+
 class Genre(models.Model):
 
     POP = "Pop"
@@ -129,6 +131,7 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=60, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     country = CountryField(blank_label="Country", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="uploads", null=True, blank=True)
     instruments_played = models.ManyToManyField(Instrument)
     genres = models.ManyToManyField(Genre)
     user_info = models.TextField(null=True, blank=True)
@@ -138,6 +141,19 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Equipment(models.Model):
+    """
+    Database model to display a list of equipment 
+    attributed to a particular user.
+    """
+
+    equipment_name = models.CharField(max_length=300)
+    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.equipment_name
 
 
 class AudioFile(models.Model):
