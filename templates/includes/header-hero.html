@@ -1,0 +1,105 @@
+<section class="dynamic-hero-section-sm d-block d-lg-none">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 dynamic-header mt-3">
+                    <div id="dept-logo-wrapper-sm">
+                        <figure>
+                            <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
+                        </figure>
+                    </div>
+                    <h1 class="text-center {% if p == "user_profile_form" %}edit_profile_header{% endif %}">
+                        <!-- Dynamically render header relative to page -->
+                        {% if p == "user_profile_form" %}
+                            Edit Your Profile
+                        {% else %}
+                            Thankyou
+                        {% endif %}
+                    </h1>
+                        {% if not p == "user_profile_form" %}
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
+                        {% endif %}
+                </div>
+            </div>
+    </section>
+    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
+        <div class="row">
+            <div class="col-12">
+                <div class="dynamic-lead-container">
+                    <div id="dynamic-lead-header" class="mt-4 text-center">
+                        {% if not p == "user_profile_form" %}
+                        <h2>Get yourself noticed</h2>
+                        <hr>
+                    </div>
+                    <div class="profile-prompt-lead text-center">
+                        <p>
+                            Your chances of being hired are much higher if you have a complete profile.
+                        </p>
+                        <p>
+                            Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                        </p>
+                    </div>
+                     <div class="success-buttons">
+                            <a href="#" class="btn">Build my Profile</a>
+                    </div>
+                    {% else %}
+                        <div class="profile-prompt-lead text-center">
+                            <p>Let the community know who you've arrived.</p>
+                            <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+        </div>
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% endif %} d-none d-lg-block">
+        <div id="dynamic-hero-container">
+            <div id="dept-logo-wrapper">
+                <figure>
+                    <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="300" height="300" id="dept-logo">
+                </figure>
+            </div>
+            <div class="dynamic-header" class="ms-4">
+                <h1>
+                {% if p == "user_profile_form" %}
+                        Edit Your Profile
+                    {% else %}
+                        Thankyou
+                    {% endif %}
+                </h1>
+                {% if not p == "user_profile_form" %}
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="dynamic-header-container">
+            <div class="success-button-wrapper">
+                <div id="dynamic-lead-header-lg">
+                    {% if not p == "user_profile_form" %}
+                    <h2 class="text-center">
+                       Get yourself noticed
+                    </h2>
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="profile-prompt-lead text-center">
+                    {% if not p == "user_profile_form" %}
+                        <p>
+                            Your chances of being hired are much higher if you have a complete profile.
+                        </p>
+                        <p>
+                        Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                        </p>
+                    {% else %}
+                        <p>Let the community know who you've arrived.</p>
+                        <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                    {% endif %}
+                </div>
+                {% if not p == "user_profile_form" %}
+                <div class="success-buttons">
+                    {% comment %} <a href="{% url 'edit_profile' request.user.username %}" class="btn">Build my Profile</a> {% endcomment %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>

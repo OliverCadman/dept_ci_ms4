@@ -1,3 +1,6 @@
+<a href="{% url 'home' %}" class="navbar-brand">
+    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo, Home Link" width="50" height="50" id="logo-home-link">
+</a>
 <ul class="notification-message-links">
     {% if request.user.is_authenticated %}
     <li>
