@@ -150,7 +150,8 @@ class Equipment(models.Model):
     """
 
     equipment_name = models.CharField(max_length=300)
-    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
+                                     related_name="users_equipment")
 
     def __str__(self):
         return self.equipment_name
