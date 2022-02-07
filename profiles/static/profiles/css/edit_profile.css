@@ -1,0 +1,14 @@
+.add-new-equipment-icon {
+    cursor: pointer;
+    display: inline;
+}
+
+.equipment-text-input {
+    width: 75%;
+    display: inline-block;
+    margin: 10px 5px 0 0;
+}
+
+label[for="id_equipment_name"] {
+    width: 100%;
+}
