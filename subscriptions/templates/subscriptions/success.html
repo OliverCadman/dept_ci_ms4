@@ -75,7 +75,7 @@
                     </p>
                 </div>
                 <div class="success-buttons">
-                            <a href="#" class="btn">Build my Profile</a>
+                            <a href="{% url 'edit_profile' request.user.username %}" class="btn">Build my Profile</a>
                 </div>
             </div>
         </div>
