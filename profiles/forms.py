@@ -1,33 +1,75 @@
+from attr import attr
 from django import forms
 from .models import (UserProfile, Instrument,
-                     Genre, UnavailableDate, AudioFile)
+                     Genre, UnavailableDate, AudioFile, Equipment)
+from .widgets import EquipmentTextWidget
 
 
 class UserProfileForm(forms.ModelForm):
+
 
     class Meta:
         model = UserProfile
         exclude = ("user", "subscription_chosen", "is_paid",)
 
-    def __init__(self, *args, **kwargs):
 
-        super().__init__(*args, **kwargs)
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "First Name"})
+    )
 
-        placeholders = {
-            "first_name": "First Name",
-            "last_name": "Last Name",
-            "city": "City",
-            "country": "Country",
-            "instruments_played": "Which instruments do you play?",
-            "genres": "Which genres are you skilled in?",
-            "user_info": "Tell us about yourself",
-        }
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "Last Name"})
+    )
 
-        for field in self.fields:
-            if self.fields[field].required:
-                placeholder = f"{placeholders[field]} *"
-            else: 
-                placeholder = placeholders[field]
-            self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = "btn dept=form-input"
-            self.fields[field].label = False
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={"placeholder": "City"})
+    )
+
+    country = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "Country"}
+        )
+    )
+
+    profile_image = forms.ImageField(
+        label="Profile Image",
+        required=False
+    )
+
+    instruments_played = forms.ModelMultipleChoiceField(
+        queryset=Instrument.objects.all(),
+        label="Which instruments do you play?",
+        
+    )
+
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(),
+        label="Which genres are you skilled in?"
+    )
+
+    user_info = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "rows": "3",
+                "placeholder": "Tell us about yourself!"
+            }
+        )
+    )
+
+
+class EquipmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Equipment
+        exclude = ("related_user",)
+
+    
+    class Media:
+         js = ("profiles/js/equipment_text_input.js",)
+
+    equipment_name = forms.CharField(
+        label="Please list your equipment",
+        widget=forms.TextInput()
+    )
+
+
