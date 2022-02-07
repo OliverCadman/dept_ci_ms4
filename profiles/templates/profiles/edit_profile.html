@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Your Profile{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "profiles/css/edit_profile.css" %}">
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+{% endblock %}
+
+{% block corejs %}
+    {{block.super}}
+
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- Page Header -->
+    <section id="ogifdo">
+        {% with page_name as p %}
+        {% include 'includes/header-hero.html' %}
+        {% endwith %}
+    </section>
+    <!-- Profile Form -->
+    {{page_name}}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            {{user_profile_form.first_name}}
+                        </div>
+                    </div>
+                    {{user_profile_form|crispy}}
+                    {{ equipment_form|crispy }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% block postload_js %}
+        {{block.super}}
+        <!-- JavaScript defined in Media subclass in EquipmentForm Form Model -->
+        {{equipment_form.media}}
+
+    {% endblock %}
