@@ -7,11 +7,13 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "profiles/css/edit_profile.css" %}">
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 {% endblock %}
 
 {% block corejs %}
     {{block.super}}
-
+    <!-- DropZone JS for file upload -->
+ <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 {% endblock %}
 
@@ -24,26 +26,80 @@
         {% endwith %}
     </section>
     <!-- Profile Form -->
-    {{page_name}}
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <form action="#">
-                    <div class="row">
-                        <div class="col-12 col-md-6">
-                            {{user_profile_form.first_name}}
-                        </div>
-                    </div>
-                    {{user_profile_form|crispy}}
-                    {{ equipment_form|crispy }}
-                </form>
+        <div class="breadcrumb-wrapper">
+            <div class="breadcrumb-list">
+                <div class="breadcrumb"><span>Profile Details</span></div>
+                <div class="breadcrumb"><span>Your Music</span></div>
+                <div class="breadcrumb"><span>Your Availability</span></div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="edit-profile-form-container" class="hide-container">
+                    <form method="POST" id="edit_profile_form">
+                        {% csrf_token %}
+                        <input type="hidden" id="user_name" value="{{user_name}}">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.first_name|as_crispy_field}}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.last_name|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.city|as_crispy_field}}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.country|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.instruments_played|as_crispy_field}}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {{user_profile_form.genres|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                {{equipment_form.equipment_name|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                {{user_profile_form.user_info|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 submit-btn">
+                                <button id="submit_form">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="add-audio-container">
+                    <form action="#" class="dropzone" id="audio-dropzone">
+                        {% csrf_token %}
+                        <div class="dz-message">
+                            <span>Click here or drag and drop files to upload</span>
+                        </div>
+                        <div class="fallback">
+                   
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>    
     </div>
     {% endblock %}
     {% block postload_js %}
         {{block.super}}
         <!-- JavaScript defined in Media subclass in EquipmentForm Form Model -->
         {{equipment_form.media}}
-
+        <script src="{% static "profiles/js/submit_and_switch_page.js" %}"></script>
+        <script src="{% static "profiles/js/audio_dropzone.js" %}"></script>
     {% endblock %}
