@@ -1,0 +1,125 @@
+#dynamic-hero-container {
+    margin: 0;
+}
+
+.dynamic-hero-section-sm {
+    background-color: #1a2342;
+    padding-top: 60px;
+}
+
+.dynamic-hero-section-lg {
+    background-color: #1a2342;
+    position: relative;
+    margin-top: 4rem;
+    height: 60vh;
+}
+
+ .dynamic-header-container {
+     position: absolute;
+     width: 50%;
+     height: 100%;
+     top: 0;
+     right: 0;
+     background-color: #fdf4a5;
+ }
+
+ .dynamic-header-container:after {
+     background: linear-gradient(-75deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+     content: '';
+     width: 25%;
+     height: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: 2;
+ }
+
+.dynamic-header h1 {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 2.2rem;
+    color: #fefefe;
+    clear: both;
+}
+
+.dynamic-header p {
+    font-family: "Oxygen", sans-serif;
+    color: #fefefe;
+    clear: both;
+}
+
+.dynamic-lead-section-sm {
+    background-color: #fdf4a5;
+    padding: 3rem 1rem;
+}
+
+.dynamic-lead-section-sm.edit_profile {
+    background-color: #fdf4a5;
+    padding: 0 1rem;
+}
+
+.success-button-wrapper {
+
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+}
+
+.profile-prompt-lead p {
+    font-family: "Oxygen", sans-serif;
+}
+
+#dynamic-lead-header-lg h2,
+#dynamic-lead-header h2 {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+}
+
+#success-btn-list {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.success-buttons a {
+    font-family: "Open Sans", sans-serif;
+    background-color: #252525;
+    color: #fefefe;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#dept-logo-wrapper-sm {
+    display: flex;
+    justify-content: center;
+}
+
+#dept-logo-sm {
+   margin: 0 auto;
+}
+
+#dept-logo-wrapper {
+    width: 50%;
+}
+
+#dept-logo {
+    width: 200px;
+    height: 200px;
+    margin: 2rem 0 0 1rem;
+    float: right;
+}
+
+@media screen and (min-width: 992px){
+    .dynamic-hero-section-lg.edit_profile {
+        height: 50vh;
+    }
+
+    .dynamic-header h1 {
+        font-size: 4rem;
+        margin-left: 1rem;
+    }
+}
