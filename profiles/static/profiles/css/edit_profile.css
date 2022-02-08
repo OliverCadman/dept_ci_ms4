@@ -12,3 +12,153 @@
 label[for="id_equipment_name"] {
     width: 100%;
 }
+
+.edit_profile_header {
+    font-size: 2rem;
+}
+
+#edit-profile-form-container {
+    padding: 1.5rem 3rem;
+    font-family: "Oxygen", sans-serif;
+}
+
+#id_instruments_played,
+#id_genres {
+    min-height:250px;
+    max-height:325px;
+}
+
+.selected {
+    background-color: pink;
+    font-weight: bold;
+}
+
+.hide-container {
+    display: none;
+}
+
+
+
+/* Breadcrumbs */
+
+.breadcrumb {
+    float: left;
+    background-color: #1a2342;
+    padding: 10px 20px 10px 55px;
+    position: relative;
+    margin: 0 10px 0 25px;
+    display: block;
+    color: #fefefe;
+    font-family: "Open sans", sans-serif;
+}
+
+.breadcrumb:after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 50px solid #1a2342;
+    position: absolute;
+    margin-top: -50px;
+    top: 50%;
+    left: 98%;
+    z-index: 2;
+}
+
+.breadcrumb-list {
+    list-style: none;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.breadcrumb:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 50px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    left: 100%;
+    z-index: 1;
+}
+
+.breadcrumb:first-child {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.fill-breadcrumb {
+    position: relative;
+    margin: 0 10px 0 0;
+    display: block;
+    padding: 20px 20px 20px 55px;
+    float: left;
+    color: #fff;
+    background: #7ac142;
+    -webkit-transition: all ease 0.8s;
+    -moz-transition: all ease 0.8s;
+    transition: all ease 0.8s;
+    box-shadow: inset 100px 0 0 0 #7ac142;
+    position: relative;
+}
+
+.fill-breadcrumb:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 50px solid black;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 10px;
+    left: 100%;
+    z-index: 1;
+}
+
+.fill-breadcrumb:first-child {
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.fill-breadcrumb:after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 50px solid #7ac142;
+    position: absolute;
+    margin-top: -50px;
+    top: 50%;
+    left: 98%;
+    z-index: 3;
+    -webkit-transition: all ease 0.8s;
+    -moz-transition: all ease 0.8s;
+    transition: all ease 0.8s;
+    box-shadow: inset 100px 0px 0px 0px #7ac142;
+}
+
+#add-audio-container {
+    margin-bottom: 5rem;
+}
+
+.dropzone {
+    width: 75%;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     /*
     Equipment Form - Text Input Addition
-    
+
     Enables user to add more text input fields, should they need to
     list more than one item of equipment that they own.
     */ 
@@ -33,5 +33,5 @@ $(document).ready(function() {
         equipmentTextInputWrapper.append(inputElement)
         equipmentTextInputWrapper.append(e.target)
         
-    })
+    }) 
 })
