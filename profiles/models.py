@@ -149,9 +149,13 @@ class Equipment(models.Model):
     attributed to a particular user.
     """
 
+    class Meta:
+        verbose_name_plural = "Equipment"
+
     equipment_name = models.CharField(max_length=300)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="users_equipment")
+                                     null=True, blank=True,
+                                     related_name="equipment")
 
     def __str__(self):
         return self.equipment_name
