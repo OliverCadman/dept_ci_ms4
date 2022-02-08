@@ -2,7 +2,9 @@ from attr import attr
 from django import forms
 from .models import (UserProfile, Instrument,
                      Genre, UnavailableDate, AudioFile, Equipment)
-from .widgets import EquipmentTextWidget
+from django_countries.widgets import CountrySelectWidget
+from django_countries import Countries
+
 
 
 class UserProfileForm(forms.ModelForm):
@@ -11,8 +13,14 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ("user", "subscription_chosen", "is_paid",)
+        widgets = {"country": CountrySelectWidget()}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["instruments_played"].initial = [c.pk for c in Instrument.objects.all()]
+        self.fields["genres"].initial = [c.pk for c in Genre.objects.all()]
 
+    
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "First Name"})
     )
@@ -25,11 +33,7 @@ class UserProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"placeholder": "City"})
     )
 
-    country = forms.CharField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "Country"}
-        )
-    )
+    country = forms.ChoiceField(choices=Countries)
 
     profile_image = forms.ImageField(
         label="Profile Image",
@@ -39,13 +43,19 @@ class UserProfileForm(forms.ModelForm):
     instruments_played = forms.ModelMultipleChoiceField(
         queryset=Instrument.objects.all(),
         label="Which instruments do you play?",
+        to_field_name="instrument_name",
+   
         
     )
 
     genres = forms.ModelMultipleChoiceField(
         queryset=Genre.objects.all(),
-        label="Which genres are you skilled in?"
+        label="Which genres are you skilled in?",
+        to_field_name="genre_name",
+        
+   
     )
+
 
     user_info = forms.CharField(
         widget=forms.Textarea(
@@ -55,6 +65,11 @@ class UserProfileForm(forms.ModelForm):
             }
         )
     )
+
+    @property
+    def create_instrument_list(self):
+        print("self:", self)
+
 
 
 class EquipmentForm(forms.ModelForm):
@@ -69,7 +84,9 @@ class EquipmentForm(forms.ModelForm):
 
     equipment_name = forms.CharField(
         label="Please list your equipment",
-        widget=forms.TextInput()
+        widget=forms.TextInput
     )
+
+
 
 
