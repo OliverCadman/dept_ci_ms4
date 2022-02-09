@@ -3,6 +3,20 @@ from .models import (UserProfile, AudioFile, Equipment,
                     Instrument, UnavailableDate, Genre)
 
 
+class UserEquipmentInline(admin.TabularInline):
+    model = Equipment
+
+
+class UserAudioInline(admin.TabularInline):
+    model = AudioFile
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    inlines = [UserEquipmentInline, UserAudioInline]
+    list_display = ["first_name", "user"]
+    raw_id_fields = ["user"]
+
+
 class EquipmentAdmin(admin.ModelAdmin):
 
     list_display = ("equipment_name", "related_user")
@@ -11,7 +25,7 @@ class EquipmentAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(AudioFile)
 admin.site.register(Instrument)
 admin.site.register(UnavailableDate)
