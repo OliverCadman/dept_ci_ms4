@@ -42,7 +42,7 @@
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-12">
-                <div id="edit-profile-form-container" class="form-container {% if not request.session.form_page == 1 %}hidden{% endif %}">
+                <div id="edit-profile-form-container" class="form-container hidden">
                     <form action={% url 'edit_profile' request.user %} method="POST" id="edit_profile_form">
                         {% csrf_token %}
                         <input type="hidden" id="user_name_1" value="{{user_name}}">
@@ -100,7 +100,7 @@
                         </div>
                     </form>
                 </div>
-                <div id="add_audio_container" class="form-container {% if request.session.form_page == 1 %}hidden{% endif %}">
+                <div id="add_audio_container" class="form-container hidden">
                     <form action="{% url "upload_audio" request.user %}" class="dropzone" id="audio-dropzone" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div id="dropzone_container">
@@ -117,8 +117,17 @@
                         <button type="submit" id="audio_submit_btn" class="btn submit-btn">Save your Music</button>
                     </div>
                 </div>
-                <div id="calendar_container" class="form-container {% if not request.session.form_page == 3 %}hidden{% endif %}">
-                    WOOHOO!
+                <div id="calendar_container" class="form-container">
+                    <form id="unavailability_calendar">
+                        {% csrf_token %}
+                        <input type="hidden" id="user_name_3" value={{user_name}}>
+                        <div id="calendar_wrapper">
+    
+                        </div>
+                        <div class="btn-wrapper">
+                            <button type="button" id="submit_unavailability">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>    
@@ -131,5 +140,5 @@
         <script src="{% static "profiles/js/submit_and_switch_page.js" %}"></script>
         <script src="{% static "profiles/js/audio_dropzone.js" %}"></script>
         <script src="{% static "profiles/js/formset.js" %}"></script>
-        <script src="{% static "profiles/js/calendar.js %}"></script>
+        <script src="{% static "profiles/js/calendar.js" %}"></script>
     {% endblock %}
