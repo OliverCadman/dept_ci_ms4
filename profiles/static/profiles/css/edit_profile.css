@@ -1,3 +1,7 @@
+.form-container {
+    background: rgb(241, 241, 241);
+}
+
 .add-new-equipment-icon {
     cursor: pointer;
     display: inline;
@@ -153,12 +157,31 @@ label[for="id_equipment_name"] {
 }
 
 #add-audio-container {
-    margin-bottom: 5rem;
+    margin: 2.5rem 0;
+    width: 75%;
+    margin: 2rem auto;
+    padding: .75rem 3rem;
 }
 
 .dropzone {
-    width: 75%;
     border-radius: 20px;
     margin: 0 auto;
+}
+
+.dropzone-init-message {
+    font-family: "Oxygen", sans-serif;
+    color: grey;
+}
+
+.audio-submit-btn-wrapper {
+    margin: 1rem 0;
+}
+
+.form-btn {
+    margin: 1.3rem 0;
+}
+
+.hidden {
+    display: none;
 }
 

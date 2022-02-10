@@ -29,7 +29,7 @@ $(document).ready(function() {
         const totalForms = document.getElementById("id_form-TOTAL_FORMS")
         const currentEquipmentForms = document.getElementsByClassName("equipment_form")
         let currentFormCount = currentEquipmentForms.length
-        formCopyEmptyEl.setAttribute("id", `form-${currentFormCount}`)
+        formCopyEmptyEl.setAttribute("id", `div_id_form-${currentFormCount}-equipment_name`)
 
         totalForms.setAttribute("value", currentFormCount + 1)
 

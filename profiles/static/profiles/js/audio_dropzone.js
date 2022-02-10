@@ -44,17 +44,49 @@ Dropzone.options.audioDropzone = {
     const submitBtn = $("#audio_submit_btn");
 
     dropZoneInstance = this;
+    console.log(dropZoneInstance)
 
     submitBtn.on("click", function () {
+      console.log(dropZoneInstance);
       dropZoneInstance.processQueue();
     });
 
     dropZoneInstance.on("processing", function (file) {
       console.log("processing");
+      console.log(dropZoneInstance)
     });
+
+    dropZoneInstance.on("success", function() {
+      $.ajax({
+        type: "GET",
+        url: `/profile/upload_audio/${username}`,
+        success: function (res) {
+          Toastify({
+            text: res.success_msg,
+            duration: 10000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: {
+              background: "#202020",
+              fontFamily: "'Josefin Sans', sans-serif",
+              color: "#fefefe",
+            },
+          }).showToast();
+
+          setTimeout(() => {
+            $("#add_audio_container").addClass("hidden");
+            $("#calendar_container").removeClass("hidden");
+          }, 1500)
+        },
+      }); 
+
+
+    })
 
     // dropZoneInstance.on("complete", function() {
     //     dropZoneInstance.removeFile(file);
     // })
   },
 };
+
