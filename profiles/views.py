@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 
-from .models import UserProfile, AudioFile, Equipment
+from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 from .validators import validate_audiofile
 from .functions import get_user_profile, prepare_form_data
@@ -97,5 +97,22 @@ def upload_audio(request, username):
     success_msg = "Audio Files Saved"
     
     return JsonResponse({"form_page": 3, "success_msg": success_msg})
+
+
+def upload_unavailable_dates(request, username):
+
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    if request.method == "POST":
+        date_array = request.POST.getlist('date_array[]')
+        if date_array is not None:
+            for date in date_array:
+                try:
+                    UnavailableDate.objects.create(date=date, related_user=user_profile)
+                    return JsonResponse({"success": True})
+                except Exception as e:
+                    print(f"Exception: {e}")
+
+        return HttpResponse(status=200)
 
 
