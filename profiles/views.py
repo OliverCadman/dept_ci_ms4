@@ -1,5 +1,3 @@
-import re
-
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -24,45 +22,47 @@ class ProfileView(View):
 
 def edit_profile(request, username):
 
-    user_model = get_user_model()
-    current_user = user_model.objects.get(username=username)
-    user_profile = UserProfile.objects.get(user=current_user)
-
-    queryset = Equipment.objects.all()
-    print(queryset)    
-
+    user_profile = get_object_or_404(UserProfile, user=request.user)
     user_profile_form = UserProfileForm(request.POST, instance=user_profile)
+    EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=0)
+    queryset = user_profile.equipment.all()
+    equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
 
-    EquipmentFormset = modelformset_factory(Equipment, form=EquipmentForm, extra=5)
-    equipment_formset = EquipmentFormset(request.POST or None, queryset=queryset)
+    audio_form = AudioForm(request.POST, instance=user_profile)
 
-    
-    if request.POST.get("action") == "post":
-            if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
-                try:
-                    parent_form = user_profile_form.save(commit=False)
-                    parent_form.save()
-                    for form in equipment_formset:
-                        child_form = form.save(commit=False)
-                        if child_form.related_user is None:
-                            print("Added new")
-                            child_form.related_user = parent_form
-                        child_form.save()
-                except Exception as e:
-                    print(f"Exception: {e}")
-            else:
-                print(user_profile_form.errors)   
+    request.session["form_page"] = 1
+
+    if request.method == "POST":
+        print("Request")
+        print(request.POST)
+        if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
+            try:
+                parent_form = user_profile_form.save(commit=False)
+                parent_form.save()
+                for form in equipment_formset:
+                    child_form = form.save(commit=False)
+                    if child_form.related_user is None:
+                        print("Added new")
+                        child_form.related_user = parent_form
+                    child_form.save()
+
+                messages.success(request, "Profile and Equipment Info Saved.")
+                request.session["form_page"] = 2
+                        
+            except Exception as e:
+                print(f"Exception: {e}")
+        else:
+            print(user_profile_form.errors)   
     else:
         audio_form = AudioForm()
         user_profile_form = UserProfileForm()
-
 
     context = {
         "user_profile_form": user_profile_form,
         "equipment_formset": equipment_formset,
         "audio_form": audio_form,
         "page_name": "user_profile_form",
-        "user_name": current_user.username
+        "user_name": user_profile.user,
     }
 
     return render(request, "profiles/edit_profile.html", context=context)
@@ -78,33 +78,24 @@ def upload_audio(request, username):
 
 
     if request.method == "POST":
-        
-        data_to_dict = dict(request.FILES)
-        
-        for key, value in data_to_dict.items():
+        files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
+        form = AudioForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            try:
+                for f in files:
+                    AudioFile.objects.create(file=f, related_user=user_profile)
 
-            audio_file = value
-            print("audio_file:", audio_file)
-            audio_dict = prepare_form_data(
-                key="file", value=audio_file
-            )
-
-            print("audio_dict", audio_dict)
-            form = AudioForm(audio_dict, instance=user_profile)
-            print(form.instance)
-            if form.is_valid():
-                try:
-                    # validated_form = form.save(commit=False)
-                    # validated_form.related_user = user_profile
-                    form.save()
-                    print("success")
-                except Exception as e:
-                    print("Exception:", e)
+                messages.success(request, "Audio Files Saved")
+                request.session["form_page"] = 3
                 return HttpResponse(status=200)
-            else:
-                print("form invalid")
-                form = AudioForm(audio_dict, instance=current_user)
+            except Exception as e:
+                print("Exception:", e)
+        else:
+            print("form invalid")
+            form = AudioForm(instance=current_user)
     
-    return HttpResponse(status=200)
+    success_msg = "Audio Files Saved"
+    
+    return JsonResponse({"form_page": 3, "success_msg": success_msg})
 
 
