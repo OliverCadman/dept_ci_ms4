@@ -25,10 +25,13 @@ $(document).ready(function() {
         const newId = "id_equipment_name_" + idValue
         const inputElement = document.createElement("input")
         inputElement.type = "text"
-        inputElement.name = "equipment_name"
+        inputElement.setAttribute("type", "text")
+        inputElement.setAttribute("name", "equipment_name")
+        inputElement.setAttribute("required", true)
+        inputElement.setAttribute("value", "")
+        inputElement.setAttribute("id", newId)
         inputElement.classList.add("textinput", "textInput", "form-control", "equipment-text-input")
-        inputElement.required = true
-        inputElement.id = `${newId}`
+
         
         equipmentTextInputWrapper.append(inputElement)
         equipmentTextInputWrapper.append(e.target)

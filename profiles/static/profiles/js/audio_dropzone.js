@@ -5,18 +5,24 @@ on the website's 'Edit Profile' page.
 
 https://docs.dropzone.dev/
 */
+username = $("#user_name_2").val();
 
-const dropZone = (Dropzone.options.audioDropzone = {
-    autoProcessQueue: true,
-    // 30MB 
-    maxFilesize: 30,
-    clickable: true,
-    uploadMultiple: true,
-    // Remove tracks if necessary
-    addRemoveLinks: true,
-    acceptedFiles: ".mp3,.mp4,.m4a,.wav,.aac,.flac",
-    maxFiles: 5,
-    previewTemplate: `
+// Dropzone.autoDiscover = false;
+Dropzone.options.audioDropzone = {
+  method: "post",
+  autoProcessQueue: false,
+  paramName: "audio",
+  maxFilesize: 30,
+  clickable: true,
+  uploadMultiple: true,
+  // Remove tracks if necessary
+  addRemoveLinks: true,
+  acceptedFiles: ".mp3,.mp4,.m4a,.wav,.aac,.flac",
+  maxFiles: 5,
+  headers: {
+    "X-CSRFToken": $("input[name=csrfmiddlewaretoken]")[1].value,
+  },
+  previewTemplate: `
         <div class="dz-preview dz-file-preview">
             <div class="dz-image">
                 <img data-dz-thumbnail />
@@ -31,8 +37,24 @@ const dropZone = (Dropzone.options.audioDropzone = {
         <div class="dz-error-mark">✘</div>
         <div class="dz-error-message"><span data-dz-errormessage></span></div>
         </div>
-    `
-});
+    `,
+  init: function () {
+    username = $("#user_name_2").val();
 
-    
-        
+    const submitBtn = $("#audio_submit_btn");
+
+    dropZoneInstance = this;
+
+    submitBtn.on("click", function () {
+      dropZoneInstance.processQueue();
+    });
+
+    dropZoneInstance.on("processing", function (file) {
+      console.log("processing");
+    });
+
+    // dropZoneInstance.on("complete", function() {
+    //     dropZoneInstance.removeFile(file);
+    // })
+  },
+};
