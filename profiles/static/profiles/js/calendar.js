@@ -53,7 +53,11 @@ $(document).ready(function() {
             },
             success: function (res) {
                 isSubmitting = false;
-                console.log(res.status);
+                
+                $("#third_breadcrumb_sm").addClass("fill-breadcrumb-sm")
+                $("#third_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm")
+                $("#third_breadcrumb").addClass("fill-breadcrumb")
+
             },
             }); 
             return false;

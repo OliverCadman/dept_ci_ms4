@@ -77,6 +77,11 @@ Dropzone.options.audioDropzone = {
           setTimeout(() => {
             $("#add_audio_container").addClass("hidden");
             $("#calendar_container").removeClass("hidden");
+            $("#second_breadcrumb").addClass("fill-breadcrumb")
+            $("#second_breadcrumb_sm").addClass("fill-breadcrumb-sm")
+            $("#second_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm")
+
+
           }, 1500)
         },
       }); 
