@@ -103,9 +103,9 @@ label[for="id_equipment_name"] {
 
 .fill-breadcrumb {
     position: relative;
-    margin: 0 10px 0 0;
+    margin: 0 10px 0 25px;
     display: block;
-    padding: 20px 20px 20px 55px;
+    padding: 10px 20px 10px 55px;
     float: left;
     color: #fff;
     background: #7ac142;
@@ -116,6 +116,25 @@ label[for="id_equipment_name"] {
     position: relative;
 }
 
+.fill-breadcrumb-sm {
+    position: relative;
+    margin: 0 10px 0 0;
+    display: block;
+    float: left;
+    color: #fff;
+    background: #222;
+    -webkit-transition: all ease 0.8s;
+    -moz-transition: all ease 0.8s;
+    transition: all ease 0.8s;
+    box-shadow: inset 100px 0 0 0 #7ac142;
+    position: relative;
+}
+
+.fill-breadcrumb-icon-sm {
+    color: #222 !important;
+    transition: all ease 0.8s;
+}
+
 .fill-breadcrumb:before {
     content: "";
     display: block;
@@ -123,7 +142,7 @@ label[for="id_equipment_name"] {
     height: 0;
     border-top: 50px solid transparent;
     border-bottom: 50px solid transparent;
-    border-left: 50px solid black;
+    border-left: 50px solid white;
     position: absolute;
     top: 50%;
     margin-top: -50px;
@@ -131,6 +150,20 @@ label[for="id_equipment_name"] {
     left: 100%;
     z-index: 1;
 }
+
+.fill-breadcrumb-sm:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 10px;
+    left: 100%;
+    z-index: 1;
+}
+
 
 .fill-breadcrumb:first-child {
     border-top-left-radius: 50px;
@@ -185,3 +218,49 @@ label[for="id_equipment_name"] {
     display: none;
 }
 
+/* Calendar Styling */
+
+.fc .fc-col-header-cell-cushion {
+    display: inline-block;
+    padding: 2px 4px;
+    font-family: "Oxygen";
+    text-decoration: none;
+    color: #141449;
+
+}
+
+.breadcrumb-list-sm {
+    display: flex;
+    justify-content: center;
+}
+
+.breadcrumb-sm {
+    width: 50px;
+    height: 50px;
+    margin: 1rem 1.5rem;
+    border-radius: 50%;
+    background-color: #141449;
+    display: inline-block;
+    position: relative;
+}
+
+.breadcrumb-sm:not(:first-child)::after {
+    content: "";
+    height: 75px;
+    width: 4px;
+    background-color: #ccc;
+    position: absolute;
+    display: block;
+    transform: rotate(90deg);
+    top: -25%;
+    left: -35%;
+    overflow: hidden;
+    z-index: -10;
+}
+
+.breadcrumb-icon-sm {
+    color: #fefefe;
+    position: absolute;
+    left: 35%;
+    top: 30%;
+}
