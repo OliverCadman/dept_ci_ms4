@@ -33,16 +33,29 @@
     </section>
     <!-- Profile Form -->
     <div class="container">
-        <div class="breadcrumb-wrapper">
+        <div class="breadcrumb-wrapper d-none d-md-block">
             <div class="breadcrumb-list">
-                <div class="breadcrumb"><span>Profile Details</span></div>
-                <div class="breadcrumb"><span>Your Music</span></div>
-                <div class="breadcrumb"><span>Your Availability</span></div>
+                <div class="breadcrumb {% if not request.session.form_page == 1 %}fill-breadcrumb{% endif %}"><span>Profile Details</span></div>
+                <div class="breadcrumb" id="second_breadcrumb"><span>Your Music</span></div>
+                <div class="breadcrumb" id="third_breadcrumb"><span>Your Availability</span></div>
+            </div>
+        </div>
+        <div class="breadcrumb-wrapper d-md-none d sm-block">
+            <div class="breadcrumb-list-sm">
+                <div class="breadcrumb-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-sm{% endif %}">
+                    <span><i class="fa-solid fa-user breadcrumb-icon-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-icon-sm{% endif %}"></i></span>
+                </div>
+                <div class="breadcrumb-sm" id="second_breadcrumb_sm">
+                    <span><i class="fa-solid fa-music breadcrumb-icon-sm" id="second_breadcrumb_icon"></i></span>
+                </div>
+                <div class="breadcrumb-sm" id="third_breadcrumb_sm">
+                    <span><i class="fa-solid fa-calendar-plus breadcrumb-icon-sm" id="third_breadcrumb_icon"></i></span>
+                </div>
             </div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-12">
-                <div id="edit-profile-form-container" class="form-container hidden">
+                <div id="edit-profile-form-container" class="form-container {% if not request.session.form_page == 1 %}hidden{% endif %}">
                     <form action={% url 'edit_profile' request.user %} method="POST" id="edit_profile_form">
                         {% csrf_token %}
                         <input type="hidden" id="user_name_1" value="{{user_name}}">
@@ -100,7 +113,7 @@
                         </div>
                     </form>
                 </div>
-                <div id="add_audio_container" class="form-container hidden">
+                <div id="add_audio_container" class="form-container {% if not request.session.form_page == 2 %}hidden{% endif %}">
                     <form action="{% url "upload_audio" request.user %}" class="dropzone" id="audio-dropzone" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div id="dropzone_container">
@@ -117,7 +130,7 @@
                         <button type="submit" id="audio_submit_btn" class="btn submit-btn">Save your Music</button>
                     </div>
                 </div>
-                <div id="calendar_container" class="form-container">
+                <div id="calendar_container" class="form-container hidden">
                     <form id="unavailability_calendar">
                         {% csrf_token %}
                         <input type="hidden" id="user_name_3" value={{user_name}}>
