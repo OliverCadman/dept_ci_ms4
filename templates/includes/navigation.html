@@ -3,6 +3,11 @@
         <li class="nav-item d-md-none d-block">
             <a href="#">Home</a>
         </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a href="">My Account</a>
+        </li>
+        {% endif %}
         <li class="nav-item">
             <a href="#">Find a Dep</a>
         </li>

@@ -10,7 +10,11 @@
                     <h1 class="text-center {% if p == "user_profile_form" %}edit_profile_header{% endif %}">
                         <!-- Dynamically render header relative to page -->
                         {% if p == "user_profile_form" %}
-                            Edit Your Profile
+                            {% if request.session.form_page == 1 %}
+                                Edit Your Profile
+                            {% elif request.session.form_page == 2 %}
+                                Add Your Music
+                            {% endif %}
                         {% else %}
                             Thankyou
                         {% endif %}
@@ -42,10 +46,17 @@
                             <a href="#" class="btn">Build my Profile</a>
                     </div>
                     {% else %}
-                        <div class="profile-prompt-lead text-center">
-                            <p>Let the community know who you've arrived.</p>
-                            <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
-                        </div>
+                        {% if request.session.form_page == 1 %}
+                            <div class="profile-prompt-lead text-center">
+                                <p>Let the community know who you've arrived.</p>
+                                <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                            </div>
+                        {% elif request.session.form_page == 2 %}
+                            <div class="profile-prompt-lead text-center">
+                                <p>Showcase your finest music.</p>
+                                <p>Your chances of being hired are much higher if our members are able to hear your work.</p>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -60,12 +71,16 @@
                 </figure>
             </div>
             <div class="dynamic-header" class="ms-4">
-                <h1>
+                <h1 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
+                    {% if request.session.form_page == 1 %}
                         Edit Your Profile
-                    {% else %}
-                        Thankyou
+                    {% elif request.session.form_page == 2 %}
+                        Add your Music
                     {% endif %}
+                {% else %}
+                        Thankyou
+                {% endif %}
                 </h1>
                 {% if not p == "user_profile_form" %}
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
@@ -79,9 +94,9 @@
                     <h2 class="text-center">
                        Get yourself noticed
                     </h2>
-                    {% endif %}
                 </div>
                 <hr>
+                {% endif %}
                 <div class="profile-prompt-lead text-center">
                     {% if not p == "user_profile_form" %}
                         <p>
@@ -91,8 +106,22 @@
                         Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
                         </p>
                     {% else %}
-                        <p>Let the community know who you've arrived.</p>
-                        <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                        {% if request.session.form_page == 1 %}
+                            <div class="profile-prompt-lead text-center">
+                                <p>Let the community know who you've arrived.</p>
+                                <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                            </div>
+                        {% elif request.session.form_page == 2 %}
+                            <div class="profile-prompt-lead text-center">
+                                <p>Showcase your finest music.</p>
+                                <p>Your chances of being hired are much higher if our members are able to hear your work.</p>
+                            </div>
+                        {% elif request.session.form_page == 3 %}
+                            <div class="profile-prompt-lead text-center">
+                                <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
+                                <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
                 {% if not p == "user_profile_form" %}
