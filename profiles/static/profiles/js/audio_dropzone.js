@@ -80,6 +80,17 @@ Dropzone.options.audioDropzone = {
             $("#second_breadcrumb").addClass("fill-breadcrumb")
             $("#second_breadcrumb_sm").addClass("fill-breadcrumb-sm")
             $("#second_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm")
+            $("#second_breadcrumb_text").addClass("dark-text")
+            $(".edit_profile_header").html("Your Availability")
+
+            const pageThreeText = `
+                <div class="profile-prompt-lead text-center">
+                    <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
+                    <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
+                </div>
+            `;
+
+            $(".profile-prompt-lead").html(pageThreeText)
 
 
           }, 1500)

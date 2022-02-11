@@ -1,5 +1,8 @@
 .form-container {
     background: rgb(241, 241, 241);
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 20px;
 }
 
 .add-new-equipment-icon {
@@ -45,6 +48,10 @@ label[for="id_equipment_name"] {
 
 /* Breadcrumbs */
 
+#breadcrumb_container {
+    background-color: #d9d8f7;
+}
+
 .breadcrumb {
     float: left;
     background-color: #1a2342;
@@ -86,7 +93,7 @@ label[for="id_equipment_name"] {
     height: 0;
     border-top: 50px solid transparent;
     border-bottom: 50px solid transparent;
-    border-left: 50px solid white;
+    border-left: 50px solid #d9d8f7;
     position: absolute;
     top: 50%;
     margin-top: -50px;
@@ -142,7 +149,7 @@ label[for="id_equipment_name"] {
     height: 0;
     border-top: 50px solid transparent;
     border-bottom: 50px solid transparent;
-    border-left: 50px solid white;
+    border-left: 50px solid #d9d8f7;
     position: absolute;
     top: 50%;
     margin-top: -50px;
@@ -223,10 +230,44 @@ label[for="id_equipment_name"] {
 .fc .fc-col-header-cell-cushion {
     display: inline-block;
     padding: 2px 4px;
-    font-family: "Oxygen";
     text-decoration: none;
     color: #141449;
+}
 
+.fc .fc-daygrid-day-frame {
+    cursor: pointer;
+}
+
+.fc .fc-daygrid-day-number {
+    text-decoration: none;
+    color: #6290a3;
+    font-weight: 500;
+}
+
+.fc .fc-button-primary:disabled,
+.fc .fc-button:not(:disabled),
+.fc .fc-daygrid-day-number,
+.fc .fc-col-header-cell-cushion {
+    font-family: "Oxygen", sans-serif;
+}
+
+.fc .fc-button-primary:disabled,
+.fc .fc-button:not(:disabled) {
+    text-transform: capitalize;
+}
+
+
+.fc .fc-toolbar-title {
+    font-family: 'Josefin Sans', sans-serif;
+    color: #4c4c4c;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+    margin: 0 .2rem;
+}
+
+.btn-wrapper-calendar {
+    margin-top: 1rem;
 }
 
 .breadcrumb-list-sm {
