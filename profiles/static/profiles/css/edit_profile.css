@@ -31,8 +31,8 @@ label[for="id_equipment_name"] {
 
 #id_instruments_played,
 #id_genres {
-    min-height:250px;
-    max-height:325px;
+    min-height: 250px;
+    max-height: 325px;
 }
 
 .selected {
@@ -304,4 +304,11 @@ label[for="id_equipment_name"] {
     position: absolute;
     left: 35%;
     top: 30%;
+}
+
+@media screen and (min-width: 992px) {
+    .profile-prompt-lead {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
 }

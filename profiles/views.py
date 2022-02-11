@@ -9,7 +9,7 @@ from django.forms.models import modelformset_factory
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 from .validators import validate_audiofile
-from .functions import get_user_profile, prepare_form_data
+
 
 
 

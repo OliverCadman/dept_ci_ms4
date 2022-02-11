@@ -1,13 +1,19 @@
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oxygen:wght@300;400&family=Roboto:wght@300;400&family=Varela+Round&display=swap');
 
-body, html {
+body,
+html {
     min-height: 100%,
 }
 
 body {
     padding: 0;
     margin: 0;
+}
+
+.dark-text {
+    color: #222;
+    font-weight: 600;
 }
 
 /* Navbar */
@@ -97,6 +103,19 @@ body {
     color: #8b8b8b;
 }
 
+/* Form Buttons */
+
+.form-btn {
+    background-color: #1a2342;
+    color: #fefefe;
+}
+
+.submit-btn {
+    background-color: #0e8347;
+    font-family: "Open Sans", sans-serif;
+    color: #fefefe;
+}
+
 
 @media screen and (min-width: 768px) {
     /* NavBar */
@@ -153,6 +172,6 @@ body {
 
     .navbar-toggler {
         order: 0;
-        
+
     }
 }

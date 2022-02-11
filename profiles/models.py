@@ -176,13 +176,13 @@ class AudioFile(models.Model):
 
 class UnavailableDate(models.Model):
 
-    date = models.DateTimeField(auto_now=False, null=True)
+    date = models.DateField(auto_now=False, null=True)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                      related_name="unavailable_user")
 
     def __str__(self):
 
-        return self.date
+        return str(self.date)
 
 
 @receiver(post_save, sender=User)

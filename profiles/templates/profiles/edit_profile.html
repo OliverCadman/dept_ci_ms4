@@ -32,27 +32,33 @@
         {% endwith %}
     </section>
     <!-- Profile Form -->
-    <div class="container">
-        <div class="breadcrumb-wrapper d-none d-md-block">
-            <div class="breadcrumb-list">
-                <div class="breadcrumb {% if not request.session.form_page == 1 %}fill-breadcrumb{% endif %}"><span>Profile Details</span></div>
-                <div class="breadcrumb" id="second_breadcrumb"><span>Your Music</span></div>
-                <div class="breadcrumb" id="third_breadcrumb"><span>Your Availability</span></div>
+        <div class="container-fluid" id="breadcrumb_container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrapper d-none d-md-block">
+                        <div class="breadcrumb-list">
+                            <div class="breadcrumb {% if not request.session.form_page == 1 %}fill-breadcrumb{% endif %}"><span class="{% if not request.session.form_page == 1 %}dark-text{% endif %}">Profile Details</span></div>
+                            <div class="breadcrumb" id="second_breadcrumb"><span id="second_breadcrumb_text">Your Music</span></div>
+                            <div class="breadcrumb" id="third_breadcrumb"><span id="third_breadcrumb_text">Your Availability</span></div>
+                        </div>
+                    </div>
+                    <div class="breadcrumb-wrapper d-md-none d sm-block">
+                        <div class="breadcrumb-list-sm">
+                            <div class="breadcrumb-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-sm{% endif %}">
+                                <span><i class="fa-solid fa-user breadcrumb-icon-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-icon-sm{% endif %}"></i></span>
+                            </div>
+                            <div class="breadcrumb-sm" id="second_breadcrumb_sm">
+                                <span><i class="fa-solid fa-music breadcrumb-icon-sm" id="second_breadcrumb_icon"></i></span>
+                            </div>
+                            <div class="breadcrumb-sm" id="third_breadcrumb_sm">
+                                <span><i class="fa-solid fa-calendar-plus breadcrumb-icon-sm" id="third_breadcrumb_icon"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="breadcrumb-wrapper d-md-none d sm-block">
-            <div class="breadcrumb-list-sm">
-                <div class="breadcrumb-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-sm{% endif %}">
-                    <span><i class="fa-solid fa-user breadcrumb-icon-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-icon-sm{% endif %}"></i></span>
-                </div>
-                <div class="breadcrumb-sm" id="second_breadcrumb_sm">
-                    <span><i class="fa-solid fa-music breadcrumb-icon-sm" id="second_breadcrumb_icon"></i></span>
-                </div>
-                <div class="breadcrumb-sm" id="third_breadcrumb_sm">
-                    <span><i class="fa-solid fa-calendar-plus breadcrumb-icon-sm" id="third_breadcrumb_icon"></i></span>
-                </div>
-            </div>
-        </div>
+        <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div id="edit-profile-form-container" class="form-container {% if not request.session.form_page == 1 %}hidden{% endif %}">
@@ -86,6 +92,7 @@
                         <div class="row">
                             <div class="col-12">
                                 {% if equipment_formset %}
+                                    <h3>Your Equipment</h3>
                                     {{ equipment_formset.management_form }}
                                     <div id="equipment_form_list">
                                         {% for form in equipment_formset %}
@@ -97,7 +104,7 @@
                                     <div id="empty_form" class="hidden">
                                         {{ equipment_formset.empty_form|crispy }}
                                     </div>
-                                    <button type="button" class="btn form-btn" id="add_more_btn">Add More</button>
+                                    <button type="button" class="btn form-btn" id="add_more_btn">Add More Gear</button>
                                 {% endif %}
                             </div>
                         </div>
@@ -137,8 +144,8 @@
                         <div id="calendar_wrapper">
     
                         </div>
-                        <div class="btn-wrapper">
-                            <button type="button" id="submit_unavailability">Submit</button>
+                        <div class="btn-wrapper-calendar">
+                            <button type="button" class="btn submit-btn" id="submit_unavailability">Submit</button>
                         </div>
                     </form>
                 </div>
