@@ -46,6 +46,8 @@ Dropzone.options.audioDropzone = {
     dropZoneInstance = this;
     console.log(dropZoneInstance)
 
+    
+
     submitBtn.on("click", function () {
       console.log(dropZoneInstance);
       dropZoneInstance.processQueue();
