@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.views import View
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic.detail import View
+
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -14,10 +16,16 @@ from .validators import validate_audiofile
 
 
 class ProfileView(View):
+
+    def get(self, request, *args, **kwargs):
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+
+        context = {
+            "user": user_profile
+        }
+        return render(request, "profiles/profile.html", context=context)
+
     
-    def get(self, request, user_name):
-        print("Request:", request.META.get("HTTP_REFERER"))
-        return render(request, "profiles/profile.html")
 
 
 def edit_profile(request, username):
@@ -39,6 +47,7 @@ def edit_profile(request, username):
             try:
                 parent_form = user_profile_form.save(commit=False)
                 parent_form.save()
+                user_profile_form.save_m2m()
                 for form in equipment_formset:
                     child_form = form.save(commit=False)
                     if child_form.related_user is None:
@@ -84,8 +93,6 @@ def upload_audio(request, username):
             try:
                 for f in files:
                     AudioFile.objects.create(file=f, related_user=user_profile)
-
-                messages.success(request, "Audio Files Saved")
                 request.session["form_page"] = 3
                 return HttpResponse(status=200)
             except Exception as e:
@@ -104,14 +111,18 @@ def upload_unavailable_dates(request, username):
     user_profile = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == "POST":
-        date_array = request.POST.getlist('date_array[]')
+        date_array = request.POST.getlist("date_array[]")
         if date_array is not None:
             for date in date_array:
                 try:
                     UnavailableDate.objects.create(date=date, related_user=user_profile)
-                    return JsonResponse({"success": True})
+                    success_msg = "Congratulations, your profile is complete!"
+                    return JsonResponse({"url": "/", "success_msg": success_msg})
                 except Exception as e:
-                    print(f"Exception: {e}")
+                    messages.error("Sorry, something went wrong.")
+                    return HttpResponse(status=500)
+
+            messages.success(request, "Unavailable Dates saved")
 
         return HttpResponse(status=200)
 
