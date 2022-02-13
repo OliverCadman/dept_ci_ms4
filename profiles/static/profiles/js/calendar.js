@@ -52,10 +52,7 @@ $(document).ready(function() {
           let isSubmitting = false;
 
           submitBtn.on("click", function () {
-              let dateArray = collectDateArray();
-        
-              console.log("click")
-             console.log(dateArray);
+            let dateArray = collectDateArray();
             const username = $("#user_name_3").val();
             const csrfToken = $("input[name='csrfmiddlewaretoken']")[2].value;
             console.log(csrfToken)
