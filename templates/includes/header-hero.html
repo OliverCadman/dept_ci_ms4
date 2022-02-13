@@ -15,8 +15,10 @@
                             {% elif request.session.form_page == 2 %}
                                 Add Your Music
                             {% endif %}
+                        {% elif p == "user_profile" %}
+                            <h1>{{user.first_name}} {{user.last_name}}</h1>
                         {% else %}
-                            Thankyou
+                        Thankyou
                         {% endif %}
                     </h1>
                         {% if not p == "user_profile_form" %}
@@ -78,8 +80,10 @@
                     {% elif request.session.form_page == 2 %}
                         Add your Music
                     {% endif %}
+                {% elif p == "user_profile" %}
+                    {{ user.first_name }} {{ user.last_name }}
                 {% else %}
-                        Thankyou
+                    Thankyou
                 {% endif %}
                 </h1>
                 {% if not p == "user_profile_form" %}
@@ -88,9 +92,14 @@
             </div>
         </div>
         <div class="dynamic-header-container">
+            {% if p == "user_profile" %}
+                <figure>
+                    <img src="{{user.profile_image.url}}" alt="{{user.user.username}}" id="profile_image">
+                </figure>
+            {% endif %}
             <div class="success-button-wrapper">
                 <div id="dynamic-lead-header-lg">
-                    {% if not p == "user_profile_form" %}
+                    {% if p == "checkout_success" %}
                     <h2 class="text-center">
                        Get yourself noticed
                     </h2>
@@ -98,9 +107,9 @@
                 <hr>
                 {% endif %}
                 <div class="profile-prompt-lead text-center">
-                    {% if not p == "user_profile_form" %}
+                    {% if p == "checkout_success" %}
                         <p>
-                            Your chances of being hired are much higher if you have a complete profile.
+                        Your chances of being hired are much higher if you have a complete profile.
                         </p>
                         <p>
                         Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
