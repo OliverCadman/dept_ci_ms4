@@ -8,6 +8,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from allauth.account.signals import email_confirmed
 
+import os
+
 import datetime
 
 
@@ -142,6 +144,8 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    
+
 
 class Equipment(models.Model):
     """
@@ -164,12 +168,31 @@ class Equipment(models.Model):
 class AudioFile(models.Model):
 
     file = models.FileField(upload_to="audio")
-    title = models.CharField(max_length=100)
+    file_name = models.CharField(max_length=100, null=True, blank=True)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                      related_name="users_tracks")
 
+    def get_filename(self, file_path):
+        """
+        Returns the filename of the audio tracks a user uploads,
+        to be used to represent the name each track in the user profile's 
+        music player.
+        """
+        file_url = file_path.url
+        file_name = file_url.split("/")[-1]
+        self.file_name = file_name
+
+        return self.file_name
+
+    
+    def save(self, *args, **kwargs):
+        if not self.file_name:
+            self.file_name = self.get_filename(self.file)
+        super().save(*args, **kwargs)
+
+
     def __str__(self):
-        return self.title
+        return self.file.name
 
 
 
