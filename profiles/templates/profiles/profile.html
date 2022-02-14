@@ -1,17 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
-
-
 {% block title %}DepT - Your Profile{% endblock %}
-
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
 {% endblock %}
-
 {% block content %}
 <div class="container-fluid d-lg-none d-block">
     <div class="row">
+        <!-- Profile header with user's name, location, instruments played, reviews and contact buttn-->
         <div class="col-12 profile-header-container">
             <div id="profile_header_wrapper" style="background:url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                     <div class="opaque-overlay"></div>
@@ -44,4 +41,15 @@
             </div>
         </div>
     </div>
+</div>
+<div class="container-fluid bg-light">
+    <div class="row">
+        <!-- User Description and Reviews -->
+        <div class="col-12 col-lg-8 description-review-container">
+            <div class="user-desc-wrapper secondary-font">
+                <p>{{user.user_info|linebreaks}}</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
