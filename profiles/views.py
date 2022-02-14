@@ -10,7 +10,7 @@ from django.forms.models import modelformset_factory
 
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
-from .validators import validate_audiofile
+
 
 
 
@@ -19,9 +19,18 @@ class ProfileView(View):
 
     def get(self, request, *args, **kwargs):
         user_profile = get_object_or_404(UserProfile, user=request.user)
+        if user_profile.instruments_played:
+            instrument_list = user_profile.instruments_played.all()
+
+        if user_profile.users_tracks:
+            users_tracks = user_profile.users_tracks.all()
+
 
         context = {
-            "user": user_profile
+            "user": user_profile,
+            "page_name": "user_profile",
+            "instrument_list": instrument_list,
+            "users_tracks": users_tracks
         }
         return render(request, "profiles/profile.html", context=context)
 
