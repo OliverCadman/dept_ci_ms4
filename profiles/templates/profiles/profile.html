@@ -1,7 +1,47 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title %}DepT - Your Profile{% endblock %}
 
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
+{% endblock %}
+
 {% block content %}
-Hello
+<div class="container-fluid d-lg-none d-block">
+    <div class="row">
+        <div class="col-12 profile-header-container">
+            <div id="profile_header_wrapper" style="background:url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                    <div class="opaque-overlay"></div>
+                    <div id="profile_header" class="ms-2">
+                        <h1>{{user.first_name}} {{user.last_name}}</h1>
+                        <div id="star-icons">
+                            <span>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="far fa-star star-icon"></i>
+                            </span>
+                        </div>
+                        <p id="instrument_list">
+                        {% if instrument_list %}
+                            {% for instrument in instrument_list %}
+                                {{ instrument }}
+                            {% endfor %}
+                        {% endif %}
+                        </p>
+                        <p id="user_location">
+                            {{ user.city }}, {{user.country.name}}
+                        </p>
+                    </div>
+                    <div class="contact-btn-wrapper">
+                        <button class="btn" id="contact_btn">Contact {{ user.first_name }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

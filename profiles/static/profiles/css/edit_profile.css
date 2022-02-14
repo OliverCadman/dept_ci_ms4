@@ -38,6 +38,7 @@ label[for="id_equipment_name"] {
 .selected {
     background-color: pink;
     font-weight: bold;
+    transition: 0.13s ease-in-out;
 }
 
 .hide-container {
