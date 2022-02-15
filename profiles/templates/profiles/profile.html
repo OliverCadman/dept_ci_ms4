@@ -46,7 +46,17 @@
                 </div>
             </div>
             <div id="profile_header_wrapper_lg" class="d-none d-lg-block">
-                <h1>{{user.first_name}} {{user.last_name}}</h1>
+                <div id="profile_header_lg" class="ms-5">
+                    <h1>{{user.first_name}} {{user.last_name}}</h1>
+                    {% if instrument_list %}
+                    <p class="user_instruments_lg">
+                            <!-- User's instruments for loop, joined with comma -->
+                            {% for instrument in instrument_list %}
+                                {{instrument}}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            </p>
+                    {% endif %}
+                </div>
                 <div id="profile_image_wrapper_lg">
                     <figure>
                         <img src="{{user.profile_image.url}}" alt="{{user.username}}" id="profile_image_lg">
