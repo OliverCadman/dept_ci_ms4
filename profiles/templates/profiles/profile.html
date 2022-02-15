@@ -36,7 +36,7 @@
                             {% endfor %}
                         {% endif %}
                         </p>
-                        <p id="user_location">
+                        <p class="user_location">
                             {{ user.city }}, {{user.country.name}}
                         </p>
                     </div>
@@ -56,6 +56,9 @@
                             {% endfor %}
                             </p>
                     {% endif %}
+                    <p class="user-location">
+                        {{user.city}}, {{user.country.name}}
+                    </p>
                 </div>
                 <div id="profile_image_wrapper_lg">
                     <figure>
