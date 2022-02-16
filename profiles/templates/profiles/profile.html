@@ -77,11 +77,10 @@
                 <p>{{user.user_info|linebreaks}}</p>
             </div>
         </div>
-        <div class="col-12 col-lg-4 music_player_container sidebar_lg">
+        <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
             <!-- Music Player -->
             <div id="music_player_wrapper" class="profile-card">
                 <h3 class="sidebar_header">My Music</h3>
-                <hr>
                 <div class="sm2-bar-ui playlist-open">
                     <div class="bd sm2-main-controls">
                         <div class="sm2-inline-texture"></div>
@@ -166,12 +165,10 @@
                     </div>
                 </div>
             </div>
-            <hr class="block-divider">
             <div id="calendar_container" class="profile-card">
                 <input type="hidden" value="{{username}}" id="username">
                 <h4 class="sidebar_header">My Availability</h4>
-                <p><small>(Dates I am unavailable are marked in red)</small></p>
-                <hr>
+                <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
                 <div id="calendar_wrapper"></div>
             </div>
         </div>
