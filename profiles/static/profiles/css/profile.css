@@ -61,3 +61,144 @@
     height: 100%;
     object-fit: cover;
 }
+
+/* User Extra Info Section */
+
+#calendar_container {
+    margin-top: 2rem;
+}
+
+#calendar_container p small {
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Override 'today' highlighted date on calendar */
+.fc-day-today {
+    background-color: inherit !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+    display: inline-block;
+    padding: 2px 4px;
+    text-decoration: none;
+    color: #141449;
+}
+
+.unavailable_date {
+    background-color: #d17c81
+}
+
+.fc .fc-daygrid-day-frame {
+    cursor: pointer;
+}
+
+.fc .fc-daygrid-day-number {
+    text-decoration: none;
+    color: #6290a3;
+    font-weight: 500;
+}
+
+.fc .fc-button-primary:disabled,
+.fc .fc-button:not(:disabled),
+.fc .fc-daygrid-day-number,
+.fc .fc-col-header-cell-cushion {
+    font-family: "Oxygen", sans-serif;
+}
+
+.fc .fc-button-primary:disabled,
+.fc .fc-button:not(:disabled) {
+    text-transform: capitalize;
+}
+
+
+.fc .fc-toolbar-title {
+    font-family: 'Josefin Sans', sans-serif;
+    color: #4c4c4c;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+    margin: 0 .2rem;
+}
+
+
+@media screen and (min-width: 992px) {
+    .profile-header-container {
+        padding: 65px 0 0 0;
+    }
+
+    #profile_header_wrapper_lg {
+        position: relative;
+        background-color: #1a2342;
+        height: 450px;
+    }
+
+    #profile_header_lg {
+        padding-top: 100px;
+    }
+
+    #profile_header_lg h1 {
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 4.5rem;
+    }
+
+    #profile_header_lg h1,
+    .user_instruments_lg {
+        color: #fefefe;
+    }
+
+    .user_instruments_lg {
+        font-family: "Oxygen", sans-serif;
+        font-size: 2rem;
+    }
+
+    .user-location {
+        color: #fefefe;
+        font-size: 1.5rem;
+        font-family: "Oxygen", sans-serif;
+    }
+
+    #profile_image_wrapper_lg {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        right: 0;
+    }
+
+    #profile_image_wrapper_lg::after {
+        background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+        content: '';
+        width: 25%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    #profile_image_lg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        object-fit: cover;
+    }
+
+    .sidebar_lg {
+        border-left: 4px solid #eee;
+        padding: 1rem 2rem;
+        background-color: #f1f0f0;
+    }
+
+    .sidebar_header {
+        font-family: "Open Sans", sans-serif;
+    }
+
+    /* .profile-card {
+        background-color: #efefef;
+        border-radius: 5px;
+        box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
+        0 10px 36px -4px rgba(77, 96, 232, .3);
+    } */
+
+
+}

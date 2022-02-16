@@ -8,18 +8,12 @@
     <link rel="stylesheet" href="{% static "profiles/css/edit_profile.css" %}">
     <!-- Dropzone JS CSS CDN -->
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <!-- FullCalendar CSS CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-
 {% endblock %}
 
 {% block corejs %}
     {{block.super}}
     <!-- DropZone JS for file upload -->
      <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <!-- FullCalendar JS For Date Picking -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-
 {% endblock %}
 
 {% block content %}
