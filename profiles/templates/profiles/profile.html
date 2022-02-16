@@ -77,7 +77,8 @@
                 <p>{{user.user_info|linebreaks}}</p>
             </div>
         </div>
-        <div class="col-12 col-lg-4 music-player-container">
+        <div class="col-12 col-lg-4 music-player-container mt-lg-3">
+            <!-- Music Player -->
             <div class="sm2-bar-ui playlist-open">
                 <div class="bd sm2-main-controls">
                     <div class="sm2-inline-texture"></div>
@@ -161,7 +162,12 @@
                     </div>
                 </div>
             </div>
+         
         </div>
     </div>
-</div>  
+</div>
+{% block postload_js %}
+    {{ block.super }}
+    <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
+{% endblock %}
 {% endblock %}
