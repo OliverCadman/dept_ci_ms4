@@ -40,6 +40,8 @@ $(document).ready(function() {
          let eventObject = {
            start: date,
            allDay: true,
+           display: "background",
+           backgroundColor: "#ee9ea2"
          };
 
          eventArray.push(eventObject);
@@ -48,7 +50,13 @@ $(document).ready(function() {
        const calendarElement = document.getElementById("calendar_wrapper");
        calendar = new FullCalendar.Calendar(calendarElement, {
          initialView: "dayGridMonth",
+         height: 300,
+         headerToolbar: {
+          center: '',
+          right: 'prev next',
+         },
          events: eventArray,
+         dayHeaders: false
        });
 
        calendar.render();
