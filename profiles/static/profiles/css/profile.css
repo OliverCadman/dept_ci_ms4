@@ -64,12 +64,25 @@
 
 /* User Extra Info Section */
 
+ .sidebar_header {
+     font-family: "Open Sans", sans-serif;
+     padding: 1rem;
+     background-color: #222;
+     color: #fefefe;
+ }
+
+ 
+
 #calendar_container {
     margin-top: 2rem;
 }
 
 #calendar_container p small {
     font-family: "Open Sans", sans-serif;
+}
+
+#calendar_wrapper {
+    padding: 0 .3rem;
 }
 
 /* Override 'today' highlighted date on calendar */
@@ -118,6 +131,10 @@
 
 .fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
     margin: 0 .2rem;
+}
+
+.sidebar_header {
+    background-color: ;
 }
 
 
@@ -184,13 +201,9 @@
     }
 
     .sidebar_lg {
-        border-left: 4px solid #eee;
+        border-left: 4px solid #222;
         padding: 1rem 2rem;
         background-color: #f1f0f0;
-    }
-
-    .sidebar_header {
-        font-family: "Open Sans", sans-serif;
     }
 
     /* .profile-card {
@@ -199,6 +212,12 @@
         box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
         0 10px 36px -4px rgba(77, 96, 232, .3);
     } */
+
+    #calendar_container p small {
+        margin-left: 0.5rem;
+    }
+
+
 
 
 }
