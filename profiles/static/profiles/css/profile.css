@@ -47,13 +47,20 @@
     color: #ccb326;
 }
 
+.user_location {
+    color: #fefefe;
+    font-size: 1rem;
+    position: relative;
+    font-family: "Oxygen", sans-serif;
+}
+
 .opaque-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.644);
+    background-color: rgba(0, 0, 0, 0.726);
 }
 
 #profile_image {
@@ -163,6 +170,22 @@
 
 
 @media screen and (min-width: 768px) {
+    .profile-header-container {
+        padding-top: 65px;
+    }
+
+    #profile_header_wrapper {
+        height: 450px;
+    }
+
+    #profile_header {
+        padding-top: 2rem;
+    }
+
+    #profile_header h1 {
+        font-size: 2.75rem;
+    }
+
     #calendar_container {
         width: 50%;
         display: inline-block;
@@ -203,15 +226,13 @@
         color: #fefefe;
     }
 
+    .user_location {
+        font-size: 1.4rem;
+    }
+
     .user_instruments_lg {
         font-family: "Oxygen", sans-serif;
         font-size: 2rem;
-    }
-
-    .user-location {
-        color: #fefefe;
-        font-size: 1.5rem;
-        font-family: "Oxygen", sans-serif;
     }
 
     #profile_image_wrapper_lg {
