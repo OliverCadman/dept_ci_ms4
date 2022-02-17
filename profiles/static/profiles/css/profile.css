@@ -78,7 +78,8 @@
 
  
 
-#calendar_container {
+#calendar_container,
+#genre_list_container {
     margin-top: 2rem;
 }
 
@@ -138,10 +139,42 @@
     margin: 0 .2rem;
 }
 
+/* Genre Badges */
+
+.genre_badge {
+    background: rgb(189, 219, 180);
+    color: #353535;
+    font-family: "Oxygen", sans-serif;
+    padding: 1rem;
+    font-size: 1.15rem;
+    border-radius: 50px;
+    display: block;
+    width: 60%;
+    margin: .5rem;
+    clear: both;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.genre_badge.pushed {
+    float: right;
+}
+
+
 
 @media screen and (min-width: 768px) {
     #calendar_container {
         width: 50%;
+        display: inline-block;
+        border-right: 8px solid #222;
+    }
+
+    #genre_list_container {
+        width: 50%;
+    }
+
+    .sidebar_header {
+        font-size: 1.75rem;
     }
 }
 
@@ -222,13 +255,18 @@
 
     #calendar_container {
         width: 100%;
+        display: block;
     }
 
     #calendar_container p small {
         margin-left: 0.5rem;
     }
 
+    /* Genre Badges */
 
+    #genre_list_container {
+        width: 100%;
+    }
 
 
 }
