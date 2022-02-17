@@ -214,6 +214,8 @@
 
     #profile_header_lg {
         padding-top: 100px;
+        height: 100%;
+        width: 50%;
     }
 
     #profile_header_lg h1 {
@@ -233,6 +235,45 @@
     .user_instruments_lg {
         font-family: "Oxygen", sans-serif;
         font-size: 2rem;
+    }
+
+    .edit_user_details_btn_wrapper {
+        float: right;
+    }
+
+    #edit_user_details_btn {
+        font-size: 1.25rem;
+        position: absolute;
+        background: none;
+        box-shadow: none;
+        
+    }
+
+    .edit_profile_icon {
+        color: #fefefe;
+    }
+
+    #contact_btn_wrapper_lg {
+        position: absolute;
+        bottom: 0;
+        right: 53%;
+        margin-bottom: 1rem;
+    }
+
+    #contact_btn_wrapper_lg button {
+        background-color: #ededed;
+        color: #222;
+        font-family: "Oxygen", sans-serif;
+        font-size: 1.25rem;
+        padding: 1rem;
+        transition: all 0.3s;
+    }
+
+    #contact_btn_wrapper_lg button:hover {
+        background-color: #236933;
+        color: #fefefe;
+        transition: all 0.3s;
+
     }
 
     #profile_image_wrapper_lg {
