@@ -12,6 +12,17 @@ from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 
 
+@csrf_exempt
+def get_users_unavailable_dates(request, username):
+    current_user = get_object_or_404(UserProfile, user=username)
+    # TODO: Change related name of object
+
+    unavailable_dates = current_user.unavailable_user.all()
+    date_list = []
+    for date in unavailable_dates:
+        date_list.append(date.date)
+
+    return JsonResponse({"unavailable_dates": date_list})
 
 
 
@@ -25,16 +36,25 @@ class ProfileView(View):
         if user_profile.users_tracks:
             users_tracks = user_profile.users_tracks.all()
 
+        if user_profile.genres:
+            users_genres = user_profile.genres.all()
+            
+
+            for track in users_tracks:
+                track_file_url = track.file.url
+                track_filename = track_file_url.split("/")[-1]
 
         context = {
             "user": user_profile,
             "page_name": "user_profile",
             "instrument_list": instrument_list,
-            "users_tracks": users_tracks
+            "users_tracks": users_tracks,
+            "users_genres": users_genres,
+            "track_filename": track_filename,
+            "username": user_profile.user.id
+         
         }
         return render(request, "profiles/profile.html", context=context)
-
-    
 
 
 def edit_profile(request, username):
