@@ -8,8 +8,11 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 
+from bookings.models import Invitation
+
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
+from bookings.forms import InvitationForm
 
 
 @csrf_exempt
@@ -63,6 +66,8 @@ class ProfileView(View):
             for track in users_tracks:
                 track_file_url = track.file.url
                 track_filename = track_file_url.split("/")[-1]
+        
+        invitation_form = InvitationForm()
 
         context = {
             "user": user_profile,
@@ -72,7 +77,8 @@ class ProfileView(View):
             "users_genres": users_genres,
             "track_filename": track_filename,
             "username": user_profile.user,
-            "user_id": user_profile.user.id
+            "user_id": user_profile.user.id,
+            "invitation_form": invitation_form
          
         }
         return render(request, "profiles/profile.html", context=context)
