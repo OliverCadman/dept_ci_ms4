@@ -84,6 +84,7 @@
             <!-- Music Player -->
             <div id="music_player_wrapper" class="profile-card">
                 <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
+                {% if users_tracks|length > 0 %}
                 <div id="music_player">
                     <div class="sm2-bar-ui playlist-open">
                         <div class="bd sm2-main-controls">
@@ -171,6 +172,16 @@
 
                 </div>
             </div>
+            {% else %}
+            <div id="no_tracks_container">
+                <div id="no_tracks_wrapper">
+                    <h6 class="text-center" id="no_tracks_header">No Tracks</h6>
+                    <figure>
+                        <img src="{{MEDIA_URL}}no-tracks-vector.png" alt="No Tracks" id="no_tracks_vector" width="200" height="200">
+                    </figure>
+                </div>
+            </div>
+            {% endif %}
             <div id="calendar_container" class="profile-card">
                 <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
                 <input type="hidden" value="{{user_id}}" id="user_id">
