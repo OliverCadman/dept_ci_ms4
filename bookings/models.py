@@ -11,9 +11,11 @@ class Invitation(models.Model):
     invite_receiver = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                         related_name="invitations_received", null=True)
     event_name = models.CharField(max_length=150, null=True)
+    artist_name = models.CharField(max_length=100, null=True, blank=True)
     event_city = models.CharField(max_length=100)
     event_country = CountryField()
     event_datetime = models.DateTimeField()
+    fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     date_of_invitation = models.DateField(auto_now_add=True)
     additional_info = models.TextField(null=True, blank=True)
     is_accepted = models.BooleanField(default=False, null=True)
