@@ -19,7 +19,7 @@
             <div id="profile_header_wrapper" class="d-lg-none d-block" style="background:url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
                     <div class="opaque-overlay"></div>
                     <div id="profile_header" class="ms-2">
-                        <h1>{{user.first_name}} {{user.last_name}}</h1>
+                        <h1>{{user.first_name}} {{user.last_name}}{% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
                         <div id="star-icons">
                             <span>
                                 <i class="fas fa-star star-icon"></i>
@@ -32,7 +32,7 @@
                         <p id="instrument_list">
                         {% if instrument_list %}
                             {% for instrument in instrument_list %}
-                                {{ instrument }}
+                                {{ instrument }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
                         {% endif %}
                         </p>
@@ -47,7 +47,7 @@
             </div>
             <div id="profile_header_wrapper_lg" class="d-none d-lg-block">
                 <div id="profile_header_lg" class="ms-5">
-                    <h1>{{user.first_name}} {{user.last_name}}</h1>
+                    <h1>{{user.first_name}} {{user.last_name}}{% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
                     {% if instrument_list %}
                     <p class="user_instruments_lg">
                             <!-- User's instruments for loop, joined with comma -->
@@ -56,9 +56,12 @@
                             {% endfor %}
                             </p>
                     {% endif %}
-                    <p class="user-location">
+                    <p class="user_location">
                         {{user.city}}, {{user.country.name}}
                     </p>
+                    <div id="contact_btn_wrapper_lg">
+                        <button type="button" class="btn">Contact {{user.first_name}}</button>
+                    </div>
                 </div>
                 <div id="profile_image_wrapper_lg">
                     <figure>
@@ -80,7 +83,7 @@
         <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
             <!-- Music Player -->
             <div id="music_player_wrapper" class="profile-card">
-                <h3 class="sidebar_header">My Music</h3>
+                <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
                 <div id="music_player">
                     <div class="sm2-bar-ui playlist-open">
                         <div class="bd sm2-main-controls">
@@ -170,13 +173,13 @@
             </div>
             <div id="calendar_container" class="profile-card">
                 <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
-                <input type="hidden" value="{{username}}" id="username">
-                <h4 class="sidebar_header">My Availability</h4>
+                <input type="hidden" value="{{user_id}}" id="user_id">
+                <h4 class="sidebar_header">My Availability {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h4>
                 <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
                 <div id="calendar_wrapper"></div>
             </div>
             <div id="genre_list_container" class="float-md-end">
-                <h5 class="sidebar_header">Genres</h5>
+                <h5 class="sidebar_header">Genres {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h5>
                 {% if users_genres %}
                     <div id="genre_list_wrapper">
                         {% for genre in users_genres %}
@@ -188,6 +191,16 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit_profile_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Edit {{user.first_name}}'s Details</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         </div>
     </div>
