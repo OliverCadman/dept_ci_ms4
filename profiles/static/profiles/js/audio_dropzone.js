@@ -39,7 +39,7 @@ Dropzone.options.audioDropzone = {
         </div>
     `,
   init: function () {
-    username = $("#user_name_2").val();
+    userId = $("#user_id_2").val();
 
     const submitBtn = $("#audio_submit_btn");
 
@@ -47,7 +47,7 @@ Dropzone.options.audioDropzone = {
     
     /* Fetch tracks if already uploaded by user and display in 
     dropzone window. */
-    fetch(`/profile/get_users_tracks/${username}`)
+    fetch(`/profile/get_users_tracks/${userId}`)
     .then((res) => { return res.json()})
     .then((data) => {
       let files = data.track_list;
@@ -79,7 +79,7 @@ Dropzone.options.audioDropzone = {
     dropZoneInstance.on("success", function() {
       $.ajax({
         type: "GET",
-        url: `/profile/upload_audio/${username}`,
+        url: `/profile/upload_audio/${userId}`,
         success: function (res) {
           Toastify({
             text: res.success_msg,
@@ -119,9 +119,56 @@ Dropzone.options.audioDropzone = {
 
 
     })
-
-    // dropZoneInstance.on("complete", function() {
-    //     dropZoneInstance.removeFile(file);
-    // })
   },
 };
+
+const availabilityHeader = "Your Availability";
+const avaliabilityLead = `<div class="profile-prompt-lead text-center">
+                            <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
+                            <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
+                          </div>
+                          `
+
+$("#skip_audio_form").click({
+  param1: "#add_audio_container",
+  param2: "hidden",
+  param3: "#calendar_container",
+  param4: $(".edit_profile_header"),
+  param5: $(".profile-prompt-lead"),
+  param6: availabilityHeader,
+  param7: avaliabilityLead
+}, switchStep)
+
+
+
+// Skip to Unavailability Calendar
+function switchStep(event) {
+    const el1 = $(event.data.param1);
+    const el2 = $(event.data.param3);
+
+    el1.addClass(event.data.param2);
+    el2.removeClass(event.data.param2);
+
+    let availabilityHeader = event.data.param4;
+    let availabilityLead = event.data.param5;
+    let headerContent = event.data.param6;
+    let leadContent = event.data.param7;
+
+    changeHeader(
+      availabilityHeader,
+      availabilityLead,
+      headerContent,
+      leadContent
+    ); 
+}
+
+function changeHeader(headerEl, leadEl, header, lead) {
+  const el1 = headerEl;
+  const el2 = leadEl;
+
+  const headerContent = header;
+  const leadContent = lead;
+
+  el1.html(headerContent)
+  el2.html(leadContent)
+}
