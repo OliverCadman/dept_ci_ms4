@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}DepT - Your Profile{% endblock %}
 {% block extra_css %}
     {{ block.super }}
@@ -41,7 +42,7 @@
                         </p>
                     </div>
                     <div class="contact-btn-wrapper">
-                        <button class="btn" id="contact_btn">Contact {{ user.first_name }}</button>
+                        <button class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact {{ user.first_name }}</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +61,7 @@
                         {{user.city}}, {{user.country.name}}
                     </p>
                     <div id="contact_btn_wrapper_lg">
-                        <button type="button" class="btn">Contact {{user.first_name}}</button>
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {{user.first_name}}</button>
                     </div>
                 </div>
                 <div id="profile_image_wrapper_lg">
@@ -206,12 +207,15 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="edit_profile_modal">
+<div class="modal fade" id="invitation_modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Edit {{user.first_name}}'s Details</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ invitation_form|crispy }}
             </div>
         </div>
     </div>
