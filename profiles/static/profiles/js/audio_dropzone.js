@@ -139,27 +139,38 @@ $("#skip_audio_form").click({
   param7: avaliabilityLead
 }, switchStep)
 
+$("#skip_calendar_form").click({
+  param1: "#calendar_container"
+}, switchStep)
+
 
 
 // Skip to Unavailability Calendar
 function switchStep(event) {
     const el1 = $(event.data.param1);
     const el2 = $(event.data.param3);
+    console.log(el1.attr("id"))
 
-    el1.addClass(event.data.param2);
-    el2.removeClass(event.data.param2);
+    if (el1.attr("id") !== "calendar_container") {
 
-    let availabilityHeader = event.data.param4;
-    let availabilityLead = event.data.param5;
-    let headerContent = event.data.param6;
-    let leadContent = event.data.param7;
+      el1.addClass(event.data.param2);
+      el2.removeClass(event.data.param2);
+  
+      let availabilityHeader = event.data.param4;
+      let availabilityLead = event.data.param5;
+      let headerContent = event.data.param6;
+      let leadContent = event.data.param7;
+  
+      changeHeader(
+        availabilityHeader,
+        availabilityLead,
+        headerContent,
+        leadContent
+      ); 
 
-    changeHeader(
-      availabilityHeader,
-      availabilityLead,
-      headerContent,
-      leadContent
-    ); 
+    } else {
+      window.location.href = "/"
+    }
 }
 
 function changeHeader(headerEl, leadEl, header, lead) {
