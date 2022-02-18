@@ -7,9 +7,9 @@
 $(document).ready(function() {
     // Username grabbed from invisible input element's value
     console.log("hello")
-    const username = $("#username").val()
+    const userId = $("#user_id").val()
     $.ajax({
-        url: `/profile/get_users_unavailable_dates/${username}`,
+        url: `/profile/get_users_unavailable_dates/${userId}`,
         type: "get",
         dataType: "json",
         success: function(res){ 
