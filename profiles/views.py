@@ -27,8 +27,8 @@ def get_users_unavailable_dates(request, username):
 
 
 @csrf_exempt
-def get_users_tracks(request, username):
-    current_user = get_object_or_404(UserProfile, user=username)
+def get_users_tracks(request, user_id):
+    current_user = get_object_or_404(UserProfile, user=user_id)
 
     if current_user is not None:
         users_tracks = current_user.users_tracks.all()
@@ -48,6 +48,8 @@ class ProfileView(View):
 
     def get(self, request, *args, **kwargs):
         user_profile = get_object_or_404(UserProfile, user=request.user)
+        print("PROFILE:")
+        print(user_profile)
         if user_profile.instruments_played:
             instrument_list = user_profile.instruments_played.all()
 
@@ -57,7 +59,7 @@ class ProfileView(View):
         if user_profile.genres:
             users_genres = user_profile.genres.all()
             
-
+            track_filename = None
             for track in users_tracks:
                 track_file_url = track.file.url
                 track_filename = track_file_url.split("/")[-1]
@@ -69,7 +71,8 @@ class ProfileView(View):
             "users_tracks": users_tracks,
             "users_genres": users_genres,
             "track_filename": track_filename,
-            "username": user_profile.user.id
+            "username": user_profile.user,
+            "user_id": user_profile.user.id
          
         }
         return render(request, "profiles/profile.html", context=context)
@@ -118,7 +121,7 @@ def edit_profile(request, username):
         "equipment_formset": equipment_formset,
         "audio_form": audio_form,
         "page_name": "user_profile_form",
-        "user_name": user_profile.user.id,
+        "user_id": user_profile.user.id,
     }
 
     return render(request, "profiles/edit_profile.html", context=context)
@@ -126,13 +129,7 @@ def edit_profile(request, username):
 
 def upload_audio(request, username):
 
-    user_model = get_user_model()
-    current_user = user_model.objects.get(username=username)
-    user_profile = UserProfile.objects.get(user=current_user)
-
-    print(user_profile.city)
-
-
+    user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
         files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
         form = AudioForm(request.POST, instance=user_profile)
@@ -146,16 +143,17 @@ def upload_audio(request, username):
                 print("Exception:", e)
         else:
             print("form invalid")
-            form = AudioForm(instance=current_user)
+            form = AudioForm(instance=user_profile)
     
     success_msg = "Audio Files Saved"
     
     return JsonResponse({"form_page": 3, "success_msg": success_msg})
 
 
-def upload_unavailable_dates(request, username):
 
-    user_profile = get_object_or_404(UserProfile, user=request.user)
+def upload_unavailable_dates(request, user_id):
+
+    user_profile = get_object_or_404(UserProfile, user=user_id)
 
     if request.method == "POST":
         date_array = request.POST.getlist("date_array[]")
