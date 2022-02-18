@@ -16,6 +16,7 @@ class Invitation(models.Model):
     event_datetime = models.DateTimeField()
     date_of_invitation = models.DateField(auto_now_add=True)
     additional_info = models.TextField(null=True, blank=True)
+    is_accepted = models.BooleanField(default=False, null=True)
 
     def generate_invitation_number(self):
         """
@@ -25,8 +26,10 @@ class Invitation(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.invitation_number:
-            self.invitation_number = self.generate_invitation_number
-            super().save(*args, **kwargs)
+            self.invitation_number = self.generate_invitation_number()
+            print("Invitation Number:")
+            print(self.invitation_number)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.invite_sender}'s invite for {self.invite_receiver}"
+        return self.invitation_number
