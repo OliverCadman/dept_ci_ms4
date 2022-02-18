@@ -15,6 +15,7 @@ from .forms import UserProfileForm, EquipmentForm, AudioForm
 @csrf_exempt
 def get_users_unavailable_dates(request, username):
     current_user = get_object_or_404(UserProfile, user=username)
+    print(username)
     # TODO: Change related name of object
 
     unavailable_dates = current_user.unavailable_user.all()
@@ -23,6 +24,23 @@ def get_users_unavailable_dates(request, username):
         date_list.append(date.date)
 
     return JsonResponse({"unavailable_dates": date_list})
+
+
+@csrf_exempt
+def get_users_tracks(request, username):
+    current_user = get_object_or_404(UserProfile, user=username)
+
+    if current_user is not None:
+        users_tracks = current_user.users_tracks.all()
+        track_list = []
+        for track in users_tracks:
+            track_object = {
+                "name": track.file.name,
+                "size": track.file.size
+            }
+            track_list.append(track_object)
+
+        return JsonResponse({"track_list": track_list})
 
 
 
@@ -67,11 +85,11 @@ def edit_profile(request, username):
 
     audio_form = AudioForm(request.POST, instance=user_profile)
 
+    print(user_profile.users_tracks.all())
+
     request.session["form_page"] = 1
 
     if request.method == "POST":
-        print("Request")
-        print(request.POST)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
             try:
                 parent_form = user_profile_form.save(commit=False)
@@ -80,7 +98,6 @@ def edit_profile(request, username):
                 for form in equipment_formset:
                     child_form = form.save(commit=False)
                     if child_form.related_user is None:
-                        print("Added new")
                         child_form.related_user = parent_form
                     child_form.save()
 
@@ -92,15 +109,16 @@ def edit_profile(request, username):
         else:
             print(user_profile_form.errors)   
     else:
-        audio_form = AudioForm()
-        user_profile_form = UserProfileForm()
+        audio_form = AudioForm(instance=user_profile)
+        print(audio_form)
+        user_profile_form = UserProfileForm(instance=user_profile or None)
 
     context = {
         "user_profile_form": user_profile_form,
         "equipment_formset": equipment_formset,
         "audio_form": audio_form,
         "page_name": "user_profile_form",
-        "user_name": user_profile.user,
+        "user_name": user_profile.user.id,
     }
 
     return render(request, "profiles/edit_profile.html", context=context)

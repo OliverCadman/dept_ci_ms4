@@ -43,13 +43,31 @@ Dropzone.options.audioDropzone = {
 
     const submitBtn = $("#audio_submit_btn");
 
-    dropZoneInstance = this;
-    console.log(dropZoneInstance)
-
+    const dropZoneInstance = this;
+    
+    /* Fetch tracks if already uploaded by user and display in 
+    dropzone window. */
+    fetch(`/profile/get_users_tracks/${username}`)
+    .then((res) => { return res.json()})
+    .then((data) => {
+      let files = data.track_list;
+      files.forEach((file) => {
+        let mockFile = file
+        let callback = null;
+        let crossOrigin = null;
+        let resizeThumbnail = true;
+        dropZoneInstance.displayExistingFile(
+          mockFile,
+          "/media/audio-icon.png",
+          callback,
+          crossOrigin,
+          resizeThumbnail
+        );
+      })
+    })
     
 
     submitBtn.on("click", function () {
-      console.log(dropZoneInstance);
       dropZoneInstance.processQueue();
     });
 
@@ -107,4 +125,3 @@ Dropzone.options.audioDropzone = {
     // })
   },
 };
-
