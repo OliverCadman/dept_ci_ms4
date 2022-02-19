@@ -30,14 +30,14 @@ class InvitationForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    HTML("<h2>Invite {{user.first_name}} to your gig.</h2>"),
+                    HTML("<h2 class='form-header'>Invite {{user.first_name}} to your gig.</h2>"),
                     "event_name",
                     "artist_name",
                     "event_city",
                     "event_country",
                     "event_datetime",
                     "fee",
-                    "additional_info"   
+                    "additional_info"
                 )
             )
         )
@@ -58,6 +58,7 @@ class InvitationForm(forms.ModelForm):
             if field not in excluded_placeholders:
                 placeholder = placeholders[field]
                 self.fields[field].widget.attrs["placeholder"] = placeholder
+            self.fields[field].widget.attrs["class"] = "custom-formfield-font"
 
         
 
@@ -84,9 +85,7 @@ class InvitationForm(forms.ModelForm):
     )
 
     fee = forms.DecimalField(
-        widget=forms.NumberInput(
-
-        )
+        widget=forms.NumberInput()
     )
 
     additional_info = forms.CharField(
