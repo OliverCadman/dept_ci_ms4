@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.detail import View
+from django.views.generic import TemplateView
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.urls import reverse
@@ -47,12 +47,16 @@ def get_users_tracks(request, user_id):
 
 
 
-class ProfileView(View):
+class ProfileView(TemplateView):
 
-    def get(self, request, *args, **kwargs):
-        user_profile = get_object_or_404(UserProfile, user=request.user)
-        print("PROFILE:")
-        print(user_profile)
+    template_name = "profiles/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+
+        username = self.kwargs["user_name"]
+
+        user_profile = get_object_or_404(UserProfile, user__username=username)
         if user_profile.instruments_played:
             instrument_list = user_profile.instruments_played.all()
 
@@ -69,6 +73,8 @@ class ProfileView(View):
         
         invitation_form = InvitationForm()
 
+        self.request.session["invited_username"] = username
+
         context = {
             "user": user_profile,
             "page_name": "user_profile",
@@ -81,7 +87,7 @@ class ProfileView(View):
             "invitation_form": invitation_form
          
         }
-        return render(request, "profiles/profile.html", context=context)
+        return context
 
 
 def edit_profile(request, username):
