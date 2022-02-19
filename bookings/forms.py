@@ -43,6 +43,23 @@ class InvitationForm(forms.ModelForm):
         )
         self.helper["fee"].wrap(PrependedText, mark_safe("<i class='fas fa-pound-sign'></i>"))
 
+        placeholders = {
+        "event_name": "Headline slot at O2 Academy...",
+        "artist_name": "The Mars Volta, Radiohead...",
+        "event_city": "Manchester",
+        "fee": 150,
+        "event_datetime": "27/04/2021 14:00",
+        "additional_info": "90 minute set, charts provided..."
+        }
+
+        excluded_placeholders = ["event_country"]
+
+        for field in self.fields:
+            if field not in excluded_placeholders:
+                placeholder = placeholders[field]
+                self.fields[field].widget.attrs["placeholder"] = placeholder
+
+        
 
     event_name = forms.CharField(
         label="The name of your event",
@@ -67,7 +84,9 @@ class InvitationForm(forms.ModelForm):
     )
 
     fee = forms.DecimalField(
-        widget=forms.NumberInput()
+        widget=forms.NumberInput(
+
+        )
     )
 
     additional_info = forms.CharField(
