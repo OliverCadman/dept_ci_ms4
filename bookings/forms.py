@@ -23,7 +23,7 @@ class InvitationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = "invite"
+        self.helper.form_action = "/bookings/invite"
         self.helper.form_method = "post"
         self.helper.form_id = "invitation_form"
         self.helper.add_input(Submit('submit', "Submit"))
@@ -41,6 +41,7 @@ class InvitationForm(forms.ModelForm):
                 )
             )
         )
+
         self.helper["fee"].wrap(PrependedText, mark_safe("<i class='fas fa-pound-sign'></i>"))
 
         placeholders = {
@@ -60,8 +61,7 @@ class InvitationForm(forms.ModelForm):
                 self.fields[field].widget.attrs["placeholder"] = placeholder
             self.fields[field].widget.attrs["class"] = "custom-formfield-font"
 
-        
-
+    
     event_name = forms.CharField(
         label="The name of your event",
         widget=forms.TextInput()
@@ -80,8 +80,12 @@ class InvitationForm(forms.ModelForm):
     event_country = forms.ChoiceField(choices=Countries)
 
     event_datetime = forms.DateTimeField(
+        input_formats=["%d/%m/%Y %H:%M:%S"],
         label="Date and Time of your Event",
-        widget=DateTimePickerInput(format="%d/%m/%Y %H:%M")
+        widget=DateTimePickerInput(format=("%d-%m-%Y %H:%M:%S"), attrs={
+            "id": "date_time_picker"
+        }),
+
     )
 
     fee = forms.DecimalField(
