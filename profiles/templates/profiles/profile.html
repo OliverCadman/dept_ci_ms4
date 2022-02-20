@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% crispy invitation_form invitation_form.helper %}
+
+
 {% block title %}DepT - Your Profile{% endblock %}
 {% block extra_css %}
     {{ block.super }}
@@ -11,6 +14,9 @@
     {{ block.super }}
     <script src="{% static 'profiles/js/soundmanager2.js' %}"></script>
     <script src="{% static 'profiles/js/bar-ui.js' %}"></script>
+{% endblock %}
+{% block extra_head %}
+    {{ form.media }}
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -211,17 +217,25 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Edit {{user.first_name}}'s Details</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                {{ invitation_form|crispy }}
+            <div class="modal-body invitation_form_container">
+                <div id="invitation_form_wrapper">
+                    {% crispy invitation_form %}
+                </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
-{% endblock %}
+    <script>
+        $(function() {
+            $("#date_time_picker").datetimepicker({
+                format: "DD-MM-YY HH:mm:ss",
+            })
+        })
+    </script>
 {% endblock %}
