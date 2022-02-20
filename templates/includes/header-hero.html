@@ -2,11 +2,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 dynamic-header mt-3">
+                    {% if p == "user_profile_form" %}
                     <div id="dept-logo-wrapper-sm">
                         <figure>
                             <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
                         </figure>
                     </div>
+                    {% endif %}
                     <h1 class="text-center {% if p == "user_profile_form" %}edit_profile_header{% endif %}">
                         <!-- Dynamically render header relative to page -->
                         {% if p == "user_profile_form" %}
@@ -15,8 +17,6 @@
                             {% elif request.session.form_page == 2 %}
                                 Add Your Music
                             {% endif %}
-                        {% elif p == "user_profile" %}
-                            <h1>{{user.first_name}} {{user.last_name}}</h1>
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -67,11 +67,13 @@
         </div>
     <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
+            {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
                 <figure>
                     <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="300" height="300" id="dept-logo">
                 </figure>
             </div>
+            {% endif %}
             <div class="dynamic-header" class="ms-4">
                 <h1 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
