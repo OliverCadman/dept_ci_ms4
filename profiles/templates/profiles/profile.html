@@ -23,7 +23,7 @@
     <div class="row">
         <!-- Profile header with user's name, location, instruments played, reviews and contact button -->
         <div class="col-12 profile-header-container">
-            <div id="profile_header_wrapper" class="d-lg-none d-block" style="background:url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+            <div id="profile_header_wrapper" class="d-lg-none d-block" style="background:{% if user.profile_image %}url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;{% else %}#1a2342;{% endif %}">
                     <div class="opaque-overlay"></div>
                     <div id="profile_header" class="ms-2">
                         <h1>{{user.first_name}} {{user.last_name}}{% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
@@ -71,9 +71,13 @@
                     </div>
                 </div>
                 <div id="profile_image_wrapper_lg">
+                    {% if user.profile_image %}
                     <figure>
                         <img src="{{user.profile_image.url}}" alt="{{user.username}}" id="profile_image_lg">
                     </figure>
+                    {% else %}
+                        {% include "includes/dept-logo.html" %}
+                    {% endif %}
                 </div>  
             </div>
         </div>
@@ -89,9 +93,9 @@
         </div>
         <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
             <!-- Music Player -->
+            {% if users_tracks|length > 0 %}
             <div id="music_player_wrapper" class="profile-card">
                 <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
-                {% if users_tracks|length > 0 %}
                 <div id="music_player">
                     <div class="sm2-bar-ui playlist-open">
                         <div class="bd sm2-main-controls">
