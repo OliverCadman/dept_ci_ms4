@@ -214,8 +214,10 @@ label[for="id_equipment_name"] {
     color: grey;
 }
 
-.audio-submit-btn-wrapper {
+.submit-btn-wrapper {
     margin: 1rem 0;
+    display: flex;
+    justify-content: space-around;
 }
 
 .form-btn {
@@ -224,6 +226,15 @@ label[for="id_equipment_name"] {
 
 .hidden {
     display: none;
+}
+
+#current_profile_image {
+    object-fit: cover;
+    margin: 0 1.5rem;
+}
+
+input#new-image {
+    width: 100%;
 }
 
 /* Calendar Styling */
@@ -313,3 +324,4 @@ label[for="id_equipment_name"] {
         font-weight: 600;
     }
 }
+
