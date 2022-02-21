@@ -1,7 +1,4 @@
-.subscription-choice-container {
-    height: 85vh;
-    padding-top: 85px;
-}
+
 
 #subscription-background {
     position: absolute;
@@ -26,7 +23,8 @@
    position: relative;
    z-index: 10;
    transition: 0.2s ease-in-out;
-   min-height: 500px;
+   min-height: 520px;
+   margin: 2rem 0;
 
 }
 
@@ -94,8 +92,16 @@
     color: #eee;
 }
 
-@media screen and (min-width:1920px) {
+@media screen and (min-width: 768px) {
+    
+}
+
+@media screen and (min-width: 992px) {
     .subscription-choice-container {
-        height: 75vh;
+        padding-top: 30rem;
     }
+}
+
+@media screen and (min-width:1920px) {
+    
 }

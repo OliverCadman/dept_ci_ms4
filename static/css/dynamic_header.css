@@ -159,3 +159,9 @@
         max-width: 45%;
     }
 }
+
+@media screen and (min-width: 1920px) {
+    .dynamic-hero-section-lg.choose_subscription {
+        height: 50vh;
+    }
+}
