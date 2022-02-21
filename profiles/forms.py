@@ -4,6 +4,8 @@ from .models import (UserProfile, Instrument,
 from django_countries.widgets import CountrySelectWidget
 from django_countries import Countries
 
+from .widgets import CustomClearableFileInput
+
 
 
 class UserProfileForm(forms.ModelForm):
@@ -30,10 +32,13 @@ class UserProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"placeholder": "City"})
     )
     country = forms.ChoiceField(choices=Countries)
+    
     profile_image = forms.ImageField(
         label="Profile Image",
-        required=False
+        required=False,
+        widget=CustomClearableFileInput
     )
+    
     instruments_played = forms.ModelMultipleChoiceField(
         queryset=Instrument.objects.all(),
         label="Which instruments do you play?",
