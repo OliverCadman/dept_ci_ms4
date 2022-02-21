@@ -1,5 +1,5 @@
 <section class="dynamic-hero-section-sm d-block d-lg-none">
-        <div class="container-fluid">
+        <div class="container-fluid choose_subscription_container_sm">
             <div class="row">
                 <div class="col-12 dynamic-header mt-3">
                     {% if p == "user_profile_form" %}
@@ -17,12 +17,23 @@
                             {% elif request.session.form_page == 2 %}
                                 Add Your Music
                             {% endif %}
+                        {% elif p == "choose_subscription" %}
+                            Subscribe
                         {% else %}
                         Thankyou
                         {% endif %}
                     </h1>
-                        {% if not p == "user_profile_form" %}
+                        {% if not p == "user_profile_form" and not "choose_subscription" %}
                             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
+                        {% elif p == "choose_subscription" %}
+                            <p>There are two ways to get work with DepT.</p>
+                            <ol id="subscribe_choice_list">
+                                <li>Being invited by other members visiting DepT. All members can be invited to play a gig.</li>
+                                <li>Send proposals for advertised jobs on the jobs page:
+                                    <p>The jobs page is accessible to Tier Two members only.</p>
+                                    <p>Additionally, Tier Two members appear above Tier One members in searches, getting more visibility and invites.</p>
+                                </li>
+                            </ol>
                         {% endif %}
                 </div>
             </div>
@@ -33,19 +44,34 @@
                 <div class="dynamic-lead-container">
                     <div id="dynamic-lead-header" class="mt-4 text-center">
                         {% if not p == "user_profile_form" %}
-                        <h2>Get yourself noticed</h2>
+                        <h2>
+                            {% if p == "checkout_success" %}
+                                Get yourself noticed
+                            {% elif p == "choose_subscription" %}
+                                Our Tier Two Policy
+                            {% endif %}
+                        </h2>
                         <hr>
                     </div>
                     <div class="profile-prompt-lead text-center">
-                        <p>
-                            Your chances of being hired are much higher if you have a complete profile.
-                        </p>
-                        <p>
-                            Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
-                        </p>
-                    </div>
-                     <div class="success-buttons">
-                            <a href="#" class="btn">Build my Profile</a>
+                        {% if p == "checkout_success" %}
+                            <p>
+                                Your chances of being hired are much higher if you have a complete profile.
+                            </p>
+                            <p>
+                                Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                            </p>
+                        <div class="success-buttons">
+                                <a href="#" class="btn">Build my Profile</a>
+                        </div>
+                        {% elif p == "choose_subscription" %}
+                            <p>
+                                Tier Two members go through a selective screening process. This assures the quality of work is high, which makes for happy clients who return and tell their friends. It also lowers competition for our Tier Two members which helps them close more jobs.
+                            </p>
+                            <p>
+                                Note that we accept new Tier Two members based demand for particular specialties, to maintain a balanced marketplace. As a result we can only accept a small percentage of applicants.
+                            </p>
+                        {% endif %}
                     </div>
                     {% else %}
                         {% if request.session.form_page == 1 %}
@@ -65,7 +91,7 @@
         </div>
     </section>
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -82,32 +108,38 @@
                     {% elif request.session.form_page == 2 %}
                         Add your Music
                     {% endif %}
-                {% elif p == "user_profile" %}
-                    {{ user.first_name }} {{ user.last_name }}
+                {% elif p == "choose_subscription" %}
+                    Subscribe
                 {% else %}
                     Thankyou
                 {% endif %}
                 </h1>
-                {% if not p == "user_profile_form" %}
+                {% if not p == "user_profile_form" and not "choose_subscription" %}
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
+                {% elif p == "choose_subscription" %}
+                    <p>There are two ways to get work with DepT.</p>
+                    <ol id="subscribe_choice_list">
+                        <li>Being invited by other members visiting DepT. All members can be invited to play a gig.</li>
+                        <li>Send proposals for advertised jobs on the jobs page:
+                            <p>The jobs page is accessible to Tier Two members only.</p>
+                            <p>Additionally, Tier Two members appear above Tier One members in searches, getting more visibility and invites.</p>
+                        </li>
+                    </ol>
                 {% endif %}
             </div>
         </div>
         <div class="dynamic-header-container">
-            {% if p == "user_profile" %}
-                <figure>
-                    <img src="{{user.profile_image.url}}" alt="{{user.user.username}}" id="profile_image">
-                </figure>
-            {% endif %}
             <div class="success-button-wrapper">
                 <div id="dynamic-lead-header-lg">
-                    {% if p == "checkout_success" %}
                     <h2 class="text-center">
-                       Get yourself noticed
+                        {% if p == "checkout_success" %}
+                            Get yourself noticed
+                       {% elif p == "choose_subscription" %}
+                            Our Tier Two Policy
+                       {% endif %}
                     </h2>
                 </div>
                 <hr>
-                {% endif %}
                 <div class="profile-prompt-lead text-center">
                     {% if p == "checkout_success" %}
                         <p>
@@ -115,6 +147,13 @@
                         </p>
                         <p>
                         Tell us about yourself and add recordings of your work, the instruments that you're skilled in, and the dates that you're unavailable.
+                        </p>
+                    {% elif p == "choose_subscription" %}
+                        <p>
+                            Tier Two members go through a selective screening process. This assures the quality of work is high, which makes for happy clients who return and tell their friends. It also lowers competition for our Tier Two members which helps them close more jobs.
+                        </p>
+                        <p>
+                            Note that we accept new Tier Two members based demand for particular specialties, to maintain a balanced marketplace. As a result we can only accept a small percentage of applicants.
                         </p>
                     {% else %}
                         {% if request.session.form_page == 1 %}

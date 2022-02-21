@@ -113,13 +113,49 @@
     float: right;
 }
 
+/* Subscribe Page */
+
+.choose_subscription_container_sm {
+    padding-top: 2rem;
+}
+
+#subscribe_choice_list {
+    font-family: "Oxygen", sans-serif;
+    color: #fefefe;
+}
+
+#subscribe_choice_list li {
+    margin: 1.3rem 0;
+}
+
+@media screen and (min-width: 768px) {
+    .choose_subscription_container_sm {
+        padding-top: 5rem;
+    }
+}
+
 @media screen and (min-width: 992px){
     .dynamic-hero-section-lg.edit_profile {
         height: 50vh;
     }
 
+    .dynamic-hero-section-lg.choose_subscription {
+        height: 60vh;
+        padding-top: 5rem;
+        position: absolute;
+        width: 100%;
+    }
+
     .dynamic-header h1 {
         font-size: 4rem;
         margin-left: 1rem;
+    }
+
+    .dynamic-header p {
+        margin-left: 1rem;
+    }
+
+    #subscribe_choice_list p {
+        max-width: 45%;
     }
 }
