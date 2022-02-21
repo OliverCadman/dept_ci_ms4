@@ -267,7 +267,7 @@
 
     #profile_header_lg h1 {
         font-family: "Josefin Sans", sans-serif;
-        font-size: 4.5rem;
+        font-size: 4rem;
     }
 
     #profile_header_lg h1,
@@ -371,4 +371,22 @@
     }
 
 
+}
+
+@media screen and (min-width: 1920px) {
+    #profile_header_wrapper_lg {
+        height: 600px;
+    }
+
+    #profile_header_lg h1 {
+        font-size: 6rem;
+    }
+
+    .user_instruments_lg {
+        font-size: 3rem;
+    }
+
+    .user-desc-wrapper {
+        font-size: 1.5rem;
+    }
 }
