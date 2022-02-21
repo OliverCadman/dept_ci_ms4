@@ -6,7 +6,8 @@
 
 <!-- CSS Files -->
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static "/subscriptions/css/subscription_choices.css" %}">
+    <link rel="stylesheet" href="{% static "css/subscription_choices.css" %}">
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
 {% endblock %}
 
  
@@ -15,10 +16,12 @@
 {% block content %}
 <section>
     <!-- Container to display choices on cards -->
-    <div id="subscription-background"></div>
+    {% with page_name as p %}
+        {% include 'includes/header-hero.html' %}
+    {% endwith %}
     <div class="container-fluid subscription-choice-container">
-        <div class="row h-100 d-flex justify-content-md-around align-items-center">
-            <div class="col-12 col-md-3 subscription-choice-card">
+        <div class="row h-100 d-flex justify-content-center justify-content-md-around align-items-center">
+            <div class="col-9 col-md-5 col-lg-3 subscription-choice-card">
                 <div class="subscription-details">
                     <h2 class="subscription-header text-center">
                         Tier One
@@ -48,7 +51,7 @@
                         <input type="hidden" name="price_id" id="tier_one_price_id" value="{{tier_one_price_id}}">
                         <button type="button" class="checkout-portal">Choose Tier One</button>
                 </div>
-            <div class="col-12 col-md-3 subscription-choice-card">
+            <div class="col-9 col-md-5 col-lg-3 subscription-choice-card">
                 <div class="subscription-details">
                     <h3 class="subscription-header text-center">
                         Tier Two
@@ -95,5 +98,5 @@
     {{block.super}}
     <!-- Stripe JS CDN and Custom JS Code -->
     <script src="https://js.stripe.com/v3/"></script>
-    <script src={% static 'subscriptions/js/checkout.js' %}></script>
+    <script src={% static 'js/checkout.js' %}></script>
 {% endblock %}
