@@ -6,11 +6,8 @@ from django.forms import ImageField
 from django_countries.fields import CountryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.core.validators import MinValueValidator
 from allauth.account.signals import email_confirmed
-
-import os
-
-import datetime
 
 
 class Instrument(models.Model):
@@ -139,6 +136,7 @@ class UserProfile(models.Model):
     user_info = models.TextField(null=True, blank=True)
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
+    invitation_count = models.IntegerField(default=0, null=True, validators=[MinValueValidator(0)])
 
 
     def __str__(self):
@@ -220,6 +218,8 @@ def create_or_update_user(sender, instance, created, **kwargs):
     
     # Otherwise, save the profile.
     instance.userprofile.save()
+
+
 
 
 
