@@ -9,10 +9,12 @@ from django.contrib import messages
 from django.forms.models import modelformset_factory
 
 from bookings.models import Invitation
+from bookings.forms import InvitationForm
 
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
-from bookings.forms import InvitationForm
+
+from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
 
 
 @csrf_exempt
@@ -73,6 +75,7 @@ class ProfileView(TemplateView):
         
         invitation_form = InvitationForm()
 
+        
         self.request.session["invited_username"] = username
 
         context = {
@@ -90,10 +93,10 @@ class ProfileView(TemplateView):
         return context
 
 
-def edit_profile(request, username):
+def edit_profile(request):
+
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
-    user_profile_form = UserProfileForm(request.POST, instance=user_profile)
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=0)
     queryset = user_profile.equipment.all()
     equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
@@ -105,7 +108,12 @@ def edit_profile(request, username):
     request.session["form_page"] = 1
 
     if request.method == "POST":
+        print("FILES")
+        print(request.FILES)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
+            print("PROFILE IMAGE")
+            print(user_profile_form.cleaned_data.get("profile_image"))
             try:
                 parent_form = user_profile_form.save(commit=False)
                 parent_form.save()
@@ -182,5 +190,17 @@ def upload_unavailable_dates(request, user_id):
             messages.success(request, "Unavailable Dates saved")
 
         return HttpResponse(status=200)
+
+
+def DashboardView(request):
+
+    invites_to_accept =  calculate_invite_acceptance_delta(request.user)
+    print("Invites to Accept")
+    print(invites_to_accept)
+
+    profile_progress = calculate_profile_progress_percentage(request.user)
+    print("Profile Progress")
+    print(profile_progress)
+    return HttpResponse(status=200)
 
 
