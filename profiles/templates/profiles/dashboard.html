@@ -51,7 +51,7 @@
                                         </div>
                                         {% else %}
                                             <div id="membership_detail_card_wrapper" class="dashboard-card">
-                                                <h3 class="text-center mt-4">
+                                                <h3 class="text-center mt-4 dashboard-card-header">
                                                     You are a Tier One Member
                                                 </h3>
                                                 <p class="text-center">
@@ -81,7 +81,25 @@
                         <div class="row">
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="invite_count_wrapper" class="dashboard-card">
-
+                                    <h4 class="text-center mt-4 dashboard-card-header">Your Invites</h4>
+                                    {% if invite_acceptance_delta > 0 %}
+                                        {% if not invite_acceptance_delta == 1 %}
+                                            <p class="text-center">
+                                                You have {{ invite_acceptance_delta }} invites to respond to.
+                                            </p>
+                                        {% else %}
+                                            <p class="text-center">
+                                                You have {{ invite_acceptance_delta }} invite to respond to.
+                                            </p>
+                                        {% endif %}
+                                        <div class="cta-btn-wrapper">
+                                            <button class="btn cta-btn">Respond Now</button>
+                                        </div>
+                                    {% else %}
+                                        <p>
+                                            You have no invites.
+                                        </p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">

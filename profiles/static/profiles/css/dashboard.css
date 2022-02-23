@@ -20,13 +20,15 @@
      position: relative;
      border-radius: 22px;
      padding: 1.25rem 0 0 0;
+     min-height: 200px;
 }
 
-#membership_detail_card_wrapper h3 {
+.dashboard-card-header {
     font-family: "Josefin Sans", sans-serif;
+    font-size: 1.5rem;
 }
 
-#membership_detail_card_wrapper p {
+.dashboard-card p {
     font-family: "Oxygen", sans-serif;
     font-weight: 600;
 }
