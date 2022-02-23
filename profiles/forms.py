@@ -13,7 +13,8 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        exclude = ("user", "subscription_chosen", "is_paid",)
+        exclude = ("user", "subscription_chosen",
+                   "invitation_count, ""is_paid",)
         widgets = {"country": CountrySelectWidget()}
 
     def __init__(self, *args, **kwargs):

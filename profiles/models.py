@@ -136,11 +136,12 @@ class UserProfile(models.Model):
     user_info = models.TextField(null=True, blank=True)
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
-    invitation_count = models.IntegerField(default=0, null=True, validators=[MinValueValidator(0)])
+    invitation_count = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
 
 
     def __str__(self):
         return self.user.username
+
 
     
 
