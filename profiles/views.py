@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.forms.models import modelformset_factory
+from django.conf import settings
 
 from bookings.models import Invitation
 from bookings.forms import InvitationForm
@@ -205,9 +206,12 @@ class DashboardView(TemplateView):
         invite_acceptance_delta = calculate_invite_acceptance_delta(username)
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
-    
+        current_page = "dashboard"
         if "page" in self.request.GET:
             current_page = self.request.GET["page"]
+
+        tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
+        
     
         context = {
             "user_profile": user_profile,
@@ -215,7 +219,8 @@ class DashboardView(TemplateView):
             "profile_progress_percentage": profile_progress_percentage,
             "page_name": "dashboard",
             "current_user": current_user,
-            "current_page" : current_page
+            "current_page" : current_page,
+            "tier_two_price_id": tier_two_price_id,
         }
 
         return context
