@@ -197,7 +197,21 @@ class DashboardView(TemplateView):
     template_name = "profiles/dashboard.html"
     
     def get_context_data(self, **kwargs):
-        
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        current_user = self.kwargs["slug"]
+
+        user_profile = get_object_or_404(UserProfile, slug=current_user)
+        username = user_profile.user.username
+        invite_acceptance_delta = calculate_invite_acceptance_delta(username)
+        profile_progress_percentage = calculate_profile_progress_percentage(username)
+
+        context = {
+            "user_profile": user_profile,
+            "invite_acceptance_delta": invite_acceptance_delta,
+            "profile_progress_percentage": profile_progress_percentage,
+            "page_name": "dashboard"
+        }
+
+        return context
 
 
