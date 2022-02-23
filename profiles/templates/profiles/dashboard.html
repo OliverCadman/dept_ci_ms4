@@ -1,2 +1,47 @@
 {% extends "base.html" %}
-<h1>Hello</h1>
+{% load static %}
+
+<!-- CSS -->
+{% block extra_css %}
+    <!-- Dynamic Header CSS -->
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+    <link rel="stylesheet" href="{% static "profiles/css/dashboard.css" %}">
+{% endblock %}
+
+{% block title %}Your Dashboard{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    {% with page_name as p %}
+        {% include "includes/header-hero.html" %}
+    {% endwith %}
+        <div id="dashboard_breadcrumb_wrapper">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                        <a href="{% url "dashboard" current_user %}?page=dashboard" class="active">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url "dashboard" current_user %}?page=jobs">Jobs</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url "dashboard" current_user %}?page=reset_password">Reset Your Password</a>
+                    </li> 
+                    <li class="breadcrumb-item">
+                        <a href="{% url "dashboard" current_user %}?page=membership">Your Membership</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <section>
+            {% if current_page == "dashboard" %}
+                <h2>Dashboard</h2>
+            {% elif current_page == "jobs" %}
+                <h2>Jobs</h2>
+            {% elif current_page == "reset_password" %}
+                <h2>Reset Your Password</h2>
+            {% elif current_page == "membership" %}
+                <h2>Membership</h2>
+            {% endif %}
+        </section>
+{% endblock %}
