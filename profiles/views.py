@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.urls import reverse
@@ -88,8 +88,8 @@ class ProfileView(TemplateView):
             "username": user_profile.user,
             "user_id": user_profile.user.id,
             "invitation_form": invitation_form
-         
         }
+
         return context
 
 
@@ -192,15 +192,12 @@ def upload_unavailable_dates(request, user_id):
         return HttpResponse(status=200)
 
 
-def DashboardView(request):
+class DashboardView(TemplateView):
 
-    invites_to_accept =  calculate_invite_acceptance_delta(request.user)
-    print("Invites to Accept")
-    print(invites_to_accept)
-
-    profile_progress = calculate_profile_progress_percentage(request.user)
-    print("Profile Progress")
-    print(profile_progress)
-    return HttpResponse(status=200)
+    template_name = "profiles/dashboard.html"
+    
+    def get_context_data(self, **kwargs):
+        
+        return super().get_context_data(**kwargs)
 
 

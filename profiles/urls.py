@@ -4,9 +4,9 @@ from .views import (ProfileView, edit_profile, upload_audio,
                     get_users_tracks, DashboardView)
 
 urlpatterns = [
-    path('edit_profile', edit_profile, name="edit_profile"),
-    path("dashboard", DashboardView, name="dashboard"),
     path('<str:user_name>', ProfileView.as_view(), name="profile"),
+    path("dashboard/<str:username>", DashboardView.as_view(), name="dashboard"),
+    path('edit_profile', edit_profile, name="edit_profile"),
     path("upload_audio/<str:username>", upload_audio, name="upload_audio"),
     path("get_users_unavailable_dates/<str:username>", get_users_unavailable_dates),
     path("upload_unavailability/<int:user_id>", upload_unavailable_dates, name="upload_unavailability"),
