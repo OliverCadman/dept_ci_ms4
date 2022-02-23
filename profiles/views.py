@@ -205,11 +205,17 @@ class DashboardView(TemplateView):
         invite_acceptance_delta = calculate_invite_acceptance_delta(username)
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
+    
+        if "page" in self.request.GET:
+            current_page = self.request.GET["page"]
+    
         context = {
             "user_profile": user_profile,
             "invite_acceptance_delta": invite_acceptance_delta,
             "profile_progress_percentage": profile_progress_percentage,
-            "page_name": "dashboard"
+            "page_name": "dashboard",
+            "current_user": current_user,
+            "current_page" : current_page
         }
 
         return context
