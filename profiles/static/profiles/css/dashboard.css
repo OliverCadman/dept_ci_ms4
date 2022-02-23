@@ -1,0 +1,29 @@
+#dashboard_breadcrumb_wrapper {
+    padding: 2rem 1rem;
+    background-color: #fdf4a5;
+    font-size: .5rem;
+    font-family: "Open Sans", sans-serif;
+}
+
+.breadcrumb {
+    justify-content: center;
+}
+
+.active {
+    text-decoration: none;
+    color: #6b6b6b;
+}
+
+@media screen and (min-width: 768px) {
+    #dashboard_breadcrumb_wrapper {
+        font-size: 1.3rem;
+    }
+
+    .breadcrumb {
+        justify-content: start;
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+}
