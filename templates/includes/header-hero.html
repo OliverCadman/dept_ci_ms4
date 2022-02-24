@@ -19,6 +19,8 @@
                             {% endif %}
                         {% elif p == "choose_subscription" %}
                             Subscribe
+                        {% elif p == "dashboard" %}
+                            Dashboard
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -34,10 +36,13 @@
                                     <p>Additionally, Tier Two members appear above Tier One members in searches, getting more visibility and invites.</p>
                                 </li>
                             </ol>
+                        {% elif p == "dashboard" %}
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat dicta veritatis ullam saepe at et inventore totam ad! Hic, culpa ex. Itaque enim nostrum animi deserunt nulla iusto praesentium. Maxime assumenda ipsam, aliquid libero ea architecto corrupti id omnis ab.</p>
                         {% endif %}
                 </div>
             </div>
     </section>
+    {% if not p == "dashboard" %}
     <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
         <div class="row">
             <div class="col-12">
@@ -90,8 +95,9 @@
             </div>
         </div>
     </section>
+    {% endif %}
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" %}dashboard{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -110,6 +116,8 @@
                     {% endif %}
                 {% elif p == "choose_subscription" %}
                     Subscribe
+                {% elif p == "dashboard" %}
+                    Your Dashboard
                 {% else %}
                     Thankyou
                 {% endif %}
@@ -155,6 +163,10 @@
                         <p>
                             Note that we accept new Tier Two members based demand for particular specialties, to maintain a balanced marketplace. As a result we can only accept a small percentage of applicants.
                         </p>
+                    {% elif p == "dashboard" %}
+                        <p>Welcome to your Dashboard.</p>
+                        <p>Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
+
                     {% else %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
