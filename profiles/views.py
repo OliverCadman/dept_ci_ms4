@@ -206,15 +206,22 @@ class DashboardView(TemplateView):
         invite_acceptance_delta = calculate_invite_acceptance_delta(username)
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
+        # Invitations sent by the user
+        invitations_sent = user_profile.invitations_sent.all()
+
+        # Invitations received by the user
+        invitations_received = user_profile.invitations_received.all()
+
+        for invitation in invitations_received:
+            print(invitation.invite_sender)
+        
+
         current_page = "dashboard"
         current_section = "invites_sent"
-        print(self.request.GET)
         if "page" in self.request.GET:
             current_page = self.request.GET["page"]
             if "section" in self.request.GET:
-                print(self.request.GET)
                 current_section = self.request.GET["section"]
-                print(current_section)
 
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
         
@@ -228,6 +235,8 @@ class DashboardView(TemplateView):
             "current_page" : current_page,
             "current_section": current_section,
             "tier_two_price_id": tier_two_price_id,
+            "invitations_sent": invitations_sent,
+            "invitations_received": invitations_received
         }
 
         return context

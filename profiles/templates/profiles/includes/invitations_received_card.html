@@ -1,7 +1,12 @@
 <div class="col-12 invitation-card">
-    <p>Invitation from {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}</p>
-    <p>{{ invitation.event_name }}</p>
-    <p>{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
-    <p>{{ invitation.event_datetime }}</p>
-         
+    <p class="invitation_card_title">Invitation from {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}</p>
+    <p class="invitation_card_detail">{{ invitation.event_name }}</p>
+    <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
+    <p class="invitation_card_detail">{{ invitation.event_datetime }}</p>    
+    <div class="invitation_btn_wrapper">
+        <button class="btn invitation_card_btn">View Details</button>
+        <button class="btn invitation_card_btn">Message {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}</button>
+        <button class="btn invitation_card_btn accept">Accept</button>
+        <button class="btn invitation_card_btn decline">Decline</button>
+    </div>  
 </div>

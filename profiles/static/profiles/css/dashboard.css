@@ -1,6 +1,6 @@
 #dashboard_breadcrumb_wrapper {
     padding-top: 1rem;
-    background-color: #fcfbf0;
+    background-color: #f7f7f7;
     font-size: .5rem;
     font-family: "Open Sans", sans-serif;
 }
@@ -77,6 +77,40 @@
     margin: .5rem .2rem;
 }
 
+/* Invitation Cards */
+
+.invitation-card {
+    border-radius: 10px;
+    padding-top: .75rem;
+    background-color: #f7f7f7;
+    box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.31);
+    margin: .5rem 0;
+}
+
+.invitation_card_title {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.invitation_card_detail {
+    font-family: "Open Sans", sans-serif;
+}
+
+.invitation_card_btn {
+    display: block;
+    margin: 0 auto;
+    background-color: #1a2342;
+    color: #fefefe;
+    font-family: "Open Sans", sans-serif;
+}
+
+.invitation_card_btn.accept {
+    background-color: #236933;
+}
+
+.invitation_card_btn.decline {
+    background-color: #8a0000;
+}
+
 @media screen and (min-width: 768px) {
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;
@@ -84,7 +118,17 @@
 
     .breadcrumb {
         justify-content: start;
+        padding-left: 1rem;
     }
+
+    .invitation_card_title {
+        font-size: 1.5rem;
+    }
+
+    .invitation_card_btn {
+        display: inline;
+    }
+
 }
 
 @media screen and (min-width: 992px) {
@@ -101,5 +145,16 @@
     .job-nav-btn:hover {
         background-color: #f0f0f0;
         color: #222;
+    }
+
+    .invitation_card_detail:last-of-type {
+        display: inline;
+    }
+
+    .invitation_btn_wrapper {
+        display: inline;
+        float: right;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
     }
 }
