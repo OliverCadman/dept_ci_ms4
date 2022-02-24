@@ -40,6 +40,19 @@
     margin-bottom: 1.4rem;
 }
 
+/* Progress Bar */
+
+#progress_bar {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #aaa;
+    border-radius: 20px;
+}
+
+#progress_bar_inner {
+    border-radius: 20px;
+}
+
 @media screen and (min-width: 768px) {
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;

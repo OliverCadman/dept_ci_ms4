@@ -103,7 +103,29 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
-
+                                <div id="profile_progress_bar_container" class="dashboard-card">
+                                    <h4 class="text-center mt-4">
+                                        Your Profile
+                                    </h4>
+                                    <div id="progress_bar_wrapper">
+                                        <div id="progress_bar">
+                                            <div id="progress_bar_inner" data-progress="{{ profile_progress_percentage }}">
+    
+                                            </div>
+                                        </div>
+                                        <p class="text-center mt-3">Your profile is {{ profile_progress_percentage }}% complete.</p>
+                                        {% if profile_progress_percentage < 100 %}
+                                            <p class="text-center mt-1">
+                                                Complete your profile to improve your chances of being booked.
+                                            </p>
+                                            <div class="cta-btn-wrapper mb-3">
+                                                <a href="{% url 'edit_profile' %}" class="btn cta-btn mb-4">
+                                                    Complete your Profile
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
 
@@ -125,4 +147,7 @@
         <!-- Stripe JS CDN and Custom JS Code -->
         <script src="https://js.stripe.com/v3/"></script>
         <script src="{% static "subscriptions/js/checkout.js" %}"></script>
+
+        <!-- Progress Bar JS -->
+        <script src="{% static "profiles/js/progress_bar.js" %}"></script>
 {% endblock %}
