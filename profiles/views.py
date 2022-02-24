@@ -207,8 +207,14 @@ class DashboardView(TemplateView):
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
         current_page = "dashboard"
+        current_section = "invites_sent"
+        print(self.request.GET)
         if "page" in self.request.GET:
             current_page = self.request.GET["page"]
+            if "section" in self.request.GET:
+                print(self.request.GET)
+                current_section = self.request.GET["section"]
+                print(current_section)
 
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
         
@@ -220,6 +226,7 @@ class DashboardView(TemplateView):
             "page_name": "dashboard",
             "current_user": current_user,
             "current_page" : current_page,
+            "current_section": current_section,
             "tier_two_price_id": tier_two_price_id,
         }
 
