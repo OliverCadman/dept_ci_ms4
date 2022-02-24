@@ -111,6 +111,12 @@
     background-color: #8a0000;
 }
 
+.invitation_date {
+    font-family: "Oxygen", sans-serif;
+    color: #a0a0a0;A
+}
+
+
 @media screen and (min-width: 768px) {
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;
@@ -156,5 +162,14 @@
         float: right;
         margin-right: 1rem;
         margin-bottom: 1rem;
+    }
+    
+    .invitation_card_btn:hover {
+        color: #fefefe;
+    }
+
+    .invitation_date_wrapper {
+        display: inline;
+        float: right;
     }
 }
