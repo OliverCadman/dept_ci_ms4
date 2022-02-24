@@ -32,7 +32,7 @@
                     </li>
                 </ol>
             </nav>
-            <hr>
+             
         </div>
         <section>
             {% if current_page == "dashboard" %}
@@ -151,9 +151,23 @@
                         </div>
                         <div class="container">
                             {% if current_page == "jobs" and current_section == "invites_sent" %}
-                                <h2>Invites Sent</h2>
+                                <div class="row">
+                                   {% if invitations_sent %}
+                                        {% for invitation in invitations_sent %}
+                                            {% include "profiles/includes/invitations_sent_card.html" %}
+                                        {% endfor %}
+                                   {% else %}
+                                   {% endif %}
+                                </div>
                             {% elif current_page == "jobs" and current_section == "invites_received" %}
-                                <h2>Invites Received</h2>
+                                 {% if invitations_received %}
+                                        <div class="row">
+                                            {% for invitation in invitations_received %}
+                                                {% include "profiles/includes/invitations_received_card.html" %}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                    {% endif %}
                             {% endif %}
                         </div>
                     </div>
