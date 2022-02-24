@@ -32,6 +32,7 @@
                     </li>
                 </ol>
             </nav>
+            <hr>
         </div>
         <section>
             {% if current_page == "dashboard" %}
@@ -140,7 +141,23 @@
                     </div>
                 </div>
             {% elif current_page == "jobs" %}
-                <h2>Jobs</h2>
+                <div id="job_container">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 job-nav-button-wrapper">
+                                <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent" class="btn job-nav-btn">Invites Sent</a>
+                                <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received" class="btn job-nav-btn">Invites Received</a>
+                            </div>
+                        </div>
+                        <div class="container">
+                            {% if current_page == "jobs" and current_section == "invites_sent" %}
+                                <h2>Invites Sent</h2>
+                            {% elif current_page == "jobs" and current_section == "invites_received" %}
+                                <h2>Invites Received</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             {% elif current_page == "reset_password" %}
                 <h2>Reset Your Password</h2>
             {% elif current_page == "membership" %}
@@ -151,9 +168,11 @@
 {% block postload_js %}
         {{ block.super }}
         <!-- Stripe JS CDN and Custom JS Code -->
+        {% if current_page == "dashboard" %}
         <script src="https://js.stripe.com/v3/"></script>
         <script src="{% static "subscriptions/js/checkout.js" %}"></script>
 
         <!-- Progress Bar JS -->
         <script src="{% static "profiles/js/progress_bar.js" %}"></script>
+        {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 #dashboard_breadcrumb_wrapper {
-    padding: 2rem 1rem;
-    background-color: #fdf4a5;
+    padding-top: 1rem;
+    background-color: #fcfbf0;
     font-size: .5rem;
     font-family: "Open Sans", sans-serif;
 }
@@ -60,6 +60,23 @@
     margin: 0 auto;
 }
 
+/* Jobs Section */
+
+.job-nav-button-wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: 
+}
+
+.job-nav-btn {
+    font-family: "Oxygen", sans-serif;
+    background-color: #222;
+    color: #fefefe;
+    font-size: 1.15rem;
+    padding: 1rem .5rem;
+    margin: .5rem .2rem;
+}
+
 @media screen and (min-width: 768px) {
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;
@@ -79,5 +96,10 @@
     #membership_detail_card_wrapper {
         min-width: 600px;
 
+    }
+
+    .job-nav-btn:hover {
+        background-color: #f0f0f0;
+        color: #222;
     }
 }
