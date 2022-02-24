@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="profile_progress_bar_container" class="dashboard-card">
-                                    <h4 class="text-center mt-4">
+                                    <h4 class="text-center mt-4 dashboard-card-header">
                                         Your Profile
                                     </h4>
                                     <div id="progress_bar_wrapper">
@@ -113,8 +113,8 @@
     
                                             </div>
                                         </div>
-                                        <p class="text-center mt-3">Your profile is {{ profile_progress_percentage }}% complete.</p>
                                         {% if profile_progress_percentage < 100 %}
+                                        <p class="text-center mt-3">Your profile is {{ profile_progress_percentage }}% complete.</p>
                                             <p class="text-center mt-1">
                                                 Complete your profile to improve your chances of being booked.
                                             </p>
@@ -123,6 +123,11 @@
                                                     Complete your Profile
                                                 </a>
                                             </div>
+                                        {% else %}
+                                            <p class="text-center mt-2">{{profile_progress_percentage}}%</p>
+                                            <p class="text-center mt-4">
+                                                Well done! Your profile is complete. 
+                                            </p>
                                         {% endif %}
                                     </div>
                                 </div>
