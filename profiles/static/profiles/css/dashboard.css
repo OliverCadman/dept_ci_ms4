@@ -50,7 +50,14 @@
 }
 
 #progress_bar_inner {
+    display: flex;
     border-radius: 20px;
+    min-height: 15px;
+    background-color: #a4ebee
+}
+
+#profile_progress_percentage {
+    margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {

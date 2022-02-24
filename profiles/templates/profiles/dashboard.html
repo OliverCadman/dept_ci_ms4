@@ -109,8 +109,10 @@
                                     </h4>
                                     <div id="progress_bar_wrapper">
                                         <div id="progress_bar">
-                                            <div id="progress_bar_inner" data-progress="{{ profile_progress_percentage }}">
-    
+                                            <div id="progress_bar_inner" class="w3-center" data-progress="{{ profile_progress_percentage }}">
+                                                <span id="profile_progress_percentage">
+                                                    {{ profile_progress_percentage}}%
+                                                </span>
                                             </div>
                                         </div>
                                         {% if profile_progress_percentage < 100 %}
@@ -124,7 +126,6 @@
                                                 </a>
                                             </div>
                                         {% else %}
-                                            <p class="text-center mt-2">{{profile_progress_percentage}}%</p>
                                             <p class="text-center mt-4">
                                                 Well done! Your profile is complete. 
                                             </p>
