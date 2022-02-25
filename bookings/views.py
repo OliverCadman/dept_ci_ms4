@@ -4,13 +4,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib import messages
+from django.views.generic import DetailView
 
 
 from datetime import datetime
 from dateutil import parser
 
 from .forms import InvitationForm
-from .models import UserProfile
+from profiles.models import UserProfile
+from .models import Invitation
 
 # Create your views here.
 
@@ -22,14 +24,8 @@ def invitation_form_view(request):
 
     if request.POST:
         event_datetime = request.POST.get("event_datetime")
-        print(type(event_datetime))
         parsed_datetime = parser.parse(event_datetime)
-        print(parsed_datetime)
-        print("DATETIME")
-       
-        print(type(parsed_datetime))
-       
-
+    
         invitation_post = {
             "event_name": request.POST.get("event_name"),
             "artist_name": request.POST.get("artist_name"),
@@ -46,18 +42,21 @@ def invitation_form_view(request):
                 form = invitation_form.save(commit=False)
                 form.invite_sender = invite_sender
                 form.invite_receiver = invite_receiver
-
-
                 form.save()
                 print("success")
                 messages.success(request, "Invitation Sent")
             except Exception as e:
                 print(f"Exception: {e}")
         else:
-            print(invitation_form.cleaned_data)
             if "event_datetime" in invitation_form.errors:
                 messages.error(request, "Invalid date/time, please try again.")
             invitation_form = InvitationForm(request.POST, instance=request.user)
 
         return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
+
+
+class InvitationDetailView(DetailView):
+
+    model = Invitation
+
     

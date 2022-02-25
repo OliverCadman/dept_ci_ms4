@@ -3,6 +3,8 @@ from django_countries.fields import CountryField
 from profiles.models import UserProfile
 import uuid
 
+import datetime
+
 
 class Invitation(models.Model):
     invitation_number = models.CharField(max_length=50, null=False, editable=False)
@@ -26,11 +28,11 @@ class Invitation(models.Model):
         """
         return uuid.uuid4().hex.upper()
 
+
     def save(self, *args, **kwargs):
         if not self.invitation_number:
             self.invitation_number = self.generate_invitation_number()
-            print("Invitation Number:")
-            print(self.invitation_number)
+           
         super().save(*args, **kwargs)
 
     def __str__(self):

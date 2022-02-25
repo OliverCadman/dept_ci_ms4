@@ -30,7 +30,7 @@ class InvitationForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    HTML("<h2 class='form-header'>Invite {{user.first_name}} to your gig.</h2>"),
+                    HTML("<h2 class='form-header'>Invite {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %} to your gig.</h2>"),
                     "event_name",
                     "artist_name",
                     "event_city",
