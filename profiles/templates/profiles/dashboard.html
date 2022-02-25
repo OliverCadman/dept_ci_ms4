@@ -187,11 +187,44 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p id="modal_invite_personage"></p>
-                            <p id="modal_event_location"></p>
-                            <p id="modal_event_country"></p>
-                            <p id="modal_event_datetime"></p>
-                            <p id="modal_event_additional"></p>
+                            <div class="modal_detail_wrapper">
+                                <dl>
+                                    <dt>
+                                        {% if current_page == "jobs" and current_section == "invites_received" %}
+                                            Invited by:
+                                        {% elif current_page == "jobs" and current_section == "invites_sent" %}
+                                            Invite sent to:
+                                        {% endif %}
+                                    </dt>
+                                    <dd id="modal_invite_personage">
+
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="modal_detail_wrapper">
+                                <dl>
+                                    <dt>
+                                        Event Location
+                                    </dt>
+                                    <dd id="modal_event_location"></dd>
+                                </dl>
+                            </div>
+                            <div class="modal_detail_wrapper">
+                                <dl>
+                                    <dt>
+                                        Event Date & Time
+                                    </dt>
+                                    <dd id="modal_event_datetime"></dd>
+                                </dl>
+                            </div>
+                            <div class="modal_detail_wrapper">
+                                <dl>
+                                    <dt>
+                                        Additional Details
+                                    </dt>
+                                    <dd id="modal_additional"></dd>
+                                </dl>
+                            </div>
                         </div>
                     </div>
                 </div>
