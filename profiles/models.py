@@ -1,13 +1,13 @@
-import email
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-from django.forms import ImageField
 from django_countries.fields import CountryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator
-from allauth.account.signals import email_confirmed
+from django.utils.text import slugify
+
+from django.urls import reverse
+
 
 
 class Instrument(models.Model):
@@ -137,10 +137,20 @@ class UserProfile(models.Model):
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
     invitation_count = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
+    slug = models.SlugField(null=True, blank=True, db_index=True)
+
 
 
     def __str__(self):
         return self.user.username
+
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.user.username)
+        super().save(*args, **kwargs)
+
+
+    
 
 
     

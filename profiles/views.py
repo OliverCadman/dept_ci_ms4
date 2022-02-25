@@ -104,7 +104,6 @@ def edit_profile(request):
 
     audio_form = AudioForm(request.POST, instance=user_profile)
 
-    print(user_profile.users_tracks.all())
 
     request.session["form_page"] = 1
 

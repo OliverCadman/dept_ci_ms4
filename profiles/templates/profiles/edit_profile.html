@@ -6,6 +6,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "profiles/css/edit_profile.css" %}">
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
     <!-- Dropzone JS CSS CDN -->
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 {% endblock %}
@@ -55,9 +56,9 @@
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div id="edit-profile-form-container" class="form-container {% if not request.session.form_page == 1 %}hidden{% endif %}">
-                    <form action={% url 'edit_profile' request.user %} method="POST" id="edit_profile_form">
+                    <form action={% url 'edit_profile' %} method="POST" id="edit_profile_form" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="hidden" id="user_name_1" value="{{user_name}}">
+                        <input type="hidden" id="user_id_1" value="{{user_id}}">
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 {{user_profile_form.first_name|as_crispy_field}}
@@ -72,6 +73,10 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 {{user_profile_form.country|as_crispy_field}}
+                            </div>
+                            <div class="col-12">
+                                <h6>Profile Image</h6>
+                                {{user_profile_form.profile_image}}
                             </div>
                         </div>
                         <div class="row">
@@ -117,7 +122,7 @@
                     <form action="{% url "upload_audio" request.user %}" class="dropzone" id="audio-dropzone" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div id="dropzone_container">
-                            <input type="hidden" id="user_name_2" value="{{user_name}}">
+                            <input type="hidden" id="user_id_2" value="{{user_id}}">
                             <div class="dz-message">
                                 <span class="dropzone-init-message">Click here or drag and drop files to upload</span>
                             </div>
@@ -126,19 +131,21 @@
                             </div>
                         </div>
                     </form>
-                    <div class="audio-submit-btn-wrapper">
+                    <div class="submit-btn-wrapper">
                         <button type="submit" id="audio_submit_btn" class="btn submit-btn">Save your Music</button>
+                        <button type="button" class="btn submit-btn" id="skip_audio_form">Skip Step</button>
                     </div>
                 </div>
                 <div id="calendar_container" class="form-container hidden">
                     <form id="unavailability_calendar">
                         {% csrf_token %}
-                        <input type="hidden" id="user_name_3" value={{user_name}}>
+                        <input type="hidden" id="user_id_3" value={{user_id}}>
                         <div id="calendar_wrapper">
     
                         </div>
-                        <div class="btn-wrapper-calendar">
+                        <div class="submit-btn-wrapper">
                             <button type="button" class="btn submit-btn" id="submit_unavailability">Submit</button>
+                            <button type="button" class="btn submit-btn" id="skip_calendar_form">Skip Step</button>
                         </div>
                     </form>
                 </div>

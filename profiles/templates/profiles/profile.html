@@ -54,7 +54,7 @@
                         </p>
                     </div>
                     <div class="contact-btn-wrapper">
-                        <button class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact {{ user.first_name }}</button>
+                        <button class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                         {{user.city}}, {{user.country.name}}
                     </p>
                     <div id="contact_btn_wrapper_lg">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {{user.first_name}}</button>
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
                     </div>
                 </div>
                 <div id="profile_image_wrapper_lg">

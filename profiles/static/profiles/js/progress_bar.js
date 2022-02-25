@@ -7,8 +7,6 @@ $(document).ready(function() {
 
         if (typeof(progressData) !== "undefined") {
             progressBar.style.width = `${progressData}%`;
-            progressBar.style.height = "10px"
-            progressBar.style.backgroundColor = "blue";
         }
     }
 })

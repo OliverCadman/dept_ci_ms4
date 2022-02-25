@@ -7,7 +7,16 @@
     <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
     <div class="invitation_btn_wrapper">
-        <button class="btn invitation_card_btn">View Details</button>
+        <button class="modal-trigger btn invitation_card_btn"
+        data-bs-toggle="modal"
+        data-bs-target="#invitation_detail_modal"
+        data-invite-fname="{{ invitation.invite_receiver.first_name }}"
+        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+        data-event-name="{{ invitation.event_name }}"
+        data-event-city="{{ invitation.event_city }}"
+        data-event-country="{{ invitation.event_country.name }}"
+        data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}"
+        data-additional-info="{{ invitation.additional_info }}">View Details</button>
         <button class="btn invitation_card_btn">Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}</button>
     </div>
 </div>

@@ -178,6 +178,25 @@
                 <h2>Membership</h2>
             {% endif %}
         </section>
+        <aside>
+            <div class="modal fade" id="invitation_detail_modal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="modal_event_name"></h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modal_invite_personage"></p>
+                            <p id="modal_event_location"></p>
+                            <p id="modal_event_country"></p>
+                            <p id="modal_event_datetime"></p>
+                            <p id="modal_event_additional"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
 {% endblock %}
 {% block postload_js %}
         {{ block.super }}
@@ -189,4 +208,6 @@
         <!-- Progress Bar JS -->
         <script src="{% static "profiles/js/progress_bar.js" %}"></script>
         {% endif %}
+        <script src="{% static "profiles/js/invite_detail_modal.js" %}"></script>
+
 {% endblock %}

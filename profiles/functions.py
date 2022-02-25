@@ -23,10 +23,9 @@ def calculate_invite_acceptance_delta(username):
 def calculate_profile_progress_percentage(username):
     user_profile = get_object_or_404(UserProfile, user__username=username)
 
-  
     fields = user_profile.__dict__
     null_object = {}
-    print(fields)
+
     for key, value in fields.items():
         if key != "invitation_count" and key != "is_paid":
             if value == None or value == "" or value == False:

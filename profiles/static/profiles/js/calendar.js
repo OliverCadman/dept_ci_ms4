@@ -69,14 +69,14 @@ $(document).ready(function() {
 
   submitBtn.on("click", function () {
     let dateArray = collectDateArray();
-    const username = $("#user_name_3").val();
+    const userId = $("#user_id_3").val();
     const csrfToken = $("input[name='csrfmiddlewaretoken']")[2].value;
     console.log(csrfToken);
     if (isSubmitting) {
       return;
     }
     isSubmitting = true;
-    const url = `/profile/upload_unavailability/${username}`;
+    const url = `/profile/upload_unavailability/${userId}`;
     $.post({
       url: url,
       headers: {
