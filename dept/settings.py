@@ -15,6 +15,7 @@ import os
 if os.path.exists("env.py"):
     import env
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -54,11 +55,17 @@ INSTALLED_APPS = [
     'profiles',
     'subscriptions',
     'bookings',
+    'social',
 
     # Crispy Forms
     'crispy_forms',
     'crispy_bootstrap5',
+
+    # Bootstrap Datepicker Plus
+    'bootstrap_datepicker_plus'
+
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,6 +114,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
             ],
         },
     },
@@ -170,6 +181,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -200,3 +212,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from django.conf.global_settings import DATE_INPUT_FORMATS, DATETIME_INPUT_FORMATS
+
+DATE_INPUT_FORMATS += ("%d-%m-%Y",)
+DATETIME_INPUT_FORMATS += ("%d-%m-%Y %H:%M",)
