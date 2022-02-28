@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 import os
 if os.path.exists("env.py"):
     import env
@@ -26,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+g^39#35xtu$q540-jf!muwh+##!r06mx2n#-yc2%ml_%md%*^'
+SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = "DEVELOPMENT" in os.environ
 
-ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', 'http://127.0.0.1:8000']
+ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
 SITE_ID = 2
 
@@ -147,6 +148,25 @@ else:
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+if "USE_AWS" in os.environ:
+    AWS_STORAGE_BUCKET_NAME = "dept-bucket"
+    AWS_S3_REGION_NAME = "eu-west-2"
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+    # Static and Media Files
+    STATICFILES_STORAGE = "custom_storages.StaticStorage"
+    STATICFILES_LOCATION = "static"
+
+    MEDIAFILES_STORAGE = "custom_storages.MediaStorage"
+    MEDIAFILES_LOCATION = "media"
+
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+
+
 
 # Email confirmation to be used in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
