@@ -167,8 +167,6 @@ if "USE_AWS" in os.environ:
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
 
-
-
 # Email confirmation to be used in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
