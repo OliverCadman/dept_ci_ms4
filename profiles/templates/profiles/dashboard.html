@@ -157,6 +157,7 @@
                                             {% include "profiles/includes/invitations_sent_card.html" %}
                                         {% endfor %}
                                    {% else %}
+                                   <!-- TODO: "No Invitations" -->
                                    {% endif %}
                                 </div>
                             {% elif current_page == "jobs" and current_section == "invites_received" %}
@@ -167,6 +168,7 @@
                                             {% endfor %}
                                         </div>
                                     {% else %}
+                                    <!-- TODO: "No Invitations"-->
                                     {% endif %}
                             {% endif %}
                         </div>
@@ -234,6 +236,26 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h6 id="message_modal_header"></h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="message_container">
+                                <div id="message_display_container">
+                                    <p class="message sender">
+                                        hello Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, veniam.
+                                    </p>
+                                    <p class="message receiver">
+                                        hey
+                                    </p>
+                                </div>
+                                <div id="message_input_container">
+                                    <form method="POST" id="message_form">
+                                        {% csrf_token %}
+                                        {{ message_form|crispy }}
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -250,6 +272,9 @@
         <!-- Progress Bar JS -->
         <script src="{% static "profiles/js/progress_bar.js" %}"></script>
         {% endif %}
-        <script src="{% static "profiles/js/invite_detail_modal.js" %}"></script>
+        <script src="{% static "profiles/js/dashboard_modals.js" %}"></script>
+        <script>
+            console.log($(".invitation_card_title"))
+        </script>
 
 {% endblock %}
