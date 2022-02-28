@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "DEVELOPMENT" in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
@@ -163,6 +163,7 @@ if "USE_AWS" in os.environ:
     MEDIAFILES_STORAGE = "custom_storages.MediaStorage"
     MEDIAFILES_LOCATION = "media"
 
+    # Override Static and Media File URLS in production
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
 
