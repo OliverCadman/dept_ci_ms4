@@ -1,1 +1,1 @@
-web: guicorn dept.wsgi:application
+web: gunicorn dept.wsgi:application
