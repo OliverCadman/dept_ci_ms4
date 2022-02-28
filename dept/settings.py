@@ -15,6 +15,8 @@ import os
 if os.path.exists("env.py"):
     import env
 
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,6 +141,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Email confirmation to be used in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
