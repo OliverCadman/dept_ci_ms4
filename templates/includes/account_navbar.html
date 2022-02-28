@@ -1,1 +1,42 @@
-{{user_profile}}
+<div id="account_dropdown_container">
+    <div id="account_dropdown_header_wrapper">
+        <h4 id="account_dropdown_header">{{user_profile.user}}</h4>
+    </div>
+    <div class="container account_links_container">
+        <div class="row">
+            <div class="col">
+                <ul id="account_links">
+                    <li>
+                        <a href="{% url 'profile' user_profile.user %}" class="nav-link account_link">My Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'edit_profile' %}" class="nav-link account_link">Edit My Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashboard' user_profile.slug %}" class="nav-link account_link">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account_logout' %}" class="nav-link account_link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col p-0">
+                <div class="float-end">
+                    {% if user_profile.profile_image %}
+                    <figure>
+                        <img src="{{MEDIA_URL}}{{user_profile.profile_image.url}}"
+                        alt="{{user_profile.user}}"
+                        id="profile_image_navbar"
+                        width="150"
+                        height="150">
+                    </figure>
+                    {% else %}
+                    <figure>
+                        <img src="/media/dept-logo.webp" alt="DepT Logo" width="150" height="150" id="dept_logo_account">
+                    </figure>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
