@@ -2,13 +2,15 @@
 from datetime import datetime
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib import messages
 from django.views.generic import DetailView
+from django.forms.models import model_to_dict
 
 
 from datetime import datetime
 from dateutil import parser
+
 
 from .forms import InvitationForm
 from profiles.models import UserProfile
@@ -55,8 +57,24 @@ def invitation_form_view(request):
         return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
 
 
-class InvitationDetailView(DetailView):
+def get_invitation_messages(request, pk):
+        invitation = get_object_or_404(Invitation, pk=pk)
 
-    model = Invitation
+        messages = invitation.invitation_messages.all()
+        message_list = []
+        if not len(messages) == 0:
+            for message in messages:
+                message = model_to_dict(message)
+                message_list.append(message)
+        else:
+            print("NO MESSAGES")
+        
+        return JsonResponse({ "messages": message_list})
+
+
+
+
+
+
 
     
