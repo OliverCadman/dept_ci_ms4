@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from django.conf import settings
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
+
+from profiles.models import UserProfile
 
 
 class IndexView(View):
     def get(self, request):
         
-        referrer_url = request.META.get("HTTP_REFERER")
-        if referrer_url is not None:
-            
-            if referrer_url == f"{settings.DOMAIN_NAME}accounts/signup/":
-                return redirect("profile", request.user)
-            else:
-                print(False)
+        if request.user.is_authenticated:
+            current_user = get_object_or_404(UserProfile, user__username=request.user)
 
-            
+            if not current_user.subscription_chosen:
+                messages
+                return redirect("subscribe/choose_subscription")
 
         return render(request, "home/index.html")
