@@ -1,3 +1,5 @@
+{% load custom_tags %}
+
 <div class="col-12 invitation-card">
     <div class="invitation_date_wrapper">
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
@@ -6,6 +8,7 @@
     <p class="invitation_card_detail">{{ invitation.event_name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
+    <p>{{ invitation.pk }}</p>
     <div class="invitation_btn_wrapper">
         <button class="modal-trigger btn invitation_card_btn view_detail_btn"
         data-bs-toggle="modal"
@@ -16,11 +19,21 @@
         data-event-city="{{ invitation.event_city }}"
         data-event-country="{{ invitation.event_country.name }}"
         data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}"
-        data-additional-info="{{ invitation.additional_info }}">View Details</button>
-        <button class="btn invitation_card_btn message_modal_btn"
+        data-additional-info="{{ invitation.additional_info }}"
+        >View Details</button>
+        <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
         data-invite-fname="{{ invitation.invite_receiver.first_name }}"
-        data-invite-lname="{{ invitation.invite_receiver.last_name }}">Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}</button>
+        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+        data-invite-username="{{ invitation.invite_receiver.user }}"
+        data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
+        data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
+        data-invitation-id="{{ invitation.pk }}">
+            Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}
+            {% if invitation|count_unread_messages %}
+                <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
+            {% endif %}
+        </button>
     </div>
 </div>
