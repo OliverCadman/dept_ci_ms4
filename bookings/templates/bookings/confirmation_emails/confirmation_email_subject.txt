@@ -1,0 +1,1 @@
+DepT Booking Confirmation for Invitation Number {{ invitation_number }}

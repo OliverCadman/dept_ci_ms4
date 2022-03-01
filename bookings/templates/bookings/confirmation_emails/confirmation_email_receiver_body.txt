@@ -1,0 +1,14 @@
+Hello {{ invitation.invite_receiver }}
+
+We are pleased to tell you that you have been successfully booked to dep {{ invitation.invite_sender }}'s gig. Your booking information is below:
+
+Invitation Number: {{ invitation.invitation_number }}
+Event: {{ invitation.event_name }}
+Event Location: {{ invitation.event_city }}, {{ invitation.event_country.name }}
+Date and Time of Event: {{ invitation.event_datetime }}
+Fee: {{ invitation.fee }}
+
+{% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }}{% else %}{{ invitation.invite_sender.user.username }}{% endif %} has been notified that you have accepted their offer. They will contact you shortly with full details of the gig.
+
+Many thanks!
+The DepT Team

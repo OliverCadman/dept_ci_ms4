@@ -6,6 +6,9 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.views.generic import DetailView
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 
 
 from datetime import datetime
@@ -17,10 +20,15 @@ from .models import Invitation
 from social.models import Message
 
 from .functions import to_dict
+from social.functions import reverse_querystring
 
 # Create your views here.
 
 def invitation_form_view(request):
+    """
+    Form view rendered in User Profile modal, upon clicking
+    'Contact <user>'
+    """
 
     invite_receiver_username = request.session.get("invited_username")
     invite_receiver = get_object_or_404(UserProfile, user__username=invite_receiver_username)
@@ -28,6 +36,7 @@ def invitation_form_view(request):
 
     if request.POST:
         event_datetime = request.POST.get("event_datetime")
+        # Parse the event_datetime value of request.POST to be interpreted by Python Django.
         parsed_datetime = parser.parse(event_datetime)
     
         invitation_post = {
@@ -60,12 +69,19 @@ def invitation_form_view(request):
 
 
 def get_invitation_messages(request, pk):
+        """
+        AJAX Handler to return all messages for a given
+        invitation, to be displayed in modals triggered 
+        from invitation cards.
+
+        Additionally, all message objects for the given invitation
+        are updated with 'is_read' status, and saved to the database.
+        """
         invitation = get_object_or_404(Invitation, pk=pk)
 
         messages = invitation.invitation_messages.all()
         message_list = []
 
-        
         if not len(messages) == 0:
             for message in messages:
                 
@@ -79,12 +95,66 @@ def get_invitation_messages(request, pk):
         else:
             print("NO MESSAGES")
         
+        # Return JSON to be handled in JS file
         return JsonResponse({ "messages": message_list})
 
 
+def accept_invitation(request, invitation_pk):
+    """
+    Updates relevant Invitation object with 'accepted' status,
+    and sends the invite receiver a confirmation email upon 
+    once the Invitation object has been updated and saved successfully.
+    """
 
+    invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
+    invite_receiver = get_object_or_404(UserProfile, user__username=request.user)
+    invite_sender = get_object_or_404(UserProfile, user__username=invitation.invite_sender)
 
+    try:
+        invitation.is_accepted = True
+        invitation.save()
 
+        invitation_number = invitation.invitation_number
 
-    
+        # Send Confirmation Email to Invite Receiver
+        invite_receiver_email = invite_receiver.user.email
+        subject = render_to_string(
+            'bookings/confirmation_emails/confirmation_email_subject.txt',
+            { "invitation_number": invitation_number }
+        )
+        body = render_to_string(
+            'bookings/confirmation_emails/confirmation_email_receiver_body.txt', 
+            { "invitation": invitation }
+        )
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [invite_receiver_email]
+        )
+        
+        # Send Email Confirmation to Invite Sender
+        invite_sender_email = invite_sender.user.email
+        subject = render_to_string(
+            "bookings/confirmation_emails/confirmation_email_subject.txt",
+            { "invitation_number": invitation_number }
+        )
+        body = render_to_string(
+            "bookings/confirmation_emails/confirmation_email_sender_body.txt",
+            { "invitation": invitation }
+        )
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [invite_sender_email]
+        )
+
+        messages.success(request, "Great, your invitation has been accepted!")
+        return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={"page": "jobs"}))
+    except Exception as e:
+        print("Exception:", e)
+        messages.error(request, "Sorry something went wrong. Please try again")
+        return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={ "page": "jobs" }))
+   

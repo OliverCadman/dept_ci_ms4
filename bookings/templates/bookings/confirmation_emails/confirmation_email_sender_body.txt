@@ -1,0 +1,14 @@
+Hello {{ invitation.invite_sender }}
+
+We are pleased to tell you that {{ invitation.invite_receiver }} has accepted your invitation! Your booking information is below:
+
+Invitation Number: {{ invitation.invitation_number }}
+Event: {{ invitation.event_name }}
+Event Location: {{ invitation.event_city }}, {{ invitation.event_country.name }}
+Date and Time of Event: {{ invitation.event_datetime }}
+Fee: {{ invitation.fee }}
+
+Please visit your dashboard if you wish to contact {% if invitation.invite_receiver.first_name %}{{ invitation.invite_sender.first_name }}{% else %}{{ invitation.invite_receiver.user.username }}{% endif %} or provide further details.
+
+Many thanks!
+The DepT Team
