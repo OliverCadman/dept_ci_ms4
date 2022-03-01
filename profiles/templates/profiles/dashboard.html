@@ -19,16 +19,16 @@
         <div id="dashboard_breadcrumb_wrapper">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
+                    <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item">
+                    <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=jobs" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
                     </li>
-                    <li class="breadcrumb-item">
+                    <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}">Reset Your Password</a>
                     </li> 
-                    <li class="breadcrumb-item">
+                    <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=membership" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
                     </li>
                 </ol>
@@ -144,21 +144,46 @@
             {% elif current_page == "jobs" %}
                 <div id="job_container">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 job-nav-button-wrapper">
-                                <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent" class="btn job-nav-btn">Invites Sent</a>
-                                <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received" class="btn job-nav-btn">Invites Received</a>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 p-0">
+                                <div id="job_page_breadcrumb_wrapper">
+                                    <nav aria-label="breadcrumb" id="job_nav">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item job">
+                                                <a href="" class="btn">
+                                                    Invited
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item job">
+                                                <a href="#" class="btn">
+                                                    Accepted
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item job">
+                                                <a href="#" class="btn">
+                                                    Completed
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="container-fluid p-4">
+                    <hr class="d-none d-md-block dashboard-block-divider">
+                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12 col-md-4 filter_sidebar">
-
+                            <div class="col-12 col-md-2 job-nav-button-container">
+                                <div class="job-nav-button-wrapper">
+                                    <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent" class="btn job-nav-btn">Invites Sent</a>
+                                </div>
+                                <div class="job-nav-button-wrapper">
+                                    <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received" class="btn job-nav-btn">Invites Received</a>
+                                </div>
                             </div>
                                {% if current_page == "jobs" and current_section == "invites_sent" %}
                                    {% if invitations_sent %}
-                                   <div class="col-12 col-md-8">
+                                   <div class="col-12 col-md-10">
                                         {% for invitation in invitations_sent %}
                                             {% include "profiles/includes/invitations_sent_card.html" %}
                                         {% endfor %}
@@ -169,7 +194,7 @@
                                 </div>
                             {% elif current_page == "jobs" and current_section == "invites_received" %}
                                  {% if invitations_received %}
-                                 <div class="col-12 col-md-8">
+                                 <div class="col-12 col-md-10">
                                     {% for invitation in invitations_received %}
                                         {% include "profiles/includes/invitations_received_card.html" %}
                                     {% endfor %}
@@ -198,40 +223,40 @@
                         <div class="modal-body dashboard-modal-body">
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt>
+                                    <dt class="modal_detail">
                                         {% if current_page == "jobs" and current_section == "invites_received" %}
                                             Invited by:
                                         {% elif current_page == "jobs" and current_section == "invites_sent" %}
                                             Invite sent to:
                                         {% endif %}
                                     </dt>
-                                    <dd id="modal_invite_personage">
+                                    <dd id="modal_invite_personage" class="modal_detail">
 
                                     </dd>
                                 </dl>
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt>
+                                    <dt class="modal_detail">
                                         Event Location
                                     </dt>
-                                    <dd id="modal_event_location"></dd>
+                                    <dd id="modal_event_location" class="modal_detail"></dd>
                                 </dl>
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt>
+                                    <dt class="modal_detail">
                                         Event Date & Time
                                     </dt>
-                                    <dd id="modal_event_datetime"></dd>
+                                    <dd id="modal_event_datetime" class="modal_detail"></dd>
                                 </dl>
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt>
+                                    <dt class="modal_detail">
                                         Additional Details
                                     </dt>
-                                    <dd id="modal_additional"></dd>
+                                    <dd id="modal_additional" class="modal_detail"></dd>
                                 </dl>
                             </div>
                         </div>
