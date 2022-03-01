@@ -1,17 +1,36 @@
+.dashboard-block-divider {
+    margin: 0;
+}
+
 #dashboard_breadcrumb_wrapper {
-    padding-top: 1rem;
-    background-color: #f7f7f7;
+    padding: 1rem 0;
+    background-color: #1a2342;
     font-size: .5rem;
     font-family: "Open Sans", sans-serif;
 }
 
-.breadcrumb {
-    justify-content: center;
+#job_nav {
+    width: 100%;
 }
 
-.active {
+.job-nav-item {
+    background-color: #222;
+    padding: 1rem;
+}
+
+.breadcrumb {
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.breadcrumb-item.dashboard a {
+    color: #ddd72b;
+}
+
+.breadcrumb-item a.active {
     text-decoration: none;
-    color: #6b6b6b;
+    color: #fefefe;
 }
 
 
@@ -41,10 +60,7 @@
     margin-bottom: 1.4rem;
 }
 
-
-
 /* Progress Bar */
-
 #progress_bar {
     width: 80%;
     margin: 0 auto;
@@ -65,19 +81,21 @@
 
 /* Jobs Section */
 
-.job-nav-button-wrapper {
+.job-nav-button-container {
     display: flex;
     justify-content: center;
-    background-color: 
+    padding: 1rem 0;
+    background-color: #45425a;
 }
 
 .job-nav-btn {
     font-family: "Oxygen", sans-serif;
-    background-color: #222;
+    background-color: #131313;
     color: #fefefe;
     font-size: 1.15rem;
     padding: 1rem .5rem;
     margin: .5rem .2rem;
+   
 }
 
 /* ------ Job Page ------ */
@@ -128,16 +146,25 @@
     color: #a0a0a0;
 }
 
+/* Invitation Details Modal */
+
+.modal_detail {
+    font-family: "Open Sans", sans-serif;
+    color: #fefefe;
+}
+
 /* Message Modal */
 
 .dashboard-modal-header {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
     color: #fefefe;
     background-color: #14161b;
     border-bottom: none;
 }
 
 .dashboard-modal-body {
-    background-color: #091027;
+    background-color: #1f2131;
 }
 
 .btn-close {
@@ -214,6 +241,31 @@
     font-family: "Open Sans", sans-serif;
 }
 
+/* Job Page Breadcrumbs */
+
+#job_nav {
+    --bs-breadcrumb-divider: '>';
+}
+
+#job_page_breadcrumb_wrapper {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.breadcrumb-item.job+.breadcrumb-item::before {
+    float: inherit;
+}
+
+.breadcrumb-item.job a {
+    background-color: #247024;
+    color: #fefefe;
+    font-family: "Open Sans", sans-serif;
+    box-shadow: inset 0px 1px 11px 0px rgba(255, 255, 255, 0.1);
+}
+
+
+
 
 @media screen and (min-width: 768px) {
 
@@ -223,7 +275,7 @@
     }
 
     .breadcrumb {
-        justify-content: start;
+        justify-content: center;
         padding-left: 1rem;
     }
 
@@ -242,6 +294,29 @@
         width: inherit;
     }
 
+    /* Jobs Page */
+   
+
+    .breadcrumb-item.job a {
+        padding: 1rem;
+    }
+
+    .job-nav-button-container {
+        display: block;
+        border-right: 2px solid rgba(128, 128, 128, 0.315);
+        padding: 0 1rem;
+        background-color: inherit;
+    }
+
+    .job-nav-button-wrapper {
+        display: block;
+    }
+
+    .job-nav-btn {
+        height: fit-content;
+        width: 100%;
+        padding: .2rem;
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -284,5 +359,12 @@
 
     .message-datetime {
         font-size: .75rem;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 320px) {
+    .breadcrumb-item.job a {
+        padding: .2rem .4rem;
+        margin: 0;
     }
 }
