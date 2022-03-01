@@ -11,10 +11,12 @@ from django.forms.models import model_to_dict
 from datetime import datetime
 from dateutil import parser
 
-
 from .forms import InvitationForm
 from profiles.models import UserProfile
 from .models import Invitation
+from social.models import Message
+
+from .functions import to_dict
 
 # Create your views here.
 
@@ -62,9 +64,17 @@ def get_invitation_messages(request, pk):
 
         messages = invitation.invitation_messages.all()
         message_list = []
+
+        
         if not len(messages) == 0:
             for message in messages:
-                message = model_to_dict(message)
+                
+                message_object = get_object_or_404(Message, pk=message.pk)
+                message_object.is_read = True
+                message_object.save()
+                
+                message = to_dict(message)
+                print(message)
                 message_list.append(message)
         else:
             print("NO MESSAGES")
