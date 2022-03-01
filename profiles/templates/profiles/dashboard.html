@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 <!-- CSS -->
 {% block extra_css %}
     <!-- Dynamic Header CSS -->
@@ -149,27 +150,33 @@
                                 <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received" class="btn job-nav-btn">Invites Received</a>
                             </div>
                         </div>
-                        <div class="container">
-                            {% if current_page == "jobs" and current_section == "invites_sent" %}
-                                <div class="row">
+                    </div>
+                    <div class="container-fluid p-4">
+                        <div class="row">
+                            <div class="col-12 col-md-4 filter_sidebar">
+
+                            </div>
+                               {% if current_page == "jobs" and current_section == "invites_sent" %}
                                    {% if invitations_sent %}
+                                   <div class="col-12 col-md-8">
                                         {% for invitation in invitations_sent %}
                                             {% include "profiles/includes/invitations_sent_card.html" %}
                                         {% endfor %}
+                                    </div>
                                    {% else %}
                                    <!-- TODO: "No Invitations" -->
                                    {% endif %}
                                 </div>
                             {% elif current_page == "jobs" and current_section == "invites_received" %}
                                  {% if invitations_received %}
-                                        <div class="row">
-                                            {% for invitation in invitations_received %}
-                                                {% include "profiles/includes/invitations_received_card.html" %}
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                    <!-- TODO: "No Invitations"-->
-                                    {% endif %}
+                                 <div class="col-12 col-md-8">
+                                    {% for invitation in invitations_received %}
+                                        {% include "profiles/includes/invitations_received_card.html" %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <!-- TODO: "No Invitations"-->
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -184,11 +191,11 @@
             <div class="modal fade" id="invitation_detail_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header dashboard-modal-header">
                             <h2 id="modal_event_name"></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body dashboard-modal-body">
                             <div class="modal_detail_wrapper">
                                 <dl>
                                     <dt>
@@ -234,25 +241,21 @@
             <div class="modal fade" id="message_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header dashboard-modal-header">
                             <h6 id="message_modal_header"></h6>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body dashboard-modal-body">
                             <div id="message_container">
+                                <input type="hidden" value="{{ user_profile.user.pk }}" id="request_user_id">
                                 <div id="message_display_container">
-                                    <p class="message sender">
-                                        hello Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, veniam.
-                                    </p>
-                                    <p class="message receiver">
-                                        hey
-                                    </p>
+                                 
                                 </div>
                                 <div id="message_input_container">
                                     <form method="POST" id="message_form">
                                         {% csrf_token %}
                                         {{ message_form|crispy }}
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn message-submit-btn">Submit</button>
                                     </form>
                                 </div>
                             </div>

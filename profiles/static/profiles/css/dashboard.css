@@ -130,19 +130,45 @@
 
 /* Message Modal */
 
+.dashboard-modal-header {
+    color: #fefefe;
+    background-color: #14161b;
+    border-bottom: none;
+}
+
+.dashboard-modal-body {
+    background-color: #091027;
+}
+
+.btn-close {
+    background-color: #fefefe;
+}
+
+.modal_profile_img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+}
+
+#message_modal_header {
+    font-family: "Josefin Sans", sans-serif;
+}
+
 #message_container {
     padding: 1rem;
 }
 
 #message_display_container {
-    border: 1px solid black;
     border-radius: 15px;
     min-height: 100px;
+    max-height: 300px;
+    overflow: auto;
+    background-color: #0d0d0c;
 }
 
 #message_input_container {
-    margin-top: 1rem;
-    border: 1px solid black;
+    margin-top: 1.5rem;
     min-height: 50px;
     border-radius: 10px;
 }
@@ -152,7 +178,7 @@
     color: #fefefe;
     border-radius: 10px;
     padding: 5px 15px;
-    width: 50%;
+    width: 75%;
     margin: 1rem 0;
 }
 
@@ -172,10 +198,20 @@
     background-color: rgb(53, 128, 43)
 }
 
+.message-content {
+    width: 85%;
+}
+
 .message-datetime {
     font-size: .5rem;
     float: right;
     color: #fefefea1
+}
+
+.message-submit-btn {
+    background-color: #efefef;
+    color: #111;
+    font-family: "Open Sans", sans-serif;
 }
 
 
