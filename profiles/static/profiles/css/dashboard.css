@@ -21,6 +21,7 @@
      border-radius: 22px;
      padding: 1.25rem 0 0 0;
      min-height: 200px;
+     margin: 1.8rem 0;
 }
 
 .dashboard-card-header {
@@ -39,6 +40,8 @@
     align-items: center;
     margin-bottom: 1.4rem;
 }
+
+
 
 /* Progress Bar */
 
@@ -77,6 +80,13 @@
     margin: .5rem .2rem;
 }
 
+/* ------ Job Page ------ */
+
+.filter_sidebar {
+    height: 100%;
+    border: 1px solid black;
+}
+
 /* Invitation Cards */
 
 .invitation-card {
@@ -101,6 +111,8 @@
     background-color: #1a2342;
     color: #fefefe;
     font-family: "Open Sans", sans-serif;
+    margin: .55rem auto;
+    width: 100%;
 }
 
 .invitation_card_btn.accept {
@@ -113,11 +125,63 @@
 
 .invitation_date {
     font-family: "Oxygen", sans-serif;
-    color: #a0a0a0;A
+    color: #a0a0a0;
+}
+
+/* Message Modal */
+
+#message_container {
+    padding: 1rem;
+}
+
+#message_display_container {
+    border: 1px solid black;
+    border-radius: 15px;
+    min-height: 100px;
+}
+
+#message_input_container {
+    margin-top: 1rem;
+    border: 1px solid black;
+    min-height: 50px;
+    border-radius: 10px;
+}
+
+.message {
+    font-family: "Open Sans", sans-serif;
+    color: #fefefe;
+    border-radius: 10px;
+    padding: 5px 15px;
+    width: 50%;
+    margin: 1rem 0;
+}
+
+.message.sender {
+    background-color: #3942b4;
+    margin-left: 5px;
+}
+    
+
+.message.sender:first-of-type {
+    margin-top: 10px;
+}
+
+.message.receiver {
+    margin-right: 4px;
+    margin-left: auto;
+    background-color: rgb(53, 128, 43)
+}
+
+.message-datetime {
+    font-size: .5rem;
+    float: right;
+    color: #fefefea1
 }
 
 
 @media screen and (min-width: 768px) {
+
+
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;
     }
@@ -127,12 +191,19 @@
         padding-left: 1rem;
     }
 
+    .invitation-card {
+        padding: .3rem .5rem;
+        margin: 1rem 0;
+    }
+
     .invitation_card_title {
         font-size: 1.5rem;
     }
 
     .invitation_card_btn {
         display: inline;
+        margin: 0 .35rem;
+        width: inherit;
     }
 
 }
@@ -158,8 +229,8 @@
     }
 
     .invitation_btn_wrapper {
-        display: inline;
-        float: right;
+        display: flex;
+        justify-content: flex-end;
         margin-right: 1rem;
         margin-bottom: 1rem;
     }
@@ -171,5 +242,11 @@
     .invitation_date_wrapper {
         display: inline;
         float: right;
+    }
+
+    /* Message Modal */
+
+    .message-datetime {
+        font-size: .75rem;
     }
 }
