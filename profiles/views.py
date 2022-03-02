@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, DetailView
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -11,8 +12,9 @@ from django.conf import settings
 
 from bookings.models import Invitation
 from bookings.forms import InvitationForm
-
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
+
+from social.forms import MessageForm
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 
 from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
@@ -192,7 +194,7 @@ def upload_unavailable_dates(request, user_id):
         return HttpResponse(status=200)
 
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
 
     template_name = "profiles/dashboard.html"
     
@@ -202,29 +204,52 @@ class DashboardView(TemplateView):
 
         user_profile = get_object_or_404(UserProfile, slug=current_user)
         username = user_profile.user.username
+
+        # Calculate number of invites the user has to respond to
         invite_acceptance_delta = calculate_invite_acceptance_delta(username)
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
-        # Invitations sent by the user
-        invitations_sent = user_profile.invitations_sent.all()
-
-        # Invitations received by the user
-        invitations_received = user_profile.invitations_received.all()
-
-        for invitation in invitations_received:
-            print(invitation.invite_sender)
-        
-
         current_page = "dashboard"
         current_section = "invites_sent"
+        current_filter = "all"
+
+        invitations_sent = None
+        invitations_received = None
+
+        """
+        Change pages and nested sections of dashboard page.
+        Filter invitations relative to URL filter params:
+        All - Pending - Accepted - Completed
+        """
         if "page" in self.request.GET:
             current_page = self.request.GET["page"]
             if "section" in self.request.GET:
                 current_section = self.request.GET["section"]
-
+                if current_section == "invites_sent":
+                    if "filter" in self.request.GET: 
+                        current_filter = self.request.GET["filter"]
+                        if current_filter == "all":
+                            invitations_sent = user_profile.invitations_sent.all()
+                        elif current_filter == "pending":
+                            invitations_sent = user_profile.invitations_sent.filter(is_accepted=False)
+                        elif current_filter == "accepted":
+                            invitations_sent = user_profile.invitations_sent.filter(is_accepted=True)
+                elif current_section == "invites_received":
+                    if "filter" in self.request.GET:
+                        current_filter = self.request.GET["filter"]
+                        if current_filter == "all":
+                            invitations_received = user_profile.invitations_received.all()
+                        elif current_filter == "pending":
+                            invitations_received = user_profile.invitations_received.filter(is_accepted=False)
+                        elif current_filter == "accepted":
+                            invitations_received = user_profile.invitations_received.filter(is_accepted=True)
+                        
+        # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
-        
-    
+
+        # Render text input in "Message <user>" modal
+        message_form = MessageForm()
+
         context = {
             "user_profile": user_profile,
             "invite_acceptance_delta": invite_acceptance_delta,
@@ -235,9 +260,12 @@ class DashboardView(TemplateView):
             "current_section": current_section,
             "tier_two_price_id": tier_two_price_id,
             "invitations_sent": invitations_sent,
-            "invitations_received": invitations_received
+            "invitations_received": invitations_received,
+            "message_form": message_form
         }
 
         return context
+
+    
 
 
