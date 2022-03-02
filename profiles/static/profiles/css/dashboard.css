@@ -7,6 +7,7 @@
     background-color: #1a2342;
     font-size: .5rem;
     font-family: "Open Sans", sans-serif;
+    border-top: 10px solid #aaa;
 }
 
 #job_nav {
@@ -30,6 +31,24 @@
 
 .breadcrumb-item a.active {
     text-decoration: none;
+    color: #fefefe;
+}
+
+/* Mobile Dashboard Nav */
+
+.dashboard_nav_mobile {
+    list-style: none;
+    margin: 0;
+    padding: .5rem 0 0 0;
+}
+
+.dashboard_nav_mobile li {
+    display: inline-block;
+    font-size: 1.75rem;
+    margin: 0 1rem;
+}
+
+.dashboard_nav_mobile li a {
     color: #fefefe;
 }
 
@@ -152,14 +171,15 @@
 
 .invitation-card {
     border-radius: 10px;
-    padding-top: .75rem;
+    padding: .75rem .4rem;
     background-color: #f7f7f7;
     box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.31);
-    margin: .5rem 0;
+    margin: 2rem .5rem;
 }
 
 .invitation_card_title {
     font-family: "Josefin Sans", sans-serif;
+    margin-top: 1rem;
 }
 
 .invitation_card_detail {
@@ -191,6 +211,7 @@
 .invitation_date {
     font-family: "Oxygen", sans-serif;
     color: #a0a0a0;
+    margin-bottom: 3rem;
 }
 
 .no-results-display {
@@ -333,6 +354,7 @@
 
     #dashboard_breadcrumb_wrapper {
         font-size: 1.3rem;
+        border-top: none;
     }
 
     .breadcrumb {

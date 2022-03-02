@@ -19,12 +19,13 @@
     {% endwith %}
         <div id="dashboard_breadcrumb_wrapper">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <!-- Nav Links for Tablet Devices and Up -->
+                <ol class="breadcrumb d-none d-md-flex">
                     <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item dashboard">
-                        <a href="{% url "dashboard" current_user %}?page=jobs" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
+                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
                     </li>
                     <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}">Reset Your Password</a>
@@ -33,6 +34,21 @@
                         <a href="{% url "dashboard" current_user %}?page=membership" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
                     </li>
                 </ol>
+                <!-- Nav Link for Mobile Only -->
+                <ul class="d-flex justify-content-center d-md-none dashboard_nav_mobile">
+                    <li class="dashboard mobile">
+                        <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}"><i class="fas fa-dashboard"></i></a>
+                    </li>
+                    <li class="dashboard mobile">
+                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="{% if current_page == "jobs" %}active{% endif %}"><i class="fa-solid fa-handshake"></i></a>
+                    </li>
+                    <li class="dashboard mobile">
+                        <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}"><i class="fa-solid fa-unlock"></i></a>
+                    </li> 
+                    <li class="dashboard mobile">
+                        <a href="{% url "dashboard" current_user %}?page=membership" class="{% if current_page == "membership" %}active{% endif %}"><i class="fa-solid fa-user-gear"></i></a>
+                    </li>
+                </ul>
             </nav>
         </div>
         <section>
