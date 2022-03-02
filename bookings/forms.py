@@ -2,12 +2,12 @@ from django import forms
 from django_countries import Countries
 from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div, Submit, Fieldset, HTML
+from crispy_forms.layout import Layout, Div, Submit, HTML
 from crispy_forms.bootstrap import PrependedText
 
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
-from .models import Invitation
+from .models import Booking, Invitation
 from profiles.models import UserProfile
 
 
@@ -99,6 +99,43 @@ class InvitationForm(forms.ModelForm):
             "rows": "3",
         })
     )
+
+
+class BookingForm(forms.ModelForm):
+
+    class Meta:
+        model = Booking
+        exclude = ("related_invitation",)
+
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_action = "bookings/send_full_details"
+        self.helper.form_method = "POST"
+        self.helper.form_id = "booking_confirmation_form"
+        self.helper.add_input(Submit("submit", "Submit"))
+
+    
+    travel_provided = forms.ChoiceField(label="Is Travel Provided?",
+                                          widget=forms.CheckboxInput)
+
+    travel_info = forms.CharField(label="What are the travel plans?",
+                                  widget=forms.Textarea(attrs={
+                                      "rows": "3"
+                                  }))
+
+    backline_provided = forms.ChoiceField(label="Is backline provided?",
+                                          widget=forms.CheckboxInput)
+
+    backline_info = forms.CharField(label="What equipment is provided?",
+                                    widget=forms.Textarea(attrs={
+                                        "rows": "2"
+                                    }))
+
+
+    
+
 
     
     
