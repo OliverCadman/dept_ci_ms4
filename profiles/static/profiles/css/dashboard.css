@@ -123,6 +123,10 @@
     font-family: "Open Sans", sans-serif;
 }
 
+.accepted_stamp {
+    float: right;
+}
+
 .invitation_card_btn {
     display: block;
     margin: 0 auto;
@@ -144,6 +148,19 @@
 .invitation_date {
     font-family: "Oxygen", sans-serif;
     color: #a0a0a0;
+}
+
+.no-results-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.no-results-display p {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.5rem;
+    color: #929292;
 }
 
 /* Invitation Details Modal */
@@ -253,6 +270,10 @@
     justify-content: center;
 }
 
+.job_nav_breadcrumb {
+    padding-top: 1rem;
+}
+
 .breadcrumb-item.job+.breadcrumb-item::before {
     float: inherit;
 }
@@ -292,6 +313,10 @@
         display: inline;
         margin: 0 .35rem;
         width: inherit;
+    }
+
+    .no-results-display p {
+        font-size: 2rem;
     }
 
     /* Jobs Page */
@@ -353,6 +378,10 @@
     .invitation_date_wrapper {
         display: inline;
         float: right;
+    }
+
+    .no-results-display p {
+        font-size: 2.3rem;
     }
 
     /* Message Modal */

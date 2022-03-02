@@ -1,6 +1,9 @@
 {% load custom_tags %}
 
-<div class="col-12 invitation-card">
+<div class="invitation-card">
+    {% if invitation.is_accepted %}
+        <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
+    {% endif %}
     <div class="invitation_date_wrapper">
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
     </div>
@@ -8,7 +11,6 @@
     <p class="invitation_card_detail">{{ invitation.event_name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
-    <p>{{ invitation.pk }}</p>
     <div class="invitation_btn_wrapper">
         <button class="modal-trigger btn invitation_card_btn view_detail_btn"
         data-bs-toggle="modal"
@@ -28,6 +30,7 @@
         data-invite-lname="{{ invitation.invite_receiver.last_name }}"
         data-invite-username="{{ invitation.invite_receiver.user }}"
         data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
+        data-modal-profile-img="{{ invitation.invite_receiver.profile_image.url }}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
         data-invitation-id="{{ invitation.pk }}">
             Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}
