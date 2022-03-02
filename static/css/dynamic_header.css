@@ -158,6 +158,16 @@
     #subscribe_choice_list p {
         max-width: 45%;
     }
+
+    /* Dashboard */
+
+    .dynamic-hero-section-lg.short {
+        height: 40vh;
+    }
+
+    .dynamic-hero-section-lg.short h1 {
+        padding-top: 6rem;
+    }
 }
 
 @media screen and (min-width: 1920px) {
