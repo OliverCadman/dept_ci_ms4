@@ -1,5 +1,8 @@
 from django.db import models
 from django_countries.fields import CountryField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 from profiles.models import UserProfile
 import uuid
 
@@ -48,7 +51,18 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking {self.related_invitation.invitation_number}"
+
+
+@receiver(post_save, sender=Invitation)
+def create_booking(sender, instance, created, *args, **kwargs):
+    if not created:
+        invitation = instance
+        if invitation.is_accepted == True:
+            Booking.objects.create(related_invitation=invitation)
+
+
+
     
-    
+
 
     
