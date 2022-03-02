@@ -1,5 +1,5 @@
 {% load custom_tags %}
-<div class="col-12 invitation-card">
+<div class="invitation-card">
 
     <div class="invitation_date_wrapper">
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
@@ -26,13 +26,14 @@
         data-invite-username={{ invitation.invite_sender.user }}
         data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk }}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
+        data-modal-profile-img="{{ invitation.invite_sender.profile_image.url }}"
         data-invitation-id={{ invitation.pk }}>
             Message {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}
                 {% if invitation|count_unread_messages %}
                     <span class="badge position-absolute top-0 start-100 rounded-pill translate-middle bg-warning text-dark text-bold">!</span>
                 {% endif %}
         </button>   
-        <button class="btn invitation_card_btn accept">Accept</button>
+        <a href="{% url 'accept_invitation' invitation.pk %}"class="btn invitation_card_btn accept">Accept</a>
         <button class="btn invitation_card_btn decline">Decline</button>
     </div>  
 </div>

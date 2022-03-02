@@ -12,17 +12,21 @@
     <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
     <div class="invitation_btn_wrapper">
-        <button class="modal-trigger btn invitation_card_btn view_detail_btn"
-        data-bs-toggle="modal"
-        data-bs-target="#invitation_detail_modal"
-        data-invite-fname="{{ invitation.invite_receiver.first_name }}"
-        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
-        data-event-name="{{ invitation.event_name }}"
-        data-event-city="{{ invitation.event_city }}"
-        data-event-country="{{ invitation.event_country.name }}"
-        data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}"
-        data-additional-info="{{ invitation.additional_info }}"
-        >View Details</button>
+        {% if not invitation.is_accepted %}
+            <button class="modal-trigger btn invitation_card_btn view_detail_btn"
+            data-bs-toggle="modal"
+            data-bs-target="#invitation_detail_modal"
+            data-invite-fname="{{ invitation.invite_receiver.first_name }}"
+            data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+            data-event-name="{{ invitation.event_name }}"
+            data-event-city="{{ invitation.event_city }}"
+            data-event-country="{{ invitation.event_country.name }}"
+            data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}"
+            data-additional-info="{{ invitation.additional_info }}"
+            >View Details</button>
+        {% else %}
+            <a href="" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
+        {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
