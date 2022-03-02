@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib import messages
-from django.views.generic import DetailView
+from django.views.generic import View
 from django.forms.models import model_to_dict
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -14,7 +14,7 @@ from django.conf import settings
 from datetime import datetime
 from dateutil import parser
 
-from .forms import InvitationForm
+from .forms import InvitationForm, BookingForm
 from profiles.models import UserProfile
 from .models import Invitation
 from social.models import Message
@@ -157,4 +157,21 @@ def accept_invitation(request, invitation_pk):
         print("Exception:", e)
         messages.error(request, "Sorry something went wrong. Please try again")
         return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={ "page": "jobs" }))
+
+
+class BookingFormView(View):
+
+    def get(self, request, invitation_pk):
+
+        current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
+        invitation_form = InvitationForm(instance=current_invitation)
+        booking_form = BookingForm()
+
+        context = {
+            "invitation_form": invitation_form,
+            "booking_form": booking_form
+        }
+
+        return render(request, "bookings/booking_form.html", context=context)
+
    

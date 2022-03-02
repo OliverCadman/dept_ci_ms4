@@ -25,7 +25,7 @@
             data-additional-info="{{ invitation.additional_info }}"
             >View Details</button>
         {% else %}
-            <a href="" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
+            <a href="{% url "finalize_booking" invitation.pk %}" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
         {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
