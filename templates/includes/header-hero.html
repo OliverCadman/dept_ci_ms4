@@ -21,6 +21,8 @@
                             Subscribe
                         {% elif p == "dashboard" %}
                             Dashboard
+                        {% elif p == "booking_form" %}
+                            Congratulations!
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -39,6 +41,12 @@
                         {% elif p == "dashboard" %}
                             <p class="text-center">Welcome to your Dashboard.</p>
                             <p class="text-center">Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
+                        {% elif p == "booking_form" %}
+                            <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender }}{% else %}{{ invitation.invite_sender.user }}{% endif %}
+                              {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
+                              has accepted your invitation.
+                            </p>
+                            <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                         {% endif %}
                 </div>
             </div>
@@ -119,6 +127,8 @@
                     Subscribe
                 {% elif p == "dashboard" %}
                     Your Dashboard.
+                {% elif p == "booking_form" %}
+                    Congratulations!
                 {% else %}
                     Thankyou
                 {% endif %}
@@ -167,6 +177,12 @@
                     {% elif p == "dashboard" %}
                         <p>Welcome to your Dashboard.</p>
                         <p>Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
+                    {% elif p == "booking_form" %}
+                        <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }},{% else %}{{ invitation.invite_sender.user }},{% endif %}
+                           {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
+                           has accepted your invitation.
+                        </p>
+                        <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                     {% else %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
