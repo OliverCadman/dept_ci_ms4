@@ -37,7 +37,8 @@
                                 </li>
                             </ol>
                         {% elif p == "dashboard" %}
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat dicta veritatis ullam saepe at et inventore totam ad! Hic, culpa ex. Itaque enim nostrum animi deserunt nulla iusto praesentium. Maxime assumenda ipsam, aliquid libero ea architecto corrupti id omnis ab.</p>
+                            <p class="text-center">Welcome to your Dashboard.</p>
+                            <p class="text-center">Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
                         {% endif %}
                 </div>
             </div>
@@ -117,7 +118,7 @@
                 {% elif p == "choose_subscription" %}
                     Subscribe
                 {% elif p == "dashboard" %}
-                    Your Dashboard
+                    Your Dashboard.
                 {% else %}
                     Thankyou
                 {% endif %}
@@ -166,7 +167,6 @@
                     {% elif p == "dashboard" %}
                         <p>Welcome to your Dashboard.</p>
                         <p>Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
-
                     {% else %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
