@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
 from django.conf import settings
 
@@ -197,8 +198,34 @@ def upload_unavailable_dates(request, user_id):
 class DashboardView(LoginRequiredMixin, TemplateView):
 
     template_name = "profiles/dashboard.html"
+
+    def get(self, *args, **kwargs):
+        """
+        Disables a user from visiting another user's Dashboard.
+        Checks endpoint slug against request user's slug, and redirects
+        away from Dashboard page if they do not match.
+        """
+
+        current_user = get_object_or_404(UserProfile, user__username=self.request.user)
+
+        url_path = self.request.get_full_path()
+        url_endpoint = "".join(url_path.split("/")[-1:])
+
+        if current_user.slug != str(url_endpoint):
+            messages.info(self.request, mark_safe("You may not visit another member's dashboard."))
+            return redirect(reverse("home"))
+        return super().get(*args, **kwargs)
     
     def get_context_data(self, **kwargs):
+        """
+        Override default get_context_data to get user's dashboard data:
+
+        - Invites they need to respond to
+        - Completeness of their profile
+        - Invitations sent and received
+
+        """
+        
         context = super().get_context_data(**kwargs)
         current_user = self.kwargs["slug"]
 
@@ -265,7 +292,3 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         }
 
         return context
-
-    
-
-
