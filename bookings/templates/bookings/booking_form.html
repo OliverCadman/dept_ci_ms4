@@ -1,0 +1,15 @@
+ {% extends "base.html" %}
+ {% load static %}
+
+ {% block title %}DepT - Finalise Your Booking{% endblock %}
+
+ {% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+    <link rel="stylesheet" href="{% static "bookings/css/booking_form.css" %}">
+ {% endblock %}
+
+ {% block content %}
+    {% with page_name as p %}
+        {% include 'includes/header-hero.html' %}
+    {% endwith %}
+ {% endblock %}
