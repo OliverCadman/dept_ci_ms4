@@ -209,9 +209,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         current_user = get_object_or_404(UserProfile, user__username=self.request.user)
 
         url_path = self.request.get_full_path()
-        url_endpoint = "".join(url_path.split("/")[-1:])
-
-        if current_user.slug != str(url_endpoint):
+        url_endpoint = "".join(url_path.split("/")[3])
+        if "?" in url_endpoint:
+            url_endpoint = "".join(url_endpoint.split("?")[0])
+         
+        if not current_user.slug == url_endpoint:
             messages.info(self.request, mark_safe("You may not visit another member's dashboard."))
             return redirect(reverse("home"))
         return super().get(*args, **kwargs)
@@ -223,9 +225,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         - Invites they need to respond to
         - Completeness of their profile
         - Invitations sent and received
-
-        """
         
+        """
         context = super().get_context_data(**kwargs)
         current_user = self.kwargs["slug"]
 
