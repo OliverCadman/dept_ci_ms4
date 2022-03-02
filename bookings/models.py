@@ -37,3 +37,18 @@ class Invitation(models.Model):
 
     def __str__(self):
         return self.invitation_number
+
+
+class Booking(models.Model):
+    related_invitation = models.OneToOneField(Invitation, on_delete=models.CASCADE)
+    travel_provided = models.BooleanField(default=False)
+    travel_info = models.TextField(null=True, blank=True)
+    backline_provided = models.BooleanField(default=False)
+    backline_info = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Booking {self.related_invitation.invitation_number}"
+    
+    
+
+    
