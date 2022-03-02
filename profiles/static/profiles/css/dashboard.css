@@ -114,7 +114,12 @@
     font-size: 1.15rem;
     padding: 1rem .5rem;
     margin: .5rem .2rem;
-   
+}
+
+.job-nav-btn.active {
+    background-color: #cf8036;
+    box-shadow: inset 0px 1px 4px 0px rgb(255, 255, 255);
+
 }
 
 /* ------ Job Page ------ */
@@ -372,6 +377,12 @@
         font-size: 1.3rem;
     }
 
+    /* Invitations */
+
+    .invite_header {
+        display: inline;
+    } 
+
     .invitation-card {
         padding: .3rem .5rem;
         margin: 1rem 0;
@@ -402,7 +413,6 @@
         display: block;
         border-right: 2px solid rgba(128, 128, 128, 0.315);
         padding: 0 1rem;
-        background-color: inherit;
     }
 
     .job-nav-button-wrapper {
@@ -410,9 +420,8 @@
     }
 
     .job-nav-btn {
-        height: fit-content;
-        width: 100%;
-        padding: .2rem;
+        padding: 1rem;
+        margin: 0 1rem;
     }
 }
 
@@ -440,8 +449,12 @@
     }
 
     .job-nav-btn:hover {
-        background-color: #f0f0f0;
-        color: #222;
+        background-color: #252525;
+        color: #fefefe;
+    }
+
+    .job-nav-btn.active:hover {
+        background-color: #cf8b4a;
     }
 
     .invitation_card_detail:last-of-type {

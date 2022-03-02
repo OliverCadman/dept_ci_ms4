@@ -165,10 +165,10 @@
                                 <div id="job_page_breadcrumb_wrapper">
                                      {% if current_page == "jobs" %}
                                     <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="btn job-nav-btn">Sent Invitations</a>
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "invites_sent"%}active{% endif %}">Sent Invitations</a>
                                     </div>
                                     <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received&filter=all" class="btn job-nav-btn">Received Invitations</a>
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "invites_received"%}active{% endif %}">Received Invitations</a>
                                     </div>
                                 {% endif %} 
                                 </div>
