@@ -76,8 +76,3 @@ class TestHomePageRedirect(TestCase):
         self.assertRedirects(response, reverse("choose_subscription"), status_code=302, 
                              target_status_code=200)
         self.assertTemplateUsed(response, "subscriptions/subscription_choices.html")
-
-    
-     
-
-        
