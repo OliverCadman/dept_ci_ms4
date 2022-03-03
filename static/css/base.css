@@ -16,11 +16,44 @@ body {
     font-weight: 600;
 }
 
+.secondary-font {
+    font-family: "Oxygen", sans-serif;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Call to Action Buttons */
+
+.cta-btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.cta-btn {
+    background-color: #2c7222;
+    color: #fefefe;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Global Form Styling */
+
+.form-container {
+    background: rgb(241, 241, 241);
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 20px;
+}
+
 /* Navbar */
 
 .navbar {
     background-color: #45425a;
 }
+
 
 .notification-message-links {
     padding: 0;
@@ -31,6 +64,19 @@ body {
 .notification-message-links li {
     display: inline-block;
     margin: 0 .4rem;
+}
+
+#main-nav ul li a {
+    text-decoration: none;
+    font-family: "Varela Round", sans-serif;
+    color: #eee;
+    font-size: 1.2rem;
+}
+
+.sign-in-icon {
+    color: #eee;
+    font-size: 1rem;
+    margin-right: 1rem;
 }
 
 .sign-in-icon {
@@ -47,17 +93,72 @@ body {
     display: inline;
 }
 
-.account-links-sm {
-
-}
-
-
 
 .notification-message-links-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
 }
+
+.animate__animated.animate__fadeInLeft {
+    --animate-duration: .7s;
+}
+
+.account-menu {
+    width: 225%;
+    min-height: 150px;
+    position:relative;
+    border: 6px solid white;
+}
+
+
+#profile_image_navbar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#dept_logo_account {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 1rem 1rem 0 0;
+}
+
+#account_links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#account_dropdown_header_wrapper {
+    background-color: #1a2342;
+    color: #fefefe;
+    font-family: "Josefin Sans", sans-serif;
+    padding: 5px 0 0 5px;
+}
+
+#account_dropdown_header {
+    padding: 8px 0;
+    margin-bottom: 0;
+}
+
+.account_links_container {
+    background: rgb(240, 223, 98);
+    background: radial-gradient(circle, rgb(248, 219, 0) 0%, rgb(255, 253, 127) 100%);
+    padding: 2rem 0.5rem;
+}
+
+#main-nav ul li a.account_link {
+    color: #202020;
+}
+
 
 /* Footer */
 
@@ -115,11 +216,16 @@ body {
     color: #8b8b8b;
 }
 
-/* Form Buttons */
+/* Form Elements */
 
 .form-btn {
     background-color: #1a2342;
     color: #fefefe;
+}
+
+.form-label,
+.custom-formfield-font {
+    font-family: "Open Sans", sans-serif;
 }
 
 .submit-btn {
@@ -128,9 +234,62 @@ body {
     color: #fefefe;
 }
 
+.asteriskField {
+    color: rgb(177, 6, 6);
+    margin-left: 2px;
+}
+
+.form-header {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 600;
+}
+
+/* Subscription Cards */
+
+.benefits-list {
+    list-style: none;
+    font-family: "Oxygen", sans-serif;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.benefits-list li {
+    margin: 0.3rem 0;
+}
+
+.check-icon {
+    color: #27942c
+}
+
+.checkout-portal {
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 0 0 20px 20px;
+    height: 55px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    background-color: #333138;
+    color: #eee;
+}
+
 
 @media screen and (min-width: 768px) {
     /* NavBar */
+
+    #main-nav ul li a {
+        margin: 0 1rem;
+        font-size: 1.35rem;
+    }
+
+    .sign-in-icon {
+        font-size: 2.5rem;
+        margin-right: 1rem;
+    }
 
     .nav-item {
         padding: .75rem 0;
@@ -150,18 +309,10 @@ body {
 }
 
 @media screen and (min-width: 992px) {
-    #main-nav ul li a {
-        text-decoration: none;
-        margin: 0 1rem;
-        font-family: "Varela Round", sans-serif;
-        color: #eee;
-        font-size: 1.35rem;
-    }
 
-    .sign-in-icon {
-        color: #eee;
-        font-size: 2.5rem;
-        margin-right: 1rem;
+    #profile_image_navbar {
+        width: 150px;
+        height: 150px;
     }
 
     /* Footer */
@@ -177,7 +328,7 @@ body {
 
 }
 
-@media screen and (min-width:767px) {
+@media screen and (min-width:768px) {
     .navbar-brand {
         order: 1;
     }
@@ -185,5 +336,9 @@ body {
     .navbar-toggler {
         order: 0;
 
+    }
+
+    .navbar-nav {
+        align-items: center;
     }
 }
