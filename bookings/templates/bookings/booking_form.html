@@ -71,3 +71,8 @@
         </div>
     </section>
  {% endblock %}
+ <!-- Custom Form JS -->
+ {% block postload_js %}
+    {{ block.super }}
+    <script src="{% static "bookings/js/booking_form.js" %}"></script>
+ {% endblock %}
