@@ -10,6 +10,8 @@ from django.urls import reverse
 
 
 
+
+
 class Instrument(models.Model):
 
     # Assigning first value in 'choices' tuple to avoid
@@ -150,12 +152,6 @@ class UserProfile(models.Model):
         super().save(*args, **kwargs)
 
 
-    
-
-
-    
-
-
 class Equipment(models.Model):
     """
     Database model to display a list of equipment 
@@ -179,7 +175,9 @@ class AudioFile(models.Model):
     file = models.FileField(upload_to="audio")
     file_name = models.CharField(max_length=100, null=True, blank=True)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="users_tracks")
+                                     related_name="users_tracks", null=True)
+    related_booking = models.ForeignKey("bookings.Booking", on_delete=models.CASCADE,
+                                        related_name="audio_resources", null=True)
 
     def get_filename(self, file_path):
         """
