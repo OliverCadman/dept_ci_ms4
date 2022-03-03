@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 
 from django.contrib import messages
@@ -12,9 +13,9 @@ class IndexView(View):
         
         if request.user.is_authenticated:
             current_user = get_object_or_404(UserProfile, user__username=request.user)
+            print(current_user)
 
             if not current_user.subscription_chosen:
-                messages
-                return redirect("subscribe/choose_subscription")
+                return redirect(reverse("choose_subscription"))
 
         return render(request, "home/index.html")
