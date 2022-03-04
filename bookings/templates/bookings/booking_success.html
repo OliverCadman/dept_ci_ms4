@@ -3,5 +3,63 @@
 {% block title %}Success!{% endblock %}
 
 {% block content %}
-<h1>Success</h1>
+
+{% with page_name as p %}
+    {% include "includes/header-hero.html" %}
+{% endwith %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div id="finalized_booking_container" class="form-container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <p>Name of the Event</p>
+                        <p>{{ event.related_invitation.event_name }}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Name of the Artist</p>
+                        <p>{{ event.related_invitation.artist_name }}</p>
+                    </div>
+                     <div class="col-12 col-md-6">
+                        <p>Location of the Event</p>
+                        <p>{{ event.related_invitation.event_city }}, {{ event.related_invitation.event_country.name }}</p>
+                    </div>
+                     <div class="col-12 col-md-6">
+                        <p>Date and Time of the Event</p>
+                        <p>{{ event.related_invitation.event_datetime }}</p>
+                    </div>
+                     <div class="col-12 col-md-6">
+                        <p>Fee for Depping</p>
+                        <p>£{{ event.related_invitation.fee }}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Additional Information</p>
+                        <p>{{ event.related_invitation.additional_info }}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>Travel Provided?</p>
+                        <p>{% if event.travel_provided %}Yes{% else %}No{% endif %}</p>
+                    </div>
+                    {% if event.travel_provided %}
+                        <div class="col-12 col-md-6">
+                            <p>Travel Information</p>
+                            <p>{{ event.travel_info }}</p>
+                        </div>
+                    {% endif %}
+                    <div class="col-12 col-md-6">
+                        <p>Backline Provided?</p>
+                        <p>{% if event.backline_provided %}Yes{% else %}No{% endif %}</p>
+                    </div>
+                    {% if event.travel_provided %}
+                        <div class="col-12 col-md-6">
+                            <p>Backline Information</p>
+                            <p>{{ event.backline_info }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

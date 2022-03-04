@@ -180,8 +180,11 @@ def booking_form(request, invitation_pk):
                 if child_form.related_booking is None:
                     child_form.related_booking = parent_form
                 child_form.save()
+
+            request.session["booking_id"] = current_booking.related_invitation.invitation_number
+
             messages.success(request, "Booking Form Submitted")
-            return redirect(reverse("booking_success"))
+            return redirect(reverse("booking_success", args=[current_booking.id]))
         else:
             messages.error(request, "Your form was invalid, please try again.")
 
@@ -198,10 +201,14 @@ def booking_form(request, invitation_pk):
 
 class BookingSuccessView(View):
 
-    def get(self, request):
-        
+    def get(self, request, booking_id):
+
+        event = get_object_or_404(Booking, pk=booking_id)
+        print(event)
+
         context = {
-            "page_name": "booking_success"
+            "page_name": "booking_success",
+            "event": event,
         }
 
         return render(request, "bookings/booking_success.html",
