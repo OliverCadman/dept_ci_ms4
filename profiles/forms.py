@@ -1,10 +1,13 @@
 from django import forms
+from django.forms import ValidationError
 from .models import (UserProfile, Instrument,
                      Genre, UnavailableDate, AudioFile, Equipment)
 from django_countries.widgets import CountrySelectWidget
 from django_countries import Countries
 
 from .widgets import CustomClearableFileInput
+
+import os
 
 
 
@@ -87,9 +90,30 @@ class AudioForm(forms.ModelForm):
     
     class Meta:
         model = AudioFile
-        exclude = ("related_user",)
+        exclude = ("related_user", "related_booking", "file_name",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["file"].label = ""
 
     file=forms.FileField(required=False)
+
+    def clean_file(self):
+        filesize_limit = 5 * 1024 * 1024
+        data = self.cleaned_data["file"]
+        print("CLEANED DATA")
+        print(data)
+        if data.size > filesize_limit:
+            raise ValidationError("Please submit a file less than 5MB.")
+
+        allowed_extensions = list(os.environ.get("ALLOWED_AUDIOFILE_EXTENSIONS").split(","))
+        allowed_extensions = [x.strip(" ") for x in allowed_extensions]
+        filename, file_extension = os.path.splitext(data.name)
+
+        if file_extension not in allowed_extensions:
+            raise ValidationError("Only mp3, mp4, m4a, wav, aac, and flac files are supported.")
+    
+        return data
 
     def save(self, commit=True):
         instance = super(AudioForm, self).save(commit=False)
