@@ -1,0 +1,36 @@
+#finalized_booking_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#profile_image {
+    object-fit: cover;
+}
+
+#profile_header h1#booking_success_fallback_header {
+    color: #111;
+}
+
+#dept_logo_wrapper_sm {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#dept_logo_wrapper_sm img {
+    width: 100px;
+    height: 100px;
+}
+
+
+@media screen and (min-width: 768px){
+
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 1920px) {
+
+}
