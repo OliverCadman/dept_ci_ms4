@@ -1,30 +1,24 @@
-
-from datetime import datetime
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import JsonResponse
 from django.contrib import messages
-from django.views.generic import View
-from django.forms.models import model_to_dict
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.forms.models import modelformset_factory
 
-
-from datetime import datetime
 from dateutil import parser
 
 from .forms import InvitationForm, BookingForm
+from .models import Invitation, Booking
+from .functions import to_dict
+
+
+from social.models import Message
+from social.functions import reverse_querystring
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
-from .models import Invitation, Booking
-from social.models import Message
 
-from .functions import to_dict
-from social.functions import reverse_querystring
-
-# Create your views here.
 
 def invitation_form_view(request):
     """
@@ -161,31 +155,47 @@ def accept_invitation(request, invitation_pk):
         return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={ "page": "jobs" }))
 
 
-class BookingFormView(View):
-
-    def get(self, request, invitation_pk):
-
-        current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
-        current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
-        print("CURRENT BOOKING")
-        print(current_booking)
-
-        invitation_form = InvitationForm(instance=current_invitation)
-        booking_form = BookingForm()
-
-        AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=0)
-        queryset = current_booking.audio_resources.all()
-        audio_formset = AudioFormsetFactory(request.POST or None, queryset=queryset)
-
-        context = {
-            "invitation_form": invitation_form,
-            "booking_form": booking_form,
-            "audio_formset": audio_formset,
-            "invitation": current_invitation,
-            "page_name": "booking_form",  
-        }
 
 
-        return render(request, "bookings/booking_form.html", context=context)
+def booking_form(request, invitation_pk):
+
+    current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
+    current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
+
+    invitation_form = InvitationForm(instance=current_invitation)
+    booking_form = BookingForm()
+
+    AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
+    queryset = current_booking.audio_resources.all()
+    audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
+
+    if request.method == "POST":
+        booking_form = BookingForm(request.POST or None, instance=current_booking)
+        audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
+
+        if all([booking_form.is_valid(), audio_formset.is_valid()]):
+            parent_form = booking_form.save(commit=False)
+            parent_form.save()
+            for form in audio_formset:
+                child_form = form.save(commit=False)
+                if child_form.related_booking is None:
+                    child_form.related_booking = parent_form
+                child_form.save()
+            messages.success(request, "Booking Form Submitted")
+            return redirect(reverse("booking_form", args=[invitation_pk]))
+        else:
+            messages.error(request, "Your form was invalid, please try again.")
+
+    context = {
+        "invitation_form": invitation_form,
+        "booking_form": booking_form,
+        "audio_formset": audio_formset,
+        "invitation": current_invitation,
+        "page_name": "booking_form",  
+    }
+
+    return render(request, "bookings/booking_form.html", context=context)
+
+
 
    
