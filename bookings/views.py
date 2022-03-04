@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.forms.models import modelformset_factory
+from django.views.generic import View
 
 from dateutil import parser
 
@@ -155,8 +156,6 @@ def accept_invitation(request, invitation_pk):
         return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={ "page": "jobs" }))
 
 
-
-
 def booking_form(request, invitation_pk):
 
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
@@ -182,7 +181,7 @@ def booking_form(request, invitation_pk):
                     child_form.related_booking = parent_form
                 child_form.save()
             messages.success(request, "Booking Form Submitted")
-            return redirect(reverse("booking_form", args=[invitation_pk]))
+            return redirect(reverse("booking_success"))
         else:
             messages.error(request, "Your form was invalid, please try again.")
 
@@ -195,6 +194,19 @@ def booking_form(request, invitation_pk):
     }
 
     return render(request, "bookings/booking_form.html", context=context)
+
+
+class BookingSuccessView(View):
+
+    def get(self, request):
+        
+        context = {
+            "page_name": "booking_success"
+        }
+
+        return render(request, "bookings/booking_success.html",
+                      context=context)
+
 
 
 
