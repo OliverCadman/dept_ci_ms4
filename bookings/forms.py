@@ -109,12 +109,7 @@ class BookingForm(forms.ModelForm):
 
     
     def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_action = "bookings/send_full_details"
-        self.helper.form_method = "POST"
-        self.helper.form_id = "booking_confirmation_form"
-        self.helper.add_input(Submit("submit", "Submit"))
+        super().__init__(*args, **kwargs)
 
     
     travel_provided = forms.ChoiceField(label="Is Travel Provided?",
