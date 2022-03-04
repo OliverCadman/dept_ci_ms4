@@ -157,6 +157,17 @@ def accept_invitation(request, invitation_pk):
 
 
 def booking_form(request, invitation_pk):
+    """
+    Booking Form Page
+
+    Displays and handles all form data related to a particular booking/invitation.
+    Contains two forms:
+
+    - Booking Form
+    - AudioFormset Factory
+
+    AudioFormsetFactory provides dynamic addition of audio form file fields.
+    """
 
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
     current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
@@ -164,6 +175,7 @@ def booking_form(request, invitation_pk):
     invitation_form = InvitationForm(instance=current_invitation)
     booking_form = BookingForm()
 
+    # Initialize formset factory and query booking object for audio files
     AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
     queryset = current_booking.audio_resources.all()
     audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
@@ -173,10 +185,12 @@ def booking_form(request, invitation_pk):
         audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
 
         if all([booking_form.is_valid(), audio_formset.is_valid()]):
+            # Process Booking Form
             parent_form = booking_form.save(commit=False)
             parent_form.save()
             for form in audio_formset:
                 child_form = form.save(commit=False)
+                # Assign Audio Formset to related booking (if not done so already)
                 if child_form.related_booking is None:
                     child_form.related_booking = parent_form
                 child_form.save()
@@ -200,11 +214,20 @@ def booking_form(request, invitation_pk):
 
 
 class BookingSuccessView(View):
+    """
+    Booking Success View
 
+    Rendered after submitting finalized booking details.
+    Displays complete booking information.
+    """
     def get(self, request, booking_id):
-
         event = get_object_or_404(Booking, pk=booking_id)
-        print(event)
+
+        # Restricts access to page only to users associated with the booking.
+        if (not event.related_invitation.invite_sender.user.username == request.user.username
+            and not event.related_invitation.invite_receiver.user.username == request.user.username):
+            messages.warning(request, "You may not browse another user's booking.")
+            return redirect(reverse("home"))
 
         context = {
             "page_name": "booking_success",
