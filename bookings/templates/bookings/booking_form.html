@@ -46,6 +46,24 @@
                                 <div class="col-12">
                                     {{ invitation_form.additional_info|as_crispy_field }}
                                 </div>
+                                <div class="col-12">
+                                <!-- Dynamic Audio Formset -->
+                                {% if audio_formset %}
+                                    <h3>Your Audio Files</h3>
+                                    {{ audio_formset.management_form }}
+                                    <div id="audio_form_list">
+                                        {% for form in audio_formset %}
+                                            <div class="audio_form">
+                                                {{ form|crispy }}
+                                            </div>
+                                        {% endfor %}  
+                                    </div>
+                                    <div id="empty_form" class="hidden">
+                                        {{ audio_formset.empty_form|crispy }}
+                                    </div>
+                                    <button type="button" class="btn form-btn audio_form_btn" id="add_more_btn">Add More Audio</button>
+                                {% endif %}
+                            </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-6">
@@ -71,8 +89,10 @@
         </div>
     </section>
  {% endblock %}
+
  <!-- Custom Form JS -->
  {% block postload_js %}
     {{ block.super }}
     <script src="{% static "bookings/js/booking_form.js" %}"></script>
+    <script src={% static "profiles/js/formset.js" %}></script>
  {% endblock %}

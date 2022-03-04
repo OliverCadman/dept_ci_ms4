@@ -9,14 +9,16 @@ from django.forms.models import model_to_dict
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.forms.models import modelformset_factory
 
 
 from datetime import datetime
 from dateutil import parser
 
 from .forms import InvitationForm, BookingForm
-from profiles.models import UserProfile
-from .models import Invitation
+from profiles.forms import AudioForm
+from profiles.models import UserProfile, AudioFile
+from .models import Invitation, Booking
 from social.models import Message
 
 from .functions import to_dict
@@ -164,13 +166,25 @@ class BookingFormView(View):
     def get(self, request, invitation_pk):
 
         current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
+        current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
+        print("CURRENT BOOKING")
+        print(current_booking)
+
         invitation_form = InvitationForm(instance=current_invitation)
         booking_form = BookingForm()
 
+        AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=0)
+        queryset = current_booking.audio_resources.all()
+        audio_formset = AudioFormsetFactory(request.POST or None, queryset=queryset)
+
         context = {
             "invitation_form": invitation_form,
-            "booking_form": booking_form
+            "booking_form": booking_form,
+            "audio_formset": audio_formset,
+            "invitation": current_invitation,
+            "page_name": "booking_form",  
         }
+
 
         return render(request, "bookings/booking_form.html", context=context)
 
