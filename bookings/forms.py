@@ -113,17 +113,22 @@ class BookingForm(forms.ModelForm):
 
     
     travel_provided = forms.ChoiceField(label="Is Travel Provided?",
-                                          widget=forms.CheckboxInput)
+                                        required=False,
+                                        widget=forms.CheckboxInput)
 
     travel_info = forms.CharField(label="What are the travel plans?",
+                                  required=False,
                                   widget=forms.Textarea(attrs={
                                       "rows": "3"
                                   }))
 
     backline_provided = forms.ChoiceField(label="Is backline provided?",
-                                          widget=forms.CheckboxInput)
+                                          required=False,
+                                          widget=forms.CheckboxInput,
+                                          )
 
     backline_info = forms.CharField(label="What equipment is provided?",
+                                    required=False,
                                     widget=forms.Textarea(attrs={
                                         "rows": "2"
                                     }))
