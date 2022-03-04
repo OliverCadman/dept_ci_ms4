@@ -19,82 +19,10 @@
     {{ form.media }}
 {% endblock %}
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <!-- Profile header with user's name, location, instruments played, reviews and contact button -->
-        <div class="col-12 profile-header-container">
-            <div id="profile_header_wrapper" class="d-lg-none d-block" style="background:{% if user.profile_image %}url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;{% else %}#1a2342;{% endif %}">
-                    <div class="opaque-overlay"></div>
-                    <div id="profile_header" class="ms-2">
-                        <h1>
-                            {% if user.first_name and user.last_name or user.first_name %}
-                                {{ user.first_name }} {{ user.last_name }}
-                            {% else %}
-                                {{ user.user.username }}
-                            {% endif %}
-                            {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
-                        <div id="star-icons">
-                            <span>
-                                <i class="fas fa-star star-icon"></i>
-                                <i class="fas fa-star star-icon"></i>
-                                <i class="fas fa-star star-icon"></i>
-                                <i class="fas fa-star star-icon"></i>
-                                <i class="far fa-star star-icon"></i>
-                            </span>
-                        </div>
-                        <p id="instrument_list">
-                        {% if instrument_list %}
-                            {% for instrument in instrument_list %}
-                                {{ instrument }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        </p>
-                        <p class="user_location">
-                            {{ user.city }}, {{user.country.name}}
-                        </p>
-                    </div>
-                    <div class="contact-btn-wrapper">
-                        <button class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
-                    </div>
-                </div>
-            </div>
-            <div id="profile_header_wrapper_lg" class="d-none d-lg-block">
-                <div id="profile_header_lg" class="ms-5">
-                    <h1>
-                        {% if user.first_name and user.last_name or user.first_name %}
-                            {{ user.first_name }} {{ user.last_name }}
-                        {% else %}
-                            {{ user.user.username }}
-                        {% endif %}
-                        {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
-                    {% if instrument_list %}
-                    <p class="user_instruments_lg">
-                            <!-- User's instruments for loop, joined with comma -->
-                            {% for instrument in instrument_list %}
-                                {{instrument}}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                            </p>
-                    {% endif %}
-                    <p class="user_location">
-                        {{user.city}}, {{user.country.name}}
-                    </p>
-                    <div id="contact_btn_wrapper_lg">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
-                    </div>
-                </div>
-                <div id="profile_image_wrapper_lg">
-                    {% if user.profile_image %}
-                    <figure>
-                        <img src="{{user.profile_image.url}}" alt="{{user.username}}" id="profile_image_lg">
-                    </figure>
-                    {% else %}
-                        {% include "includes/dept-logo.html" %}
-                    {% endif %}
-                </div>  
-            </div>
-        </div>
-    </div>
-</div>
+{% with page_name as p %}
+    {% include "includes/profileheader_booking_success.html" %}
+{% endwith %}
+
 <div class="container-fluid bg-light">
     <div class="row">
         <!-- User Description and Reviews -->
