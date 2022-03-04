@@ -22,7 +22,7 @@
                         {% elif p == "dashboard" %}
                             Dashboard
                         {% elif p == "booking_form" %}
-                            Congratulations!
+                            Finalize your Booking.
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -42,16 +42,16 @@
                             <p class="text-center">Welcome to your Dashboard.</p>
                             <p class="text-center">Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
                         {% elif p == "booking_form" %}
-                            <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender }}{% else %}{{ invitation.invite_sender.user }}{% endif %}
+                            <p class="text-center">Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }}{% else %}{{ invitation.invite_sender.user }}{% endif %},
                               {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
                               has accepted your invitation.
                             </p>
-                            <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
+                            <p class="text-center">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                         {% endif %}
                 </div>
             </div>
     </section>
-    {% if not p == "dashboard" %}
+    {% if not p == "dashboard" and not p == "booking_form" %}
     <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
         <div class="row">
             <div class="col-12">
@@ -90,7 +90,7 @@
                     {% else %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
-                                <p>Let the community know who you've arrived.</p>
+                                <p>Let the community know you've arrived.</p>
                                 <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
                             </div>
                         {% elif request.session.form_page == 2 %}
@@ -128,7 +128,7 @@
                 {% elif p == "dashboard" %}
                     Your Dashboard.
                 {% elif p == "booking_form" %}
-                    Congratulations!
+                    Finalize Your Booking.
                 {% else %}
                     Thankyou
                 {% endif %}
