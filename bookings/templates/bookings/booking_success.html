@@ -1,12 +1,20 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Success!{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "bookings/css/booking_success.css" %}">
+    <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
+{% endblock %}
 
 {% block content %}
 
 {% with page_name as p %}
-    {% include "includes/header-hero.html" %}
+    {% include "includes/profileheader_booking_success.html" %}
 {% endwith %}
+
 <div class="container">
     <div class="row">
         <div class="col-12">

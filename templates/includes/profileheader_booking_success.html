@@ -1,0 +1,158 @@
+<div class="container-fluid">
+    <div class="row">
+        <!-- Profile header with user's name, location, instruments played, reviews and contact button -->
+        <div class="col-12 profile-header-container">
+            <div id="profile_header_wrapper" class="d-lg-none d-block" style="background:{% if p == "user_profile" %}
+                                                                                            {% if user.profile_image %}
+                                                                                                url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;
+                                                                                            {% else %}
+                                                                                                linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+                                                                                            {% endif %}
+                                                                                            {% elif p == "booking_success" %}
+                                                                                                {% with event.related_invitation.invite_receiver as invite_receiver %}
+                                                                                                    {% if invite_receiver.profile_image %}
+                                                                                                        url('{{MEDIA_ROOT}}{{invite_receiver.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;
+                                                                                                    {% else %}
+                                                                                                        linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+                                                                                                    {% endif %}
+                                                                                                {% endwith %}
+                                                                                            {% endif %}">
+                     {% if p == "booking_success" %}
+                        {% with event.related_invitation.invite_receiver as invite_receiver %}
+                            {% if invite_receiver.profile_image %}
+                                <div class="opaque-overlay"></div>
+                            {% endif %}
+                        {% endwith %}
+                    {% elif p == "user_profile" %}
+                        <div class="opaque-overlay"></div>
+                    {% endif %}                                                                       
+                    <div id="profile_header" class="ms-lg-2">
+                        <!-- Header for Profile Page (Small Screens) -->
+                        {% if p == "user_profile" %}
+                        <h1>
+                            {% if user.first_name and user.last_name or user.first_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.user.username }}
+                            {% endif %}
+                            {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
+                        <div id="star-icons">
+                            <span>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="fas fa-star star-icon"></i>
+                                <i class="far fa-star star-icon"></i>
+                            </span>
+                        </div>
+                        <p id="instrument_list">
+                        {% if instrument_list %}
+                            {% for instrument in instrument_list %}
+                                {{ instrument }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </p>
+                        <p class="user_location">
+                            {{ user.city }}, {{user.country.name}}
+                        </p>
+                        <!-- Header for Booking Success Page (Small Screens) -->
+                        {% elif p == "booking_success" %}
+                            {% with event.related_invitation.invite_receiver as invite_receiver %}
+                                <h1 id="{% if not invite_receiver.profile_image %}booking_success_fallback_header{% endif %}" class="text-center">
+                                    {% if invite_receiver.first_name %}
+                                        You have booked {{ invite_receiver.first_name }}
+                                    {% else %}
+                                        You have booked {{ invite_receiver.user.username }}
+                                    {% endif %}
+                                </h1>
+                                <div id="dept_logo_fallback_container">
+                                    <figure id="dept_logo_wrapper_sm">
+                                        {% include 'includes/dept-logo.html' %}
+                                    </figure>
+                                </div>
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                    {% if p == "user_profile" %}
+                    <div class="contact-btn-wrapper">
+                        <button class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="profile_header_wrapper_lg" class="d-none d-lg-block">
+                <div id="profile_header_lg" class="ms-5">
+                    <!-- Profile Header for Profile Page (Large Screens) -->
+                    {% if p == "user_profile" %}
+                    <h1>
+                        {% if user.first_name and user.last_name or user.first_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                            {{ user.user.username }}
+                        {% endif %}
+                        {% if user.user.username == request.user.username %}
+                            <button type="button"
+                                    class="btn edit_user_details_btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_profile_modal">
+                                <span><i class="fas fa-edit edit_profile_icon"></i></span>
+                            </button>
+                        {% endif %}
+                    </h1>
+                    {% if instrument_list %}
+                    <p class="user_instruments_lg">
+                            <!-- User's instruments for loop, joined with comma -->
+                            {% for instrument in instrument_list %}
+                                {{instrument}}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            </p>
+                    {% endif %}
+                    <p class="user_location">
+                        {{user.city}}, {{user.country.name}}
+                    </p>
+                    <div id="contact_btn_wrapper_lg">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
+                    </div>
+                </div>
+                <!-- Profile Image for Booking Success Page (Large Screens) -->
+                {% elif p == "booking_success" %}
+                    {% with event.related_invitation.invite_receiver as invite_receiver %}
+                        <h1>
+                            {% if invite_receiver.first_name %}
+                                You have booked {{ invite_receiver.first_name }}
+                            {% else %}
+                                You have booked {{ invite_receiver.user.username }}
+                            {% endif %}
+                        </h1>
+                    {% endwith %}
+                {% endif %}
+                {% if p == "user_profile" %}
+                <!-- Hello?-->
+                <div id="profile_image_container_lg" class="no_profile_image_fallback_bg">
+                    {% if user.profile_image %}
+                    <figure>
+                        <img src="{{user.profile_image.url}}" alt="{{user.username}}" id="profile_image_lg">
+                    </figure>
+                    {% else %}
+                        <figure class="dept_logo_wrapper_lg">
+                                {% include "includes/dept-logo.html" %}
+                            </figure>
+                    {% endif %}
+                {% elif p == "booking_success" %}
+                    {% with event.related_invitation.invite_receiver as invite_receiver %}
+                        {% if invite_receiver.profile_image %}
+                        <figure>
+                            <img src="{{invite_receiver.profile_image.url}}" alt="{{ invite_receiver.user.username }}" id="profile_image_lg">
+                        </figure>
+                        {% else %}
+                            <figure class="dept_logo_wrapper_lg">
+                                {% include "includes/dept-logo.html" %}
+                            </figure>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
