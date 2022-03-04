@@ -28,14 +28,15 @@ def invitation_form_view(request):
     """
 
     invite_receiver_username = request.session.get("invited_username")
-    invite_receiver = get_object_or_404(UserProfile, user__username=invite_receiver_username)
+    invite_receiver = get_object_or_404(UserProfile,
+                                        user__username=invite_receiver_username)
     invite_sender = get_object_or_404(UserProfile, user__username=request.user)
 
     if request.POST:
         event_datetime = request.POST.get("event_datetime")
         # Parse the event_datetime value of request.POST to be interpreted by Python Django.
         parsed_datetime = parser.parse(event_datetime)
-    
+
         invitation_post = {
             "event_name": request.POST.get("event_name"),
             "artist_name": request.POST.get("artist_name"),
@@ -68,7 +69,7 @@ def invitation_form_view(request):
 def get_invitation_messages(request, pk):
         """
         AJAX Handler to return all messages for a given
-        invitation, to be displayed in modals triggered 
+        invitation, to be displayed in modals triggered
         from invitation cards.
 
         Additionally, all message objects for the given invitation
@@ -81,17 +82,17 @@ def get_invitation_messages(request, pk):
 
         if not len(messages) == 0:
             for message in messages:
-                
+
                 message_object = get_object_or_404(Message, pk=message.pk)
                 message_object.is_read = True
                 message_object.save()
-                
+
                 message = to_dict(message)
                 print(message)
                 message_list.append(message)
         else:
             print("NO MESSAGES")
-        
+
         # Return JSON to be handled in JS file
         return JsonResponse({ "messages": message_list})
 
@@ -99,14 +100,16 @@ def get_invitation_messages(request, pk):
 def accept_invitation(request, invitation_pk):
     """
     Updates relevant Invitation object with 'accepted' status,
-    and sends the invite receiver a confirmation email upon 
+    and sends the invite receiver a confirmation email upon
     once the Invitation object has been updated and saved successfully.
     """
 
     invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
-    invite_receiver = get_object_or_404(UserProfile, user__username=request.user)
-    invite_sender = get_object_or_404(UserProfile, user__username=invitation.invite_sender)
+    invite_receiver = get_object_or_404(UserProfile,
+                                        user__username=request.user)
+    invite_sender = get_object_or_404(UserProfile,
+                                      user__username=invitation.invite_sender)
 
     try:
         invitation.is_accepted = True
@@ -121,7 +124,7 @@ def accept_invitation(request, invitation_pk):
             { "invitation_number": invitation_number }
         )
         body = render_to_string(
-            'bookings/confirmation_emails/confirmation_email_receiver_body.txt', 
+            'bookings/confirmation_emails/confirmation_email_receiver_body.txt',
             { "invitation": invitation }
         )
         send_mail(
@@ -130,7 +133,7 @@ def accept_invitation(request, invitation_pk):
             settings.DEFAULT_FROM_EMAIL,
             [invite_receiver_email]
         )
-        
+
         # Send Email Confirmation to Invite Sender
         invite_sender_email = invite_sender.user.email
         subject = render_to_string(
@@ -149,11 +152,15 @@ def accept_invitation(request, invitation_pk):
         )
 
         messages.success(request, "Great, your invitation has been accepted!")
-        return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={"page": "jobs"}))
+        return redirect(reverse_querystring("dashboard",
+                                            args=[invite_receiver.slug],
+                                            query_kwargs={"page": "jobs"}))
     except Exception as e:
         print("Exception:", e)
         messages.error(request, "Sorry something went wrong. Please try again")
-        return redirect(reverse_querystring("dashboard", args=[invite_receiver.slug], query_kwargs={ "page": "jobs" }))
+        return redirect(reverse_querystring("dashboard",
+                                            args=[invite_receiver.slug],
+                                            query_kwargs={ "page": "jobs" }))
 
 
 def booking_form(request, invitation_pk):
@@ -178,11 +185,13 @@ def booking_form(request, invitation_pk):
     # Initialize formset factory and query booking object for audio files
     AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
     queryset = current_booking.audio_resources.all()
-    audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
+    audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
+                                        queryset=queryset)
 
     if request.method == "POST":
         booking_form = BookingForm(request.POST or None, instance=current_booking)
-        audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None, queryset=queryset)
+        audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
+                                            queryset=queryset)
 
         if all([booking_form.is_valid(), audio_formset.is_valid()]):
             # Process Booking Form
@@ -195,7 +204,8 @@ def booking_form(request, invitation_pk):
                     child_form.related_booking = parent_form
                 child_form.save()
 
-            request.session["booking_id"] = current_booking.related_invitation.invitation_number
+            request.session["booking_id"] = (
+                current_booking.related_invitation.invitation_number)
 
             messages.success(request, "Booking Form Submitted")
             return redirect(reverse("booking_success", args=[current_booking.id]))
@@ -207,7 +217,7 @@ def booking_form(request, invitation_pk):
         "booking_form": booking_form,
         "audio_formset": audio_formset,
         "invitation": current_invitation,
-        "page_name": "booking_form",  
+        "page_name": "booking_form",
     }
 
     return render(request, "bookings/booking_form.html", context=context)
@@ -236,8 +246,3 @@ class BookingSuccessView(View):
 
         return render(request, "bookings/booking_success.html",
                       context=context)
-
-
-
-
-   
