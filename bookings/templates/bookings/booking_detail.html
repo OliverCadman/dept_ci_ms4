@@ -22,19 +22,28 @@
         <div class="container-fluid" id="booking_details_header_container">
             <div class="row">
                 <div class="col-12" id="booking_details_header_wrapper">
-                    <h2 class="primary_font" id="booking_details_header">Here are your booking details</h2>
+                    <a href="{% url "generate_pdf" booking.id %}" target="_blank" id="pdf_btn" class="btn custom_success white_font secondary_font">Download details as PDF</a>
                 </div>
             </div>
         </div>
         <!-- Booking Details and Resources -->
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-12 col-md-3">
-                    <div id="booking_resources_container">
-                        
+                <div class="col-12 col-md-4 col-lg-3" id="booking_resources_container">
+                    <div id="booking_resources_header">
+                        <h3 class="text-center primary_font">Your Booking Resources</h3>
+                    </div>
+                    <hr class="block_divider_stub">
+                    <div id="audiofile_wrapper">
+                        <h4 class="secondary_font">Audio Files</h4>
+                        {% for file in booking.audio_resources.all %}
+                            {% if not file.file_name == None %}
+                            <a class="btn download_btn white_font secondary_font custom_success" href="{% url "download_audiofiles" file.id %}">AudioFile {{ forloop.counter }}</a>
+                            {% endif %}
+                        {% endfor %} 
                     </div>
                 </div>
-                <div class="col-12 col-md-9">
+                <div class="col-12 col-md-8 col-lg-9">
                     <div id="booking_details_container">
                         <div id="booking_details_wrapper">
                             {% with booking as event %}
