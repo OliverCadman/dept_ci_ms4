@@ -106,13 +106,24 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         exclude = ("related_invitation",)
-
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
+    venue_name = forms.CharField(label="Name of the Venue",
+                                 widget=forms.TextInput)
     
-    travel_provided = forms.ChoiceField(label="Is Travel Provided?",
+    street_address1 = forms.CharField(label="Street Address 1",
+                                 widget=forms.TextInput)
+
+    street_address2 = forms.CharField(label="Street Address 2",
+                                 widget=forms.TextInput,
+                                 required=False)
+
+    postcode = forms.CharField(label="Postcode/ZIP",
+                               widget=forms.TextInput,
+                               required=False)
+
+
+    travel_provided = forms.BooleanField(label="Is Travel Provided?",
                                         required=False,
                                         widget=forms.CheckboxInput)
 
@@ -122,9 +133,10 @@ class BookingForm(forms.ModelForm):
                                       "rows": "3"
                                   }))
 
-    backline_provided = forms.ChoiceField(label="Is backline provided?",
+    backline_provided = forms.BooleanField(label="Is backline provided?",
                                           required=False,
-                                          widget=forms.CheckboxInput,
+                                          widget=forms.CheckboxInput
+
                                           )
 
     backline_info = forms.CharField(label="What equipment is provided?",
@@ -132,15 +144,3 @@ class BookingForm(forms.ModelForm):
                                     widget=forms.Textarea(attrs={
                                         "rows": "2"
                                     }))
-
-
-    
-
-
-    
-    
-
-    
-
-
-    
