@@ -6,7 +6,8 @@
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "bookings/css/booking_success.css" %}">
-    <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
+    <link rel="stylesheet" href="{% static "bookings/css/booking_detail_display.css" %}">
+    <link rel="stylesheet" href="{% static "css/profile_booking_includes.css" %}">
 {% endblock %}
 
 {% block content %}
@@ -17,80 +18,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <div id="finalized_booking_container">
-                <div class="row">
-                    <div class="col-12" id="booking_id_wrapper">
-                        <p class="primary_font text-center mt-5 mb-5" id="booking_id">
-                            Booking Number {{ event.related_invitation.invitation_number }}
-                        </p>
-                    </div>
-                </div>
-                <hr id="booking_id_wrapper_hr">
-                <div id="finalized_booking_wrapper">
-                    <div id="vertical_line"></div>
-                    <div class="row pt-0 pt-md-3">
-                        <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Name of the Event</p>
-                            <p class="secondary_font text-center">{{ event.related_invitation.event_name }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                        <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Name of the Artist</p>
-                            <p class="secondary_font text-center">{{ event.related_invitation.artist_name }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                        <hr class="d-none d-md-block block-divider">
-                         <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Location of the Event</p>
-                            <p class="secondary_font text-center">{{ event.related_invitation.event_city }}, {{ event.related_invitation.event_country.name }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                         <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Date and Time of the Event</p>
-                            <p class="secondary_font text-center">{{ event.related_invitation.event_datetime }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                        <hr class="d-none d-md-block block-divider">
-                         <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Fee for Depping</p>
-                            <p class="secondary_font text-center">£{{ event.related_invitation.fee }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                        <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Additional Information</p>
-                            <p class="secondary_font text-center">{{ event.related_invitation.additional_info }}</p>
-                        </div>
-                        <hr class="d-block d-md-none block-divider">
-                        <hr class="d-none d-md-block block-divider">
-                        <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Travel Provided?</p>
-                            <p class="secondary_font text-center">{% if event.travel_provided %}Yes{% else %}No{% endif %}</p>
-                        </div>
-                        {% if event.travel_provided %}
-                            <hr class="d-block d-md-none block-divider">
-                            <div class="col-12 col-md-6">
-                                <p class="primary_font text-center med-size underline">Travel Information</p>
-                                <p class="secondary_font text-center">{{ event.travel_info }}</p>
-                            </div>
-                        {% endif %}
-                        {% if event.travel_info %}
-                            <hr class="block-divider">
-                        {% endif %}
-                        <div class="col-12 col-md-6">
-                            <p class="primary_font text-center med-size underline">Backline Provided?</p>
-                            <p class="secondary_font text-center">{% if event.backline_provided %}Yes{% else %}No{% endif %}</p>
-                        </div>
-                        {% if event.backline_provided %}
-                            <hr class="d-block d-md-none block-divider">
-                            <div class="col-12 col-md-6">
-                                <p class="primary_font text-center med-size underline">Backline Information</p>
-                                <p class="secondary_font text-center">{{ event.backline_info }}</p>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+        <div class="col-12">       
+                {% include "bookings/includes/booking_detail_display.html" %}
         </div>
     </div>
 </div>

@@ -1,23 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
 
+<!-- Title -->
 {% block title %}{{ booking.related_invitation.event_name }}{% endblock %}
 
+<!-- Custom CSS -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/profile_booking_includes.css" %}">
     <link rel="stylesheet" href="{% static "bookings/css/booking_detail.css" %}">
+    <link rel="stylesheet" href="{% static "bookings/css/booking_detail_display.css" %}">
 {% endblock %}
 
+<!-- Content -->
 {% block content %}
     {% with page_name as p %}
     {{ page_name }}
         {% include "includes/profileheader_booking_success.html" %}
     {% endwith %}
+    <!-- Header -->
     <section id="booking_details">
         <div class="container-fluid" id="booking_details_header_container">
             <div class="row">
                 <div class="col-12" id="booking_details_header_wrapper">
                     <h2 class="primary_font" id="booking_details_header">Here are your booking details</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Booking Details and Resources -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <div id="booking_resources_container">
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-md-9">
+                    <div id="booking_details_container">
+                        <div id="booking_details_wrapper">
+                            {% with booking as event %}
+                                {% include "bookings/includes/booking_detail_display.html" %}
+                            {% endwith %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
