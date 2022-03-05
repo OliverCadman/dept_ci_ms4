@@ -1,0 +1,19 @@
+#booking_details_header_wrapper {
+    background-color: #1b1b1b;
+    color: #fefefe;
+}
+
+#booking_details_header {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    #booking_details_header {
+        text-align: left;
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+}
