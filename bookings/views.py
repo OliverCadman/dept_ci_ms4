@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.forms.models import modelformset_factory
 from django.views.generic import View
+from django.contrib.auth.decorators import login_required
 
 from dateutil import parser
 
@@ -162,7 +163,7 @@ def accept_invitation(request, invitation_pk):
                                             args=[invite_receiver.slug],
                                             query_kwargs={ "page": "jobs" }))
 
-
+@login_required
 def booking_form(request, invitation_pk):
     """
     Booking Form Page
@@ -177,7 +178,15 @@ def booking_form(request, invitation_pk):
     """
 
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
+
+    # Access to page restricted to invite sender only.
+    if current_invitation.invite_sender.user.username != request.user.username:
+        messages.warning(request, "Sorry, this is not your booking.")
+        return redirect(reverse("home"))
+
+
     current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
+    
 
     invitation_form = InvitationForm(instance=current_invitation)
     booking_form = BookingForm()
