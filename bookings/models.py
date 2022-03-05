@@ -46,6 +46,7 @@ class Invitation(models.Model):
 class Booking(models.Model):
     related_invitation = models.OneToOneField(Invitation, on_delete=models.CASCADE,
                                               related_name="related_booking")
+    venue_name = models.CharField(max_length=100, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
     town_or_city = models.CharField(max_length=40, null=True, blank=True)
