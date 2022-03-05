@@ -45,9 +45,9 @@ class Invitation(models.Model):
 
 class Booking(models.Model):
     related_invitation = models.OneToOneField(Invitation, on_delete=models.CASCADE)
-    travel_provided = models.BooleanField(default=False)
+    travel_provided = models.BooleanField(default=False, null=True)
     travel_info = models.TextField(null=True, blank=True)
-    backline_provided = models.BooleanField(default=False)
+    backline_provided = models.BooleanField(default=False, null=True)
     backline_info = models.TextField(null=True, blank=True)
 
     def __str__(self):
