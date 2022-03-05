@@ -1,6 +1,8 @@
 {% load custom_tags %}
 <div class="invitation-card">
-
+    {% if invitation.is_accepted %}
+        <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
+    {% endif %}
     <div class="invitation_date_wrapper">
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
     </div>
@@ -10,14 +12,22 @@
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>    
     <p>{{ invitation.pk }}</p>
     <div class="invitation_btn_wrapper">
-        <button class="modal-trigger btn invitation_card_btn view_detail_btn" data-bs-toggle="modal"
-        data-bs-target="#invitation_detail_modal"
-        data-invite-fname="{{ invitation.invite_sender.first_name }}"
-        data-invite-lname="{{ invitation.invite_sender.last_name }}"
-        data-event-name="{{ invitation.event_name }}"
-        data-event-city="{{ invitation.event_city }}"
-        data-event-country="{{ invitation.event_country.name }}"
-        data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}">View Details</button>
+        {% if not invitation.is_accepted %}
+            <button class="modal-trigger btn invitation_card_btn view_detail_btn" data-bs-toggle="modal"
+            data-bs-target="#invitation_detail_modal"
+            data-invite-fname="{{ invitation.invite_sender.first_name }}"
+            data-invite-lname="{{ invitation.invite_sender.last_name }}"
+            data-event-name="{{ invitation.event_name }}"
+            data-event-city="{{ invitation.event_city }}"
+            data-event-country="{{ invitation.event_country.name }}"
+            data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}">View Details</button>
+        {% else %}
+            {% if not invitation.related_booking %}
+                <a href="" class="btn invitation_card_btn disabled disabled_btn">Awaiting Full Details</a>
+            {% else %}
+                <a href="{% url "booking_detail" invitation.related_booking.id %}" class="btn invitation_card_btn custom_success">View Full Details</a>   
+            {% endif %}
+        {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
@@ -26,14 +36,16 @@
         data-invite-username={{ invitation.invite_sender.user }}
         data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk }}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
-        data-modal-profile-img="{{ invitation.invite_sender.profile_image.url }}"
-        data-invitation-id={{ invitation.pk }}>
+        data-modal-profile-img="{% if invitation.invite_sender.profile_image %}{{ invitation.invite_sender.profile_image.url }{% endif %}"
+        data-invitation-id="{{ invitation.pk }}">
             Message {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}
                 {% if invitation|count_unread_messages %}
                     <span class="badge position-absolute top-0 start-100 rounded-pill translate-middle bg-warning text-dark text-bold">!</span>
                 {% endif %}
-        </button>   
+        </button>
+        {% if not invitation.is_accepted %}
         <a href="{% url 'accept_invitation' invitation.pk %}"class="btn invitation_card_btn accept">Accept</a>
         <button class="btn invitation_card_btn decline">Decline</button>
+        {% endif %}
     </div>  
 </div>

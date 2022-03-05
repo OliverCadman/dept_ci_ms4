@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.forms.models import modelformset_factory
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.contrib.auth.decorators import login_required
 
 from dateutil import parser
@@ -179,11 +179,6 @@ def booking_form(request, invitation_pk):
 
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
-    # Access to page restricted to invite sender only.
-    if current_invitation.invite_sender.user.username != request.user.username:
-        messages.warning(request, "Sorry, this is not your booking.")
-        return redirect(reverse("home"))
-
 
     current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
     
@@ -255,3 +250,8 @@ class BookingSuccessView(View):
 
         return render(request, "bookings/booking_success.html",
                       context=context)
+
+
+class BookingDetailView(DetailView):
+
+    model = Booking
