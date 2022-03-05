@@ -335,3 +335,27 @@ class GeneratePDFFile(View):
         messages.error(self.request, "Sorry, the PDF couldn't be downloaded now. Please try again.")
         return redirect(reverse("booking_detail", args=[current_booking.pk]))
         
+
+
+def download_audiofile(request, file_id):
+    """
+    View to handle request to download audio files.
+
+    Get AudioFile object from DB and open a socket connection
+    to the audio file, routed through the audiofile path.
+
+    If fsock is valid, return HTTP Response to serve the 
+    prepared audio file, as audio/mpeg attachment.
+
+    https://stackoverflow.com/questions/2681338/django-serving-a-download-in-a-generic-view
+    """
+    audio_file = get_object_or_404(AudioFile, pk=file_id)
+    fsock = open(audio_file.file.path, "rb")
+    if fsock:
+        response = HttpResponse(fsock, content_type="audio/mpeg")
+        response["Content-Disposition"] = "attachment; filename=%s" %(audio_file.file_name)
+        return response
+
+    booking_id = audio_file.related_booking.pk
+    messages.error(request, "Sorry, something went wrong, please try again.")
+    return redirect(reverse("booking_detail", args=[booking_id]))
