@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -8,12 +8,15 @@ from django.conf import settings
 from django.forms.models import modelformset_factory
 from django.views.generic import View, DetailView
 from django.contrib.auth.decorators import login_required
+from django.utils.safestring import mark_safe
+from django.template.loader import get_template
 
 from dateutil import parser
 
 from .forms import InvitationForm, BookingForm
 from .models import Invitation, Booking
 from .functions import to_dict
+from .utils import render_to_pdf
 
 
 from social.models import Message
@@ -240,7 +243,7 @@ class BookingSuccessView(View):
         # Restricts access to page only to users associated with the booking.
         if (not event.related_invitation.invite_sender.user.username == request.user.username
             and not event.related_invitation.invite_receiver.user.username == request.user.username):
-            messages.warning(request, "You may not browse another user's booking.")
+            messages.warning(request, mark_safe("You may not browse another user's booking."))
             return redirect(reverse("home"))
 
         context = {
@@ -253,5 +256,82 @@ class BookingSuccessView(View):
 
 
 class BookingDetailView(DetailView):
+    """
+    View to display a single instance of a booking.
+    """
 
     model = Booking
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context["page_name"] = "booking_detail"
+        
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        template_name = "bookings/booking_detail.html"
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.get_object())
+
+        user = self.request.user
+        user_profile = get_object_or_404(UserProfile, user__username=user)
+        booking_receiver = self.object.related_invitation.invite_receiver
+        
+        if user_profile != booking_receiver:
+            messages.warning(self.request, mark_safe("You may not browse another user's booking."))
+            return redirect(reverse("home"))
+
+        return render(request, template_name=template_name, context=context)
+
+
+class GeneratePDFFile(View):
+    """
+    View to display Booking Detail in downloadable PDF format.
+
+    Methods:
+
+    get() - Retrieves the booking id as args and gets booking.
+          - Creates a context containing the booking and passes
+            template and context into render_to_pdf().
+          - If PDF is valid, returns a HTTPResponse containing
+            the generated pdf along with relevant content type.
+          - Download is taken from request if user clicks the
+            browser-generated download button.
+
+    https://www.codingforentrepreneurs.com/blog/html-template-to-pdf-in-django/
+    """
+    def get(self, request, *args, **kwargs):
+        booking_id = self.kwargs["booking_id"]
+        current_booking = get_object_or_404(Booking, pk=booking_id)
+
+        # Get Booking Detail Display template using django template loaders
+        template = get_template("bookings/pdf_files/booking_detail_display_pdf.html")
+
+        # Define the context (current booking)
+        context = {
+            "event": current_booking
+        }
+
+        html = template.render(context)
+
+        # Invoke render_to_pdf to convert HTML into PDF format
+        pdf = render_to_pdf("bookings/pdf_files/booking_detail_display_pdf.html", context)
+
+        # Return HTTPResponse containing prepared PDF
+        # String format filename to include specific booking number in case of download.
+        if pdf:
+            response = HttpResponse(pdf, content_type="application/pdf")
+            filename = "Booking %s.pdf" %(current_booking.related_invitation.invitation_number)
+            content = "inline; filename=%s" %(filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" %(filename)
+
+            # Inform the browser that the response should be treated as an attachment
+            response["Content-Disposition"] = content
+            return response
+
+        messages.error(self.request, "Sorry, the PDF couldn't be downloaded now. Please try again.")
+        return redirect(reverse("booking_detail", args=[current_booking.pk]))
+        
