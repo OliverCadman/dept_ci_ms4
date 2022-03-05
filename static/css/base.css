@@ -24,6 +24,15 @@ body {
     font-family: "Oxygen", sans-serif;
 }
 
+.underline {
+    text-decoration: underline;
+    line-height: 1.25rem;
+}
+
+.med-size {
+    font-size: 1.2rem;
+}
+
 .centered {
     display: flex;
     justify-content: center;
@@ -34,9 +43,43 @@ body {
     display: none;
 }
 
+.white_font { 
+    color: #fefefe;
+}
+
+.dark_font {
+    color: #111 !important;
+}
+
+.large_text {
+    font-size: 2.5rem;
+}
+
+.med_text {
+    font-size: 1.75rem;
+}
+
 .alert_style {
     color: #9c1e1e;
     font-style: italic;
+}
+
+.full_height {
+    height: 100%;
+}
+
+.column_end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.custom_success {
+    background-color: #0e8347;
+}
+
+.block-divider {
+    border: 5px solid rgb(255, 255, 255);
 }
 
 /* Call to Action Buttons */

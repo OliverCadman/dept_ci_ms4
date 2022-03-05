@@ -1,11 +1,11 @@
 .profile-header-container {
-    padding: 75px 0 0 0;
+    padding: 50px 0 0 0;
     position: relative;
 }
 
 #profile_header_wrapper {
     position: relative;
-    height: 250px;
+    min-height: 250px;
 }
 
 #profile_header {
@@ -52,7 +52,7 @@
 
 @media screen and (min-width: 992px) {
     .profile-header-container {
-        padding: 65px 0 0 0;
+        padding: 60px 0 0 0;
     }
 
     #profile_header_wrapper_lg {
