@@ -19,7 +19,8 @@
             <div class="row">
                 <div class="col-12">
                     <div id="booking_form_container" class="form-container">
-                        <form action="" method="POST">
+                        <form action="{% url 'booking_form' invitation.pk %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     {{ invitation_form.event_name|as_crispy_field }}
@@ -49,24 +50,30 @@
                                 <div class="col-12">
                                 <!-- Dynamic Audio Formset -->
                                 {% if audio_formset %}
-                                    <h3>Your Audio Files</h3>
+                                    <h3 class="primary_font">Your Audio Files</h3>
+                                    <p><small class="secondary_font alert_style">Each file should not exceed 5MB</small></p>
+                                    <!-- Formset Management -->
                                     {{ audio_formset.management_form }}
+                                    <!---->
                                     <div id="audio_form_list">
                                         {% for form in audio_formset %}
                                             <div class="audio_form">
                                                 {{ form|crispy }}
                                             </div>
-                                        {% endfor %}  
+                                        {% endfor %}
+                                    
                                     </div>
                                     <div id="empty_form" class="hidden">
                                         {{ audio_formset.empty_form|crispy }}
                                     </div>
+                                    <!-- Display Error if more than 15 forms are added to formset -->
+                                    <p id="audiofile_error_message"></p>
                                     <button type="button" class="btn form-btn audio_form_btn" id="add_more_btn">Add More Audio</button>
                                 {% endif %}
-                            </div>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 centered mt-3 mt-md-0">
                                     {{ booking_form.travel_provided|as_crispy_field }}
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -74,11 +81,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 centered mt-3 mt-md-0">
                                     {{ booking_form.backline_provided|as_crispy_field }}
                                 </div>
                                 <div class="col-12 col-md-6">
                                     {{ booking_form.backline_info|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 submit_btn_container">
+                                    <button type="submit" class="btn submit-btn">Submit</button>
                                 </div>
                             </div>
                         </form>

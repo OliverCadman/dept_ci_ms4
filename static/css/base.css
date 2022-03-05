@@ -16,7 +16,11 @@ body {
     font-weight: 600;
 }
 
-.secondary-font {
+.primary_font {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.secondary_font {
     font-family: "Oxygen", sans-serif;
 }
 
@@ -24,6 +28,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.alert_style {
+    color: #9c1e1e;
+    font-style: italic;
 }
 
 /* Call to Action Buttons */
@@ -46,6 +59,7 @@ body {
     padding: 1rem;
     margin: 2rem 0;
     border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Navbar */
@@ -151,7 +165,6 @@ body {
 
 .account_links_container {
     background: rgb(240, 223, 98);
-    background: radial-gradient(circle, rgb(248, 219, 0) 0%, rgb(255, 253, 127) 100%);
     padding: 2rem 0.5rem;
 }
 
@@ -221,6 +234,7 @@ body {
 .form-btn {
     background-color: #1a2342;
     color: #fefefe;
+    font-family: "Open Sans", sans-serif;
 }
 
 .form-label,
@@ -308,6 +322,21 @@ body {
     }
 }
 
+@media screen and (min-width:768px) {
+    .navbar-brand {
+        order: 1;
+    }
+
+    .navbar-toggler {
+        order: 0;
+
+    }
+
+    .navbar-nav {
+        align-items: center;
+    }
+}
+
 @media screen and (min-width: 992px) {
 
     #profile_image_navbar {
@@ -326,19 +355,19 @@ body {
         transition: 0.2s ease-in-out;
     }
 
-}
-
-@media screen and (min-width:768px) {
-    .navbar-brand {
-        order: 1;
+    .submit-btn {
+        transition: all 0.3s;
     }
 
-    .navbar-toggler {
-        order: 0;
-
+    .submit-btn:hover {
+        background-color: #1a9e5a;
+        transition: all 0.3s;
+        color: #fefefe;
     }
 
-    .navbar-nav {
-        align-items: center;
-    }
+    .form-btn:hover {
+        background-color: #2a3868;
+        color: #fefefe;
+    }   
+
 }
