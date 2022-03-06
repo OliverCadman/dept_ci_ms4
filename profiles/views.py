@@ -24,7 +24,6 @@ from .functions import calculate_invite_acceptance_delta, calculate_profile_prog
 @csrf_exempt
 def get_users_unavailable_dates(request, username):
     current_user = get_object_or_404(UserProfile, user=username)
-    print(username)
     # TODO: Change related name of object
 
     unavailable_dates = current_user.unavailable_user.all()
@@ -99,24 +98,17 @@ class ProfileView(TemplateView):
 
 def edit_profile(request):
 
-
     user_profile = get_object_or_404(UserProfile, user=request.user)
-    EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=0)
+    EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
     queryset = user_profile.equipment.all()
     equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
-
     audio_form = AudioForm(request.POST, instance=user_profile)
-
 
     request.session["form_page"] = 1
 
     if request.method == "POST":
-        print("FILES")
-        print(request.FILES)
         user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
-            print("PROFILE IMAGE")
-            print(user_profile_form.cleaned_data.get("profile_image"))
             try:
                 parent_form = user_profile_form.save(commit=False)
                 parent_form.save()
@@ -133,10 +125,10 @@ def edit_profile(request):
             except Exception as e:
                 print(f"Exception: {e}")
         else:
+            print("form invalid")
             print(user_profile_form.errors)   
     else:
         audio_form = AudioForm(instance=user_profile)
-        print(audio_form)
         user_profile_form = UserProfileForm(instance=user_profile or None)
 
     context = {
@@ -241,6 +233,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         current_section = "invites_sent"
         current_filter = "all"
 
+        # Grab Booking ID if user is visiting dashboard from
+        # booking details page (clicking 'Message User')
+
+        referer_url = self.request.META.get("HTTP_REFERER")
+        referer_url_path = referer_url.split("/")[3]
+        booking_id = None
+        if referer_url_path == "bookings":
+            print(True)
+            booking_id = self.request.GET.get("filter")
+
         invitations_sent = None
         invitations_received = None
 
@@ -271,6 +273,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                             invitations_received = user_profile.invitations_received.filter(is_accepted=False)
                         elif current_filter == "accepted":
                             invitations_received = user_profile.invitations_received.filter(is_accepted=True)
+                        elif current_filter == booking_id:
+                            invitations_received = user_profile.invitations_received.filter(
+                                related_booking__pk=booking_id)
                         
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
