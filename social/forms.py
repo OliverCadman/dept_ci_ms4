@@ -23,7 +23,8 @@ class MessageForm(forms.ModelForm):
         }
 
         self.fields["message"].widget.attrs["placeholder"] = placeholders["message"]
+        self.fields["message"].widget.attrs["class"] = "custom-formfield-font"
+        self.fields["message"].label = ""
     
-    message = forms.CharField(label="Your message:",
-                              widget=forms.TextInput())
+    message = forms.CharField(widget=forms.TextInput())
 
