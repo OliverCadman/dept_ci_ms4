@@ -16,53 +16,110 @@
             {% if notification.related_invitation %}
                 <!-- Received Invitation -->
                 {% if notification.notification_type == 1 %}
-                    <div class="dropdown-item">
-                        <a href="#">
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
                             {% with notification.related_invitation.invite_sender as invite_sender %}
-                                {% if invite_sender.first_name %}
-                                    {{ invite_sender.first_name }} has sent you an invitation! Please respond now and meet your maker
-                                {% else %}
-                                    {{ invite_sender.user.username }} has sent you an invitation!
-                                {% endif %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if invite_sender.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ invite_sender.profile_image.url }}" alt="{{ invite_sender }}">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if invite_sender.first_name %}
+                                            <strong>{{ invite_sender.first_name }}</strong> has sent you an invitation to dep {{ notification.related_invitation.event_name }}
+                                        {% else %}
+                                            {{ invite_sender.user.username }} has sent you an invitation!
+                                        {% endif %}
+                                    </p>
+                                    </div>
+
+                                </div>
                             {% endwith %}
                         </a>
-                    </div>
+                    </li>
                 <!-- Accepted Invitation -->
                 {% elif notification.notification_type == 2 %}
-                    <li class="dropdown-item">
-                        <a href="#">
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
-                                {% if invite_receiver.first_name %}
-                                    {{ invite_receiver.first_name }} has accepted your invitation!
-                                {% else %}
-                                    {{ invite_receiver.user.username }} has accepted your invitation!
-                                {% endif %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if invite_receiver.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if invite_receiver.first_name %}
+                                            <strong>{{ invite_receiver.first_name }}</strong>  has accepted your invite to play {{ notification.related_invitation.event_name }}!
+                                        {% else %}
+                                            {{ invite_receiver.user.username }} has accepted your invite to play {{ notification.related_invitation.event_name }}!
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
                             {% endwith %}
                         </a>
                     </li>
                 <!-- Declined Invitation -->
                 {% elif notification.notification_type == 3 %}
-                    <li class="dropdown-item">
-                        <a href="#">
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
-                                {% if invite_receiver.first_name %}
-                                    {{ invite_receiver.first_name }} has declined your invitation.
-                                {% else %}
-                                    {{ invite_receiver.user.username }} has declined your invitation.
-                                {% endif %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if invite_receiver.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if invite_receiver.first_name %}
+                                            <strong>{{ invite_receiver.first_name }}</strong>  has declined your invite to play {{ notification.related_invitation.event_name }}.
+                                        {% else %}
+                                            {{ invite_receiver.user.username }} has declined your invite to play {{ notification.related_invitation.event_name }}.
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
                             {% endwith %}
                         </a>
                     </li>
                 <!-- Received Message -->
                 {% elif notification.notification_type == 5 %}
-                    <li class="dropdown-item">
-                        <a href="#">
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
-                                {% if invite_receiver.first_name %}
-                                    {{ invite_receiver.first_name }} has sent you a message.
-                                {% else %}
-                                    {{ invite_receiver.user.username }} has sent you a message.
-                                {% endif %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if invite_receiver.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if invite_receiver.first_name %}
+                                            <strong>{{ invite_receiver.first_name }}</strong> has sent you a message.
+                                        {% else %}
+                                            {{ invite_receiver.user.username }} has sent you a message.
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
                             {% endwith %}
                         </a>
                     </li>
@@ -71,7 +128,7 @@
                <!-- Booking Details Sent -->
                {% if notification.notification_type == 4 %}
                     <li class="dropdown-item">
-                        <a href="#">
+                        <a href="#" class="notification">
                             {% with notification.related_booking.related_invitation.sender as invite_sender %}
                                 {% if invite_sender.first_name %}
                                     {{ invite_sender.first_name }} has sent you booking details!
@@ -84,7 +141,7 @@
                <!-- Received Message -->
                {% elif notification.notification_type == 5 %}
                     <li class="dropdown-item">
-                        <a href="#">
+                        <a href="#" class="notification">
                             {% with notification.related_invitation.related_booking.invite_sender as invite_sender %}
                                 {% if invite_sender.first_name %}
                                     {{ invite_sender.first_name }} has sent you a message!
