@@ -71,6 +71,21 @@ def invitation_received_notification(request, notification_id, invitation_id):
                                                 "filter": invitation.pk
                                             }))
 
+def invitation_accepted_notification(request, notification_id, invitation_id):
+    """
+    View to handle "Invite Accepted" notification, when notification is clicked.
+
+    Sets the 'is_read' field of related notification object to True, and 
+    redirects user to the booking form for the accepted invitation.
+    """
+    notification = get_object_or_404(Notification, pk=notification_id)
+    notification.is_read = True
+    notification.save()
+
+    invitation = get_object_or_404(Invitation, pk=invitation_id)
+
+    return redirect(reverse("booking_form", args=[invitation.pk]))
+
 
         
     

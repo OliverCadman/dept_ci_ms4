@@ -51,7 +51,7 @@
                 {% elif notification.notification_type == 2 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
                         <span class="dropdown-item-close">&times;</span>
-                        <a href="#" class="notification" class="notification">
+                        <a href="{% url "invite_accepted_notification" notification.pk notification.related_invitation.pk %}" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
                                 <div class="notification_content">
                                     <div class="notification_img">
