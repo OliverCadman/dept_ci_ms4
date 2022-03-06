@@ -1,0 +1,91 @@
+<!-- Template to serve notifications provided by inclusion tag -->
+<div class="dropdown">
+    <span class="badge bg-danger dropdown-toggle">{{ notifications.count }}</span>
+    <ul class="dropdown-menu">
+        {% for notification in notifications %}
+            {% if notification.related_invitation %}
+                <!-- Received Invitation -->
+                {% if notification.notification_type == 1 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_invitation.invite_sender as invite_sender %}
+                                {% if invite_sender.first_name %}
+                                    {{ invite_sender.first_name }} has sent you an invitation!
+                                {% else %}
+                                    {{ invite_sender.user.username }} has sent you an invitation!
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+                <!-- Accepted Invitation -->
+                {% elif notification.notification_type == 2 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_invitation.invite_receiver as invite_receiver %}
+                                {% if invite_receiver.first_name %}
+                                    {{ invite_receiver.first_name }} has accepted your invitation!
+                                {% else %}
+                                    {{ invite_receiver.user.username }} has accepted your invitation!
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+                <!-- Declined Invitation -->
+                {% elif notification.notification_type == 3 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_invitation.invite_receiver as invite_receiver %}
+                                {% if invite_receiver.first_name %}
+                                    {{ invite_receiver.first_name }} has declined your invitation.
+                                {% else %}
+                                    {{ invite_receiver.user.username }} has declined your invitation.
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+                <!-- Received Message -->
+                {% elif notification.notification_type == 5 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_invitation.invite_receiver as invite_receiver %}
+                                {% if invite_receiver.first_name %}
+                                    {{ invite_receiver.first_name }} has sent you a message.
+                                {% else %}
+                                    {{ invite_receiver.user.username }} has sent you a message.
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+                {% endif %}
+            {% elif notification.related_booking %}
+               <!-- Booking Details Sent -->
+               {% if notification.notification_type == 4 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_booking.related_invitation.sender as invite_sender %}
+                                {% if invite_sender.first_name %}
+                                    {{ invite_sender.first_name }} has sent you booking details!
+                                {% else %}
+                                    {{ invite_sender.user.username }} has sent you booking details!
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+               <!-- Received Message -->
+               {% elif notification.notification_type == 5 %}
+                    <li class="dropdown-item">
+                        <a href="#">
+                            {% with notification.related_invitation.related_booking.invite_sender as invite_sender %}
+                                {% if invite_sender.first_name %}
+                                    {{ invite_sender.first_name }} has sent you a message!
+                                {% else %}
+                                    {{ invite_sender.user.username }} has sent you a message!
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+                    </li>
+               {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
