@@ -82,6 +82,13 @@ body {
     border: 5px solid rgb(255, 255, 255);
 }
 
+.block_divider_stub {
+    border: 5px solid #555555;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
 /* Call to Action Buttons */
 
 .cta-btn-wrapper {
@@ -123,6 +130,7 @@ body {
     margin: 0 .4rem;
 }
 
+
 #main-nav ul li a {
     text-decoration: none;
     font-family: "Varela Round", sans-serif;
@@ -130,10 +138,14 @@ body {
     font-size: 1.2rem;
 }
 
-.sign-in-icon {
+.notification_icon {
     color: #eee;
-    font-size: 1rem;
+    font-size: 1.5rem;
     margin-right: 1rem;
+}
+
+.notification_count_icon {
+    left: 60%;
 }
 
 .sign-in-icon {
@@ -155,6 +167,10 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.dropdown-item {
+    white-space:normal;
 }
 
 .animate__animated.animate__fadeInLeft {
@@ -213,6 +229,16 @@ body {
 
 #main-nav ul li a.account_link {
     color: #202020;
+}
+
+/* Notifications */
+
+#notification_dropdown_container {
+    position: static;
+}
+
+#notification_dropdown_container .dropdown-menu {
+    width: 100%;
 }
 
 
@@ -343,9 +369,13 @@ body {
         font-size: 1.35rem;
     }
 
-    .sign-in-icon {
-        font-size: 2.5rem;
+    .notification_icon {
+        font-size: 2rem;
         margin-right: 1rem;
+    }
+
+    .notification_count_icon {
+        left: 60%;
     }
 
     .nav-item {
@@ -414,3 +444,4 @@ body {
     }   
 
 }
+

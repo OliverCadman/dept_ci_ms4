@@ -1,22 +1,32 @@
 <!-- Template to serve notifications provided by inclusion tag -->
-<div class="dropdown">
-    <span class="badge bg-danger dropdown-toggle">{{ notifications.count }}</span>
-    <ul class="dropdown-menu">
+
+
+
+<div class="dropdown btn-group" id="notification_dropdown_container">
+    {% if notifications.count > 0 %}
+    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target="#notification_dropdown" aria-expanded="false">
+        <i class="fas fa-bell notification_icon"></i>
+            <span class="badge bg-danger position-absolute start-75 top-0 translate-middle rounded-pill notification_count_icon">{{ notifications.count }}</span>
+    </button>
+    {% else %}
+    <a href=""><i class="far fa-bell notification_icon"></i></a>
+    {% endif %}
+    <ul class="dropdown-menu animate__animated animate__fadeInDown" id="notification_dropdown">
         {% for notification in notifications %}
             {% if notification.related_invitation %}
                 <!-- Received Invitation -->
                 {% if notification.notification_type == 1 %}
-                    <li class="dropdown-item">
+                    <div class="dropdown-item">
                         <a href="#">
                             {% with notification.related_invitation.invite_sender as invite_sender %}
                                 {% if invite_sender.first_name %}
-                                    {{ invite_sender.first_name }} has sent you an invitation!
+                                    {{ invite_sender.first_name }} has sent you an invitation! Please respond now and meet your maker
                                 {% else %}
                                     {{ invite_sender.user.username }} has sent you an invitation!
                                 {% endif %}
                             {% endwith %}
                         </a>
-                    </li>
+                    </div>
                 <!-- Accepted Invitation -->
                 {% elif notification.notification_type == 2 %}
                     <li class="dropdown-item">
@@ -88,4 +98,7 @@
             {% endif %}
         {% endfor %}
     </ul>
+</div>
+<div id="notification_container">
+
 </div>
