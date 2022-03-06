@@ -359,3 +359,15 @@ def download_audiofile(request, file_id):
     booking_id = audio_file.related_booking.pk
     messages.error(request, "Sorry, something went wrong, please try again.")
     return redirect(reverse("booking_detail", args=[booking_id]))
+
+
+def get_invitation_id(request, booking_id):
+    """
+    AJAX Handler to return Invitation ID of a given booking.
+
+    Utilised in dashboard_modals.js file in 'profiles' app.
+    To trigger a specific message modal upon page load.
+    """
+    requested_booking = get_object_or_404(Booking, pk=booking_id)
+    invitation_id = requested_booking.related_invitation.pk
+    return JsonResponse({"invitation_id": invitation_id})
