@@ -18,7 +18,8 @@
                 {% if notification.notification_type == 1 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
                         <span class="dropdown-item-close">&times;</span>
-                        <a href="#" class="notification" class="notification">
+                        <a href="{% url "invite_received_notification" notification.id notification.related_invitation.id %}"
+                        class="notification">
                             {% with notification.related_invitation.invite_sender as invite_sender %}
                                 <div class="notification_content">
                                     <div class="notification_img">

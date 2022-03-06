@@ -238,10 +238,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         referer_url = self.request.META.get("HTTP_REFERER")
         referer_url_path = referer_url.split("/")[3]
+
+        # Set filter to Booking ID if user visiting dashboard
+        # from Booking Detail Page.
         booking_id = None
         if referer_url_path == "bookings":
             print(True)
             booking_id = self.request.GET.get("filter")
+        
+        # Set filter to Invitation ID if user visiting dashboard
+        # by clicking notification "<user> has invited you to play <event>"
+        invitation_id = None
+        if "invitation_id" in self.request.session:
+            invitation_id = self.request.GET.get("filter")
 
         invitations_sent = None
         invitations_received = None
@@ -276,6 +285,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         elif current_filter == booking_id:
                             invitations_received = user_profile.invitations_received.filter(
                                 related_booking__pk=booking_id)
+                        elif current_filter == invitation_id:
+                            invitations_received = user_profile.invitations_received.filter(
+                                pk=invitation_id
+                            )
                         
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
