@@ -31,7 +31,8 @@ $(document).ready(function() {
   //
   $(".message_modal_btn").click(function () {
     $("#message_modal_header").html(
-      `${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
+      `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data("invite-fname")}" width="100" height="100" class="modal_profile_img">
+      ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
     );
 
     // Form action with dynamic URL params passed from data attributes of 'message_modal_btn'
@@ -54,7 +55,6 @@ $(document).ready(function() {
       success: function (res) {
         const messages = res.messages;
 
-        console.log(messages);
         if (messages.length > 0) {
           for (let messageObject of messages) {
             let messageDateTime = new Date(messageObject.date_of_message);
@@ -79,6 +79,7 @@ $(document).ready(function() {
 
             let messageContent = messageObject.message;
             let messageElement = document.createElement("p");
+            messageElement.classList.add("message-content")
 
             messageWrapper.classList.add("message");
             let messageSender = messageObject.message_sender;
@@ -110,14 +111,52 @@ $(document).ready(function() {
           messageContainer.append(noResultsEl);
         }
       },
-      error: function (err) {},
+      error: function (err) {
+        displayAJAXErrorMessage(err.status)
+      },
     });
+
 
     // Empty messages from message modal when modal is hidden
     $("#message_modal").on("hidden.bs.modal", function () {
       messageContainer.empty();
     });
   });
+
+  /* Open Message Modal if user visits from Booking Detail page
+  by clicking 'Message <user>' button. 
+  
+  Grabs the ID of the booking and performs AJAX request to
+  get invitation ID of that booking.
+
+  Invitation ID is compared against data-invitation-id attributes
+  of .message_modal_btn. If one matches, that specific modal is triggered.
+  */
+  const referrer = document.referrer;
+  const referrerPath = referrer.split("/")
+  const referrerPageName = referrerPath[3]
+  const bookingId = referrerPath[5]
+
+  // AJAX Request
+  if (referrerPageName === "bookings") {
+      $.ajax({
+        url: `/bookings/get_invitation_id/${bookingId}`,
+        type: "get",
+        success: function(res) {
+          // Compare data-invitation-id attribute with returned Invitation ID
+          const invitationId = res.invitation_id
+          $(".message_modal_btn").each(function(){
+              if ($(this).data("invitation-id") === invitationId) {
+                $(this).trigger("click")
+              }
+          })
+        },
+        error: function(err) {
+          displayAJAXErrorMessage(err.status)
+        }
+      })
+
+  }
 
   // Format date to remove Python's TZ info in datetime object
   // and make it readable for the user.
@@ -152,5 +191,32 @@ $(document).ready(function() {
     const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+
+  // Displays a Toast with error message in case of AJAX errors
+  function displayAJAXErrorMessage(status) {
+      if (status === 0) {
+        errorMsg = "Cannot connect, please make sure you are connected";
+      } else if (status === 404) {
+        errorMsg = `${status} error. We apologize; the resource was not found.`;
+      } else if (status === 500) {
+        errorMsg = `${status} error. We apologize. There is an internal server error.`;
+      } else {
+        errorMsg =
+          "We apologize, there has been an error. We are working hard to rectify this.";
+      }
+
+      Toastify({
+        text: errorMsg,
+        duration: 10000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "#ff7086",
+          fontFamily: "'Oxygen', sans-serif",
+          color: "#202020",
+        },
+      }).showToast();
   }
 })
