@@ -30,8 +30,9 @@ class Notification(models.Model):
     3. Notification Type (SmallInt) - Numbers ranging from 1 - 4:
         1. An invitation has been sent.
         2. An invitation has been accepted.
-        3. A user has received a message.
-        4. A user has received a review.
+        3. A user has sent booking details.
+        4. A user has received a message.
+        5. A user has received a review.
     
     
     4. Related invitation (FK) - The invitation related to the notification
@@ -44,7 +45,7 @@ class Notification(models.Model):
                                             related_name="notifications_sent")
     notification_receiver = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                               related_name="notifications_received")
-    notification_type = models.SmallIntegerField(validators=[MaxValueValidator(4)])
+    notification_type = models.SmallIntegerField(validators=[MaxValueValidator(5)])
 
     related_invitation = models.ForeignKey(Invitation, on_delete=models.CASCADE, null=True,
                                            blank=True, related_name="invitation_notifications")
