@@ -205,12 +205,47 @@
     width: 100%;
 }
 
+.invitation_card_btn.custom_success {
+    background-color: #0e8347;
+}
+
 .invitation_card_btn.accept {
     background-color: #236933;
 }
 
 .invitation_card_btn.decline {
     background-color: #8a0000;
+}
+
+.disabled_btn {
+    text-align: left;
+    width: 200px !important;
+}
+
+
+/* Ellipsis Animation for Disabled Button.
+Referenced from CodePen:
+https://codepen.io/thetallweeks/pen/yybGra */
+.disabled_btn:after {
+    content: "\2026";
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4, end) 1300ms infinite;
+    animation: ellipsis steps(4, end) 1300ms infinite;
+    width: 0px;
+}
+
+@keyframes ellipsis {
+    to {
+        width: 1em;
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    to {
+        width: 1em;
+    }
 }
 
 .invitation_date {
