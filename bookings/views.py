@@ -180,8 +180,15 @@ def booking_form(request, invitation_pk):
     AudioFormsetFactory provides dynamic addition of audio form file fields.
     """
 
+    current_user = get_object_or_404(UserProfile, user__username=request.user)
+
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
+    # Restrict access to page to user responsible for invite.
+    if (current_invitation.invite_sender != current_user 
+        and current_invitation.invite_receiver != current_user):
+        messages.warning(request, mark_safe("You may not browse another member's booking."))
+        return redirect("home")
 
     current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
     
