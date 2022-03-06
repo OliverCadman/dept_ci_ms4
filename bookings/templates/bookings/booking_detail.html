@@ -35,12 +35,21 @@
                     </div>
                     <hr class="block_divider_stub">
                     <div id="audiofile_wrapper">
-                        <h4 class="secondary_font">Audio Files</h4>
-                        {% for file in booking.audio_resources.all %}
-                            {% if not file.file_name == None %}
-                            <a class="btn download_btn white_font secondary_font custom_success" href="{% url "download_audiofiles" file.id %}">AudioFile {{ forloop.counter }}</a>
-                            {% endif %}
-                        {% endfor %} 
+                        <h4 id="audiofile_header" class="secondary_font">Audio Files</h4>
+                        <hr>
+                        {% if booking.audio_resources.all|length > 0 %}
+                            {% for file in booking.audio_resources.all %}
+                                {% if not file.file_name == None %}
+                                <a class="btn download_btn white_font secondary_font custom_success" href="{% url "download_audiofile" file.id %}">AudioFile {{ forloop.counter }}</a>
+                                {% endif %}
+                            {% endfor %} 
+                        {% else %}
+                         <p class="primary_font large_text text-center">No Audio</p>
+                         <figure class="centered">
+                             <img src="{{MEDIA_URL}}no-tracks-vector.png" alt="" width="100" height="100">
+                         </figure>
+                         <a href="{% url "dashboard" booking.related_invitation.invite_receiver.slug %}?page=jobs&section=invites_received&filter={{booking.id}}" class="btn custom_success">Message for Music</a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-12 col-md-8 col-lg-9">
