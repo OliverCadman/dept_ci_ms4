@@ -286,6 +286,10 @@ body {
     align-items: center;
 }
 
+.notification_profile_img {
+    object-fit: cover;
+    border-radius: 50%;
+}
 
 .notification strong {
     font-family: "Josefin Sans", sans-serif;

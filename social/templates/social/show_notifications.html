@@ -23,7 +23,11 @@
                                 <div class="notification_content">
                                     <div class="notification_img">
                                         {% if invite_sender.profile_image %}
-                                            <img src="{{MEDIA_URL}}{{ invite_sender.profile_image.url }}" alt="{{ invite_sender }}">
+                                            <img src="{{MEDIA_URL}}{{ invite_sender.profile_image.url }}"
+                                            alt="{{ invite_sender }}"
+                                            width="40"
+                                            height="40"
+                                            class="notification_profile_img">
                                         {% else %}
                                             <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
@@ -51,7 +55,11 @@
                                 <div class="notification_content">
                                     <div class="notification_img">
                                         {% if invite_receiver.profile_image %}
-                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}"
+                                            alt="{{ invite_receiver }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
                                         {% else %}
                                             <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
@@ -78,7 +86,11 @@
                                 <div class="notification_content">
                                     <div class="notification_img">
                                         {% if invite_receiver.profile_image %}
-                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}"
+                                            alt="{{ invite_receiver }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
                                         {% else %}
                                             <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
@@ -105,7 +117,11 @@
                                 <div class="notification_content">
                                     <div class="notification_img">
                                         {% if invite_receiver.profile_image %}
-                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}" alt="{{ invite_receiver }}">
+                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}"
+                                            alt="{{ invite_receiver }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
                                         {% else %}
                                             <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
@@ -155,7 +171,4 @@
             {% endif %}
         {% endfor %}
     </ul>
-</div>
-<div id="notification_container">
-
 </div>
