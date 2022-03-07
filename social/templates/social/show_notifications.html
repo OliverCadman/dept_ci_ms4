@@ -144,14 +144,32 @@
             {% elif notification.related_booking %}
                <!-- Booking Details Sent -->
                {% if notification.notification_type == 4 %}
-                    <li class="dropdown-item">
-                        <a href="#" class="notification">
-                            {% with notification.related_booking.related_invitation.sender as invite_sender %}
-                                {% if invite_sender.first_name %}
-                                    {{ invite_sender.first_name }} has sent you booking details!
-                                {% else %}
-                                    {{ invite_sender.user.username }} has sent you booking details!
-                                {% endif %}
+                       <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
+                            {% with notification.related_booking.related_invitation.invite_sender as invite_sender %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if invite_sender.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ invite_sender.profile_image.url }}"
+                                            alt="{{ invite_sender.user.username }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if invite_sender.first_name %}
+                                            <strong>{{ invite_sender.first_name }}</strong>  has sent you booking details for {{ notification.related_booking.related_invitation.event_name }}.
+                                        {% else %}
+                                            {{ invite_sender.user.username }} has declined your invite to play {{ notification.related_booking.related_invitation.event_name }}.
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
                             {% endwith %}
                         </a>
                     </li>

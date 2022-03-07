@@ -49,4 +49,17 @@ def send_notification_on_invite_accepted(
             related_invitation=invitation
         )
 
+@receiver(post_save, sender=Booking)
+def send_notification_on_booking_details_sent(
+    sender, instance, created, **kwargs):
+    booking = instance
+    notification_sender = booking.related_invitation.invite_sender
+    notification_receiver = booking.related_invitation.invite_receiver
+
+    Notification.objects.create(
+        notification_sender=notification_sender,
+        notification_receiver=notification_receiver,
+        notification_type=4,
+        related_booking=booking
+    )
 
