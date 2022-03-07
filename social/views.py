@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -7,7 +7,7 @@ from django.views.generic import View
 from .functions import reverse_querystring
 
 from profiles.models import UserProfile
-from bookings.models import Invitation
+from bookings.models import Invitation, Booking
 
 from .forms import MessageForm
 from .models import Notification
@@ -85,6 +85,38 @@ def invitation_accepted_notification(request, notification_id, invitation_id):
     invitation = get_object_or_404(Invitation, pk=invitation_id)
 
     return redirect(reverse("booking_form", args=[invitation.pk]))
+
+def booking_details_sent_notification(request, notification_id, booking_id):
+    """
+    View to handle "Booking Details Sent" notification, when notification is clicked.
+
+    Sets the 'is_read' field of related notification object to True, and redirects
+    the user to the page displaying booking details of related booking.
+    """
+
+    notification = get_object_or_404(Notification, pk=notification_id)
+    notification.is_read = True
+    notification.save()
+
+    return redirect(reverse("booking_detail", args=[booking_id]))
+
+
+def remove_notification(request, notification_id):
+    """
+    View to handle Removal of Notification, when user clicks "&times;" icon 
+    that accompanies the notification.
+
+    Sets the "is_read" status of notification to True, which in turn removes
+    the notification from the dropdown.
+
+    Called by XMLHttpRequest in notification.js
+    """
+    notification = get_object_or_404(Notification, pk=notification_id)
+    notification.is_read = True
+    notification.save()
+
+    return HttpResponse("Success", content_type="text/plain")
+
 
 
         
