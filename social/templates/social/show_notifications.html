@@ -78,37 +78,7 @@
                             {% endwith %}
                         </a>
                     </li>
-                <!-- Declined Invitation -->
-                {% elif notification.notification_type == 3 %}
-                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
-                        <a href="#" class="notification" class="notification">
-                            {% with notification.related_invitation.invite_receiver as invite_receiver %}
-                                <div class="notification_content">
-                                    <div class="notification_img">
-                                        {% if invite_receiver.profile_image %}
-                                            <img src="{{MEDIA_URL}}{{ invite_receiver.profile_image.url }}"
-                                            alt="{{ invite_receiver }}"
-                                            class="notification_profile_img"
-                                            width="40"
-                                            height="40">
-                                        {% else %}
-                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
-                                        {% endif %}   
-                                    </div>
-                                    <div class="notification_text">
-                                        <p>
-                                        {% if invite_receiver.first_name %}
-                                            <strong>{{ invite_receiver.first_name }}</strong>  has declined your invite to play {{ notification.related_invitation.event_name }}.
-                                        {% else %}
-                                            {{ invite_receiver.user.username }} has declined your invite to play {{ notification.related_invitation.event_name }}.
-                                        {% endif %}
-                                    </p>
-                                    </div>
-                                </div>
-                            {% endwith %}
-                        </a>
-                    </li>
+               
                 <!-- Received Message -->
                 {% elif notification.notification_type == 5 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
@@ -141,6 +111,36 @@
                         </a>
                     </li>
                 {% endif %}
+            {% elif notification.notification_type == 3 %}
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="dropdown-item-close">&times;</span>
+                        <a href="#" class="notification" class="notification">
+                            {% with notification.notification_sender as notification_sender %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if notification_sender.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ notification_sender.profile_image.url }}"
+                                            alt="{{ notification_sender.user.username }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
+                                        {% else %}
+                                            <img src="/media/dept-logo.webp" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if notification_sender.first_name %}
+                                            <strong>{{ notification_sender.first_name }}</strong>  has declined your invite to play {{ notification.declined_invitation }}.
+                                        {% else %}
+                                            {{ notification.user.username }} has declined your invite to play {{ notification.declined_invitation }}.
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        </a>
+                    </li>
             {% elif notification.related_booking %}
                <!-- Booking Details Sent -->
                {% if notification.notification_type == 4 %}
