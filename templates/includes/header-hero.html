@@ -23,6 +23,14 @@
                             Dashboard
                         {% elif p == "booking_form" %}
                             Finalize your Booking.
+                        {% elif p == "find_a_dep_landing_page" %}
+                            Top Musicians for Hire.
+                        {% elif p == "booking_success "%}
+                            You have booked {% if event.related_invitation.invite_receiver.first_name %}
+                                                    {{ event.related_invitation.invite_receiver.first_name }}
+                                                {% else %}
+                                                    {{ event.related_invitation.invite_receiver.user.username }}
+                                                {% endif %}
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -44,14 +52,15 @@
                         {% elif p == "booking_form" %}
                             <p class="text-center">Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }}{% else %}{{ invitation.invite_sender.user }}{% endif %},
                               {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
-                              has accepted your invitation.
+                              has accepted your invitation:
                             </p>
+                            <p class="text-center header_event_name">{{ invitation.event_name }}</p>
                             <p class="text-center">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                         {% endif %}
                 </div>
             </div>
     </section>
-    {% if not p == "dashboard" and not p == "booking_form" %}
+    {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" %}
     <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
         <div class="row">
             <div class="col-12">
@@ -106,7 +115,7 @@
     </section>
     {% endif %}
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" %}short{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "booking_success" or p == "find_a_dep_landing_page" %}short{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -129,6 +138,14 @@
                     Your Dashboard.
                 {% elif p == "booking_form" %}
                     Finalize Your Booking.
+                {% elif p == "find_a_dep_landing_page" %}
+                    Top Musicians for Hire
+                {% elif p == "booking_success" %}
+                    You have booked {% if event.related_invitation.invite_receiver.first_name %}
+                                                    {{ event.related_invitation.invite_receiver.first_name }}
+                                                {% else %}
+                                                    {{ event.related_invitation.invite_receiver.user.username }}
+                                                {% endif %}
                 {% else %}
                     Thankyou
                 {% endif %}
@@ -159,7 +176,7 @@
                     </h2>
                 </div>
                 <hr>
-                <div class="profile-prompt-lead text-center">
+                <div class="dynamic-prompt-lead text-center">
                     {% if p == "checkout_success" %}
                         <p>
                         Your chances of being hired are much higher if you have a complete profile.
@@ -180,8 +197,9 @@
                     {% elif p == "booking_form" %}
                         <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }},{% else %}{{ invitation.invite_sender.user }},{% endif %}
                            {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
-                           has accepted your invitation.
+                           has accepted your invitation:
                         </p>
+                        <p class="header_event_name">{{ invitation.event_name }}</p>
                         <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                     {% else %}
                         {% if request.session.form_page == 1 %}
