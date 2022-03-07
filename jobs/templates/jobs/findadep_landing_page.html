@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Find a Dep{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% with page_name as p %}
+        {% include "includes/header-hero.html" %}
+    {% endwith %}
+{% endblock %}
