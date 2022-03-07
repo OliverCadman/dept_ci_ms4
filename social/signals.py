@@ -24,42 +24,45 @@ def send_notification_on_decline(sender, instance, **kwargs):
 def send_notification_on_invite_sent(sender, instance, **kwargs):
     invitation = instance
 
-    notification_sender = invitation.invite_sender
-    notification_receiver = invitation.invite_receiver
+    if not invitation.is_accepted:
+        notification_sender = invitation.invite_sender
+        notification_receiver = invitation.invite_receiver
 
-    Notification.objects.create(
-        notification_sender=notification_sender,
-        notification_receiver=notification_receiver,
-        notification_type=1,
-        related_invitation=invitation
-    )
+        Notification.objects.create(
+            notification_sender=notification_sender,
+            notification_receiver=notification_receiver,
+            notification_type=1,
+            related_invitation=invitation
+        )
 
 
 @receiver(post_save, sender=Invitation)
 def send_notification_on_invite_accepted(
     sender, instance, created, **kwargs):
-    invitation = instance
-    notification_sender = invitation.invite_receiver
-    notification_receiver = invitation.invite_sender
-    if invitation.is_accepted:
-        Notification.objects.create(
-            notification_sender=notification_sender,
-            notification_receiver=notification_receiver,
-            notification_type=2,
-            related_invitation=invitation
-        )
+    if not created:
+        invitation = instance
+        notification_sender = invitation.invite_receiver
+        notification_receiver = invitation.invite_sender
+        if invitation.is_accepted:
+            Notification.objects.create(
+                notification_sender=notification_sender,
+                notification_receiver=notification_receiver,
+                notification_type=2,
+                related_invitation=invitation
+            )
 
 @receiver(post_save, sender=Booking)
 def send_notification_on_booking_details_sent(
     sender, instance, created, **kwargs):
-    booking = instance
-    notification_sender = booking.related_invitation.invite_sender
-    notification_receiver = booking.related_invitation.invite_receiver
+    if not created:
+        booking = instance
+        notification_sender = booking.related_invitation.invite_sender
+        notification_receiver = booking.related_invitation.invite_receiver
 
-    Notification.objects.create(
-        notification_sender=notification_sender,
-        notification_receiver=notification_receiver,
-        notification_type=4,
-        related_booking=booking
-    )
+        Notification.objects.create(
+            notification_sender=notification_sender,
+            notification_receiver=notification_receiver,
+            notification_type=4,
+            related_booking=booking
+        )
 
