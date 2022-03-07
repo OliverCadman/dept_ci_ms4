@@ -46,6 +46,7 @@ class Notification(models.Model):
                                             related_name="notifications_sent")
     notification_receiver = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                               related_name="notifications_received")
+                                              
     notification_type = models.SmallIntegerField(validators=[MaxValueValidator(6)])
 
     related_invitation = models.ForeignKey(Invitation, on_delete=models.CASCADE, null=True,
@@ -53,6 +54,8 @@ class Notification(models.Model):
     
     related_booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True,
                                         blank=True, related_name="booking_notifications")
+
+    declined_invitation = models.CharField(max_length=150, null=True, blank=True)
     
     notification_date = models.DateTimeField(auto_now_add=True)
 
