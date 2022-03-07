@@ -1,0 +1,97 @@
+.link-card {
+    width: 100%;
+    height: 150px;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin-bottom: 1rem;
+}
+
+#bass-link {
+    background: url("../../../media/dept_bass.webp") no-repeat;
+    background-size: cover;
+}
+
+#keyboard-link {
+    background: url("../../../media/dept_keyboard.webp") no-repeat;
+    background-size: cover;
+}
+
+#guitar-link {
+    background: url("../../../media/dept_guitar.webp") no-repeat;
+    background-size: cover;
+}
+
+#drums-link {
+    background: url("../../../media/dept_drums.webp") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#trumpet-link {
+    background: url("../../../media/dept_trumpet.webp") no-repeat;
+    background-size: cover;
+}
+
+#vocals-link {
+    background: url("../../../media/dept_vocals.webp") no-repeat;
+    background-size: cover;
+}
+
+#saxophone-link {
+    background: url("../../../media/dept_tenor_saxophone.webp") no-repeat;
+    background-size: cover;
+}
+
+#percussion-link {
+    background: url("../../../media/dept_percussion.webp") no-repeat;
+    background-size: cover;
+}
+
+.featured-link-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 10px;
+    font-family: "Oxygen", sans-serif;
+    color: #fafafa;
+}
+
+@media screen and (min-width: 992px) {
+    .link-card {
+        height: 250px;
+        margin-bottom: 2rem;
+    }
+
+    .inner-fade {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+    }
+
+     .opaque-overlay {
+         transition: .5s ease;
+         opacity: 0;
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.7);
+     }
+
+     .link-card:hover .opaque-overlay {
+         opacity: 1
+     }
+
+     .fade-text {
+         font-family: "Oxygen", sans-serif;
+         color: #fafafa;
+         font-size: 1.1rem;
+     }
+
+}
