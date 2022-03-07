@@ -6,6 +6,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+    <link rel="stylesheet" href="{% static "css/featured_instruments.css" %}">
     <link rel="stylesheet" href="{% static "jobs/css/find_a_dep.css" %}">
 {% endblock %}
 
@@ -13,4 +14,110 @@
     {% with page_name as p %}
         {% include "includes/header-hero.html" %}
     {% endwith %}
+    <section>
+        <div class="container p-3">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'vocals' %}">
+                    <div class="link-card find_a_dep" id="vocals-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Vocals</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                                Choose from our collection of singers, and find someone who is perfect for any genre or style.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'bass_guitar' %}">
+                    <div class="link-card find_a_dep" id="bass-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Bass Guitar</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">Discover bass players with the pocket that perfectly suits your groove.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'keyboard' %}">
+                    <div class="link-card find_a_dep" id="keyboard-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Keyboard</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                                Find a keyboard player to provide you with the ideal textures that you need for your gig.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'guitar' %}">
+                    <div class="link-card find_a_dep" id="guitar-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Guitar</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">Our collection of rhythm, lead, acoustic and classical guitarists will cater for any style that you need.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+             <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'drums' %}">
+                    <div class="link-card find_a_dep" id="drums-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Drums</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                            Whether your style is pop, jazz, rock or punk, hire a drummer that will drive your music.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'drums' %}">
+                    <div class="link-card find_a_dep" id="saxophone-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Saxophone</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                            Whether your style is pop, jazz, rock or punk, hire a drummer that will drive your music.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'trumpet' %}">
+                    <div class="link-card find_a_dep" id="trumpet-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Trumpet</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                                Virtuosic trumpet players will soar over your tunes and wow your crowds.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <a href="{% url 'job_page' 'drums' %}">
+                    <div class="link-card find_a_dep" id="percussion-link">
+                        <div class="opaque-overlay"></div>
+                        <p class="featured-link-text">Percussion</p>
+                        <div class="inner-fade d-none d-lg-block">
+                            <p class="fade-text">
+                            Whether your style is pop, jazz, rock or punk, hire a drummer that will drive your music.
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

@@ -5,3 +5,10 @@
     position: absolute;
     top: 0;
 }
+
+.link-card.find_a_dep {
+   height: 150px;
+   background-size: contain;
+}
+
+
