@@ -19,7 +19,7 @@ from .functions import to_dict
 from .utils import render_to_pdf
 
 
-from social.models import Message
+from social.models import Message, Notification
 from social.functions import reverse_querystring
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
@@ -195,7 +195,8 @@ def decline_invitation(request, invitation_pk):
                                                 "section": "invites_received",
                                                 "filter": "all"
                                             }))
-    except:
+    except Exception as e:
+        print(f"Exception: {e}")
         messages.error(request, "Sorry, something went wrong, please try again.")
         return redirect(reverse_querystring("dashboard", args=[request.user],
                                             query_kwargs={
@@ -224,8 +225,7 @@ def booking_form(request, invitation_pk):
     current_invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
     # Restrict access to page to user responsible for invite.
-    if (current_invitation.invite_sender != current_user 
-        and current_invitation.invite_receiver != current_user):
+    if (current_invitation.invite_sender != current_user):
         messages.warning(request, mark_safe("You may not browse another member's booking."))
         return redirect("home")
 
@@ -250,6 +250,13 @@ def booking_form(request, invitation_pk):
             # Process Booking Form
             parent_form = booking_form.save(commit=False)
             parent_form.save()
+
+            try:
+                current_booking.booking_details_sent = True
+                current_booking.save()
+            except Exception as e:
+                print(f"Exception: {e}")
+
             for form in audio_formset:
                 child_form = form.save(commit=False)
                 # Assign Audio Formset to related booking (if not done so already)
@@ -319,10 +326,19 @@ class BookingDetailView(DetailView):
         template_name = "bookings/booking_detail.html"
         self.object = self.get_object()
         context = self.get_context_data(object=self.get_object())
-
         user = self.request.user
         user_profile = get_object_or_404(UserProfile, user__username=user)
         booking_receiver = self.object.related_invitation.invite_receiver
+    
+        booking_details_sent = self.object.booking_details_sent
+        if not booking_receiver == user and not booking_details_sent:
+            messages.info(request, mark_safe("The booking details haven't been sent yet."))
+            return redirect(reverse_querystring("dashboard", args=[user_profile.slug],
+                                                query_kwargs={
+                                                    "page": "jobs",
+                                                    "section": "invites_received",
+                                                    "filter": "all"
+                                                }))
         
         if user_profile != booking_receiver:
             messages.warning(self.request, mark_safe("You may not browse another user's booking."))
