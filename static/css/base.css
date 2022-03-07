@@ -249,6 +249,8 @@ body {
     padding: 0;
     border-radius: 0;
     border-top-width: 0;
+    max-height: 350px;
+    overflow: auto;
 }
 
 #notification_dropdown_container .dropdown-item {
@@ -487,6 +489,10 @@ body {
 
     #notification_dropdown_container .dropdown-menu {
         width: 35%;
+    }
+
+    #notification_dropdown_container .dropdown-item:hover {
+        cursor: pointer;
     }
 
     /* Footer */
