@@ -33,6 +33,10 @@ body {
     font-size: 1.2rem;
 }
 
+.med_height {
+    height: 50vh;
+}
+
 .centered {
     display: flex;
     justify-content: center;
@@ -87,6 +91,10 @@ body {
     width: 50%;
     display: block;
     margin: 0 auto;
+}
+
+.width_40 {
+    width: 40%;
 }
 
 /* Call to Action Buttons */
@@ -266,7 +274,7 @@ body {
     width: 97%;
 }
 
-.dropdown-item-close {
+.remove_notification {
     order: 3;
     margin: 1rem 0;
     font-size: 1.5rem;
