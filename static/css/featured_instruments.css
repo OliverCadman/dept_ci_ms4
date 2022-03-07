@@ -48,6 +48,11 @@
     background-size: cover;
 }
 
+#violin-link {
+    background: url("../../../media/dept_violin.webp") no-repeat;
+    background-size: cover;
+}
+
 .featured-link-text {
     position: absolute;
     top: 0;
