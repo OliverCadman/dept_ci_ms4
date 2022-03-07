@@ -166,6 +166,45 @@ def accept_invitation(request, invitation_pk):
                                             args=[invite_receiver.slug],
                                             query_kwargs={ "page": "jobs" }))
 
+def decline_invitation(request, invitation_pk):
+    """
+    View to handle declined invitations.
+
+    Gets the invitation object by ID and deletes from the database.
+
+    If successful, success message displayed along with redirect
+    to "Received Invites" section of Jobs page, on Dashboard page.
+
+    If unsuccessful, error message displayed along with redirect to 
+    "Received Invites" section of Jobs page, on Dashboard page.
+    """
+    invitation = get_object_or_404(Invitation, pk=invitation_pk)
+    
+    invite_sender_name = None
+    if invitation.invite_sender.first_name:
+        invite_sender_name = invitation.invite_sender.first_name
+    else:
+        invite_sender_name = invitation.invite_sender.user.username
+
+    try:
+        invitation.delete()
+        messages.success(request, mark_safe(f"You declined {invite_sender_name}'s invitation."))
+        return redirect(reverse_querystring("dashboard", args=[request.user],
+                                            query_kwargs={
+                                                "page": "jobs",
+                                                "section": "invites_received",
+                                                "filter": "all"
+                                            }))
+    except:
+        messages.error(request, "Sorry, something went wrong, please try again.")
+        return redirect(reverse_querystring("dashboard", args=[request.user],
+                                            query_kwargs={
+                                                "page": "jobs",
+                                                "section": "invites_received",
+                                                "filter": "all"
+                                            }))
+
+
 @login_required
 def booking_form(request, invitation_pk):
     """
@@ -378,3 +417,5 @@ def get_invitation_id(request, booking_id):
     requested_booking = get_object_or_404(Booking, pk=booking_id)
     invitation_id = requested_booking.related_invitation.pk
     return JsonResponse({"invitation_id": invitation_id})
+
+
