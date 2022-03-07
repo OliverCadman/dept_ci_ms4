@@ -49,13 +49,12 @@ class Booking(models.Model):
     venue_name = models.CharField(max_length=100, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    town_or_city = models.CharField(max_length=40, null=True, blank=True)
-    country = CountryField(null=True, blank=True)
     postcode = models.CharField(max_length=20, null=True, blank=True)
     travel_provided = models.BooleanField(default=False, null=True)
     travel_info = models.TextField(null=True, blank=True)
     backline_provided = models.BooleanField(default=False, null=True)
     backline_info = models.TextField(null=True, blank=True)
+    booking_details_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Booking {self.related_invitation.invitation_number}"
@@ -75,3 +74,5 @@ def create_booking(sender, instance, created, *args, **kwargs):
         invitation = instance
         if invitation.is_accepted == True:
             Booking.objects.create(related_invitation=invitation)
+
+
