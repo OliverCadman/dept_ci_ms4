@@ -36,9 +36,9 @@
                                     <div class="notification_text">
                                         <p>
                                         {% if invite_sender.first_name %}
-                                            <strong>{{ invite_sender.first_name }}</strong> has sent you an invitation to dep {{ notification.related_invitation.event_name }}
+                                            <strong>{{ invite_sender.first_name }}</strong> has sent you an invitation to dep <strong>{{ notification.related_invitation.event_name }}</strong>.
                                         {% else %}
-                                            {{ invite_sender.user.username }} has sent you an invitation!
+                                            <strong>{{ invite_sender.user.username }}</strong> has sent you an invitation to dep <strong>{{ notification.related_invitation.event_name }}</strong>.
                                         {% endif %}
                                     </p>
                                     </div>
@@ -68,9 +68,9 @@
                                     <div class="notification_text">
                                         <p>
                                         {% if invite_receiver.first_name %}
-                                            <strong>{{ invite_receiver.first_name }}</strong>  has accepted your invite to play {{ notification.related_invitation.event_name }}!
+                                            <strong>{{ invite_receiver.first_name }}</strong>  has accepted your invite to play <strong>{{ notification.related_invitation.event_name }}</strong>!
                                         {% else %}
-                                            {{ invite_receiver.user.username }} has accepted your invite to play {{ notification.related_invitation.event_name }}!
+                                            {{ invite_receiver.user.username }} has accepted your invite to play <strong>{{ notification.related_invitation.event_name }}</strong>!
                                         {% endif %}
                                     </p>
                                     </div>
@@ -131,9 +131,9 @@
                                     <div class="notification_text">
                                         <p>
                                         {% if notification_sender.first_name %}
-                                            <strong>{{ notification_sender.first_name }}</strong>  has declined your invite to play {{ notification.declined_invitation }}.
+                                            <strong>{{ notification_sender.first_name }}</strong>  has declined your invite to play <strong>{{ notification.declined_invitation }}</strong>.
                                         {% else %}
-                                            {{ notification.user.username }} has declined your invite to play {{ notification.declined_invitation }}.
+                                            {{ notification.user.username }} has declined your invite to play <strong>{{ notification.declined_invitation }}</strong>.
                                         {% endif %}
                                     </p>
                                     </div>
@@ -146,7 +146,7 @@
                {% if notification.notification_type == 4 %}
                        <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
                         <span class="dropdown-item-close">&times;</span>
-                        <a href="#" class="notification" class="notification">
+                        <a href="{% url "booking_details_sent_notification" notification.pk notification.related_booking.pk %}" class="notification" class="notification">
                             {% with notification.related_booking.related_invitation.invite_sender as invite_sender %}
                                 <div class="notification_content">
                                     <div class="notification_img">
@@ -163,9 +163,9 @@
                                     <div class="notification_text">
                                         <p>
                                         {% if invite_sender.first_name %}
-                                            <strong>{{ invite_sender.first_name }}</strong>  has sent you booking details for {{ notification.related_booking.related_invitation.event_name }}.
+                                            <strong>{{ invite_sender.first_name }}</strong>  has sent you booking details for <strong>{{ notification.related_booking.related_invitation.event_name }}</strong>.
                                         {% else %}
-                                            {{ invite_sender.user.username }} has declined your invite to play {{ notification.related_booking.related_invitation.event_name }}.
+                                            {{ invite_sender.user.username }} has declined your invite to play <strong>{{ notification.related_booking.related_invitation.event_name }}</strong>.
                                         {% endif %}
                                     </p>
                                     </div>
