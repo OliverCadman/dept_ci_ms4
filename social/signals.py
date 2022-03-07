@@ -1,10 +1,9 @@
 from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save
-from django.shortcuts import get_object_or_404
+
 
 from bookings.models import Invitation
-from profiles.models import UserProfile
-from .models import Notification
+from .models import Notification, Booking
 
 
 @receiver(pre_delete, sender=Invitation)
@@ -25,12 +24,29 @@ def send_notification_on_decline(sender, instance, **kwargs):
 def send_notification_on_invite_sent(sender, instance, **kwargs):
     invitation = instance
 
-    invite_sender = invitation.invite_receiver
+    notification_sender = invitation.invite_sender
+    notification_receiver = invitation.invite_receiver
 
     Notification.objects.create(
-        notification_sender=invite_sender,
-        notification_receiver=invitation.invite_receiver,
+        notification_sender=notification_sender,
+        notification_receiver=notification_receiver,
         notification_type=1,
         related_invitation=invitation
     )
+
+
+@receiver(post_save, sender=Invitation)
+def send_notification_on_invite_accepted(
+    sender, instance, created, **kwargs):
+    invitation = instance
+    notification_sender = invitation.invite_receiver
+    notification_receiver = invitation.invite_sender
+    if invitation.is_accepted:
+        Notification.objects.create(
+            notification_sender=notification_sender,
+            notification_receiver=notification_receiver,
+            notification_type=2,
+            related_invitation=invitation
+        )
+
 
