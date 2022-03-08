@@ -64,26 +64,49 @@
         </div>
         <!-- Results List -->
         <div class="container findadep_results_container">
-            <div class="row">
-                <div class="col-12 col-md-4 col-lg-2 card musician_card p-0">
-                    <img class="card-img-top card_profile_image" src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ user_profile.user.username }}">
+            <div class="row d-flex justify-content-center">
+                {% for dep in dep_collection %}
+                <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
+                    <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
                     <div class="card-body">
-                        <p class="card-text secondary_font dark_font med_text">
-                            Guitar
-                        </p>
-                        <p class="card-text secondary_font light_font med_small_text">
-                            Tom Excell
-                        </p>
-                        <p class="musician_card_desc secondary_font small_text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga hic fugiat voluptate aliquid laboriosam tenetur odit cumque nihil quidem dolorem!
-                        </p>
-                        <div class="contact_btn_wrapper centered">
-                            <a href="#" class="btn custom_success secondary_font white_font">
-                                Contact Tom
-                            </a>
+                        <div class="justify_between h-100">
+                            <div class="card_detail">
+                                <p class="card-text secondary_font dark_font med_text">
+                                    {{ dep.instrument_list.all }}
+                                </p>
+                                <p class="card-text secondary_font light_font med_small_text mt-2">
+                                    {% if dep.first_name %}
+                                        {{ dep.first_name }} {{ dep.last_name }}
+                                    {% else %}
+                                        {{ dep.user.username }}
+                                    {% endif %}
+                                </p>
+                                <div id="star-icons" class="mt-2">
+                                    <span>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="far fa-star star-icon"></i>
+                                    </span>
+                                </div>
+                                <p class="musician_card_desc secondary_font small_text mt-3">
+                                    {% if dep.user_info %}
+                                        {{ dep.user_info }}
+                                    {% else %}
+                                        No Information
+                                    {% endif %}
+                                </p>   
+                            </div> 
+                            <div class="profile_btn_wrapper centered">
+                                <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
+                                    Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>

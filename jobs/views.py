@@ -17,7 +17,7 @@ class FindADepLandingPageView(ListView):
 
     model = UserProfile
 
-    context_object_name = "users"
+    context_object_name = "dep_collection"
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
