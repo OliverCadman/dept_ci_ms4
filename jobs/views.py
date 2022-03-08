@@ -2,16 +2,19 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 
-from profiles.models import UserProfile
+from profiles.models import UserProfile, Instrument
+
+from .functions import handle_deplist_get
 
 
-class JobPageView(View):
+class DepListView(ListView):
+    """
+    A view to display all individual UserProfile objects.
 
-    def get(self, request, job_name):
-        print(job_name)
-        return render(request, "jobs/job_list.html")
-
-class FindADepLandingPageView(ListView):
+    In addition to displaying all UserProfile objects,
+    DepListView also takes parameters for searching.
+    
+    """
 
     template_name = "jobs/dep_list.html"
 
@@ -20,10 +23,39 @@ class FindADepLandingPageView(ListView):
     context_object_name = "dep_collection"
 
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
+        """
+        Override default get_context_data to provided additional
+        pre-prepared context, prepared in View's "get_queryset" method.
+        """
+        context =  super().get_context_data(**kwargs) | self.pre_context
+
+        # Page name required in order to render correct header content.
         context["page_name"] = "dep_list"
+
+        # Query for a complete list of instruments, used to filter results 
+        # by instrument.
+        instrument_list = Instrument.objects.all()
+        context["instrument_list"] = instrument_list
+
+        # Used to apply the 'selected' attribute to the selected 
+        # filter criteria in "Instrument" form select.
+        context["selected_instrument"] = context["instrument"]
+
         return context
 
+    
+    def get_queryset(self):
+        """
+        Override default get_queryset method to handle
+        extra filter params.
+        """
 
+        # Get the current context with any params included.
+        self.pre_context = handle_deplist_get(self.request.GET)
 
+        # Filter the UserProfile table with provided search params.
+        query = UserProfile.objects.filter_queryset(
+            filter_params=self.pre_context["search_params"]
+        )
 
+        return query
