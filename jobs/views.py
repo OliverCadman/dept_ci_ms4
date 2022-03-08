@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+
+from profiles.models import UserProfile
 
 
 class JobPageView(View):
@@ -9,15 +11,19 @@ class JobPageView(View):
         print(job_name)
         return render(request, "jobs/job_list.html")
 
-class FindADepLandingPageView(View):
+class FindADepLandingPageView(ListView):
 
-    def get(self, request, *args, **kwargs):
+    template_name = "jobs/dep_list.html"
 
-        context = {
-        "page_name": "find_a_dep_landing_page"
-        }
-    
-        return render(request, "jobs/findadep_landing_page.html", context=context)
+    model = UserProfile
+
+    context_object_name = "users"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context["page_name"] = "dep_list"
+        return context
+
 
 
 
