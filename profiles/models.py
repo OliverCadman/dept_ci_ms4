@@ -13,6 +13,18 @@ from django.urls import reverse
 
 
 class Instrument(models.Model):
+    """
+    Instrument Model
+    ------------------------
+
+    Represents a list of individual Instrument choices.
+
+    Used as a ManyToMany field, related to the UserProfile model.
+
+    Attributes:
+
+        instrument_name = Field representing the name of the instrument.
+    """
 
     # Assigning first value in 'choices' tuple to avoid
     # errors and seperate logic.
@@ -68,6 +80,7 @@ class Instrument(models.Model):
         (VIBRAPHONE, "vibraphone")
     ]
 
+
     instrument_name = models.CharField(max_length=50, unique=True,
                                        choices=INSTRUMENTS, null=True, blank=True)
 
@@ -77,6 +90,18 @@ class Instrument(models.Model):
 
 
 class Genre(models.Model):
+    """
+    Genre Model
+    --------------------
+
+    Represents a list of individual Genre choices.
+
+    Used as a ManyToMany field, related to the UserProfile model.
+
+    Attributes:
+
+        genre_name = Field representing the name of the genre.
+    """
 
     POP = "Pop"
     ROCK = "Rock"
@@ -124,8 +149,90 @@ class Genre(models.Model):
 
 
 
+class UserProfileQueryset(models.QuerySet):
+    """
+    User Profile Query Set to handle searching and filtering
+    through URL query parameters, specified in the "Find a Dep"
+    page.
+
+    Methods:
+
+        filter_by_params():
+            Query the entire UserProfile object using filter 
+            params specified in "Find a Dep" page select 
+            elements and buttons.
+    """
+    
+    def filter_by_params(self, filter_params):
+
+        return self.filter(**filter_params)
+
+
+class UserProfileManager(models.Manager):
+    """
+    Custom codex manager to handle Custom UserProfileQuerySet
+
+    get_queryset():
+
+    """
+
+    def get_queryset(self):
+
+        return UserProfileQueryset(self.model, using=self._db)
+
+    
+    def filter_queryset(self, filter_params):
+
+        return (
+            self.get_queryset().filter_by_params(filter_params)
+        )
+
 
 class UserProfile(models.Model):
+    """
+    UserProfile Model
+    ------------------------
+
+    Represents a UserProfile instance.
+    
+    All fields are editable by the user excluding:
+
+    - subscription_chosen
+    - is_paid (Editable if they upgrade subscription of course)
+    - invitation_count
+    - slug
+
+    Attributes:
+
+    user - A OneToOne field with relation to AllAuth user account.
+
+    first_name - User's First Name
+
+    last_name - User's Last Name
+
+    city - The city where the user resides.
+
+    country - The country where the user resides.
+
+    profile_image - An image field if user chooses to display profile image.
+
+    instruments_played - A ManyToMany field providing user
+                        with a choice list of instruments.
+
+    genres - A ManyToMany field providing user with a choice list of genres.
+
+    user_info - A large text field for users to provide their pitch and details.
+
+    subscription_chosen - A Boolean representing if a user has chosen a subscription.
+
+    is_paid - A Boolean representing the user's subscription status.
+
+    invitation_count - An incremental field representing 
+                       how many invites a user has received.
+
+    slug - A slug representation of the user's username. Used as parameter in
+           profile URL.
+    """
  
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=60, null=True, blank=True)
@@ -141,6 +248,8 @@ class UserProfile(models.Model):
     invitation_count = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
     slug = models.SlugField(null=True, blank=True, db_index=True)
 
+    # Instantiate custom UserProfileManager
+    objects=UserProfileManager()
 
 
     def __str__(self):
@@ -148,14 +257,25 @@ class UserProfile(models.Model):
 
     
     def save(self, *args, **kwargs):
+        """ 
+        Automatically create a slug from the user's
+        username when a UserProfile object is created.
+        """
         self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
 
 
 class Equipment(models.Model):
     """
-    Database model to display a list of equipment 
-    attributed to a particular user.
+    Equipment Model
+    -----------------
+
+    Represents an individual item of Equipment which a user may declare.
+
+    Attributes:
+
+        equipment_name = Represents the name of the equipment item.
+        related_user = A ManytoOne relationship with a given UserProfile.
     """
 
     class Meta:
@@ -171,13 +291,34 @@ class Equipment(models.Model):
 
 
 class AudioFile(models.Model):
+    """
+    AudioFile model
+    -----------------
 
-    file = models.FileField(upload_to="audio")
+    Represents an individual AudioFile item which a user may add to their
+    profile.
+
+    Attributes:
+        
+        file - The actual file being uploaded.
+
+        file_name - An auto-generated string representation of the uploaded file.
+
+        related_user - A ManyToOne field representing a relationship with a 
+                       given UserProfile instance. This is optional since the
+                       AudioFile model is shared with the Booking model.
+
+        related_booking - A ManyToOne field representing a relationship with
+                          a given Booking instance. Optional, since the AudioFile
+                          model is shared with the UserProfile model.
+    """
+
+    file = models.FileField(upload_to="audio", null=True, blank=True)
     file_name = models.CharField(max_length=100, null=True, blank=True)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="users_tracks", null=True)
+                                     related_name="users_tracks", null=True, blank=True)
     related_booking = models.ForeignKey("bookings.Booking", on_delete=models.CASCADE,
-                                        related_name="audio_resources", null=True)
+                                        related_name="audio_resources", null=True, blank=True)
 
     def get_filename(self, file_path):
         """
@@ -185,17 +326,23 @@ class AudioFile(models.Model):
         to be used to represent the name each track in the user profile's 
         music player.
         """
-        file_url = file_path.url
-        file_name = file_url.split("/")[-1]
-        self.file_name = file_name
+        if file_path != "":
+            file_url = file_path.url
+            file_name = file_url.split("/")[-1]
+            self.file_name = file_name
 
-        return self.file_name
+            return self.file_name
 
     
     def save(self, *args, **kwargs):
-        if not self.file_name:
-            self.file_name = self.get_filename(self.file)
-        super().save(*args, **kwargs)
+        """
+        Override default save method to generated
+        string representation of filename.
+        """
+        if self.file:
+            if not self.file_name:
+                self.file_name = self.get_filename(self.file)
+            super().save(*args, **kwargs)
 
 
     def __str__(self):
@@ -205,6 +352,18 @@ class AudioFile(models.Model):
 
 
 class UnavailableDate(models.Model):
+    """
+    Unavailable Date Model
+    -------------------------
+
+    Represents an individual Date object, for the user to declare the 
+    dates they are unavailable to perform.
+
+    Attributes:
+        date - DateField represented a Python datetime object.
+
+        related_user - ManyToOne field related to a given user.
+    """
 
     date = models.DateField(auto_now=False, null=True)
     related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
