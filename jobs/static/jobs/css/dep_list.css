@@ -1,0 +1,190 @@
+#findadep_hero_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+}
+
+#benefits_section {
+    background-color: #1a2342;
+    color: #fefefe;
+    padding: 1rem .25rem;
+}
+
+#benefits_section h3 {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#benefits_list {
+    display: flex;
+    flex-direction: column;
+}
+
+#benefits_list li {
+    margin: 1rem 0;
+}
+
+.instrument_searchbar_container {
+    padding: 1.5rem 0;
+}
+
+.findadep_results_container {
+    padding: 2rem 0;
+}
+
+.instrument_searchbar_select {
+    margin-left: 1rem;
+}
+
+.musician_card {
+     box-shadow: 1px 1px 1px 2px rgb(0 0 0 / 10%);
+     border: 1px solid #ebebeb;
+}
+
+.card-img-top {
+    width: 100%;
+}
+
+.card_profile_image {
+    background: black;
+    object-fit: cover;
+    width: 100%;
+}
+
+.star-icon {
+    color: #ccb326;
+}
+
+.card-text {
+    margin-bottom: 0;
+}
+
+.musician_card_desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+@media screen and (min-width: 768px) {
+    .dynamic-header p.find_a_dep {
+        margin: 3rem auto;
+        width: 50%;
+    }
+
+    #benefits_section h3 {
+        margin: 1rem auto;
+        text-align: center;
+        width: 75%;
+    }
+
+
+     #benefits_list {
+         list-style: none;
+         margin-top: 2rem;
+         display: grid;
+         grid-template-columns: 250px 3fr;
+         row-gap: 20px;
+         column-gap: 160px;
+     }
+}
+
+
+@media screen and (min-width:992px) {
+
+    .dynamic-hero-section-lg.dep_list {
+        height: 50vh;
+    }
+
+    .dep_list_header {
+        padding-top: 5rem;
+    }
+
+    #benefits_section {
+        position: relative;
+        padding: 3rem 0;
+        color: #fafafa;
+    }
+
+     #benefits_section h3 {
+         margin: 0;
+         text-align: left;
+         width: 100%;
+     }
+
+    #benefits_hero_wrapper {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 40%;
+        overflow: hidden;
+    }
+
+    #benefits_hero_wrapper:after {
+        content: "";
+        right: 0;
+        background: linear-gradient(70deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%) !important;
+        width: 50%;
+        position: absolute;
+        height: 100%;
+    }
+
+    #benefits_container {
+        position: relative;
+        max-width: 1100px;
+    }
+
+    #findadep_hero2 {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        object-fit: cover;
+    }
+
+    #benefits_wrapper {
+        margin-left: 50%;
+    }
+
+    #benefits_list {
+        list-style: none;
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: 250px 3fr;
+        row-gap: 20px;
+        column-gap: 20px;
+    } 
+
+    .list_pair {
+        margin: 3rem 0;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+
+     .dynamic-hero-section-lg.dep_list {
+         height: 40vh;
+     }
+
+    .dep_list_header {
+        padding-top: 8rem;
+    }
+    #findadep_hero2 {
+        width: 85%;
+    }
+
+    #benefits_wrapper {
+        margin-left: 60%;
+    }
+
+    #benefits_hero_wrapper {
+        width: 50%;
+        bottom: 0;
+    }
+
+    #benefits_hero_wrapper:after {
+        width: 70%;
+    }
+}

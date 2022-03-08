@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Find a Dep{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+    <link rel="stylesheet" href="{% static "css/featured_instruments.css" %}">
+    <link rel="stylesheet" href="{% static "jobs/css/dep_list.css" %}">
+{% endblock %}
+
+<!-- Header -->
+{% block content %}
+    {% with page_name as p %}
+        {% include "includes/header-hero.html" %}
+    {% endwith %}
+    <!-- Search/Filter Accordion Bar -->
+    <section>
+        <div class="container-fluid instrument_searchbar_container">
+            <div class="row">
+                <div class="col-12 instrument_searchbar_wrapper centered">
+                    <span>I'm looking for a...</span>
+                    <div class="instrument_searchbar_select">
+                        <select class="form-select" name="" id="">
+                            <option value="">Guitar</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="accordion" id="filter_dep_accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_collapse" aria-expanded="true" aria-controls="filter_collapse">
+                                    Filter Your Results
+                                </button>
+                            </h2>
+                        <div id="filter_collapse" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-3">
+                                        Search Bar
+                                    </div>
+                                    <div class="col-3">
+                                        Dropdown
+                                    </div>
+                                    <div class="col-3">
+                                        Online Now
+                                    </div>
+                                    <div class="col-3">
+                                        Available Today
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Results List -->
+        <div class="container findadep_results_container">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-2 card musician_card p-0">
+                    <img class="card-img-top card_profile_image" src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ user_profile.user.username }}">
+                    <div class="card-body">
+                        <p class="card-text secondary_font dark_font med_text">
+                            Guitar
+                        </p>
+                        <p class="card-text secondary_font light_font med_small_text">
+                            Tom Excell
+                        </p>
+                        <p class="musician_card_desc secondary_font small_text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga hic fugiat voluptate aliquid laboriosam tenetur odit cumque nihil quidem dolorem!
+                        </p>
+                        <div class="contact_btn_wrapper centered">
+                            <a href="#" class="btn custom_success secondary_font white_font">
+                                Contact Tom
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="benefits_section">
+        <div class="container" id="benefits_container">
+            <div class="row">
+                <div class="col-12 col-lg-6" id="benefits_wrapper">
+                    <h3 class="primary_font large_text">Expand your network, using musicians that you trust. All at your fingertips.</h3>
+                        <ul id="benefits_list" class="fa-ul">
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                Find the best talent, wherever you are in the world.
+                            </li>
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                Expand your network, and connect with other musicians.
+                            </li>
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                Find out a member's availability, instantly.
+                            </li>
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                Improve your discoverability.
+                            </li>
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                Showcase your finest music.
+                            </li>
+                            <li class="secondary_font med_small_text">
+                                <i class="fa-li fa-solid fa-circle-check"></i>
+                                End-to-end booking, all within the platform.
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        <div id="benefits_hero_wrapper" class="d-none d-lg-block">
+            <img src="{{MEDIA_URL}}dept_findadep_hero2.webp" alt="Female vocalist in music studio" width="1200" height="1458" id="findadep_hero2">
+        </div>
+    </section>
+{% endblock %}

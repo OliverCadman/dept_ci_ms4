@@ -23,7 +23,7 @@
                             Dashboard
                         {% elif p == "booking_form" %}
                             Finalize your Booking.
-                        {% elif p == "find_a_dep_landing_page" %}
+                        {% elif p == "dep_list" %}
                             Top Musicians for Hire.
                         {% elif p == "booking_success "%}
                             You have booked {% if event.related_invitation.invite_receiver.first_name %}
@@ -56,13 +56,13 @@
                             </p>
                             <p class="text-center header_event_name">{{ invitation.event_name }}</p>
                             <p class="text-center">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
-                        {% elif p == "find_a_dep_landing_page" %}
-                            <p class="text-center">Browse our collection of DepT members, and find the perfect musician to cover your gig.</p>
+                        {% elif p == "dep_list" %}
+                            <p class="text-center find_a_dep">Browse our collection of DepT members, and find the perfect musician to cover your gig, hassle free, with confidence.</p>
                         {% endif %}
                 </div>
             </div>
     </section>
-    {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "find_a_dep_landing_page" %}
+    {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" %}
     <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
         <div class="row">
             <div class="col-12">
@@ -117,7 +117,7 @@
     </section>
     {% endif %}
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "booking_success" %}short{% endif %}{% if p == "find_a_dep_landing_page" %}find_a_dep_landing_page{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "booking_success" %}short{% endif %}{% if p == "dep_list" %}dep_list{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -126,7 +126,7 @@
                 </figure>
             </div>
             {% endif %}
-            <div class="dynamic-header" class="ms-4">
+            <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% endif %}" class="ms-4">
                 <h1 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
                     {% if request.session.form_page == 1 %}
@@ -140,7 +140,7 @@
                     Your Dashboard.
                 {% elif p == "booking_form" %}
                     Finalize Your Booking.
-                {% elif p == "find_a_dep_landing_page" %}
+                {% elif p == "dep_list" %}
                     Top Musicians for Hire
                 {% elif p == "booking_success" %}
                     You have booked {% if event.related_invitation.invite_receiver.first_name %}
@@ -163,13 +163,13 @@
                             <p>Additionally, Tier Two members appear above Tier One members in searches, getting more visibility and invites.</p>
                         </li>
                     </ol>
-                {% elif p == "find_a_dep_landing_page" %}
-                    <p class="med_text width_40">Browse our collection of DepT members, and find the perfect musician to cover your gig.</p>
+                {% elif p == "dep_list" %}
+                    <p class="med_text width_40">Browse our collection of DepT members, and find the perfect musician to cover your gig, hassle free, with confidence.</p>
                 {% endif %}
             </div>
         </div>
         <div class="dynamic-header-container">
-             {% if p == "find_a_dep_landing_page" %}
+             {% if p == "dep_list" %}
                 <img src="{{MEDIA_URL}}dept_findadep_landing.webp" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
             {% endif %}
             <div class="success-button-wrapper">
