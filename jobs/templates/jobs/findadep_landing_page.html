@@ -10,13 +10,26 @@
     <link rel="stylesheet" href="{% static "jobs/css/find_a_dep.css" %}">
 {% endblock %}
 
+<!-- Header -->
 {% block content %}
     {% with page_name as p %}
         {% include "includes/header-hero.html" %}
     {% endwith %}
-    <!-- Search/Filter Bar -->
+    <!-- Search/Filter Accordion Bar -->
     <section>
-        <div class="container-fluid p-0">
+        <div class="container-fluid instrument_searchbar_container">
+            <div class="row">
+                <div class="col-12 instrument_searchbar_wrapper centered">
+                    <span>I'm looking for a...</span>
+                    <div class="instrument_searchbar_select">
+                        <select class="form-select" name="" id="">
+                            <option value="">Guitar</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="accordion" id="filter_dep_accordion">
@@ -50,9 +63,27 @@
             </div>
         </div>
         <!-- Results List -->
-        <div class="container p-3">
+        <div class="container findadep_results_container">
             <div class="row">
-        
+                <div class="col-12 col-md-4 col-lg-2 card musician_card p-0">
+                    <img class="card-img-top card_profile_image" src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ user_profile.user.username }}">
+                    <div class="card-body">
+                        <p class="card-text secondary_font dark_font med_text">
+                            Guitar
+                        </p>
+                        <p class="card-text secondary_font light_font med_small_text">
+                            Tom Excell
+                        </p>
+                        <p class="musician_card_desc secondary_font small_text">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga hic fugiat voluptate aliquid laboriosam tenetur odit cumque nihil quidem dolorem!
+                        </p>
+                        <div class="contact_btn_wrapper centered">
+                            <a href="#" class="btn custom_success secondary_font white_font">
+                                Contact Tom
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
