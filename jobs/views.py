@@ -22,6 +22,25 @@ class DepListView(ListView):
 
     context_object_name = "dep_collection"
 
+    def get_queryset(self):
+        """
+        Override default get_queryset method to handle
+        extra filter params.
+        """
+
+        # Get the current context with any params included.
+        self.pre_context = handle_deplist_get(self.request.GET)
+        print("GET REQUEST")
+        print(self.request.GET)
+
+        # Filter the UserProfile table with provided search params.
+        query = UserProfile.objects.filter_queryset(
+            filter_params=self.pre_context["search_params"],
+            date_today=self.pre_context["available_today"]
+        )
+
+        return query
+
     def get_context_data(self, **kwargs):
         """
         Override default get_context_data to provided additional
@@ -37,25 +56,19 @@ class DepListView(ListView):
         instrument_list = Instrument.objects.all()
         context["instrument_list"] = instrument_list
 
+        # Populates the "selected_city" context key with a value.
+        # Used to populate the search bar with city searched by user
+        # upon page refresh.
+        context["selected_city"] = context["city"]
+
+        # Populates the "availabletoday_checkbox_selected" context key with a value.
+        # Used to check the related checkbox upon page refresh (if checked by the user).
+        context["availabletoday_checkbox_selected"] = context["available_today"] 
+
         # Used to apply the 'selected' attribute to the selected 
         # filter criteria in "Instrument" form select.
         context["selected_instrument"] = context["instrument"]
+        
 
         return context
 
-    
-    def get_queryset(self):
-        """
-        Override default get_queryset method to handle
-        extra filter params.
-        """
-
-        # Get the current context with any params included.
-        self.pre_context = handle_deplist_get(self.request.GET)
-
-        # Filter the UserProfile table with provided search params.
-        query = UserProfile.objects.filter_queryset(
-            filter_params=self.pre_context["search_params"]
-        )
-
-        return query
