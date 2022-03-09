@@ -17,48 +17,46 @@
     {% endwith %}
     <!-- Search/Filter Accordion Bar -->
     <section>
-        <div class="container-fluid instrument_searchbar_container">
-            <div class="row">
-                <div class="col-12 instrument_searchbar_wrapper centered">
-                    <span>I'm looking for...</span>
-                    <div class="instrument_searchbar_select">
-                        <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
-                            <select class="form-select" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
-                                <option value="{% if selected_instrument is empty %}all{% endif %}">All</option>
-                                {% for instrument in instrument_list %}
-                                    <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
-                                {% endfor %}
-                            </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="accordion" id="filter_dep_accordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_collapse" aria-expanded="true" aria-controls="filter_collapse">
+        <div class="container-fluid p-0">
+            <div class="row m-0">
+                <div class="col-12 p-0">
+                    <div class="accordion rounded-0" id="filter_dep_accordion">
+                        <div class="accordion-item border-0 rounded-0">
+                            <h2 class="accordion-header rounded-0">
+                                <button class="accordion-button dark_bg white_font med_small_text secondary_font rounded-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter_collapse" aria-expanded="true" aria-controls="filter_collapse">
                                     Filter Your Results
                                 </button>
                             </h2>
                         <div id="filter_collapse" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-12 col-md-3">        
-                                        <input type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
+                            <div class="accordion-body light_bg">
+                                <div class="row m-0">
+                                    <div class="col-12">
+                                        <div class="instrument_searchbar_select">
+                                            <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
+                                                <label for="instrument_filter" class="secondary_font">I'm Looking For...</label>
+                                                <select class="form-select secondary_font" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
+                                                    <option value="{% if selected_instrument is empty %}all{% endif %}">All</option>
+                                                    {% for instrument in instrument_list %}
+                                                        <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                        </div>
                                     </div>
-                                    <div class="col-3">
+                                </div>
+                                <hr class="d-block d-md-none m-0">
+                                <div class="row d-flex justify-content-center m-0 top_border">
+                                    <div class="col-12 col-md-4 centered filter_field" id="city_search_wrapper">        
+                                        <input class="form-control secondary_font shadow-none" placeholder="Lives in City..." type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
+                                        <span class="icon-inside"><i class="fas fa-search"></i></span>
+                                    </div>
+                                    <hr class="d-block d-md-none m-0">
+                                    <div class="col-12 col-md-4 centered filter_field">
                                         Dropdown
                                     </div>
-                                    <div class="col-3">
-                                        Online Now
-                                    </div>
-                                    <div class="col-3">
-                                            <label for="available_today_checbox">Available Today</label>
+                                    <hr class="d-block d-md-none m-0">
+                                    <div class="col-12 col-md-4 centered filter_field">
+                                            <label for="available_today_checkbox" class="secondary_font">Available Today</label>
                                             <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
-                                            <button type="submit">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -71,60 +69,61 @@
         </div>
         <!-- Results List -->
         <div class="container findadep_results_container">
-            <div class="row d-flex justify-content-center">
-                {{ no_results }}
+            <div class="row d-flex justify-content-center m-0">
                 {% if dep_collection %}
-                    {% for dep in dep_collection %}
-                        <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
-                            <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
-                            <div class="card-body">
-                                <div class="justify_between h-100">
-                                    <div class="card_detail">
-                                        <p class="card-text secondary_font dark_font small_text">
-                                            {% for instrument in dep.instruments_played.all %}
-                                                {% if instrument %}
-                                                    {{ instrument.instrument_name }}{% if not forloop.last %},{% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </p>
-                                        <p class="card-text secondary_font light_font med_small_text mt-2">
-                                            {% if dep.first_name %}
-                                                {{ dep.first_name }} {{ dep.last_name }}
-                                            {% else %}
-                                                {{ dep.user.username }}
-                                            {% endif %}
-                                        </p>
-                                        <p class="card-text secondary_font light_font small_text mt-2">
-                                            {% if dep.city %}{{ dep.city }}{% endif %}{% if dep.country %}, {{ dep.country.name }}{% endif %}
-                                        </p>
-                                        <div id="star-icons" class="mt-2">
-                                            <span>
-                                                <i class="fas fa-star star-icon"></i>
-                                                <i class="fas fa-star star-icon"></i>
-                                                <i class="fas fa-star star-icon"></i>
-                                                <i class="fas fa-star star-icon"></i>
-                                                <i class="far fa-star star-icon"></i>
-                                            </span>
-                                        </div>
-                                        <p class="musician_card_desc secondary_font small_text mt-3">
-                                            {% if dep.user_info %}
-                                                {{ dep.user_info }}
-                                            {% else %}
-                                                No Information
-                                            {% endif %}
-                                        </p>   
-                                    </div> 
-                                    <div class="profile_btn_wrapper centered">
-                                        <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
-                                            Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
-                                        </a>
-                                    </div>
+                {% for dep in dep_collection %}
+                <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
+                    <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
+                    <div class="card-body">
+                        <div class="justify_between h-100">
+                            <div class="card_detail">
+                                <p class="card-text secondary_font dark_font small_text">
+                                    {% for instrument in dep.instruments_played.all %}
+                                        {% if instrument %}
+                                            {{ instrument.instrument_name }}{% if not forloop.last %},{% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <p class="card-text secondary_font light_font med_small_text mt-2">
+                                    {% if dep.first_name %}
+                                        {{ dep.first_name }} {{ dep.last_name }}
+                                    {% else %}
+                                        {{ dep.user.username }}
+                                    {% endif %}
+                                </p>
+                                <p class="card-text secondary_font light_font small_text mt-2">
+                                    {% if dep.city %}{{ dep.city }}{% endif %}{% if dep.country %}, {{ dep.country.name }}{% endif %}
+                                </p>
+                                <div id="star-icons" class="mt-2">
+                                    <span>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="fas fa-star star-icon"></i>
+                                        <i class="far fa-star star-icon"></i>
+                                    </span>
                                 </div>
+                                <p class="musician_card_desc secondary_font small_text mt-3">
+                                    {% if dep.user_info %}
+                                        {{ dep.user_info }}
+                                    {% else %}
+                                        No Information
+                                    {% endif %}
+                                </p>   
+                            </div> 
+                            <div class="profile_btn_wrapper centered">
+                                <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
+                                    Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
+                                </a>
                             </div>
                         </div>
-                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
                 {% else %}
-                    No Results
+                    <div id="no_results_container">
+                        <h4 class="text-center primary_font light_font large_font">No Results</h4>
+                    </div>
                 {% endif %}
             </div>
         </div>
