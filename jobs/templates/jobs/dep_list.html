@@ -20,11 +20,15 @@
         <div class="container-fluid instrument_searchbar_container">
             <div class="row">
                 <div class="col-12 instrument_searchbar_wrapper centered">
-                    <span>I'm looking for a...</span>
+                    <span>I'm looking for...</span>
                     <div class="instrument_searchbar_select">
-                        <select class="form-select" name="" id="">
-                            <option value="">Guitar</option>
-                        </select>
+                        <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
+                            <select class="form-select" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
+                                <option value="{% if selected_instrument is empty %}all{% endif %}">All</option>
+                                {% for instrument in instrument_list %}
+                                    <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
+                                {% endfor %}
+                            </select>
                     </div>
                 </div>
             </div>
@@ -42,8 +46,8 @@
                         <div id="filter_collapse" class="accordion-collapse collapse show">
                             <div class="accordion-body">
                                 <div class="row">
-                                    <div class="col-12 col-md-3">
-                                        Search Bar
+                                    <div class="col-12 col-md-3">        
+                                        <input type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
                                     </div>
                                     <div class="col-3">
                                         Dropdown
@@ -52,7 +56,10 @@
                                         Online Now
                                     </div>
                                     <div class="col-3">
-                                        Available Today
+                                            <label for="available_today_checbox">Available Today</label>
+                                            <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
+                                            <button type="submit">Submit</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -65,48 +72,60 @@
         <!-- Results List -->
         <div class="container findadep_results_container">
             <div class="row d-flex justify-content-center">
-                {% for dep in dep_collection %}
-                <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
-                    <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
-                    <div class="card-body">
-                        <div class="justify_between h-100">
-                            <div class="card_detail">
-                                <p class="card-text secondary_font dark_font med_text">
-                                    {{ dep.instrument_list.all }}
-                                </p>
-                                <p class="card-text secondary_font light_font med_small_text mt-2">
-                                    {% if dep.first_name %}
-                                        {{ dep.first_name }} {{ dep.last_name }}
-                                    {% else %}
-                                        {{ dep.user.username }}
-                                    {% endif %}
-                                </p>
-                                <div id="star-icons" class="mt-2">
-                                    <span>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="far fa-star star-icon"></i>
-                                    </span>
+                {{ no_results }}
+                {% if dep_collection %}
+                    {% for dep in dep_collection %}
+                        <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
+                            <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
+                            <div class="card-body">
+                                <div class="justify_between h-100">
+                                    <div class="card_detail">
+                                        <p class="card-text secondary_font dark_font small_text">
+                                            {% for instrument in dep.instruments_played.all %}
+                                                {% if instrument %}
+                                                    {{ instrument.instrument_name }}{% if not forloop.last %},{% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                        <p class="card-text secondary_font light_font med_small_text mt-2">
+                                            {% if dep.first_name %}
+                                                {{ dep.first_name }} {{ dep.last_name }}
+                                            {% else %}
+                                                {{ dep.user.username }}
+                                            {% endif %}
+                                        </p>
+                                        <p class="card-text secondary_font light_font small_text mt-2">
+                                            {% if dep.city %}{{ dep.city }}{% endif %}{% if dep.country %}, {{ dep.country.name }}{% endif %}
+                                        </p>
+                                        <div id="star-icons" class="mt-2">
+                                            <span>
+                                                <i class="fas fa-star star-icon"></i>
+                                                <i class="fas fa-star star-icon"></i>
+                                                <i class="fas fa-star star-icon"></i>
+                                                <i class="fas fa-star star-icon"></i>
+                                                <i class="far fa-star star-icon"></i>
+                                            </span>
+                                        </div>
+                                        <p class="musician_card_desc secondary_font small_text mt-3">
+                                            {% if dep.user_info %}
+                                                {{ dep.user_info }}
+                                            {% else %}
+                                                No Information
+                                            {% endif %}
+                                        </p>   
+                                    </div> 
+                                    <div class="profile_btn_wrapper centered">
+                                        <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
+                                            Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
+                                        </a>
+                                    </div>
                                 </div>
-                                <p class="musician_card_desc secondary_font small_text mt-3">
-                                    {% if dep.user_info %}
-                                        {{ dep.user_info }}
-                                    {% else %}
-                                        No Information
-                                    {% endif %}
-                                </p>   
-                            </div> 
-                            <div class="profile_btn_wrapper centered">
-                                <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
-                                    Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
-                                </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    No Results
+                {% endif %}
             </div>
         </div>
     </section>
@@ -148,4 +167,8 @@
             <img src="{{MEDIA_URL}}dept_findadep_hero2.webp" alt="Female vocalist in music studio" width="1200" height="1458" id="findadep_hero2">
         </div>
     </section>
+{% endblock %}
+{% block postload_js %}
+    {{ block.super }}
+    <script src="{% static "jobs/js/filter.js" %}"></script>
 {% endblock %}
