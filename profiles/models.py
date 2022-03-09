@@ -8,6 +8,8 @@ from django.utils.text import slugify
 
 from django.urls import reverse
 
+import datetime
+
 
 
 
@@ -81,8 +83,8 @@ class Instrument(models.Model):
     ]
 
 
-    instrument_name = models.CharField(max_length=50, unique=True,
-                                       choices=INSTRUMENTS, null=True, blank=True)
+    instrument_name = models.CharField(max_length=50, unique=True, choices=INSTRUMENTS,
+                                       null=True, blank=True, default="All")
 
     def __str__(self):
         return self.instrument_name
@@ -142,7 +144,8 @@ class Genre(models.Model):
     ]
 
     genre_name = models.CharField(max_length=50, choices=GENRES, 
-                                  null=True, blank=True, unique=True)
+                                  null=True, blank=True, unique=True,
+                                  default="All")
 
     def __str__(self):
         return self.genre_name
@@ -163,9 +166,19 @@ class UserProfileQueryset(models.QuerySet):
             elements and buttons.
     """
     
-    def filter_by_params(self, filter_params):
+    def filter_by_params(self, filter_params, date_today):
+    
+        if date_today:
+            print("today")
+            return self.filter(**filter_params).exclude(unavailable_user__date=date_today)
 
         return self.filter(**filter_params)
+    
+    def nested_filter_by_params(self, first_params, second_params):
+
+        return (
+            self.filter(**first_params) & self.filter(**second_params)
+        )
 
 
 class UserProfileManager(models.Manager):
@@ -181,10 +194,15 @@ class UserProfileManager(models.Manager):
         return UserProfileQueryset(self.model, using=self._db)
 
     
-    def filter_queryset(self, filter_params):
+    def filter_queryset(self, filter_params, date_today):
 
         return (
-            self.get_queryset().filter_by_params(filter_params)
+            self.get_queryset().filter_by_params(filter_params, date_today)
+        )
+    
+    def nested_filter_queryset(self, first_params, second_params):
+        return (
+            self.get_queryset().nested_filter_by_params(first_params, second_params)
         )
 
 
@@ -263,6 +281,8 @@ class UserProfile(models.Model):
         """
         self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
+
+    
 
 
 class Equipment(models.Model):
