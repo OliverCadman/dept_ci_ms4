@@ -195,6 +195,7 @@
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
+    <script src="{% static "bookings/js/rating.js" %}"></script>
     <script>
         $(function() {
             $("#date_time_picker").datetimepicker({
