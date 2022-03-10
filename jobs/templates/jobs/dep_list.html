@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
+<!-- TemplateTags -->
+{% load job_tags %}
 
-
+<!-- Title -->
 {% block title %}Find a Dep{% endblock %}
 
+<!-- Custom CSS -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
     <link rel="stylesheet" href="{% static "css/featured_instruments.css" %}">
     <link rel="stylesheet" href="{% static "jobs/css/dep_list.css" %}">
 {% endblock %}
 
-<!-- Header -->
+<!-- Content -->
 {% block content %}
+    <!-- Header -->
     {% with page_name as p %}
         {% include "includes/header-hero.html" %}
     {% endwith %}
@@ -35,7 +39,7 @@
                                             <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
                                                 <label for="instrument_filter" class="secondary_font">I'm Looking For...</label>
                                                 <select class="form-select secondary_font" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
-                                                    <option value="{% if selected_instrument is empty %}all{% endif %}">All</option>
+                                                    <option value="all">All</option>
                                                     {% for instrument in instrument_list %}
                                                         <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
                                                     {% endfor %}
@@ -45,20 +49,23 @@
                                 </div>
                                 <hr class="d-block d-md-none m-0">
                                 <div class="row d-flex justify-content-center m-0 top_border">
-                                    <div class="col-12 col-md-4 centered filter_field" id="city_search_wrapper">        
+                                    <div class="col-12 col-md-4 centered filter_field bottom_border" id="city_search_wrapper">        
                                         <input class="form-control secondary_font shadow-none" placeholder="Lives in City..." type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
                                         <span class="icon-inside"><i class="fas fa-search"></i></span>
                                     </div>
                                     <hr class="d-block d-md-none m-0">
-                                    <div class="col-12 col-md-4 centered filter_field">
+                                    <div class="col-12 col-md-4 centered filter_field bottom_border">
                                         Dropdown
                                     </div>
                                     <hr class="d-block d-md-none m-0">
-                                    <div class="col-12 col-md-4 centered filter_field">
+                                    <div class="col-12 col-md-4 centered filter_field bottom_border">
                                             <label for="available_today_checkbox" class="secondary_font">Available Today</label>
                                             <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
-                                        </form>
                                     </div>
+                                    <div class="col-12 centered pt-3 pb-3 bottom_border">
+                                        <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>
+                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -67,10 +74,36 @@
                 </div>
             </div>
         </div>
-        <!-- Results List -->
+        <!-- Results Container -->
         <div class="container findadep_results_container">
             <div class="row d-flex justify-content-center m-0">
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <div class="pagination">
+                        {% if page_obj.has_previous %}
+                            <span class="step-links">
+                                <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=1 %}">&laquo;</a>
+                                {% if page_obj.previous_page_number != 1 %}
+                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}">previous</a>
+                                {% endif %}
+                            {% endif %}
+                                <span class="current">
+                                    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                                </span>
+                            {% if page_obj.has_next %}
+                                {% if page_obj.next_page_number != paginator.num_pages %}
+                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}">next</a>
+                                {% endif %}
+                                <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}">last &raquo;</a>
+                            </span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <!-- List of Results -->
                 {% if dep_collection %}
+                <div class="col-12">
+                    <p class="secondary_font med_small_text">{{ dep_collection.count }}{% if dep_collection.count == 1 %} result {% else %} results {% endif %}</p>
+                </div>
                 {% for dep in dep_collection %}
                 <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
                     <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
@@ -121,6 +154,7 @@
                 </div>
                 {% endfor %}
                 {% else %}
+                    <!-- No Results -->
                     <div id="no_results_container">
                         <h4 class="text-center primary_font light_font large_font">No Results</h4>
                     </div>
@@ -128,6 +162,7 @@
             </div>
         </div>
     </section>
+    <!-- Bottom section with itemised list of benefits -->
     <section id="benefits_section">
         <div class="container" id="benefits_container">
             <div class="row">
@@ -162,11 +197,14 @@
                 </div>
             </div>
         </div>
+        <!-- Hero Image -->
         <div id="benefits_hero_wrapper" class="d-none d-lg-block">
             <img src="{{MEDIA_URL}}dept_findadep_hero2.webp" alt="Female vocalist in music studio" width="1200" height="1458" id="findadep_hero2">
         </div>
     </section>
 {% endblock %}
+
+<!-- Custom JS -->
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "jobs/js/filter.js" %}"></script>
