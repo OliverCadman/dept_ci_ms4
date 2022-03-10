@@ -149,24 +149,17 @@ class ReviewForm(forms.ModelForm):
     class Meta:
          model = Review
          exclude = ("related_booking", "review_sender", "review_receiver",
-                    "review_created", "review_modified", "rating",)
+                    "review_created", "review_modified",)
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_action = "/bookings/review"
-        self.helper.form_method = "POST"
-        self.helper.form_id = "review_form"
-        self.helper.add_input(Submit("Submit", "submit"))
-        self.helper.add_layout = Layout(
-            Div(
-                HTML("<h3>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</h3>"),
-                "review_content"       
-            )
-        )
+        
+        self.fields["review_content"].label = ""
         
     
     review_content = forms.CharField(label="Leave your review",
                                      widget=forms.Textarea(attrs={
                                          "placeholder": "Tell the community what you think"
                                      }))
+
+    rating = forms.IntegerField(widget=forms.HiddenInput)
