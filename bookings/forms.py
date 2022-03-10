@@ -7,9 +7,7 @@ from crispy_forms.bootstrap import PrependedText
 
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
-from .models import Booking, Invitation
-from profiles.models import UserProfile
-
+from .models import Booking, Invitation, Review
 
 
 class InvitationForm(forms.ModelForm):
@@ -144,3 +142,31 @@ class BookingForm(forms.ModelForm):
                                     widget=forms.Textarea(attrs={
                                         "rows": "2"
                                     }))
+
+
+class ReviewForm(forms.ModelForm):
+     
+    class Meta:
+         model = Review
+         exclude = ("related_booking", "review_sender", "review_receiver",
+                    "review_created", "review_modified", "rating",)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_action = "/bookings/review"
+        self.helper.form_method = "POST"
+        self.helper.form_id = "review_form"
+        self.helper.add_input(Submit("Submit", "submit"))
+        self.helper.add_layout = Layout(
+            Div(
+                HTML("<h3>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</h3>"),
+                "review_content"       
+            )
+        )
+        
+    
+    review_content = forms.CharField(label="Leave your review",
+                                     widget=forms.Textarea(attrs={
+                                         "placeholder": "Tell the community what you think"
+                                     }))
