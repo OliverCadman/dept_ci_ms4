@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 
-from profiles.models import UserProfile, Instrument
+from profiles.models import UserProfile, Instrument, Genre
 
 from .functions import handle_deplist_get
 
@@ -23,7 +23,7 @@ class DepListView(ListView):
     context_object_name = "dep_collection"
 
 
-    paginate_by = 2
+    paginate_by = 8
 
     def get_queryset(self):
         """
@@ -64,6 +64,11 @@ class DepListView(ListView):
         instrument_list = Instrument.objects.all()
         context["instrument_list"] = instrument_list
 
+        # Query for a complete list of genres, used to filter requlest
+        # by genre.
+        genre_list = Genre.objects.all()
+        context["genre_list"] = genre_list
+
         # Populates the "selected_city" context key with a value.
         # Used to populate the search bar with city searched by user
         # upon page refresh.
@@ -76,6 +81,8 @@ class DepListView(ListView):
         # Used to apply the 'selected' attribute to the selected 
         # filter criteria in "Instrument" form select.
         context["selected_instrument"] = context["instrument"]
+
+        context["selected_genre"] = context["genre"]
 
         print(context)
         

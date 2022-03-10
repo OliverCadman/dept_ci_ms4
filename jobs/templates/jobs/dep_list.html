@@ -55,7 +55,15 @@
                                     </div>
                                     <hr class="d-block d-md-none m-0">
                                     <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                        Dropdown
+                                        <label for="genre">Genre</label>
+                                        {% if genre_list %}
+                                            <select class="form-select" name="genre" id="genre">
+                                                <option value="all">All</option>
+                                                {% for genre in genre_list %}
+                                                    <option value="{{genre.genre_name}}"{% if selected_genre == genre.genre_name %}selected{% endif %}>{{genre.genre_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        {% endif %}
                                     </div>
                                     <hr class="d-block d-md-none m-0">
                                     <div class="col-12 col-md-4 centered filter_field bottom_border">
