@@ -184,7 +184,13 @@
                 </div>
                 <div class="modal-body review_form_container">
                     <div id="review_form_wrapper">
-                        {% crispy review_form %}
+                        <form action="{% url "profile" user.user.username %}" method="POST">
+                            {% csrf_token %}
+                             <h3 class='form-header'>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</h3>
+                            {% include "includes/star_icons.html" %}
+                            {{ review_form|crispy }}
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>

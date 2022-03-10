@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
 from django.conf import settings
 
-from bookings.models import Invitation
+from bookings.models import Invitation, Review
 from bookings.forms import InvitationForm, ReviewForm
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 
@@ -78,7 +78,7 @@ class ProfileView(TemplateView):
         
         invitation_form = InvitationForm()
 
-        review_form = ReviewForm()
+        review_form = ReviewForm(self.request.POST or None)
 
         
         self.request.session["invited_username"] = username
@@ -96,7 +96,61 @@ class ProfileView(TemplateView):
             "review_form": review_form
         }
 
+        print(context["review_form"].fields["review_content"])
+
         return context
+
+
+    def post(self, request, *args, **kwargs):
+        """
+        Post method to handle data inputted through the Review Form.
+
+        Gets the current context data of profile page and extracts the 
+        UserProfile value (from "user" key), to add to the new created 
+        Review instance as the review receiver.
+
+        Review Sender's profile obtained through get_object_or_404,
+        and added to Review instance as review sender.
+
+        If form is valid, return to the user's profile with success message.
+
+        If form is invalid, return to the user's profile with error message.
+        """
+
+
+        context = self.get_context_data(**kwargs)
+
+        review_receiver_profile = context["user"]
+        review_sender = request.user
+
+
+        review_sender_profile = get_object_or_404(UserProfile, user__username=review_sender)
+
+        
+        review_form = context["review_form"]
+        if review_form.is_valid():
+            form = review_form.save(commit=False)
+            form.review_receiver = review_receiver_profile
+            form.review_sender = review_sender_profile
+            form.save()
+
+            # Check if invite receiver profile has a first name.
+            # If not, default to the user profile's username.
+            # Pass name into success message.
+            receiver_name = None
+            if review_receiver_profile.first_name:
+                receiver_name = review_receiver_profile.first_name
+            else:
+                receiver_name = review_receiver_profile.user.username
+            messages.success(request, f"You left a review for {receiver_name}")
+            return redirect(reverse("profile", args=[review_receiver_profile.user.username]))
+        else:
+            context = self.get_context_data(**kwargs)
+            context["review_form"] = ReviewForm()
+
+            messages.error(request, "Review failed to send. Please make sure your review is valid.")
+            return redirect(reverse("profile", args=[review_receiver_profile.user.username]), context=context)
+
 
 
 def edit_profile(request):
