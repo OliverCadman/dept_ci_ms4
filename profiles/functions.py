@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.utils.http import urlencode
 
 from bookings.models import Invitation
 from .models import UserProfile
@@ -24,7 +26,9 @@ def calculate_profile_progress_percentage(username):
     user_profile = get_object_or_404(UserProfile, user__username=username)
 
     fields = user_profile.__dict__
+    print(fields)
     null_object = {}
+    rounded_percentage = 0
 
     for key, value in fields.items():
         if key != "invitation_count" and key != "is_paid":
@@ -42,8 +46,9 @@ def calculate_profile_progress_percentage(username):
         null_object["genres"] = None
 
     users_equipment = user_profile.equipment.all()
-    if not users_equipment:
+    if not users_equipment or len(users_equipment) == 0:
         null_object["equipment"] = None
+   
 
     users_tracks = user_profile.users_tracks.all()
     if not users_tracks:
@@ -63,6 +68,11 @@ def calculate_profile_progress_percentage(username):
         rounded_percentage = round(progress_percentage)
 
     return rounded_percentage
+
+def calculate_average_rating(total_rating, num_of_reviews):
+    average_rating = round(total_rating/num_of_reviews)
+    return average_rating
+
 
     
 

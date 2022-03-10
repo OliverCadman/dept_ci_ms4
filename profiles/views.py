@@ -18,7 +18,7 @@ from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from social.forms import MessageForm
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 
-from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
+from .functions import calculate_average_rating, calculate_invite_acceptance_delta, calculate_profile_progress_percentage
 
 
 @csrf_exempt
@@ -80,6 +80,18 @@ class ProfileView(TemplateView):
 
         review_form = ReviewForm(self.request.POST or None)
 
+        # Calculate the average review rating for the user
+        users_reviews = user_profile.received_reviews.all()
+        num_of_reviews = users_reviews.count()
+        average_rating = None
+        
+        if num_of_reviews > 0:
+            total_rating = 0
+            for review in users_reviews:
+                rating = review.rating
+                total_rating += rating
+        
+            average_rating = calculate_average_rating(total_rating, num_of_reviews)
         
         self.request.session["invited_username"] = username
 
@@ -93,7 +105,9 @@ class ProfileView(TemplateView):
             "username": user_profile.user,
             "user_id": user_profile.user.id,
             "invitation_form": invitation_form,
-            "review_form": review_form
+            "review_form": review_form,
+            "average_rating": average_rating,
+            "num_of_reviews": num_of_reviews
         }
 
         print(context["review_form"].fields["review_content"])
