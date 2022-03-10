@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Invitation, Booking
+from .models import Invitation, Booking, Review
 
 from profiles.models import AudioFile
 
@@ -28,7 +28,12 @@ class InvitationAdmin(admin.ModelAdmin):
 class BookingAdmin(admin.ModelAdmin):
     inlines = [AudioFileInline]
 
+class ReviewAdmin(admin.ModelAdmin):
+    readonly_fields = ("review_created",)
+
+
 # Register your models here.
 admin.site.register(Invitation, InvitationAdmin)
 admin.site.register(Booking, BookingAdmin)
+admin.site.register(Review, ReviewAdmin)
 

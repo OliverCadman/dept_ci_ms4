@@ -1,8 +1,9 @@
-from distutils.command.upload import upload
+from django.utils import timezone
 from django.db import models
 from django_countries.fields import CountryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from profiles.models import UserProfile
 import uuid
@@ -75,4 +76,61 @@ def create_booking(sender, instance, created, *args, **kwargs):
         if invitation.is_accepted == True:
             Booking.objects.create(related_invitation=invitation)
 
+
+class Review(models.Model):
+    """
+    Model representing a single Review instance.
+
+    Attributes:
+        related_booking (FK) - The Booking instance associated with the review, if any.
+                               If related booking exists, information about the 
+                               booking will be displayed alongside the review content.
+        
+        review_receiver (FK) - The UserProfile instance which is being reviewed.
+
+        review_sender (FK) - The UserProfile instance which is writing the review.
+
+        review_content (TextField) - The text content of the review.
+
+        review_created (DateTimeField) - An uneditable DateTimeField representing the
+                                         date and time when the review was created.
+        
+        review_modified (DateTimeField) - An editable DateTimeField representing the 
+                                          date and time when the review was modified.
+
+        rating (SmallIntegerField) - An integer range from 1-5, representing a "star"
+                                     rating.
+    
+    """
+    related_booking = models.ForeignKey(Booking, on_delete=models.CASCADE,
+                                        related_name="reviews", null=True, blank=True)
+    review_receiver = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
+                                        related_name="received_reviews", null=True, blank=True)
+    review_sender = models.ForeignKey(UserProfile, on_delete=models.CASCADE, 
+                                      related_name="sent_reviews", null=True, blank=True)
+    review_content = models.TextField(max_length=800)
+    review_created = models.DateTimeField(editable=False)
+    review_modified = models.DateTimeField(null=True, blank=True)
+    rating = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    def __str__(self):
+        """
+        Return a string representation of a single Review instance.
+        """
+        return (
+            f"Review for Invitation No: {self.related_booking.related_invitation.invitation_number}")
+
+    def save(self, *args, **kwargs):
+        """
+        Override the default save method, populating the "review_created" field
+        with current date and time when a review instance is created.
+
+        Date added to review_created field only if there is no Review ID present.
+
+        Otherwise, the review_modified field is updated.
+        """
+        if not self.pk:
+            self.review_created = timezone.now()
+        self.review_modified = timezone.now()
+        return super(Review, self).save(*args, **kwargs)
 
