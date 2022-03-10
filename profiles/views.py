@@ -12,7 +12,7 @@ from django.forms.models import modelformset_factory
 from django.conf import settings
 
 from bookings.models import Invitation
-from bookings.forms import InvitationForm
+from bookings.forms import InvitationForm, ReviewForm
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 
 from social.forms import MessageForm
@@ -78,6 +78,8 @@ class ProfileView(TemplateView):
         
         invitation_form = InvitationForm()
 
+        review_form = ReviewForm()
+
         
         self.request.session["invited_username"] = username
 
@@ -90,13 +92,17 @@ class ProfileView(TemplateView):
             "track_filename": track_filename,
             "username": user_profile.user,
             "user_id": user_profile.user.id,
-            "invitation_form": invitation_form
+            "invitation_form": invitation_form,
+            "review_form": review_form
         }
 
         return context
 
 
 def edit_profile(request):
+
+    print("EDIT PROFILE REQUEST")
+    print(request)
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
@@ -243,7 +249,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # from Booking Detail Page.
         booking_id = None
         if referer_url_path == "bookings":
-            print(True)
             booking_id = self.request.GET.get("filter")
         
         # Set filter to Invitation ID if user visiting dashboard

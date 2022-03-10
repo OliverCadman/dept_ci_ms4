@@ -7,6 +7,7 @@
 {% block title %}DepT - Your Profile{% endblock %}
 {% block extra_css %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/profile_booking_includes.css" %}">
     <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
     <link rel="stylesheet" href="{% static "profiles/css/bar-ui.css" %}">
 {% endblock %}
@@ -27,8 +28,11 @@
     <div class="row">
         <!-- User Description and Reviews -->
         <div class="col-12 col-lg-8 description-review-container">
-            <div class="user-desc-wrapper secondary-font">
-                <p>{{user.user_info|linebreaks}}</p>
+            <div class="user-desc-wrapper secondary_font">
+                <p class="secondary_font">{{user.user_info|linebreaks}}</p>
+            </div>
+            <div id="review_wrapper">
+                Review
             </div>
         </div>
         <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
@@ -157,20 +161,36 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="invitation_modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body invitation_form_container">
-                <div id="invitation_form_wrapper">
-                    {% crispy invitation_form %}
+<aside>
+    <div class="modal fade" id="invitation_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body invitation_form_container">
+                    <div id="invitation_form_wrapper">
+                        {% crispy invitation_form %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="modal fade" id="review_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body review_form_container">
+                    <div id="review_form_wrapper">
+                        {% crispy review_form %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
 {% endblock %}
 {% block postload_js %}
     {{ block.super }}
