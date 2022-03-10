@@ -9,7 +9,9 @@ $(document).ready(function() {
       to keep track of which icon along the row of icons has been clicked.
     
     */
-    const ratingStars = document.getElementsByClassName("rating_star");
+    const ratingStars = [...document.getElementsByClassName("rating_star")];
+    const ratingDisplayEl = document.getElementById("rating_display");
+    ratingDisplayEl.textContent = "0/5"
 
     const ratingStarArray = []
 
@@ -17,37 +19,54 @@ $(document).ready(function() {
         ratingStarArray.push(star)
     }
 
-    leaveStarRating(ratingStarArray);
+    leaveStarRating(ratingStars, ratingDisplayEl);
 
-    function leaveStarRating(starIcons) {
+    function leaveStarRating(starIcons, ratingDisplayEl) {
+        console.log(starIcons)
         const activeStarIcon = "rating_star fas fa-star"
         const inactiveStarIcon = "rating_star far fa-star"
         const lengthOfStars = starIcons.length
-  
+        let i;
         starIcons.map((star) => {
             star.addEventListener("click", function() {
 
                 // Keep track of index of clicked star
-                let i = starIcons.indexOf(star);
+                i = starIcons.indexOf(star);
+
+                // Override zero-indexing to accurately represent number
+                // of active stars.
                 let starRating = i + 1;
                 
-                if (star.className === inactiveStarIcon) {
-                  
-                  // Decremental for loop enables all star icons up-to and including
-                  // clicked star icon to be filled in, and "active".
-                  for (i; i < lengthOfStars; i--) {
-                    starIcons[i].className = activeStarIcon;
-                  }
+                if (star.className.indexOf(inactiveStarIcon) !== -1) {
+
+                    // Update the text content of rating/5 with new rating number.
+                    displayRatingNumber(ratingDisplayEl, starRating);
+
+                    // Decremental for loop enables all star icons up-to and including
+                    // clicked star icon to be filled in, and "active".
+                    for (i; i >= 0; i--) {
+                        starIcons[i].className = activeStarIcon;
+                    }
                 } else {
-                  // Incremental for loop enables all active star icons following
-                  // and including clicked star icon to be outlined, and "inactive".
-                  for (i; i < lengthOfStars; i++) {
-                    starIcons[i].className = inactiveStarIcon;
-                  }
+
+                    // Update the text content of rating/5 with new rating number.
+                    // Variable "i" passed in instead of "starRating" as zero-indexing required.
+                    displayRatingNumber(ratingDisplayEl, i);
+
+                    // Incremental for loop enables all active star icons following
+                    // and including clicked star icon to be outlined, and "inactive".
+                    for (i; i < lengthOfStars; i++) {
+                        starIcons[i].className = inactiveStarIcon;
+                    }
                 }
             })         
 
         
         });
-    }    
+    }
+    
+    function displayRatingNumber(ratingEl, number) {
+        /* Update span element with new rating (out of 5)  */
+        ratingEl.textContent = `${number}/5`
+    }
 })
