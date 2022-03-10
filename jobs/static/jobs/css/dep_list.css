@@ -71,12 +71,20 @@
     padding: 1.5rem 0;
 }
 
-.findadep_results_container {
+.findadep_results_wrapper {
     padding: 2rem 0;
 }
 
 .instrument_searchbar_select {
     margin-left: 1rem;
+}
+
+.pagination {
+    padding: 1rem 0;
+}
+
+.page_no_indicator {
+    margin: 0 .5rem;
 }
 
 .musician_card {
@@ -139,6 +147,11 @@
     .top_border {
         border-top: 1px solid #cccccc;
     }
+
+    .bottom_border {
+        border-bottom: 1px solid #cccccc;
+    }
+
     .dynamic-header p.find_a_dep {
         margin: 3rem auto;
         width: 50%;

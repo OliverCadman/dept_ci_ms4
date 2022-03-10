@@ -75,35 +75,33 @@
             </div>
         </div>
         <!-- Results Container -->
-        <div class="container findadep_results_container">
+        <div class="container-fluid findadep_results_container p-0">
             <div class="row d-flex justify-content-center m-0">
                 <!-- Pagination -->
                 {% if is_paginated %}
-                    <div class="pagination">
-                        {% if page_obj.has_previous %}
-                            <span class="step-links">
-                                <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=1 %}">&laquo;</a>
-                                {% if page_obj.previous_page_number != 1 %}
-                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}">previous</a>
+                    <div id="pagination-wrapper" class="primary_bg">
+                        {% comment %} <span class="secondary_font text-center white_font med_small_text centered">{{ object_list.count }}{{ dep_collection.count }}{% if dep_collection.count == 1 %} result {% else %} results {% endif %}</span> {% endcomment %}
+                        <div class="pagination centered">
+                            {% if page_obj.has_previous %}
+                                <span class="step-links">
+                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=1 %}" class="secondary_font white_font">&laquo; first</a>
+                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}" class="secondary_font white_font">prev</a>
                                 {% endif %}
-                            {% endif %}
-                                <span class="current">
-                                    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                                    <span class="current secondary_font white_font page_no_indicator">
+                                        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                                    </span>
+                                {% if page_obj.has_next %}
+                                    <span class="step-links">
+                                        <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}" class="secondary_font white_font">next</a>
+                                        <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}" class="secondary_font white_font">last &raquo;</a>
+                                    </span>
                                 </span>
-                            {% if page_obj.has_next %}
-                                {% if page_obj.next_page_number != paginator.num_pages %}
-                                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}">next</a>
-                                {% endif %}
-                                <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}">last &raquo;</a>
-                            </span>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                 {% endif %}
                 <!-- List of Results -->
                 {% if dep_collection %}
-                <div class="col-12">
-                    <p class="secondary_font med_small_text">{{ dep_collection.count }}{% if dep_collection.count == 1 %} result {% else %} results {% endif %}</p>
-                </div>
                 {% for dep in dep_collection %}
                 <div class="col-12 col-md-4 col-lg-3 card musician_card p-0">
                     <img class="card-img-top card_profile_image" src="{% if dep.profile_image %}{{dep.profile_image.url}}{% else %}{{MEDIA_URL}}dept_card_image_default.webp{% endif %}" alt="{{ dep.user.username }}">
