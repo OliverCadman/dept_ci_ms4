@@ -22,6 +22,9 @@ class DepListView(ListView):
 
     context_object_name = "dep_collection"
 
+
+    paginate_by = 2
+
     def get_queryset(self):
         """
         Override default get_queryset method to handle
@@ -30,8 +33,8 @@ class DepListView(ListView):
 
         # Get the current context with any params included.
         self.pre_context = handle_deplist_get(self.request.GET)
-        print("GET REQUEST")
-        print(self.request.GET)
+
+        print(self.pre_context)
 
         # Filter the UserProfile table with provided search params.
         query = UserProfile.objects.filter_queryset(
@@ -47,6 +50,11 @@ class DepListView(ListView):
         pre-prepared context, prepared in View's "get_queryset" method.
         """
         context =  super().get_context_data(**kwargs) | self.pre_context
+        print("context in dep list view")
+        print(context)
+        
+        if self.get_queryset == None:
+            context["no_results"] = True
 
         # Page name required in order to render correct header content.
         context["page_name"] = "dep_list"
@@ -68,6 +76,8 @@ class DepListView(ListView):
         # Used to apply the 'selected' attribute to the selected 
         # filter criteria in "Instrument" form select.
         context["selected_instrument"] = context["instrument"]
+
+        print(context)
         
 
         return context
