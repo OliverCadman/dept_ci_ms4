@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView
 
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
@@ -18,7 +17,7 @@ from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from social.forms import MessageForm
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 
-from .functions import calculate_average_rating, calculate_invite_acceptance_delta, calculate_profile_progress_percentage
+from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
 
 
 @csrf_exempt
@@ -83,15 +82,7 @@ class ProfileView(TemplateView):
         # Calculate the average review rating for the user
         users_reviews = user_profile.received_reviews.all()
         num_of_reviews = users_reviews.count()
-        average_rating = None
-        
-        if num_of_reviews > 0:
-            total_rating = 0
-            for review in users_reviews:
-                rating = review.rating
-                total_rating += rating
-        
-            average_rating = calculate_average_rating(total_rating, num_of_reviews)
+        average_rating = user_profile.calculate_average_rating
         
         self.request.session["invited_username"] = username
 
