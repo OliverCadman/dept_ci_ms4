@@ -1,5 +1,17 @@
 {% extends "base.html" %}
+<!-- Load static files -->
+{% load static %}
 
+<!-- Title -->
+{% block title %}Job List{% endblock %}
+
+<!-- Custom CSS -->
+{% block extra_css %}
+{% endblock %}
+
+<!-- Content -->
 {% block content %}
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis aspernatur, nemo commodi tempora numquam rerum inventore accusamus natus dolores suscipit nulla corrupti rem neque animi, non quis maxime voluptatum, voluptates laudantium unde. Debitis fugit qui numquam labore iste! Obcaecati vel ullam voluptatem asperiores neque unde consequuntur provident assumenda doloremque sapiente, delectus pariatur odit necessitatibus accusamus reiciendis distinctio dolore. Labore rerum, enim sunt possimus atque harum voluptatum cumque itaque. Veniam facilis animi aperiam, ab quo minima totam culpa nisi vel nesciunt beatae recusandae, fugiat aliquid blanditiis fuga sapiente esse facere adipisci enim nobis neque, voluptatem est. Cumque molestiae quos et vel.
+    {% with page_name as p %}
+        {% include "includes/header-hero.html" %}
+    {% endwith %}
 {% endblock %}

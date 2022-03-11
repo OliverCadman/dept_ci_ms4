@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 from profiles.models import UserProfile, Instrument, Genre
 
@@ -82,3 +82,14 @@ class DepListView(ListView):
 
         return context
 
+class JobView(TemplateView):
+    template_name = "jobs/job_list.html"
+
+
+    def get_context(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = {
+            "page_name": "job_list",
+        }
+
+        return context
