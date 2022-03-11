@@ -11,9 +11,6 @@ from django.urls import reverse
 import datetime
 
 
-
-
-
 class Instrument(models.Model):
     """
     Instrument Model
@@ -90,7 +87,6 @@ class Instrument(models.Model):
         return self.instrument_name
 
 
-
 class Genre(models.Model):
     """
     Genre Model
@@ -151,7 +147,6 @@ class Genre(models.Model):
         return self.genre_name
 
 
-
 class UserProfileQueryset(models.QuerySet):
     """
     User Profile Query Set to handle searching and filtering
@@ -197,7 +192,7 @@ class UserProfileManager(models.Manager):
     def filter_queryset(self, filter_params, date_today):
 
         return (
-            self.get_queryset().filter_by_params(filter_params, date_today)
+            self.get_queryset().filter_by_params(filter_params, date_today).order_by("-id")
         )
     
     def nested_filter_queryset(self, first_params, second_params):
@@ -282,7 +277,19 @@ class UserProfile(models.Model):
         self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
 
-    
+    @property
+    def calculate_average_rating(self):
+        received_reviews = self.received_reviews.all()
+        if len(received_reviews) > 0:      
+            num_of_reviews = len(received_reviews) 
+            total_rating = 0
+            for review in received_reviews:
+                rating = review.rating
+                total_rating += rating
+            average_rating = round(total_rating/num_of_reviews)
+            return average_rating
+        else:
+            return None
 
 
 class Equipment(models.Model):
