@@ -1,4 +1,3 @@
-from sre_constants import SUCCESS
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
@@ -19,6 +18,8 @@ from social.forms import MessageForm
 from .forms import UserProfileForm, EquipmentForm, AudioForm
 
 from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
+
+import datetime
 
 
 @csrf_exempt
@@ -162,14 +163,11 @@ class ProfileView(TemplateView):
 
 
 def edit_profile(request):
-
-    print("EDIT PROFILE REQUEST")
-    print(request)
-
     user_profile = get_object_or_404(UserProfile, user=request.user)
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
-    queryset = user_profile.equipment.all()
+    queryset = user_profile.equipment.all().exclude(equipment_name="")
     equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
+    print(equipment_formset)
     audio_form = AudioForm(request.POST, instance=user_profile)
 
     request.session["form_page"] = 1
@@ -270,17 +268,27 @@ def upload_unavailable_dates(request, user_id):
     user_profile = get_object_or_404(UserProfile, user=user_id)
 
     if request.method == "POST":
-        date_array = request.POST.getlist("date_array[]")
-        if date_array is not None:
-            print("date array")
-            print(date_array)
-            for date in date_array:
-                try:
-                    UnavailableDate.objects.create(date=date, related_user=user_profile)
-                except Exception as e:
-                    print(f"Exception: {e}")
-        success_msg = "Profile details saved."
-        return JsonResponse({ "url": "/", "success_msg": success_msg})
+        if not request.POST.get("request") == str(2):
+            date_array = request.POST.getlist("date_array[]")
+            if date_array is not None:
+                print("date array")
+                print(date_array)
+                for date in date_array:
+                    try:
+                        UnavailableDate.objects.create(date=date, related_user=user_profile)
+                    except Exception as e:
+                        print(f"Exception: {e}")
+            success_msg = "Profile details saved."
+            return JsonResponse({ "url": "/", "success_msg": success_msg})
+        else:
+            existing_unavailable_dates = user_profile.unavailable_user.all()
+            date_to_remove = request.POST.get("event_to_remove")
+            date_to_remove = datetime.datetime.strptime(date_to_remove, "%Y-%m-%d").date()
+            for unavailable_date in existing_unavailable_dates:
+                if unavailable_date.date == date_to_remove:
+                    date_object_to_remove = UnavailableDate.objects.filter(date=date_to_remove, related_user=user_profile)
+                    date_object_to_remove.delete()
+            return HttpResponse(status=200)
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
