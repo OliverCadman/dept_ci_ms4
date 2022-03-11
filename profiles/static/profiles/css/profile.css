@@ -276,7 +276,8 @@
         margin-bottom: 1rem;
     }
 
-    #contact_btn_wrapper_lg button {
+    #contact_btn_wrapper_lg button,
+    #contact_btn_wrapper_lg a {
         background-color: #ededed;
         color: #222;
         font-family: "Oxygen", sans-serif;
@@ -285,7 +286,8 @@
         transition: all 0.3s;
     }
 
-    #contact_btn_wrapper_lg button:hover {
+    #contact_btn_wrapper_lg button:hover,
+    #contact_btn_wrapper_lg a:hover {
         background-color: #236933;
         color: #fefefe;
         transition: all 0.3s;
