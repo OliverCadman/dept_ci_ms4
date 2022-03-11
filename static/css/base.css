@@ -43,6 +43,13 @@ body {
     align-items: center;
 }
 
+.centered_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .justify_between {
     display: flex;
     justify-content: space-between;
@@ -144,6 +151,10 @@ body {
     background-color: #1a2342;
 }
 
+.inset_light_shadow {
+    box-shadow: inset 0px 1px 11px 0px rgba(255, 255, 255, 0.3);
+}
+
 .rating_star {
     color: #dabd18;
     margin: 0 .1rem;
@@ -155,6 +166,10 @@ body {
 
 .circle_border {
     border-radius: 50%;
+}
+
+.inline {
+    display: inline;
 }
 
 /* Call to Action Buttons */
