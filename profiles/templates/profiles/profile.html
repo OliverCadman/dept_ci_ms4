@@ -31,8 +31,64 @@
             <div class="user-desc-wrapper secondary_font">
                 <p class="secondary_font">{{user.user_info|linebreaks}}</p>
             </div>
-            <div id="review_wrapper">
-                Review
+            <hr>
+            <div id="review_container">
+                <h5 class="primary_font">
+                   What the community says about 
+                    {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}
+                </h5>
+                <div id="review_wrapper">
+                    {% if user.received_reviews %}
+                        {% for review in user.received_reviews.all %}
+                            <div class="single_review_container">
+                                <div class="review_content light_bg">
+                                    <div class="review_header">
+                                        <div class="review_sender_details">
+                                            <div class="review_sender_img">
+                                                {% if review.review_sender.profile_image %}
+                                                    <img src="{{ review.review_sender.profile_image.url}}" alt="{{review.review_sender.user.username}}"
+                                                    width="40"
+                                                    height="40"
+                                                    class="circle_border cover review_sender_img">
+                                                {% else %}
+                                                    <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{review.review_sender.user.username}}"
+                                                    width="40"
+                                                    height="40"
+                                                    class="circle_border cover review_sender_img">
+                                                {% endif %}
+                                            </div>
+                                            <div class="review_sender">
+                                                <p class="primary_font small_text">
+                                                    By
+                                                <a href="{% url "profile" review.review_sender.user.username%}">
+                                                        {% if review.review_sender.first_name %}
+                                                        {{ review.review_sender.first_name }} {{ review.review_sender.last_name }}
+                                                        {% else %}
+                                                        {{ review.review_sender.user.username }}
+                                                        {% endif %}
+                                                    </a> 
+                                                </p>
+                                            </div>
+                                             <span class="float-end xs_text light_font secondary_font">{{ review.review_created|date:"d/m/Y" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="rating_wrapper">
+                                        <input type="hidden" value={{ review.rating }} class="review_rating_no">
+                                        <!-- Star Icons Created in display_star_rating.js file -->
+                                        <div class="rating">
+    
+                                        </div>
+                                    </div>
+                                    <div class="review">
+                                        <p class="secondary_font">
+                                            {{ review.review_content }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
@@ -186,10 +242,10 @@
                     <div id="review_form_wrapper">
                         <form action="{% url "profile" user.user.username %}" method="POST">
                             {% csrf_token %}
-                             <h3 class='form-header'>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</h3>
+                             <h3 class='form-header'>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}.</h3>
                             {% include "includes/star_icons.html" %}
                             {{ review_form|crispy }}
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <button class="btn custom_success white_font secondary_font" type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -201,6 +257,7 @@
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
+    <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
     <script src="{% static "bookings/js/rating.js" %}"></script>
     <script>
         $(function() {
@@ -209,4 +266,6 @@
             })
         })
     </script>
+    {{ average_rating|json_script:"average_rating" }}
+    {{ num_of_reviews|json_script:"num_of_reviews" }}
 {% endblock %}

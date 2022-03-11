@@ -43,12 +43,27 @@ body {
     align-items: center;
 }
 
+.justify_between {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.justify_between_row {
+    display: flex;
+    justify-content: space-between;
+}
+
 .hidden {
     display: none;
 }
 
 .white_font { 
-    color: #fefefe;
+    color: #fefefe !important;
+}
+
+.light_font {
+    color: #9b9a9a !important;
 }
 
 .dark_font {
@@ -56,11 +71,31 @@ body {
 }
 
 .large_text {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
 }
 
 .med_text {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+}
+
+.med_small_text {
+    font-size: 1.25rem;
+}
+
+.small_text {
+    font-size: 0.9rem;
+}
+
+.xs_text {
+    font-size: 0.75rem;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.white_bg {
+    background: #fafafa;
 }
 
 .alert_style {
@@ -97,6 +132,31 @@ body {
     width: 40%;
 }
 
+.dark_bg {
+    background-color: #111111 !important;
+}
+
+.light_bg {
+    background-color: #eeeeee;
+}
+
+.primary_bg {
+    background-color: #1a2342;
+}
+
+.rating_star {
+    color: #dabd18;
+    margin: 0 .1rem;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.circle_border {
+    border-radius: 50%;
+}
+
 /* Call to Action Buttons */
 
 .cta-btn-wrapper {
@@ -118,6 +178,16 @@ body {
     margin: 2rem 0;
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Override default bootstrap SVG colour */
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+}
+
+.accordion-button:after {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+
 }
 
 /* Animate CSS */
@@ -361,6 +431,10 @@ body {
     color: #8b8b8b;
 }
 
+/* Featured Instrument Link Cards (Home and "Find a Dep" pages) */
+
+
+
 /* Form Elements */
 
 .form-btn {
@@ -425,6 +499,16 @@ body {
 
 
 @media screen and (min-width: 768px) {
+
+
+    .small_text {
+        font-size: 1rem;
+    }
+
+    .xs_text {
+        font-size: 0.75rem;
+    }
+
     /* NavBar */
 
     #main-nav ul li a {
@@ -487,6 +571,20 @@ body {
 }
 
 @media screen and (min-width: 992px) {
+
+    .med_small_text {
+         font-size: 1.35rem;
+     }
+
+    .med_text {
+        font-size: 1.75rem;
+    }
+
+    .large_text {
+        font-size: 2.5rem;
+    }
+
+    
 
     #profile_image_navbar {
         width: 150px;

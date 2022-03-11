@@ -87,18 +87,40 @@
     padding: 0 .3rem;
 }
 
-/* Review Wrapper */ 
+/* Reviews */ 
 
-#review_wrapper {
-    border: 1px solid black;
+#review_container {
+    margin-top: 2rem;
 }
 
-.rating_star {
-      color: #dabd18;
+#review_wrapper {
+    max-height: 500px;
+    overflow: auto;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 4px solid #ccc;
+}
+
+.single_review_container {
+    margin: .8rem .4rem;
+}
+
+.review_sender_img,
+.review_sender {
+
+    display: inline-block;
+}
+
+.review_content {
+    padding: .5rem;
+}
+
+.review {
+    padding: 1rem;
 }
 
 .fas.fa-star {
-    filter: drop-shadow(1px 1px 4px gold);
+    filter: drop-shadow(1px 1px 1px gold);
 }
 
 /* Override 'today' highlighted date on calendar */
@@ -188,6 +210,26 @@
     0 10px 36px -4px rgba(77, 96, 232, .8);
 
 }
+
+/* Review Form Modal */
+
+.review_form_container {
+    background-color: #45425a;
+}
+
+#review_form_wrapper {
+    background-color: #ededed;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px -1px rgb(0 0 0 / 12%),
+    0 10px 36px -4px rgb(77 96 232 / 80%);
+}
+
+.star_icons {
+    margin-bottom: 1rem;
+}
+
+
 
 
 
@@ -284,6 +326,13 @@
         filter: drop-shadow(1px 1px 4px gold);
     }
 
+}
+
+@media screen and (min-width: 320px) and (max-width: 320px) {
+    .review_sender_img {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 @media screen and (min-width: 1920px) {
