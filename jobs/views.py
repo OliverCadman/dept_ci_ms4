@@ -34,8 +34,6 @@ class DepListView(ListView):
         # Get the current context with any params included.
         self.pre_context = handle_deplist_get(self.request.GET)
 
-        print(self.pre_context)
-
         # Filter the UserProfile table with provided search params.
         query = UserProfile.objects.filter_queryset(
             filter_params=self.pre_context["search_params"],
@@ -50,8 +48,6 @@ class DepListView(ListView):
         pre-prepared context, prepared in View's "get_queryset" method.
         """
         context =  super().get_context_data(**kwargs) | self.pre_context
-        print("context in dep list view")
-        print(context)
         
         if self.get_queryset == None:
             context["no_results"] = True
@@ -83,9 +79,6 @@ class DepListView(ListView):
         context["selected_instrument"] = context["instrument"]
 
         context["selected_genre"] = context["genre"]
-
-        print(context)
-        
 
         return context
 

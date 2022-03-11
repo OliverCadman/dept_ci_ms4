@@ -133,14 +133,18 @@
                                 <p class="card-text secondary_font light_font small_text mt-2">
                                     {% if dep.city %}{{ dep.city }}{% endif %}{% if dep.country %}, {{ dep.country.name }}{% endif %}
                                 </p>
-                                <div id="star-icons" class="mt-2">
-                                    <span>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="fas fa-star star-icon"></i>
-                                        <i class="far fa-star star-icon"></i>
-                                    </span>
+                                <div class="star_icons" class="mt-2">
+                                    {% if dep.calculate_average_rating.average_rating != None %}
+                                        <input type="hidden" value={{ dep.calculate_average_rating.average_rating }} class="review_rating_no">
+                                        <div class="rating">
+                                            <!-- Star Rating Generated in display_star_rating.js -->
+                                        </div>
+                                        <span class="num_of_reviews light_font">
+                                            ({{ dep.calculate_average_rating.num_of_reviews }})
+                                        </span>
+                                    {% else %}
+                                        <span class="secondary_font">No Reviews</span>
+                                    {% endif %}
                                 </div>
                                 <p class="musician_card_desc secondary_font small_text mt-3">
                                     {% if dep.user_info %}
@@ -214,4 +218,5 @@
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "jobs/js/filter.js" %}"></script>
+    <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
 {% endblock %}
