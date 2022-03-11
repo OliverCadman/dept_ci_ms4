@@ -333,6 +333,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         invite_acceptance_delta = calculate_invite_acceptance_delta(username)
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
+        received_reviews = user_profile.received_reviews.all()
+        print(received_reviews)
+        average_rating = 0
+        if received_reviews:
+            average_rating = user_profile.calculate_average_rating
+            print(average_rating)
+
         current_page = "dashboard"
         current_section = "invites_sent"
         current_filter = "all"
@@ -410,7 +417,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "tier_two_price_id": tier_two_price_id,
             "invitations_sent": invitations_sent,
             "invitations_received": invitations_received,
-            "message_form": message_form
+            "received_reviews": received_reviews,
+            "average_rating": average_rating,
+            "message_form": message_form,
+
         }
 
         return context

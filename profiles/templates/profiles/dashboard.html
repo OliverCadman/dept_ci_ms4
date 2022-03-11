@@ -69,7 +69,7 @@
                                         </div>
                                         {% else %}
                                             <div id="membership_detail_card_wrapper" class="dashboard-card">
-                                                <h3 class="text-center mt-4 dashboard-card-header">
+                                                <h3 class="mt-4 primary_font med_text text-center">
                                                     You are a Tier One Member
                                                 </h3>
                                                 <p class="text-center">
@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="invite_count_wrapper" class="dashboard-card">
-                                    <h4 class="text-center mt-4 dashboard-card-header">Your Invites</h4>
+                                    <h4 class="mt-4 primary_font med_text text-center">Your Invites</h4>
                                     {% if invite_acceptance_delta > 0 %}
                                         {% if not invite_acceptance_delta == 1 %}
                                             <p class="text-center">
@@ -114,7 +114,7 @@
                                             <button class="btn cta-btn">Respond Now</button>
                                         </div>
                                     {% else %}
-                                        <p>
+                                        <p class="secondary_font light_font text-center">
                                             You have no invites.
                                         </p>
                                     {% endif %}
@@ -122,7 +122,7 @@
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="profile_progress_bar_container" class="dashboard-card">
-                                    <h4 class="text-center mt-4 dashboard-card-header">
+                                    <h4 class="mt-4 primary_font med_text text-center">
                                         Your Profile
                                     </h4>
                                     <div id="progress_bar_wrapper">
@@ -152,7 +152,29 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
+                                <div id="review_overview_container" class="dashboard-card">
+                                    <h5 class="primary_font med_text text-center">Your Star Rating</h5>
+                                    <div id="rating_display" class="centered_column">
+                                        <input type="hidden" value="{{ average_rating.average_rating }}" class="review_rating_no">
+                                        {% if received_reviews|length > 0 %}
+                                            <div class="star-icons inline">
 
+                                            <span id="num_of_reviews" class="inline">({{ average_rating.num_of_reviews }})</span>
+                                            </div>
+                                            <div id="reviews_message" class="mt-2 p-2">
+                                                <p class="text-center">
+                                                    {% if average_rating.average_rating < 5 %}
+                                                    A high review count and star rating can improve your
+                                                    discoverability and increase your chances of getting hired.
+                                                    {% else %}
+                                                    Good job! You're a top class member.
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -178,7 +200,7 @@
                     <hr class="d-none d-md-block dashboard-block-divider">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12 col-md-2 col-lg-2 col-xl-4 p-0">
+                            <div class="col-12 col-md-4 col-lg-2 col-xl-4 p-0">
                                 <div class="filter_sidebar_container accordion" id="filter_accordion">
                                     <div class="accordion-item">
                                         <h5 class="accordion-header custom-accordion-header" id="accordion_header">
@@ -215,26 +237,26 @@
                             </div>
                             {% if current_page == "jobs" and current_section == "invites_sent" %}
                                 {% if invitations_sent %}
-                                   <div class="col-12 col-md-10 col-lg-10 col-xl-8">
+                                   <div class="col-12 col-md-8 col-lg-10 col-xl-8">
                                         {% for invitation in invitations_sent %}
                                             {% include "profiles/includes/invitations_sent_card.html" %}
                                         {% endfor %}
                                    </div>
                                 {% else %}
-                                        <div class="col-12 col-md-10 col-xl-8 no-results-display">
+                                        <div class="col-12 col-md-8 col-xl-8 no-results-display">
                                             <p>No Invitations</p>
                                         </div>
                                 {% endif %}
                             {% elif current_page == "jobs" and current_section == "invites_received" %}
                                 {% if invitations_received %}
-                                    <div class="col-12 col-md-10 col-lg-10 col-xl-8">
+                                    <div class="col-12 col-md-8 col-lg-10 col-xl-8">
                                         {% for invitation in invitations_received %}
                                             {% include "profiles/includes/invitations_received_card.html" %}
                                         {% endfor %}
                                     </div>
                                 {% else %}
                                     <!-- TODO: "No Invitations"-->
-                                    <div class="col-12 col-md-10 col-xl-8 no-results-display">
+                                    <div class="col-12 col-md-8 col-xl-8 no-results-display">
                                         <p>No Invitations</p>
                                     </div>
                                 {% endif %}
@@ -336,9 +358,7 @@
         <!-- Progress Bar JS -->
         <script src="{% static "profiles/js/progress_bar.js" %}"></script>
         {% endif %}
+        <script src="{% static "js/format_date.js" %}"></script>
         <script src="{% static "profiles/js/dashboard_modals.js" %}"></script>
-        <script>
-            console.log($(".invitation_card_title"))
-        </script>
-
+        <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
 {% endblock %}
