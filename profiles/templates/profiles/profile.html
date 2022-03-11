@@ -38,7 +38,7 @@
                     {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}
                 </h5>
                 <div id="review_wrapper">
-                    {% if user.received_reviews %}
+                    {% if user.received_reviews.all|length > 0 %}
                         {% for review in user.received_reviews.all %}
                             <div class="single_review_container">
                                 <div class="review_content light_bg">
@@ -87,6 +87,20 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    {% else %}
+                            {% if not request.user == user.user.username %}
+                                <div id="no_reviews_container">
+                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                    <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
+                                    <div class="centered">
+                                        {% if request.user.is_authenticated %}
+                                            <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                                        {% else %}
+                                            <a href="{% url "account_login" %}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
                     {% endif %}
                 </div>
             </div>
