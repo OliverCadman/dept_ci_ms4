@@ -1,3 +1,4 @@
+from sre_constants import SUCCESS
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
@@ -252,24 +253,34 @@ def upload_audio(request, username):
 
 
 def upload_unavailable_dates(request, user_id):
+    """
+    AJAX Handler to save unavailable dates to UnavailableDate model.
+
+    Called from calendar.js in Edit Profile page.
+    
+    Grabs the date values (as a list) from the data attribute of
+    the AJAX post request.
+
+    Loops through the list and creates an UnavailableDate model instance,
+    with a ManytoOne relation to the UserProfile instance, and saves to the database.
+
+    Upon success, returns as JsonResponse containing a success message and the home URL.
+    """
 
     user_profile = get_object_or_404(UserProfile, user=user_id)
 
     if request.method == "POST":
         date_array = request.POST.getlist("date_array[]")
         if date_array is not None:
+            print("date array")
+            print(date_array)
             for date in date_array:
                 try:
                     UnavailableDate.objects.create(date=date, related_user=user_profile)
-                    success_msg = "Congratulations, your profile is complete!"
-                    return JsonResponse({"url": "/", "success_msg": success_msg})
                 except Exception as e:
-                    messages.error("Sorry, something went wrong.")
-                    return HttpResponse(status=500)
-
-            messages.success(request, "Unavailable Dates saved")
-
-        return HttpResponse(status=200)
+                    print(f"Exception: {e}")
+        success_msg = "Profile details saved."
+        return JsonResponse({ "url": "/", "success_msg": success_msg})
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
