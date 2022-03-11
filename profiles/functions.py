@@ -68,15 +68,4 @@ def calculate_profile_progress_percentage(username):
         rounded_percentage = round(progress_percentage)
 
     return rounded_percentage
-
-def calculate_average_rating(total_rating, num_of_reviews):
-    average_rating = round(total_rating/num_of_reviews)
-    return average_rating
-
-
-    
-
-
-
-
         
