@@ -29,3 +29,23 @@ def count_unread_messages(invitation_id):
     unread_messages = Message.objects.filter(invitation_id=invitation_id, is_read=False)
     unread_message_count = len(unread_messages)
     return unread_message_count
+
+
+@register.filter(name="count_accepted_invitations")
+def count_accepted_invitations(username):
+
+    invite_sender = get_object_or_404(UserProfile, user__username=username)
+    accepted_invitations = Invitation.objects.filter(invite_sender=invite_sender, is_accepted=True)
+    if len(accepted_invitations) > 0:
+        accepted_invitation_count = len(accepted_invitations)
+        return accepted_invitation_count
+
+
+@register.simple_tag()
+def get_request_user(request):
+    return request.user
+
+@register.filter(name="sort_by")
+def sort_by(query, order):
+    return query.order_by(order)
+
