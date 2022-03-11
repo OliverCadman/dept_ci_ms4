@@ -82,7 +82,9 @@ class ProfileView(TemplateView):
         # Calculate the average review rating for the user
         users_reviews = user_profile.received_reviews.all()
         num_of_reviews = users_reviews.count()
-        average_rating = user_profile.calculate_average_rating
+        average_rating = None
+        if user_profile.calculate_average_rating:
+            average_rating = user_profile.calculate_average_rating["average_rating"]
         
         self.request.session["invited_username"] = username
 
@@ -211,22 +213,40 @@ def upload_audio(request, username):
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
-        files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
-        form = AudioForm(request.POST, instance=user_profile)
-        if form.is_valid():
+
+        # Check whether the request is to upload or remove files.
+        # "{'request': 2}" indicates that a file should be removed from database.
+
+        # if not request == 2, upload audio files
+        if not request.POST.get("request") == str(2):
+            files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
+            form = AudioForm(request.POST, instance=user_profile)
+            if form.is_valid():
+                try:
+                    for f in files:
+                        AudioFile.objects.create(file=f, related_user=user_profile)
+                    request.session["form_page"] = 3
+                    return HttpResponse(status=200)
+                except Exception as e:
+                    print("Exception:", e)
+            else:
+                print("form invalid")
+                form = AudioForm(instance=user_profile)
+
+        # Else, remove audio file from database        
+        else:
+            audiofile_to_delete =  get_object_or_404(AudioFile, file=request.POST.get("filename"))
             try:
-                for f in files:
-                    AudioFile.objects.create(file=f, related_user=user_profile)
-                request.session["form_page"] = 3
+                audiofile_to_delete.delete()
+                messages.success(request, "Audio file removed")
                 return HttpResponse(status=200)
             except Exception as e:
-                print("Exception:", e)
-        else:
-            print("form invalid")
-            form = AudioForm(instance=user_profile)
+                print(f"Exception: {e}")
+                messages.error(request, "Sorry, there was an error.")
+                return HttpResponse(status=500)
     
+    # GET request for AJAX success callback in 'audio_dropzone.js'
     success_msg = "Audio Files Saved"
-    
     return JsonResponse({"form_page": 3, "success_msg": success_msg})
 
 
