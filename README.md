@@ -339,6 +339,10 @@ The project makes use of the SQlite Relational Database to handle data served th
 
 ![Database Schema (Iteration 4) for Dept Website](documentation/er_diagram/dept_er_diagram_4.png)
 
+#### Iteration 5
+
+![Database Schema (Iteration 5) for Dept Website](documentation/er_diagram/dept_er_diagram_5.png)
+
 
 
 ## Skeleton
