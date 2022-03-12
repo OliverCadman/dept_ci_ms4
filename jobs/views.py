@@ -2,7 +2,7 @@ from ast import parse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 from django.contrib import messages
 
 from dateutil import parser
@@ -29,7 +29,7 @@ class DepListView(ListView):
     template_name = "jobs/dep_list.html"
 
     model = UserProfile
-
+    print(model)
     context_object_name = "dep_collection"
 
     paginate_by = 8
@@ -57,6 +57,7 @@ class DepListView(ListView):
         pre-prepared context, prepared in View's "get_queryset" method.
         """
         context =  super().get_context_data(**kwargs) | self.pre_context
+        print(context)
         
         if self.get_queryset == None:
             context["no_results"] = True
@@ -96,22 +97,21 @@ class JobListView(ListView):
     """
     A view to display all Job Posts
     """
-    model = Job
-    # print("model")
-    # print(model.objects.all())
+
     template_name = "jobs/job_list.html"
+    model = Job
     context_object_name = "job_collection"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(context)
 
         print("hello")
         job_form = JobForm()
 
-        context = {
-            "page_name": "job_list",
-            "job_form": job_form
-        }
+        context["page_name"] = "job_list"
+        context["job_form"] = job_form
 
         return context
 
