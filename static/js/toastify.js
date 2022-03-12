@@ -1,4 +1,4 @@
-    function displayToast(message) {
+    function displayToast(message, representativeBackground, representativeColor) {
         Toastify({
           text: message,
           duration: -1,
@@ -6,7 +6,7 @@
           gravity: "top",
           position: "right",
           style: {
-            background: "#202020",
+            background: "#45425a",
             fontFamily: "'Josefin Sans', sans-serif",
             color: "#fefefe",
           },
