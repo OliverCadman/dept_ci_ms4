@@ -32,9 +32,6 @@ class Job(models.Model):
                                         of interest the job has received.
 
         Is Taken (Boolean) - Represents whether a dep has been confirmed to play the job.
-
-
-
     """
 
     job_poster = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
@@ -56,6 +53,3 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.job_poster}'s job: {self.event_name}"
-
-
-
