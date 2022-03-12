@@ -67,6 +67,12 @@ class TestBookingForms(TestCase):
        
        response = self.client.get(reverse("profile", args=[self.receiver_profile.user]))
        self.assertEquals(response.status_code, 200)
+
+    def test_invitation_form_without_data(self):
+        empty_invitation_form = InvitationForm(data={})
+
+        self.assertFalse(empty_invitation_form.is_valid())
+
     
     def test_booking_form_valid(self):
         """
