@@ -5,7 +5,6 @@ from django.utils.http import urlencode
 from bookings.models import Invitation
 from .models import UserProfile
 
-import pprint
 
 
 def calculate_invite_acceptance_delta(username):
