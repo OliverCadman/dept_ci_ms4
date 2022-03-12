@@ -105,6 +105,11 @@
     height: 45%;
 }
 
+.rating {
+    display: inline;
+}
+
+
 /* .profile_btn_wrapper {
     position: absolute;
     bottom: 10px;
