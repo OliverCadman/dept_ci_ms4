@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from allauth.account.decorators import login_required
 from django.views import View
+from django.views.generic.base import TemplateView
 from django.conf import settings
 
 from profiles.models import UserProfile
@@ -34,7 +35,8 @@ class SubscriptionChoiceView(View):
             "tier_one_price": tier_one_price,
             "tier_two_price": tier_two_price,
             "tier_one_price_id": tier_one_price_id,
-            "tier_two_price_id": tier_two_price_id
+            "tier_two_price_id": tier_two_price_id,
+            "page_name": "choose_subscription"
         }
 
         return render(request, "subscriptions/subscription_choices.html",
@@ -188,14 +190,19 @@ def webhook(request):
 #     return HttpResponse(status=200)
 
         
-class CheckoutSuccessView(View):
+class CheckoutSuccessView(TemplateView):
     """
     View to inform user that the payment and subscription
     is successful.
     """
-    def get(self, request):
+
+    template_name = "subscriptions/success.html"
+    def get_context_data(self, **kwargs):
+      context = super().get_context_data(**kwargs)
+      context["page_name"] = "checkout_success"
+      return context
   
-        return render(request, "subscriptions/success.html")
+ 
 
 
 class CheckoutCancelledView(View):

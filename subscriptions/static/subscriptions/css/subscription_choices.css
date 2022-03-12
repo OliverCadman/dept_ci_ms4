@@ -35,23 +35,6 @@
 }
 
 
-.benefits-list {
-    list-style: none;
-    font-family: "Oxygen", sans-serif;
-    font-weight: 300;
-    padding: 0;
-    margin: 0;
-    margin-left: 5px;
-}
-
-.benefits-list li {
-    margin: 0.3rem 0;
-}
-
-.check-icon {
-    color: #27942c
-}
-
 .price-font-large {
     font-size: 3rem;
 }

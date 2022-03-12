@@ -4,7 +4,7 @@ from .views import (create_checkout_session, SubscriptionChoiceView,
                     get_stripe_public_key, webhook)
 
 urlpatterns = [
-    path("choose_subscription/", SubscriptionChoiceView.as_view(), name="subscription_choices"),
+    path("choose_subscription/", SubscriptionChoiceView.as_view(), name="choose_subscription"),
     path("config/", get_stripe_public_key, name="config"),
     path("checkout/", create_checkout_session, name="checkout"),
     path("wh/", webhook, name="webhook"),

@@ -6,7 +6,7 @@
 
 <!-- CSS Files -->
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static "css/subscription_choices.css" %}">
+    <link rel="stylesheet" href="{% static "subscriptions/css/subscription_choices.css" %}">
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
 {% endblock %}
 
@@ -98,5 +98,5 @@
     {{block.super}}
     <!-- Stripe JS CDN and Custom JS Code -->
     <script src="https://js.stripe.com/v3/"></script>
-    <script src={% static 'js/checkout.js' %}></script>
+    <script src={% static 'subscriptions/js/checkout.js' %}></script>
 {% endblock %}

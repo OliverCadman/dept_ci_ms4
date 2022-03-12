@@ -8,5 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    {% include "includes/header-hero.html" with page_name="success" %}
+    {% with page_name as p %}
+        {% include "includes/header-hero.html" %}
+    {% endwith %}
 {% endblock %}

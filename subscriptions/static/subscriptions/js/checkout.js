@@ -12,6 +12,7 @@ $(document).ready(function() {
          // Requests backend for stripe public key and returns result in json format
          fetch("/subscribe/config/")
          .then((res) => { 
+           console.log(res)
             return res.json(); })
          .then((data) => {
              // Initialize Stripe object
