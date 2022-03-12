@@ -10,6 +10,7 @@ from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 from .models import Job
 
+from profiles.widgets import CustomClearableFileInput
 
 class JobForm(forms.ModelForm):
     """
@@ -56,6 +57,10 @@ class JobForm(forms.ModelForm):
                 ),
                 Div(
                     "fee",
+                    css_class="col-12 col-md-6"
+                ),
+                Div(
+                    "image",
                     css_class="col-12 col-md-6"
                 ),
                 Div(
@@ -108,6 +113,8 @@ class JobForm(forms.ModelForm):
     fee = forms.DecimalField(widget=forms.NumberInput(attrs={
                                 "placeholder": "150"
                             }))
+    
+    image = forms.ImageField(required=False, widget=CustomClearableFileInput)
 
     event_city = forms.CharField(label="Where is the event taking place?",
                                  widget=forms.TextInput(attrs={
