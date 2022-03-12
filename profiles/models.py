@@ -287,7 +287,10 @@ class UserProfile(models.Model):
                 rating = review.rating
                 total_rating += rating
             average_rating = round(total_rating/num_of_reviews)
-            return average_rating
+            return {
+                "average_rating": average_rating,
+                "num_of_reviews": num_of_reviews
+            }
         else:
             return None
 
