@@ -31,6 +31,8 @@
                                                 {% else %}
                                                     {{ event.related_invitation.invite_receiver.user.username }}
                                                 {% endif %}
+                        {% elif p == "job_list" %}
+                            Get a Job.
                         {% else %}
                         Thankyou
                         {% endif %}
@@ -58,11 +60,21 @@
                             <p class="text-center">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                         {% elif p == "dep_list" %}
                             <p class="text-center find_a_dep">Browse our collection of DepT members, and find the perfect musician to cover your gig, hassle free, with confidence.</p>
+                        {% elif p == "job_list" %}
+                            <p class="text-center">
+                                Keep your finger on the pulse with the latest jobs posted by our members.
+                            </p>
+                            <p class="text-center">
+                                If you have a specific job that needs covering, this is the place to go.
+                            </p>
+                            <div class="centered">
+                                <button type="button" class="btn custom_success secondary_font white_font inset_light_shadow">Post a Job</button>
+                            </div>
                         {% endif %}
                 </div>
             </div>
     </section>
-    {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" %}
+    {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" and not p == "job_list" %}
     <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% endif %}">
         <div class="row">
             <div class="col-12">
@@ -117,7 +129,7 @@
     </section>
     {% endif %}
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "booking_success" %}short{% endif %}{% if p == "dep_list" %}dep_list{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "booking_success" %}short{% endif %}{% if p == "dep_list" %}dep_list {% elif p == "job_list" %}job_list{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -126,7 +138,7 @@
                 </figure>
             </div>
             {% endif %}
-            <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% endif %}" class="ms-4">
+            <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% elif p == "job_list" %}job_list{% endif %}" class="ms-4">
                 <h1 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
                     {% if request.session.form_page == 1 %}
@@ -148,6 +160,8 @@
                                                 {% else %}
                                                     {{ event.related_invitation.invite_receiver.user.username }}
                                                 {% endif %}
+                {% elif p == "job_list" %}
+                    Get a Job.
                 {% else %}
                     Thankyou
                 {% endif %}
@@ -165,12 +179,20 @@
                     </ol>
                 {% elif p == "dep_list" %}
                     <p class="med_text width_40">Browse our collection of DepT members, and find the perfect musician to cover your gig, hassle free, with confidence.</p>
+                {% elif p == "job_list" %}
+                    <p class="med_text width_40">Keep your finger on the pulse with the latest jobs posted by our members.</p>
+                    <p class="med_text width_40">If you have a specific job that needs covering, this is the place to go.</p>
+                    <div class="btn_wrapper_lg">
+                        <button type="button" class="btn secondary_font">Post a Job</button>
+                    </div>
                 {% endif %}
             </div>
         </div>
         <div class="dynamic-header-container">
              {% if p == "dep_list" %}
                 <img src="{{MEDIA_URL}}dept_findadep_landing.webp" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
+             {% elif p == "job_list" %}
+                <img src="{{MEDIA_URL}}dept_joblist_hero.webp" alt="DepT - Job List Hero" width="900" height="500" id="joblist_hero">
             {% endif %}
             <div class="success-button-wrapper">
                 <div id="dynamic-lead-header-lg">
@@ -182,7 +204,6 @@
                        {% endif %}
                     </h2>
                 </div>
-                <hr>
                 <div class="dynamic-prompt-lead text-center">
                     {% if p == "checkout_success" %}
                         <p>
@@ -208,6 +229,7 @@
                         </p>
                         <p class="header_event_name">{{ invitation.event_name }}</p>
                         <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
+                    {% elif p == "user_profile_form" %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
                                 <p>Let the community know who you've arrived.</p>
