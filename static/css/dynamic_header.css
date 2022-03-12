@@ -1,5 +1,6 @@
 #dynamic-hero-container {
     margin: 0;
+    position: relative;
 }
 
 .dynamic-hero-section-sm {
@@ -21,6 +22,10 @@
      top: 0;
      right: 0;
      background-color: #fdf4a5;
+ }
+
+ .dynamic-header {
+     position: relative;
  }
 
  .dynamic-header-container:after {
@@ -66,7 +71,7 @@
     transform: translate(-40%, -50%);
 }
 
-.profile-prompt-lead p {
+.dynamic-prompt-lead p {
     font-family: "Oxygen", sans-serif;
 }
 
@@ -135,6 +140,7 @@
 }
 
 @media screen and (min-width: 992px){
+    .dynamic-hero-section-lg.find_a_dep_landing_page,
     .dynamic-hero-section-lg.edit_profile {
         height: 50vh;
     }
@@ -146,6 +152,14 @@
         width: 100%;
     }
 
+    .dynamic-header {
+        height: 435px;
+    }
+
+    .dynamic-hero-section-lg.find_a_dep_landing_page {
+        padding-top: 8rem;
+    }
+
     .dynamic-header h1 {
         font-size: 4rem;
         margin-left: 1rem;
@@ -155,6 +169,10 @@
         margin-left: 1rem;
     }
 
+    .dynamic-prompt-lead p {
+        font-family: "Oxygen", sans-serif;s
+    }
+
     #subscribe_choice_list p {
         max-width: 45%;
     }
@@ -162,11 +180,17 @@
     /* Dashboard */
 
     .dynamic-hero-section-lg.short {
-        height: 40vh;
+        height: 50vh;
     }
 
     .dynamic-hero-section-lg.short h1 {
         padding-top: 6rem;
+    }
+
+    /* Job List */
+
+    .dynamic-header.job_list {
+        padding-top: 60px;
     }
 }
 
@@ -174,4 +198,8 @@
     .dynamic-hero-section-lg.choose_subscription {
         height: 50vh;
     }
+
+    .dynamic-hero-section-lg.job_list {
+        height: 43vh;
+    }  
 }
