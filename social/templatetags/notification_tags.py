@@ -13,5 +13,4 @@ def show_notifications(context):
     user_profile = get_object_or_404(UserProfile, user__username=user)
     notifications = Notification.objects.filter(
         notification_receiver=user_profile).exclude(is_read=True).order_by("-id")
-
     return { "notifications": notifications }
