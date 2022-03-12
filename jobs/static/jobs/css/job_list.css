@@ -12,6 +12,14 @@
     object-fit: cover;
 }
 
+.job_title {
+    width: 65%;
+}
+
+.job_fee_icon {
+    font-weight: bold;
+}
+
 .job_detail_content {
     overflow: hidden;
     text-overflow: ellipsis;
