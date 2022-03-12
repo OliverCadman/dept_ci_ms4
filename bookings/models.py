@@ -118,7 +118,7 @@ class Review(models.Model):
         Return a string representation of a single Review instance.
         """
         return (
-            f"Review for Invitation No: {self.related_booking.related_invitation.invitation_number}")
+            f"Review for {self.review_receiver}")
 
     def save(self, *args, **kwargs):
         """
