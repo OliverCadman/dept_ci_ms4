@@ -27,7 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
+if "DEVELOPMENT" in os.environ:
+    SECRET_KEY="django-insecure-+g^39#35xtu$q540-jf!muwh+##!r06mx2n#-yc2%ml_%md%*^"
+else:
+    SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,9 +38,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
 SITE_ID = 2
-
-
-
 
 # Application definition
 
@@ -176,6 +176,7 @@ if "USE_AWS" in os.environ:
 
 # Email confirmation to be used in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = "hello@dept.com"
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
