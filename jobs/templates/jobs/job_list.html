@@ -2,16 +2,68 @@
 <!-- Load static files -->
 {% load static %}
 
-<!-- Title -->
-{% block title %}Job List{% endblock %}
+<!-- Crispy Forms -->
+{% load crispy_forms_tags %}
+
 
 <!-- Custom CSS -->
 {% block extra_css %}
+<link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
+<link rel="stylesheet" href="{% static "jobs/css/job_list.css" %}">
 {% endblock %}
 
+{% block extra_head %}
+    {{ job_form.media }}
+{% endblock %}
+
+
+<!-- Title -->
+{% block title %}Job List{% endblock %}
 <!-- Content -->
 {% block content %}
+    <!-- Header -->
     {% with page_name as p %}
         {% include "includes/header-hero.html" %}
     {% endwith %}
+    <!-- Search/Filter Bar -->
+    <aside>  
+        <div class="container-fluid">
+            <div class="row">
+                
+                
+            </div>
+        </div>
+    </aside>
+    <!-- Results -->
+    <section>
+        <div class="container-fluid">
+            <div class="row d-flex justify-content-center">
+                {% if job_collection %}
+                {% for job in job_collection %}
+                    hello
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- Job Post Modal -->
+    <aside>
+        <div class="modal fade" id="job_advertisement_modal">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="primary_font">Need a Musician?</h2>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal_form_container">
+                        <div class="modal_form_wrapper">
+                            <div class="row">
+                                {% crispy job_form %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
 {% endblock %}
