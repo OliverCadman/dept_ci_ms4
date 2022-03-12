@@ -39,7 +39,7 @@
                         <hr>
                         {% if booking.audio_resources.all|length > 0 %}
                             {% for file in booking.audio_resources.all %}
-                                {% if not file.file_name == None %}
+                                {% if not file.file_name == None or file.file_name == " " %}
                                 <a class="btn download_btn white_font secondary_font custom_success" href="{% url "download_audiofile" file.id %}">AudioFile {{ forloop.counter }}</a>
                                 {% endif %}
                             {% endfor %} 

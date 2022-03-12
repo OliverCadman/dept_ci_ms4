@@ -28,13 +28,17 @@
                     <br>
                     {{ event.street_address1 }}
                     <br>
-                    {{ event.street_address2 }}
-                    <br>
+                    {% if event.street_address2 %}
+                        {{ event.street_address2 }}
+                        <br>
+                    {% endif %}
                     {{ event.related_invitation.event_city }}
                     <br>
                     {{ event.related_invitation.event_country.name }}
                     <br>
-                    {{ event.postcode }}
+                    {% if event.postcode %}
+                        {{ event.postcode }}
+                    {% endif %}
                 </address>
             </div>
             <hr class="d-block d-md-none block-divider">

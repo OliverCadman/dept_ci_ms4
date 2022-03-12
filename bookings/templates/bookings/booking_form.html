@@ -29,12 +29,25 @@
                                     {{ invitation_form.artist_name|as_crispy_field }}
                                 </div>
                             </div>
+                            <!-- Event Address -->
                             <div class="row">
+                                <div class="col-12 col-md-6">
+                                    {{ booking_form.venue_name|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    {{ booking_form.street_address1|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    {{ booking_form.street_address2|as_crispy_field }}
+                                </div>
                                 <div class="col-12 col-md-6">
                                     {{ invitation_form.event_city|as_crispy_field }}
                                 </div>
                                 <div class="col-12 col-md-6">
                                     {{ invitation_form.event_country|as_crispy_field }}
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    {{ booking_form.postcode|as_crispy_field }}
                                 </div>
                             </div>
                             <div class="row">
