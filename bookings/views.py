@@ -19,7 +19,7 @@ from .functions import to_dict
 from .utils import render_to_pdf
 
 
-from social.models import Message, Notification
+from social.models import Message
 from social.functions import reverse_querystring
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
