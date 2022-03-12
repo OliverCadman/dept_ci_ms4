@@ -1,10 +1,18 @@
-from django.shortcuts import render
-from django.views import View
+from ast import parse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from django.http import HttpResponse
 from django.views.generic import ListView, TemplateView
+from django.contrib import messages
 
+from dateutil import parser
+
+from .forms import JobForm
 from profiles.models import UserProfile, Instrument, Genre
 
 from .functions import handle_deplist_get
+
+
 
 
 class DepListView(ListView):
@@ -82,14 +90,69 @@ class DepListView(ListView):
 
         return context
 
+
 class JobView(TemplateView):
+    """
+    A view to display all Job Posts, and handle
+    POST request send from JobForm.
+    """
     template_name = "jobs/job_list.html"
 
 
-    def get_context(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        job_form = JobForm()
+
         context = {
             "page_name": "job_list",
+            "job_form": job_form
         }
 
         return context
+
+    
+    def post(self, request):
+        """
+        Handles Job Form submission from "Find a Job" Page.
+        """
+        
+        # Grab request user's profile to include in Job instance creationg
+        # as "job_poster".
+        current_user = request.user
+        user_profile = get_object_or_404(UserProfile, user__username=current_user)
+    
+
+        # Parse the datetime field into python datetime object,
+        # readable by Django.
+        event_datetime = request.POST.get("event_datetime")
+        parsed_datetime = parser.parse(event_datetime)
+
+        # Prepare new request dictionary to allow inclusion of 
+        # prepared datetime field.
+        job_post_request = {
+            "job_title": request.POST.get("job_title"),
+            "event_name": request.POST.get("event_name"),
+            "artist_name": request.POST.get("artist_name"),
+            "job_description": request.POST.get("job_description"),
+            "fee": request.POST.get("fee"),
+            "event_city": request.POST.get("event_city"), 
+            "event_country": request.POST.get("event_country"),
+            "event_datetime": parsed_datetime,
+        }
+
+        # Create JobForm object with post request included
+        job_form = JobForm(job_post_request)
+
+        if job_form.is_valid():
+            form = job_form.save(commit=False)
+            form.job_poster = user_profile
+            form.save()
+            messages.success(request, "Your job has been posted.")
+            return redirect(reverse("job_list"))
+        else:
+            print(job_form.errors)
+            messages.error(request, "Please make sure your form is valid.")
+            return redirect(reverse("job_list"))
+
+
