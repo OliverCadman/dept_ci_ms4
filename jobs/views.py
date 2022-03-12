@@ -8,6 +8,8 @@ from django.contrib import messages
 from dateutil import parser
 
 from .forms import JobForm
+from .models import Job
+
 from profiles.models import UserProfile, Instrument, Genre
 
 from .functions import handle_deplist_get
@@ -29,7 +31,6 @@ class DepListView(ListView):
     model = UserProfile
 
     context_object_name = "dep_collection"
-
 
     paginate_by = 8
 
@@ -91,17 +92,20 @@ class DepListView(ListView):
         return context
 
 
-class JobView(TemplateView):
+class JobListView(ListView):
     """
-    A view to display all Job Posts, and handle
-    POST request send from JobForm.
+    A view to display all Job Posts
     """
+    model = Job
+    # print("model")
+    # print(model.objects.all())
     template_name = "jobs/job_list.html"
-
+    context_object_name = "job_collection"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        print("hello")
         job_form = JobForm()
 
         context = {
@@ -111,17 +115,18 @@ class JobView(TemplateView):
 
         return context
 
-    
-    def post(self, request):
-        """
-        Handles Job Form submission from "Find a Job" Page.
-        """
-        
+
+def post_job(request):
+
+    """
+    Handles Job Form submission from "Find a Job" Page.
+    """
+    if request.method == "POST":
         # Grab request user's profile to include in Job instance creationg
         # as "job_poster".
         current_user = request.user
         user_profile = get_object_or_404(UserProfile, user__username=current_user)
-    
+
 
         # Parse the datetime field into python datetime object,
         # readable by Django.
@@ -135,6 +140,7 @@ class JobView(TemplateView):
             "event_name": request.POST.get("event_name"),
             "artist_name": request.POST.get("artist_name"),
             "job_description": request.POST.get("job_description"),
+            "image": request.FILES.get("image"),
             "fee": request.POST.get("fee"),
             "event_city": request.POST.get("event_city"), 
             "event_country": request.POST.get("event_country"),
@@ -151,8 +157,5 @@ class JobView(TemplateView):
             messages.success(request, "Your job has been posted.")
             return redirect(reverse("job_list"))
         else:
-            print(job_form.errors)
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
-
-
