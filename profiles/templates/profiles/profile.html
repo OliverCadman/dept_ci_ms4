@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load custom_tags %}
 {% crispy invitation_form invitation_form.helper %}
 
 
@@ -39,7 +40,7 @@
                 </h5>
                 <div id="review_wrapper">
                     {% if user.received_reviews.all|length > 0 %}
-                        {% for review in user.received_reviews.all %}
+                        {% for review in user.received_reviews.all|sort_by:"-id" %}
                             <div class="single_review_container">
                                 <div class="review_content light_bg">
                                     <div class="review_header">
@@ -238,8 +239,8 @@
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body invitation_form_container">
-                    <div id="invitation_form_wrapper">
+                <div class="modal-body modal_form_container">
+                    <div class="modal_form_wrapper">
                         {% crispy invitation_form %}
                     </div>
                 </div>
@@ -252,7 +253,7 @@
                 <div class="modal-header">
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body review_form_container">
+                <div class="modal-body modal_form_container">
                     <div id="review_form_wrapper">
                         <form action="{% url "profile" user.user.username %}" method="POST">
                             {% csrf_token %}

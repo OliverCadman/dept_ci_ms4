@@ -459,6 +459,18 @@ body {
 
 /* Form Elements */
 
+.modal_form_container {
+    background-color: #45425a;
+}
+
+.modal_form_wrapper {
+    background-color: #ededed;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
+    0 10px 36px -4px rgba(77, 96, 232, .8);
+}
+
 .form-btn {
     background-color: #1a2342;
     color: #fefefe;

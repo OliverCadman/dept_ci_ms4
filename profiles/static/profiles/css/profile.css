@@ -4,13 +4,6 @@
 
 }
 
-.contact-btn-wrapper {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 0 6px 6px 0;
-}
-
 #contact_btn {
     background-color: #1a2342;
     color: #fefefe;
@@ -202,36 +195,12 @@
     background-color: #45425a;
 }
 
-#invitation_form_wrapper {
-    background-color: #ededed;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
-    0 10px 36px -4px rgba(77, 96, 232, .8);
-
-}
 
 /* Review Form Modal */
-
-.review_form_container {
-    background-color: #45425a;
-}
-
-#review_form_wrapper {
-    background-color: #ededed;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 3px 6px -1px rgb(0 0 0 / 12%),
-    0 10px 36px -4px rgb(77 96 232 / 80%);
-}
 
 .star_icons {
     margin-bottom: 1rem;
 }
-
-
-
-
 
 @media screen and (min-width: 768px) {
     #calendar_container {
@@ -269,31 +238,6 @@
         font-size: 1.25rem;
     }
 
-    #contact_btn_wrapper_lg {
-        position: absolute;
-        bottom: 0;
-        right: 53%;
-        margin-bottom: 1rem;
-    }
-
-    #contact_btn_wrapper_lg button,
-    #contact_btn_wrapper_lg a {
-        background-color: #ededed;
-        color: #222;
-        font-family: "Oxygen", sans-serif;
-        font-size: 1.25rem;
-        padding: 1rem;
-        transition: all 0.3s;
-    }
-
-    #contact_btn_wrapper_lg button:hover,
-    #contact_btn_wrapper_lg a:hover {
-        background-color: #236933;
-        color: #fefefe;
-        transition: all 0.3s;
-
-    }
-
     .sidebar_lg {
         border-left: 4px solid #222;
         padding: 1rem 2rem;
@@ -327,6 +271,8 @@
     .rating_star:hover {
         filter: drop-shadow(1px 1px 4px gold);
     }
+
+
 
 }
 
