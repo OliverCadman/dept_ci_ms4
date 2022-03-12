@@ -23,7 +23,6 @@
     width: 50%;
 }
 
-
 @media screen and (min-width: 768px) {
     .header_event_name {
         font-family: "Josefin Sans", sans-serif;
