@@ -89,6 +89,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
+                                <!-- Dynamic Equipment Formset -->
                                 {% if equipment_formset %}
                                     <h3>Your Equipment</h3>
                                     {{ equipment_formset.management_form }}
@@ -102,7 +103,7 @@
                                     <div id="empty_form" class="hidden">
                                         {{ equipment_formset.empty_form|crispy }}
                                     </div>
-                                    <button type="button" class="btn form-btn" id="add_more_btn">Add More Gear</button>
+                                    <button type="button" class="btn form-btn equipment_form_btn" id="add_more_btn">Add More Gear</button>
                                 {% endif %}
                             </div>
                         </div>
@@ -157,7 +158,6 @@
         {{block.super}}
         <!-- JavaScript defined in Media subclass in EquipmentForm Form Model -->
         {{equipment_form.media}}
-        <script src="{% static "profiles/js/submit_and_switch_page.js" %}"></script>
         <script src="{% static "profiles/js/audio_dropzone.js" %}"></script>
         <script src="{% static "profiles/js/formset.js" %}"></script>
         <script src="{% static "profiles/js/calendar.js" %}"></script>
