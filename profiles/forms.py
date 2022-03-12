@@ -82,7 +82,8 @@ class EquipmentForm(forms.ModelForm):
 
     equipment_name = forms.CharField(
         label="Please list your equipment",
-        widget=forms.TextInput
+        widget=forms.TextInput,
+        required=False
     )
 
 
@@ -94,26 +95,38 @@ class AudioForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.fields["file"].label = ""
 
-    file=forms.FileField(required=False)
+    file=forms.FileField(required=False, widget=forms.FileInput(
+        attrs={"class": "custom-formfield-font"}
+    ))
 
     def clean_file(self):
+        """
+        Validate file size and extension of audio files.
+        """
+
+        # Filesize Validation (5MB Limit)
         filesize_limit = 5 * 1024 * 1024
         data = self.cleaned_data["file"]
-        print("CLEANED DATA")
+        print("DATA")
         print(data)
-        if data.size > filesize_limit:
-            raise ValidationError("Please submit a file less than 5MB.")
+        if data:
+            if data.size > filesize_limit:
+                raise ValidationError("Please submit a file less than 5MB.")
 
-        allowed_extensions = list(os.environ.get("ALLOWED_AUDIOFILE_EXTENSIONS").split(","))
-        allowed_extensions = [x.strip(" ") for x in allowed_extensions]
-        filename, file_extension = os.path.splitext(data.name)
-
-        if file_extension not in allowed_extensions:
-            raise ValidationError("Only mp3, mp4, m4a, wav, aac, and flac files are supported.")
-    
-        return data
+            # File extension validation
+            allowed_extensions = list(os.environ.get("ALLOWED_AUDIOFILE_EXTENSIONS").split(","))
+            allowed_extensions = [x.strip(" ") for x in allowed_extensions]
+            filename, file_extension = os.path.splitext(data.name)
+            print("filename")
+            print(filename)
+            print(file_extension)
+            if filename != '':
+                if file_extension not in allowed_extensions:
+                    raise ValidationError("Only mp3, mp4, m4a, wav, aac, and flac files are supported.")
+                return data
 
     def save(self, commit=True):
         instance = super(AudioForm, self).save(commit=False)
