@@ -123,6 +123,12 @@
         background-position: top;
     }
 
+    .btn_wrapper_lg {
+        position: absolute;
+        bottom: 0;
+        right: 53%;
+        margin-bottom: 1rem;
+    }
 
     .auth-section {
         padding-top: 2rem;
