@@ -12,9 +12,9 @@
 <link rel="stylesheet" href="{% static "jobs/css/job_list.css" %}">
 {% endblock %}
 
-{% block extra_head %}
+{% comment %} {% block extra_head %}
     {{ job_form.media }}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 
 <!-- Title -->
@@ -29,20 +29,48 @@
     <aside>  
         <div class="container-fluid">
             <div class="row">
-                
+      
                 
             </div>
         </div>
     </aside>
     <!-- Results -->
     <section>
-        <div class="container-fluid">
+        <div class="container-fluid mt-3">
             <div class="row d-flex justify-content-center">
-                {% if job_collection %}
+   
+            {% if job_collection %}
                 {% for job in job_collection %}
-                    hello
+                    <div class="col-12 col-md-6 col-lg-3 mb-5">
+                        <div class="card job_card">
+                            {% if job.image %}
+                                <img src="{{ job.image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image">
+                            {% elif job.job_poster.profile_image %}
+                                <img src="{{ job.job_poster.profile_image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image">
+                            {% else %}
+                                <img src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ job.job_title }}" class="card-img-top job_image">
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="card_detail">
+                                    <div class="job_card_header">
+                                        <p class="primary_font m-0">{{ job.job_title }}</p>
+                                        <p class="secondary_font light_font m-0">{{ job.artist_name }}</p>
+                                    </div>
+                                    <div class="job_location_date">
+                                        <span class="secondary_font xs_text">{{ job.event_city }}, {{ job.event_country }}&nbsp;|&nbsp;{{ job.event_datetime|date:"d-m-Y"}}</span>
+                                    </div>
+                                    <div class="job_details mt-3 pb-4">
+                                        <p class="secondary_font job_detail_content">
+                                            {{ job.job_description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-                {% endif %}
+            {% endif %}
+      
             </div>
         </div>
     </section>
