@@ -55,12 +55,12 @@
                                     </div>
                                     <hr class="d-block d-md-none m-0">
                                     <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                        <label for="genre">Genre</label>
+                                        <label for="genre" class="secondary_font me-1">Genre</label>
                                         {% if genre_list %}
-                                            <select class="form-select" name="genre" id="genre">
-                                                <option value="all">All</option>
+                                            <select class="form-select secondary_font" name="genre" id="genre">
+                                                <option value="all">All Genres</option>
                                                 {% for genre in genre_list %}
-                                                    <option value="{{genre.genre_name}}"{% if selected_genre == genre.genre_name %}selected{% endif %}>{{genre.genre_name}}</option>
+                                                    <option value="{{genre.genre_name}}" {% if selected_genre == genre.genre_name %}selected{% endif %}>{{genre.genre_name}}</option>
                                                 {% endfor %}
                                             </select>
                                         {% endif %}
@@ -116,7 +116,7 @@
                     <div class="card-body">
                         <div class="justify_between h-100">
                             <div class="card_detail">
-                                <p class="card-text secondary_font dark_font small_text">
+                                <p class="card-text secondary_font dark_font xs_text">
                                     {% for instrument in dep.instruments_played.all %}
                                         {% if instrument %}
                                             {{ instrument.instrument_name }}{% if not forloop.last %},{% endif %}
@@ -130,7 +130,7 @@
                                         {{ dep.user.username }}
                                     {% endif %}
                                 </p>
-                                <p class="card-text secondary_font light_font small_text mt-2">
+                                <p class="card-text secondary_font light_font xs_text mt-2">
                                     {% if dep.city %}{{ dep.city }}{% endif %}{% if dep.country %}, {{ dep.country.name }}{% endif %}
                                 </p>
                                 <div class="star_icons" class="mt-2">
