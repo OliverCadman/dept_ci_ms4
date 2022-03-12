@@ -79,8 +79,14 @@ $(document).ready(function() {
            let numOfReviews =
              document.getElementById("num_of_reviews").textContent;
            let numOfReviewsDisplay = document.createElement("span");
-           numOfReviewsDisplay.textContent = `(${numOfReviews})`;
-           numOfReviewsDisplay.className = "secondary_font white_font ms-1";
+           
+           if (numOfReviews > 0) {
+             numOfReviewsDisplay.textContent = `(${numOfReviews})`;
+           } else {
+             numOfReviewsDisplay.textContent = "No Reviews"
+           }
+
+           numOfReviewsDisplay.className = "secondary_font white_font";
            container.appendChild(numOfReviewsDisplay);
          }
     } else {
