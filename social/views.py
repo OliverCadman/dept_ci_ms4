@@ -110,6 +110,12 @@ def remove_notification(request, notification_id):
     the notification from the dropdown.
 
     Called by XMLHttpRequest in notification.js
+
+    Code referenced from YouTube tutorial:
+
+    Title: Building a Social Media App With Python 3 and Django: Part 12 User Notifications
+    Uploader: Legion Script
+    Link: https://www.youtube.com/watch?v=_JKWYkz597c&t=889s
     """
     notification = get_object_or_404(Notification, pk=notification_id)
     notification.is_read = True
