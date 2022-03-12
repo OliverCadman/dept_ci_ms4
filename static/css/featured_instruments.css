@@ -62,6 +62,10 @@
     color: #fafafa;
 }
 
+.link-card.more_categories {
+    max-height: 150px;
+}
+
 @media screen and (min-width: 992px) {
     .link-card {
         height: 250px;
