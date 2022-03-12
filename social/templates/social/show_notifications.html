@@ -2,9 +2,9 @@
 
 
 
-<div class="dropdown btn-group" id="notification_dropdown_container">
+<div class="dropdown" id="notification_dropdown_container">
     {% if notifications.count > 0 %}
-    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target="#notification_dropdown" aria-expanded="false">
+    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target="#notification_dropdown" data-bs-auto-close="outside" aria-expanded="false" id="notification_btn">
         <i class="fas fa-bell notification_icon"></i>
             <span class="badge bg-danger position-absolute start-75 top-0 translate-middle rounded-pill notification_count_icon">{{ notifications.count }}</span>
     </button>
@@ -17,7 +17,7 @@
                 <!-- Received Invitation -->
                 {% if notification.notification_type == 1 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
+                        <span class="remove_notification" onclick="removeNotification(`{% url "remove_notification" notification.pk %}`,`{{ request.path }}` )">&times;</span>
                         <a href="{% url "invite_received_notification" notification.id notification.related_invitation.id %}"
                         class="notification">
                             {% with notification.related_invitation.invite_sender as invite_sender %}
@@ -50,7 +50,7 @@
                 <!-- Accepted Invitation -->
                 {% elif notification.notification_type == 2 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
+                        <span class="remove_notification">&times;</span>
                         <a href="{% url "invite_accepted_notification" notification.pk notification.related_invitation.pk %}" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
                                 <div class="notification_content">
@@ -82,7 +82,7 @@
                 <!-- Received Message -->
                 {% elif notification.notification_type == 5 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
+                        <span class="remove_notification">&times;</span>
                         <a href="#" class="notification" class="notification">
                             {% with notification.related_invitation.invite_receiver as invite_receiver %}
                                 <div class="notification_content">
@@ -113,7 +113,7 @@
                 {% endif %}
             {% elif notification.notification_type == 3 %}
                     <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
+                        <span class="remove_notification">&times;</span>
                         <a href="#" class="notification" class="notification">
                             {% with notification.notification_sender as notification_sender %}
                                 <div class="notification_content">
@@ -145,7 +145,7 @@
                <!-- Booking Details Sent -->
                {% if notification.notification_type == 4 %}
                        <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
-                        <span class="dropdown-item-close">&times;</span>
+                        <span class="remove_notification">&times;</span>
                         <a href="{% url "booking_details_sent_notification" notification.pk notification.related_booking.pk %}" class="notification" class="notification">
                             {% with notification.related_booking.related_invitation.invite_sender as invite_sender %}
                                 <div class="notification_content">
