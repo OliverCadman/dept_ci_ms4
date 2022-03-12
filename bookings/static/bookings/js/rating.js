@@ -9,8 +9,8 @@ $(document).ready(function() {
       to keep track of which icon along the row of icons has been clicked.
     
     */
-    const ratingStars = [...document.getElementsByClassName("rating_star")];
-    const ratingDisplayEl = document.getElementById("rating_display");
+    const ratingStars = [...document.getElementsByClassName("rating_star_review_modal")];
+    const ratingDisplayEl = document.getElementsByClassName("rating_display")[0];
     ratingDisplayEl.textContent = "0/5"
 
     const ratingStarArray = []
@@ -22,9 +22,8 @@ $(document).ready(function() {
     leaveStarRating(ratingStars, ratingDisplayEl);
 
     function leaveStarRating(starIcons, ratingDisplayEl) {
-        console.log(starIcons)
-        const activeStarIcon = "rating_star fas fa-star"
-        const inactiveStarIcon = "rating_star far fa-star"
+        const activeStarIcon = "rating_star rating_star_review_modal fas fa-star"
+        const inactiveStarIcon = "rating_star rating_star_review_modal far fa-star"
         const lengthOfStars = starIcons.length
         let i;
         starIcons.map((star) => {
@@ -66,7 +65,11 @@ $(document).ready(function() {
     }
     
     function displayRatingNumber(ratingEl, number) {
-        /* Update span element with new rating (out of 5)  */
-        ratingEl.textContent = `${number}/5`
+        console.log(number)
+        // Update span element with new rating (out of 5)
+        ratingEl.textContent = `${number}/5`;
+
+        const ratingInput = document.getElementById("id_rating")
+        ratingInput.value = number
     }
 })
