@@ -1300,7 +1300,6 @@ function SoundManager(smURL, smID) {
     if (hasConsole && sm2.useConsole) {
       if (sTypeOrObject && typeof sTypeOrObject === 'object') {
         // object passed; dump to console.
-        console.log(sText, sTypeOrObject);
       } else if (debugLevels[sTypeOrObject] !== _undefined) {
       } else {
       }
