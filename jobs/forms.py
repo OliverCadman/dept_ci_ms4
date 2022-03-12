@@ -39,6 +39,10 @@ class JobForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
+                    "job_title",
+                    css_class="col-12"
+                ),
+                Div(
                     "event_name",
                     css_class="col-12 col-md-6"
                 ),
@@ -83,7 +87,10 @@ class JobForm(forms.ModelForm):
         # Prepend Pound sign icon to "Fee" Field
         self.helper["fee"].wrap(PrependedText, mark_safe("<i class='fas fa-pound-sign'></i>"))
 
-    
+    job_title = forms.CharField(label="Who are you looking for?",
+                                widget=forms.TextInput(attrs={
+                                    "placeholder": "Keys player required. Urgent!"
+                                }))
 
     event_name = forms.CharField(label="What is your event?",
                                  widget=forms.TextInput(attrs={
@@ -95,7 +102,8 @@ class JobForm(forms.ModelForm):
                                   }))
     job_description = forms.CharField(label="What does the job involve?",
                                       widget=forms.Textarea(attrs={
-                                          "placeholder": "Need someone with good knowledge of synthesizers"
+                                          "placeholder": "Need someone with good knowledge of synthesizers",
+                                          "rows": "4"
                                       }))
     fee = forms.DecimalField(widget=forms.NumberInput(attrs={
                                 "placeholder": "150"
