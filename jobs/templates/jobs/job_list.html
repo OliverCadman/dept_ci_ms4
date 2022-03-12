@@ -53,7 +53,10 @@
                             <div class="card-body">
                                 <div class="card_detail">
                                     <div class="job_card_header">
-                                        <p class="primary_font m-0">{{ job.job_title }}</p>
+                                        <div class="header_icon_wrapper justify_between_row">
+                                            <input type="hidden" class="hidden_fee_input" value="{{ job.fee }}">
+                                            <p class="primary_font m-0 job_title">{{ job.job_title }}</p>
+                                        </div>
                                         <p class="secondary_font light_font m-0">{{ job.artist_name }}</p>
                                     </div>
                                     <div class="job_location_date">
@@ -94,4 +97,10 @@
             </div>
         </div>
     </aside>
+{% endblock %}
+
+<!-- Custom JS -->
+{% block postload_js %}
+    {{ block.super }}
+    <script src="{% static "jobs/js/job_fee_icons.js" %}"></script>
 {% endblock %}
