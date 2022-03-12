@@ -10,6 +10,7 @@
     <p class="invitation_card_detail">{{ invitation.event_name|capfirst }}</p>
     <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>    
+    <p class="invitation_card_detail">£{{ invitation.fee }}</p>
     <div class="invitation_btn_wrapper">
         {% if not invitation.is_accepted %}
             <button class="modal-trigger btn invitation_card_btn view_detail_btn" data-bs-toggle="modal"
@@ -21,10 +22,12 @@
             data-event-country="{{ invitation.event_country.name }}"
             data-event-datetime="{{ invitation.event_datetime|date:"d/m/Y H:i"}}">View Details</button>
         {% else %}
-            {% if not invitation.related_booking %}
-                <a href="" class="btn invitation_card_btn disabled disabled_btn">Awaiting Full Details</a>
-            {% else %}
-                <a href="{% url "booking_detail" invitation.related_booking.id %}" class="btn invitation_card_btn custom_success">View Full Details</a>   
+            {% if invitation.related_booking %}
+                {% if not invitation.related_booking.booking_details_sent %}
+                    <a href="" class="btn invitation_card_btn disabled disabled_btn">Awaiting Full Details</a>
+                {% else %}
+                    <a href="{% url "booking_detail" invitation.related_booking.id %}" class="btn invitation_card_btn custom_success">View Full Details</a> 
+                {% endif %}  
             {% endif %}
         {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
