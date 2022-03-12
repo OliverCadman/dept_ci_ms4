@@ -549,13 +549,13 @@
  background-size: 56%;
 }
 
-.volume-shade {
- filter: alpha(opacity=33); /* <= IE 8 */
+/* .volume-shade { */
+ /* filter: alpha(opacity=33); /* <= IE 8 
  opacity: 0.33;
 /* -webkit-filter: invert(1);*/
- background-image: url(../image/icomoon/entypo-25px-000000/PNG/volume.png);
- background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/volume.svg);
-}
+ /* background-image: url(../image/icomoon/entypo-25px-000000/PNG/volume.png);
+ background-image: none, url(../image/icomoon/entypo-25px-000000/SVG/volume.svg); */
+/* } */
 
 .sm2-icon-menu {
  background-image: url(../png/list2.png);
