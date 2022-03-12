@@ -16,5 +16,5 @@ urlpatterns = [
     path("booking_detail/<int:pk>", BookingDetailView.as_view(), name="booking_detail"),
     path("generate_pdf/<int:booking_id>", GeneratePDFFile.as_view(), name="generate_pdf"),
     path("download_audiofile/<int:file_id>", download_audiofile, name="download_audiofile"),
-    path("get_invitation_id/<int:booking_id>", get_invitation_id)
+    path("get_invitation_id/<int:booking_id>", get_invitation_id),
 ]
