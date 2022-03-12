@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "home/css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/featured_instruments.css" %}">
 {% endblock %}
 
 {% block title %} DepT {% endblock %}
@@ -72,7 +73,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'vocals' %}">
+                <a href="{% url 'dep_list'  %}?instrument=Vocals">
                     <div class="link-card" id="vocals-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Vocals</p>
@@ -85,7 +86,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'bass_guitar' %}">
+                <a href="{% url 'dep_list'  %}?instrument=Bass+Guitar">
                     <div class="link-card" id="bass-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Bass Guitar</p>
@@ -96,7 +97,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'keyboard' %}">
+                <a href="{% url 'dep_list' %}?instrument=Keyboard">
                     <div class="link-card" id="keyboard-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Keyboard</p>
@@ -109,7 +110,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'guitar' %}">
+                <a href="{% url 'dep_list' %}?instrument=Guitar">
                     <div class="link-card" id="guitar-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Guitar</p>
@@ -120,7 +121,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'drums' %}">
+                <a href="{% url 'dep_list' %}?instrument=Drums">
                     <div class="link-card" id="drums-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Drums</p>
@@ -133,7 +134,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'job_page' 'trumpet' %}">
+                <a href="{% url 'dep_list' %}?instrument=Trumpet">
                     <div class="link-card" id="trumpet-link">
                         <div class="opaque-overlay"></div>
                         <p class="featured-link-text">Trumpet</p>
@@ -224,15 +225,15 @@
 <section id="subscribe-section-sm" class="d-lg-none d-sm-block">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 p-0">
                 <div class="subscribe-container">
                     <div class="subscribe-wrapper">
                         {% if not request.user.is_authenticated %}
-                        <p>Get Started for Free</p>
-                        <a href="{% url 'account_signup' %}" class="btn home-btn mx-auto">Subscribe</a>
+                        <p class="primary_font white_font large_text">Get Started for Free</p>
+                        <a href="{% url 'account_signup' %}" class="btn home-btn mx-auto secondary_font white_font">Subscribe</a>
                         {% else %}
-                        <p>Time to Loosen Up</p>
-                        <a href="#" class="btn">Find a Dep</a>
+                        <p class="primary_font white_font large_text">Time to Relax</p>
+                        <a href="#" class="btn secondary_font dark_font white_bg">Find a Dep</a>
                         {% endif %}
                     </div>
                 </div>
@@ -249,7 +250,7 @@
                 <a href="{% url 'account_signup' %}" class="btn">Register</a>
             </div>
             {% else %}
-            <p>Time to Loosen Up</p>
+            <p>Time to Relax</p>
             <div class="cta-btns mx-auto">
                 <a href="#" class="btn">Find a Dep</a>
             </div>
