@@ -41,6 +41,7 @@ class Job(models.Model):
                                    related_name="posted_jobs")
     interested_member = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                           null=True, related_name="jobs")
+    job_title = models.CharField(null=True, max_length=150)
     event_name = models.CharField(max_length=150)
     artist_name = models.CharField(max_length=100, null=True, blank=True)
     job_description = models.TextField(max_length=500)
