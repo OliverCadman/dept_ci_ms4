@@ -126,6 +126,12 @@ class JobListView(ListView):
         # Populate the "instrument" select dropdown with values from Instrument Model.
         context["instrument_list"] = Instrument.objects.all()
 
+        current_user = get_object_or_404(UserProfile, user__username=self.request.user.username)
+        current_users_jobs = current_user.job_set.all()
+
+        context["current_user"] = current_user
+        context["current_users_jobs"] = current_users_jobs
+
         return context
 
     
@@ -189,3 +195,12 @@ def post_job(request):
         else:
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
+
+def register_interest(request, job_id, username):
+    current_job = get_object_or_404(Job, pk=job_id)
+    current_user = get_object_or_404(UserProfile, user__username=username)
+
+    current_job.interested_member.add(current_user)
+    current_job.save()
+
+    return redirect(reverse("job_list"))
