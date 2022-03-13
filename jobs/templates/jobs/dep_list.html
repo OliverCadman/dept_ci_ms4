@@ -20,68 +20,12 @@
         {% include "includes/header-hero.html" %}
     {% endwith %}
     <!-- Search/Filter Accordion Bar -->
+    <aside>
+        {% with page_name as p %}
+            {% include "jobs/includes/filter_accordion.html" %}
+        {% endwith %}
+    </aside>
     <section>
-        <div class="container-fluid p-0">
-            <div class="row m-0">
-                <div class="col-12 p-0">
-                    <div class="accordion rounded-0" id="filter_dep_accordion">
-                        <div class="accordion-item border-0 rounded-0">
-                            <h2 class="accordion-header rounded-0">
-                                <button class="accordion-button dark_bg white_font med_small_text secondary_font rounded-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter_collapse" aria-expanded="true" aria-controls="filter_collapse">
-                                    Filter Your Results
-                                </button>
-                            </h2>
-                        <div id="filter_collapse" class="accordion-collapse collapse show">
-                            <div class="accordion-body light_bg">
-                                <div class="row m-0">
-                                    <div class="col-12">
-                                        <div class="instrument_searchbar_select">
-                                            <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
-                                                <label for="instrument_filter" class="secondary_font">I'm Looking For...</label>
-                                                <select class="form-select secondary_font" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
-                                                    <option value="all">All</option>
-                                                    {% for instrument in instrument_list %}
-                                                        <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr class="d-block d-md-none m-0">
-                                <div class="row d-flex justify-content-center m-0 top_border">
-                                    <div class="col-12 col-md-4 centered filter_field bottom_border" id="city_search_wrapper">        
-                                        <input class="form-control secondary_font shadow-none" placeholder="Lives in City..." type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
-                                        <span class="icon-inside"><i class="fas fa-search"></i></span>
-                                    </div>
-                                    <hr class="d-block d-md-none m-0">
-                                    <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                        <label for="genre" class="secondary_font me-1">Genre</label>
-                                        {% if genre_list %}
-                                            <select class="form-select secondary_font" name="genre" id="genre">
-                                                <option value="all">All Genres</option>
-                                                {% for genre in genre_list %}
-                                                    <option value="{{genre.genre_name}}" {% if selected_genre == genre.genre_name %}selected{% endif %}>{{genre.genre_name}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        {% endif %}
-                                    </div>
-                                    <hr class="d-block d-md-none m-0">
-                                    <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                            <label for="available_today_checkbox" class="secondary_font">Available Today</label>
-                                            <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
-                                    </div>
-                                    <div class="col-12 centered pt-3 pb-3 bottom_border">
-                                        <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Results Container -->
         <div class="container-fluid findadep_results_container p-0">
             <div class="row d-flex justify-content-center m-0">

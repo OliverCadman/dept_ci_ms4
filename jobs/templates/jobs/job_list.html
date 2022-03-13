@@ -29,12 +29,9 @@
     {% endwith %}
     <!-- Search/Filter Bar -->
     <aside>  
-        <div class="container-fluid">
-            <div class="row">
-      
-                
-            </div>
-        </div>
+        {% with page_name as p %}
+            {% include "jobs/includes/filter_accordion.html" %}
+        {% endwith %}
     </aside>
     <!-- Results -->
     <section>
@@ -126,17 +123,17 @@
         <div class="modal fade" id="job_detail_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 id="job_title">
+                    <div class="modal-header custom-modal-header">
+                        <h4 id="job_title" class="med_text">
                         </h4>
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body job_detail_wrapper">
+                    <div class="modal-body custom-modal-body job_detail_wrapper">
                         <div class="container-fluid">
-                                <div class="row">
+                                <div class="row job_poster_row">
                                     <div class="col-12 p-0">
                                         <div id="job_poster_wrapper">
-                                            <span id="job_poster"></span>
+                                            <span id="job_poster" class="secondary_font"></span>
                                         </div>
                                         <div id="poster_profile_img_wrapper">
 
@@ -146,21 +143,21 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <dl>
-                                            <dt>Venue:</dt>
-                                            <dd id="event_name"></dd>
-                                            <dt>Artist:</dt>
-                                            <dd id="artist_name"></dd>
-                                            <dt>City:</dt>
-                                            <dd id="event_city"></dd>
-                                            <dt>Country:</dt>
-                                            <dd id="event_country"></dd>
-                                            <dt>Fee:</dt>
-                                            <dd id="fee"></dd>
+                                            <dt class="primary_font med_size">Venue:</dt>
+                                            <dd id="event_name" class="secondary_font"></dd>
+                                            <dt class="primary_font med_size">Artist:</dt>
+                                            <dd id="artist_name" class="secondary_font"></dd>
+                                            <dt class="primary_font med_size">City:</dt>
+                                            <dd id="event_city" class="secondary_font"></dd>
+                                            <dt class="primary_font med_size">Country:</dt>
+                                            <dd id="event_country" class="secondary_font"></dd>
+                                            <dt class="primary_font med_size">Fee:</dt>
+                                            <dd id="fee" class="secondary_font"></dd>
                                         </dl>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div id="job_desciption_wrapper">
-                                            <p id="job_description"></p>
+                                            <p id="job_description" class="secondary_font"></p>
                                         </div>
                                     </div>
                                     <div class="col-12 cta_btns">
