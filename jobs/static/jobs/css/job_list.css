@@ -44,6 +44,27 @@
     display: inline-block;
 }
 
+ #no_results_container {
+     padding: 4rem 0;
+ }
+
+@media screen and (min-width: 768px) {
+    .job_poster_row {
+        margin-bottom: 2rem;
+    }
+    
+    #job_poster_wrapper {
+        width: fit-content;
+    }
+
+    #poster_profile_img_wrapper {
+        margin-left: 1.75rem;
+    }
+
+    #no_results_container {
+        padding: 6rem 0;
+    }
+}
 
 /* Large Screens and Up */
 @media screen and (min-width: 992px) {

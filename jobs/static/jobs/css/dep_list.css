@@ -6,10 +6,6 @@
     top: 0;
 }
 
-#available_today_checkbox {
-    margin-left: 1.75rem;
-}
-
 #benefits_section {
     background-color: #1a2342;
     color: #fefefe;
@@ -30,53 +26,8 @@
     margin: 1rem 0;
 }
 
-.filter_field,
-.instrument_searchbar_select {
-    padding: 1rem 0;
-}
-
-#city_search_wrapper {
-    display: flex;
-    align-items: center;
-}
-
-#city,
-#city:focus {
-    border: none;
-}
-
-.icon-inside {
-    position: absolute;
-    right: 10px;
-    top: calc(50% - 12px);
-    pointer-events: none;
-    font-size: 16px;
-    font-size: 1.125rem;
-    color: #c4c3c3;
-    z-index: 3;
-}
-
-#city_search_wrapper {
-    position: relative;
-}
-
-.input-group-text {
-    background-color: white;
-    border: none;
-    padding: .375rem 0.75rem;
-}
-
-
-.instrument_searchbar_container {
-    padding: 1.5rem 0;
-}
-
 .findadep_results_wrapper {
     padding: 2rem 0;
-}
-
-.instrument_searchbar_select {
-    margin-left: 1rem;
 }
 
 .pagination {
@@ -132,46 +83,15 @@
     -webkit-box-orient: vertical;
 }
 
+#no_results_container {
+    padding: 4rem 0;
+}
+
 @media screen and (min-width: 768px) {
-
-    .icon-inside {
-        position: absolute;
-        right: 30px;
-        top: calc(50% - 12px);
-        pointer-events: none;
-        font-size: 16px;
-        font-size: 1.125rem;
-        color: #c4c3c3;
-        z-index: 3;
-    }
-
-    .instrument_searchbar_select {
-        padding: 2rem 0;
-    }
-
-    .top_border {
-        border-top: 1px solid #cccccc;
-    }
-
-    .bottom_border {
-        border-bottom: 1px solid #cccccc;
-    }
 
     .dynamic-header p.find_a_dep {
         margin: 3rem auto;
         width: 50%;
-    }
-
-    .accordion-body {
-        padding: 0;
-    }
-
-    .filter_field {
-        padding: 1rem;
-    }
-
-    .filter_field:not(:last-of-type) {
-        border-right: 1px solid #cecccc;
     }
 
     #benefits_section h3 {
@@ -188,6 +108,10 @@
          grid-template-columns: 250px 3fr;
          row-gap: 20px;
          column-gap: 160px;
+     }
+
+     #no_results_container {
+         padding: 6rem 0;
      }
 }
 
