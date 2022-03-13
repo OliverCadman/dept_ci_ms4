@@ -11,6 +11,7 @@ from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from .models import Job
 
 from profiles.widgets import CustomClearableFileInput
+from profiles.models import Instrument
 
 class JobForm(forms.ModelForm):
     """
@@ -50,6 +51,10 @@ class JobForm(forms.ModelForm):
                 Div(
                     "artist_name",
                     css_class="col-12 col-md-6"
+                ),
+                Div(
+                    "instrument_required",
+                    css_class="col-12"
                 ),
                 Div(
                     "job_description",
@@ -105,6 +110,13 @@ class JobForm(forms.ModelForm):
                                   widget=forms.TextInput(attrs={
                                       "placeholder": "Ariana Grande"
                                   }))
+    
+    instrument_required = forms.ModelMultipleChoiceField(
+                                  queryset=Instrument.objects.all(),
+                                  label="Which instrument do you require?",
+                                  widget=forms.Select(),
+                                )
+
     job_description = forms.CharField(label="What does the job involve?",
                                       widget=forms.Textarea(attrs={
                                           "placeholder": "Need someone with good knowledge of synthesizers",

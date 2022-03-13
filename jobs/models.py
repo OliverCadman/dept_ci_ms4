@@ -1,7 +1,10 @@
 from django.db import models
 from django_countries.fields import CountryField
 
-from profiles.models import UserProfile
+from profiles.models import UserProfile, Instrument
+
+from pathlib import Path
+from PIL import Image
 
 
 class Job(models.Model):
@@ -41,6 +44,7 @@ class Job(models.Model):
     job_title = models.CharField(null=True, max_length=150)
     image = models.ImageField(upload_to="job_images", null=True, blank=True)
     event_name = models.CharField(max_length=150)
+    instrument_required = models.ManyToManyField(Instrument)
     artist_name = models.CharField(max_length=100, null=True, blank=True)
     job_description = models.TextField(max_length=500)
     fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
@@ -53,3 +57,23 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.job_poster}'s job: {self.event_name}"
+
+    def convert_to_webp(self, source):
+        
+
+        if self.image is not None or source is not None:
+            image_to_convert = source
+            image = Image.open(image_to_convert)
+            image.save(image_to_convert.name, format="webp")
+            print(image.size)
+            return image
+
+    def save(self, *args, **kwargs):
+        print("SELF")
+        print(self.image.file.name)
+        if self.image:
+            self.convert_to_webp(self.image.file)
+        super().save(*args, **kwargs)
+
+
+        
