@@ -1,6 +1,6 @@
 import datetime
 
-def handle_deplist_get(params):
+def handle_get_params(params):
     """
     Handles GET parameters in 'Find a Dep' page,
 
@@ -14,6 +14,10 @@ def handle_deplist_get(params):
         "genre": None,
         "available_today": None,
         "search_params": {},
+        "min_fee": 1,
+        "max_fee": float("inf"),
+        "fee": None,
+        "city": None
     }
 
     if "instrument" in params:
@@ -41,10 +45,25 @@ def handle_deplist_get(params):
         context["city"] = city_arg
         context["search_params"]["city__iexact"] = city_arg
 
+    if "event_city" in params:
+        event_city_arg = params["event_city"]
+        context["city"] = event_city_arg
+        context["search_params"]["event_city__iexact"] = event_city_arg
+
 
     if "genre" in params:
         genre_arg = params["genre"]
         context["genre"] = genre_arg
         context["search_params"]["genres__genre_name"] = genre_arg
+
+    if "fee" in params:
+        if not params["fee"] == "all" and not params["fee"] == "500":
+            min_fee = params["fee"].split("-")[0]
+            max_fee = params["fee"].split("-")[1]
+            context["min_fee"] = min_fee
+            context["max_fee"] = max_fee
+        elif params["fee"] == "500":
+            infinite_fee_arg = params["fee"]
+            context["search_params"]["fee__gte"] = infinite_fee_arg
         
     return context

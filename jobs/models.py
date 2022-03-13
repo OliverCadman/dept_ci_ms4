@@ -9,16 +9,22 @@ from PIL import Image
 
 class JobQuerySet(models.QuerySet):
 
-    def filter_by_params(self, filter_params):
-        return self.filter(**filter_params)
+    def filter_by_params(self, filter_params, min_fee, max_fee):
+        if not min_fee and not max_fee:
+            return self.filter(**filter_params)
+        else:
+            return self.filter(**filter_params, fee__range=(min_fee, max_fee))
 
 class JobManager(models.Manager):
 
     def get_queryset(self):
         return JobQuerySet(self.model, using=self._db)
 
-    def filter_queryset(self, filter_params):
-        return self.get_queryset().filter_by_params(filter_params).order_by("-id")
+    def filter_queryset(self, filter_params, min_fee, max_fee):
+        if not min_fee and not max_fee:
+             return self.get_queryset().filter_by_params(filter_params).order_by("-id")
+        else:
+            return self.get_queryset().filter_by_params(filter_params, min_fee, max_fee)
 
 
 class Job(models.Model):

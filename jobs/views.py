@@ -12,11 +12,9 @@ from .models import Job
 
 from profiles.models import UserProfile, Instrument, Genre
 
-from .functions import handle_deplist_get
+from .functions import handle_get_params
 
 from pathlib import Path
-
-
 
 
 class DepListView(ListView):
@@ -24,8 +22,7 @@ class DepListView(ListView):
     A view to display all individual UserProfile objects.
 
     In addition to displaying all UserProfile objects,
-    DepListView also takes parameters for searching.
-    
+    DepListView also takes parameters for searching and/or filtering.
     """
 
     template_name = "jobs/dep_list.html"
@@ -43,7 +40,7 @@ class DepListView(ListView):
         """
 
         # Get the current context with any params included.
-        self.pre_context = handle_deplist_get(self.request.GET)
+        self.pre_context = handle_get_params(self.request.GET)
 
         # Filter the UserProfile table with provided search params.
         query = UserProfile.objects.filter_queryset(
@@ -58,8 +55,9 @@ class DepListView(ListView):
         Override default get_context_data to provided additional
         pre-prepared context, prepared in View's "get_queryset" method.
         """
+
+        # Merge base context with pre context from "handle_get_params()"
         context =  super().get_context_data(**kwargs) | self.pre_context
-        print(context)
         
         if self.get_queryset == None:
             context["no_results"] = True
@@ -97,7 +95,10 @@ class DepListView(ListView):
 
 class JobListView(ListView):
     """
-    A view to display all Job Posts
+    A view to display all Job Posts.
+
+    In addition to displaying all Job objects,
+    DepListView also takes parameters for searching and/or filtering.
     """
 
     template_name = "jobs/job_list.html"
@@ -105,13 +106,23 @@ class JobListView(ListView):
     context_object_name = "job_collection"
 
     def get_context_data(self, **kwargs):
+
+        # Merge base context with pre context from "handle_get_params()"
         context =  super().get_context_data(**kwargs) | self.pre_context
 
         job_form = JobForm()
 
+        # Pass page name to header "includes"
         context["page_name"] = "job_list"
+
+        # Pass job form to page
         context["job_form"] = job_form
 
+        # Populates the "selected_fee" context key with min and max value,
+        # and sets relative option attribute to selected if the value matches.
+        context["selected_fee"] = f"{context['min_fee']}-{context['max_fee']}"
+ 
+        # Populate the "instrument" select dropdown with values from Instrument Model.
         context["instrument_list"] = Instrument.objects.all()
 
         return context
@@ -119,19 +130,22 @@ class JobListView(ListView):
     
     def get_queryset(self):
 
-        self.pre_context = handle_deplist_get(self.request.GET)
-        print(self.pre_context)
-        
+        """
+        Override default get_queryset method to handle
+        extra filter params, including min and max fee.
+        """
+
+        self.pre_context = handle_get_params(self.request.GET)
+
         query = Job.objects.filter_queryset(
-            filter_params=self.pre_context["search_params"]
+            filter_params=self.pre_context["search_params"],
+            min_fee=self.pre_context["min_fee"],
+            max_fee=self.pre_context["max_fee"]
         )
         return query
-    
-
 
 
 def post_job(request):
-
     """
     Handles Job Form submission from "Find a Job" Page.
     """

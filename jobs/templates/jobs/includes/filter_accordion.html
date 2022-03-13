@@ -1,3 +1,4 @@
+<!-- Filter Accordion shared by both dep_list.html and job_list.html, to search and filter querysets -->
 <div class="container-fluid p-0">
             <div class="row m-0">
                 <div class="col-12 p-0">
@@ -13,6 +14,8 @@
                                 <div class="row m-0">
                                     <div class="col-12">
                                         <div class="instrument_searchbar_select">
+
+                                            <!-- Dep List Filter/Search Accordion -->
                                             {% if p == "dep_list" %}
                                             <form action="{% url "dep_list" %}" method="GET" id="instrument_filter_form">
                                                 <label for="instrument_filter" class="secondary_font">I'm Looking For...</label>
@@ -53,9 +56,11 @@
                                     </div>
                                     </form>
                                     {% else %}
+
+                                        <!-- Job List Filter/Search Accordion -->
                                         <form action="{% url "job_list" %}" method="GET" id="instrument_filter_form">
                                                 <label for="instrument_filter" class="secondary_font">I play this instrument...</label>
-                                                <select class="form-select secondary_font" name="instrument" id="instrument_filter" aria-label="Instrument Filter">
+                                                <select class="form-select secondary_font" name="instrument_required" id="instrument_filter" aria-label="Instrument Filter">
                                                     <option value="all">All</option>
                                                     {% for instrument in instrument_list %}
                                                         <option value="{{ instrument.instrument_name }}" {% if selected_instrument == instrument.instrument_name|capfirst %}selected{% endif %}>{{instrument.instrument_name }}</option>
@@ -66,27 +71,23 @@
                                     </div>
                                     <hr class="d-block d-md-none m-0">
                                     <div class="row d-flex justify-content-center m-0 top_border">
-                                        <div class="col-12 col-md-4 centered filter_field bottom_border" id="city_search_wrapper">        
-                                            <input class="form-control secondary_font shadow-none" placeholder="Lives in City..." type="text" name="city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
+                                        <div class="col-12 col-md-6 centered filter_field bottom_border" id="city_search_wrapper">        
+                                            <input class="form-control secondary_font shadow-none" placeholder="Manchester, Glasgow..." type="text" name="event_city" value="{% if not city is empty %}{{ city }}{% endif %}" id="city">
                                             <span class="icon-inside"><i class="fas fa-search"></i></span>
                                         </div>
                                         <hr class="d-block d-md-none m-0">
-                                        <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                            <label for="genre" class="secondary_font me-1">Genre</label>
-                                            {% if genre_list %}
-                                                <select class="form-select secondary_font" name="genre" id="genre">
-                                                    <option value="all">All Genres</option>
-                                                    {% for genre in genre_list %}
-                                                        <option value="{{genre.genre_name}}" {% if selected_genre == genre.genre_name %}selected{% endif %}>{{genre.genre_name}}</option>
-                                                    {% endfor %}
+                                        <div class="col-12 col-md-6 centered filter_field bottom_border">
+                                            <label for="fee_select" class="secondary_font me-1">Fee Range:</label>
+                                                <select class="form-select secondary_font" name="fee" id="fee_select">
+                                                    <option value="all">All Ranges</option>
+                                                        <option value="1-100" {% if selected_fee == "1-100" %}selected{% endif %}>£1 - £100</option>
+                                                        <option value="101-200" {% if selected_fee == "101-200" %}selected{% endif %}>£101 - £200</option>
+                                                        <option value="201-300" {% if selected_fee == "201-300" %}selected{% endif %}>£201 - £300{{genre.genre_name}}</option>
+                                                        <option value="301-500" {% if selected_fee == "301-500" %}selected{% endif %}>£301 - £500</option>
+                                                        <option value="500"{% if fee == "500" %}selected{% endif %}>£500+</option>
                                                 </select>
-                                            {% endif %}
                                         </div>
                                         <hr class="d-block d-md-none m-0">
-                                        <div class="col-12 col-md-4 centered filter_field bottom_border">
-                                                <label for="available_today_checkbox" class="secondary_font">Available Today</label>
-                                                <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
-                                        </div>
                                         <div class="col-12 centered pt-3 pb-3 bottom_border">
                                             <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>
                                         </div>
