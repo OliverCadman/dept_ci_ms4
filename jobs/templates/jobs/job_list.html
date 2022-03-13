@@ -36,12 +36,32 @@
     </aside>
     <!-- Results -->
     <section>
-        <div class="container-fluid mt-3">
+        <div class="container-fluid">
             <div class="row d-flex justify-content-center">
-   
+            <div class="col-12 p-0">
+                <div id="pagination-wrapper" class="primary_bg">
+                    <div class="pagination centered">
+                        {% if page_obj.has_previous %}
+                            <span class="step-links">
+                                <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=1 %}" class="secondary_font white_font">&laquo; first</a>
+                                <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}" class="secondary_font white_font">prev</a>
+                            {% endif %}
+                                <span class="current secondary_font white_font page_no_indicator">
+                                    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                                </span>
+                            {% if page_obj.has_next %}
+                                <span class="step-links">
+                                    <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}" class="secondary_font white_font">next</a>
+                                    <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}" class="secondary_font white_font">last &raquo;</a>
+                                </span>
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
             {% if job_collection %}
                 {% for job in job_collection %}
-                    <div class="col-12 col-md-6 col-lg-3 mb-5">
+                    <div class="col-12 col-md-6 col-lg-3 mb-5 mt-4">
                         <div class="card job_card">
                             {% if job.image %}
                                 <img src="{{ job.image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image">

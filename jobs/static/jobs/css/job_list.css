@@ -28,6 +28,14 @@
     -webkit-box-orient: vertical;
 }
 
+.pagination {
+    padding: 1rem 0;
+}
+
+.page_no_indicator {
+    margin: 0 .5rem;
+}
+
 /* Job Detail Modal */
 
 #job_poster_wrapper {
