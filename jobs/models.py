@@ -7,6 +7,20 @@ from pathlib import Path
 from PIL import Image
 
 
+class JobQuerySet(models.QuerySet):
+
+    def filter_by_params(self, filter_params):
+        return self.filter(**filter_params)
+
+class JobManager(models.Manager):
+
+    def get_queryset(self):
+        return JobQuerySet(self.model, using=self._db)
+
+    def filter_queryset(self, filter_params):
+        return self.get_queryset().filter_by_params(filter_params).order_by("-id")
+
+
 class Job(models.Model):
     """
     Model representing an instance of a job.
@@ -54,6 +68,7 @@ class Job(models.Model):
     interest_count = models.IntegerField(null=True, blank=True, default=0)
     is_taken = models.BooleanField(default=False)
 
+    objects = JobManager()
 
     def __str__(self):
         return f"{self.job_poster}'s job: {self.event_name}"
@@ -69,11 +84,11 @@ class Job(models.Model):
             return image
 
     def save(self, *args, **kwargs):
-        print("SELF")
-        print(self.image.file.name)
         if self.image:
             self.convert_to_webp(self.image.file)
         super().save(*args, **kwargs)
+
+
 
 
         
