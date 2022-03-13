@@ -14,6 +14,8 @@ from profiles.models import UserProfile, Instrument, Genre
 
 from .functions import handle_deplist_get
 
+from pathlib import Path
+
 
 
 
@@ -102,18 +104,30 @@ class JobListView(ListView):
     model = Job
     context_object_name = "job_collection"
 
-
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
+        context =  super().get_context_data(**kwargs) | self.pre_context
 
-        print("hello")
         job_form = JobForm()
 
         context["page_name"] = "job_list"
         context["job_form"] = job_form
 
+        context["instrument_list"] = Instrument.objects.all()
+
         return context
+
+    
+    def get_queryset(self):
+
+        self.pre_context = handle_deplist_get(self.request.GET)
+        print(self.pre_context)
+        
+        query = Job.objects.filter_queryset(
+            filter_params=self.pre_context["search_params"]
+        )
+        return query
+    
+
 
 
 def post_job(request):
@@ -133,6 +147,8 @@ def post_job(request):
         event_datetime = request.POST.get("event_datetime")
         parsed_datetime = parser.parse(event_datetime)
 
+        print(request.FILES.get("image"))
+
         # Prepare new request dictionary to allow inclusion of 
         # prepared datetime field.
         job_post_request = {
@@ -140,7 +156,6 @@ def post_job(request):
             "event_name": request.POST.get("event_name"),
             "artist_name": request.POST.get("artist_name"),
             "job_description": request.POST.get("job_description"),
-            "image": request.FILES.get("image"),
             "fee": request.POST.get("fee"),
             "event_city": request.POST.get("event_city"), 
             "event_country": request.POST.get("event_country"),
@@ -148,7 +163,7 @@ def post_job(request):
         }
 
         # Create JobForm object with post request included
-        job_form = JobForm(job_post_request)
+        job_form = JobForm(job_post_request, request.FILES)
 
         if job_form.is_valid():
             form = job_form.save(commit=False)

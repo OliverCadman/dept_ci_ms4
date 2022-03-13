@@ -14,13 +14,17 @@ def handle_deplist_get(params):
         "genre": None,
         "available_today": None,
         "search_params": {},
-        "city": None,
     }
 
     if "instrument" in params:
         instrument_arg = params["instrument"]
         context["instrument"] = instrument_arg
         context['search_params']["instruments_played__instrument_name__iexact"] = instrument_arg
+
+    if "instrument_required" in params:
+        instrument_required_arg = params["instrument_required"]
+        context["instrument"] = instrument_required_arg
+        context["search_params"]["instrument_required__instrument_name__iexact"] = instrument_required_arg
 
 
     if "last_name" in params:
