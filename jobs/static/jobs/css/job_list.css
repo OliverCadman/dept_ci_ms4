@@ -28,6 +28,22 @@
     -webkit-box-orient: vertical;
 }
 
+/* Job Detail Modal */
+
+#job_poster_wrapper {
+    width: 75%;
+    display: inline-block;
+}
+
+#poster_profile_image {
+    width: fit-content;
+    float: right;
+}
+
+#poster_profile_img_wrapper {
+    display: inline-block;
+}
+
 
 /* Large Screens and Up */
 @media screen and (min-width: 992px) {
