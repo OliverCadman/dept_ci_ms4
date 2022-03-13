@@ -83,7 +83,10 @@
                                         {% if job.image %}
                                         data-job-image="{{ job.image.url }}"
                                         {% endif %}
-                                        class="btn primary_bg secondary_font white_font d-block w-100 mb-2" data-bs-toggle="modal" data-bs-target="#job_detail_modal">
+                                        {% if job.job_poster.profile_image %}
+                                        data-job-poster-image="{{ job.job_poster.profile_image.url }}"
+                                        {% endif %}
+                                        class="btn primary_bg secondary_font white_font d-block w-100 mb-2 job_detail_btn" data-bs-toggle="modal" data-bs-target="#job_detail_modal">
                                             View Details
                                         </button>
                                         <button type="button" class="btn custom_success secondary_font white_font d-block w-100">
@@ -100,7 +103,7 @@
             </div>
         </div>
     </section>
-    <!-- Job Post/Job Detail Modal -->
+    <!-- Job Post Modal -->
     <aside>
         <div class="modal fade" id="job_advertisement_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -119,11 +122,55 @@
                 </div>
             </div>
         </div>
+        <!-- Job Detail Modal -->
         <div class="modal fade" id="job_detail_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h4 id="job_title">
+                        </h4>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body job_detail_wrapper">
+                        <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 p-0">
+                                        <div id="job_poster_wrapper">
+                                            <span id="job_poster"></span>
+                                        </div>
+                                        <div id="poster_profile_img_wrapper">
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <dl>
+                                            <dt>Venue:</dt>
+                                            <dd id="event_name"></dd>
+                                            <dt>Artist:</dt>
+                                            <dd id="artist_name"></dd>
+                                            <dt>City:</dt>
+                                            <dd id="event_city"></dd>
+                                            <dt>Country:</dt>
+                                            <dd id="event_country"></dd>
+                                            <dt>Fee:</dt>
+                                            <dd id="fee"></dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div id="job_desciption_wrapper">
+                                            <p id="job_description"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 cta_btns">
+                                        <button type="button" class="btn custom_success secondary_font white_font d-block w-100">
+                                            I'm Interested
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,4 +182,5 @@
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "jobs/js/job_fee_icons.js" %}"></script>
+    <script src="{% static "jobs/js/job_detail_modal.js" %}"></script>
 {% endblock %}
