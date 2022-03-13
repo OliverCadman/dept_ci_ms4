@@ -2,6 +2,8 @@
 <!-- Load static files -->
 {% load static %}
 
+{% load job_tags %}
+
 <!-- Crispy Forms -->
 {% load crispy_forms_tags %}
 
@@ -46,9 +48,9 @@
                             {% if job.image %}
                                 <img src="{{ job.image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image">
                             {% elif job.job_poster.profile_image %}
-                                <img src="{{ job.job_poster.profile_image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image">
+                                <img src="{{ job.job_poster.profile_image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% else %}
-                                <img src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ job.job_title }}" class="card-img-top job_image">
+                                <img src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% endif %}
                             <div class="card-body">
                                 <div class="card_detail">
@@ -67,6 +69,27 @@
                                             {{ job.job_description }}
                                         </p>
                                     </div>
+                                    <div class="cta_btn_wrapper">
+                                        <button type="button"
+                                        data-job-title="{{ job.job_title }}"
+                                        data-event-name="{{ job.event_name }}"
+                                        data-artist-name="{{ job.artist_name }}"
+                                        data-event-city="{{ job.event_city }}"
+                                        data-event-country="{{ job.event_country }}"
+                                        data-event-date="{{ job.event_datetime }}"
+                                        data-job-poster="{{ job.job_poster }}"
+                                        data-job-description="{{ job.job_description }}"
+                                        data-job-fee="{{ job.fee }}"
+                                        {% if job.image %}
+                                        data-job-image="{{ job.image.url }}"
+                                        {% endif %}
+                                        class="btn primary_bg secondary_font white_font d-block w-100 mb-2" data-bs-toggle="modal" data-bs-target="#job_detail_modal">
+                                            View Details
+                                        </button>
+                                        <button type="button" class="btn custom_success secondary_font white_font d-block w-100">
+                                            I'm Interested
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +100,7 @@
             </div>
         </div>
     </section>
-    <!-- Job Post Modal -->
+    <!-- Job Post/Job Detail Modal -->
     <aside>
         <div class="modal fade" id="job_advertisement_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -92,6 +115,15 @@
                                 {% crispy job_form %}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="job_detail_modal">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+
                     </div>
                 </div>
             </div>
