@@ -156,6 +156,7 @@
                                     <h5 class="primary_font med_text text-center">Your Star Rating</h5>
                                     <div id="rating_display" class="centered_column">
                                         <input type="hidden" value="{{ average_rating.average_rating }}" class="review_rating_no">
+                                        <input type="hidden" id="average_rating">
                                         {% if received_reviews|length > 0 %}
                                             <div class="star-icons inline">
 
@@ -274,14 +275,14 @@
             <div class="modal fade" id="invitation_detail_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header dashboard-modal-header">
+                        <div class="modal-header custom-modal-header">
                             <h2 id="modal_event_name"></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body dashboard-modal-body">
+                        <div class="modal-body custom-modal-body">
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt class="modal_detail">
+                                    <dt class="primary_font white_font">
                                         {% if current_page == "jobs" and current_section == "invites_received" %}
                                             Invited by:
                                         {% elif current_page == "jobs" and current_section == "invites_sent" %}
@@ -295,7 +296,7 @@
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt class="modal_detail">
+                                    <dt class="primary_font white_font">
                                         Event Location
                                     </dt>
                                     <dd id="modal_event_location" class="modal_detail"></dd>
@@ -303,7 +304,7 @@
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt class="modal_detail">
+                                    <dt class="primary_font white_font">
                                         Event Date & Time
                                     </dt>
                                     <dd id="modal_event_datetime" class="modal_detail"></dd>
@@ -311,7 +312,7 @@
                             </div>
                             <div class="modal_detail_wrapper">
                                 <dl>
-                                    <dt class="modal_detail">
+                                    <dt class="primary_font white_font">
                                         Additional Details
                                     </dt>
                                     <dd id="modal_additional" class="modal_detail"></dd>
@@ -324,11 +325,11 @@
             <div class="modal fade" id="message_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header dashboard-modal-header">
+                        <div class="modal-header custom-modal-header">
                             <h6 id="message_modal_header"></h6>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body dashboard-modal-body">
+                        <div class="modal-body custom-modal-body">
                             <div id="message_container">
                                 <input type="hidden" value="{{ user_profile.user.pk }}" id="request_user_id">
                                 <div id="message_display_container">
@@ -354,11 +355,11 @@
         {% if current_page == "dashboard" %}
         <script src="https://js.stripe.com/v3/"></script>
         <script src="{% static "subscriptions/js/checkout.js" %}"></script>
+        <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
 
         <!-- Progress Bar JS -->
         <script src="{% static "profiles/js/progress_bar.js" %}"></script>
         {% endif %}
         <script src="{% static "js/format_date.js" %}"></script>
         <script src="{% static "profiles/js/dashboard_modals.js" %}"></script>
-        <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
 {% endblock %}
