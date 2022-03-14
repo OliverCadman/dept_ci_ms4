@@ -19,95 +19,186 @@
             <div class="row">
                 <div class="col-12">
                     <div id="booking_form_container" class="form-container">
-                        <form action="{% url 'booking_form' invitation.pk %}" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.event_name|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.artist_name|as_crispy_field }}
-                                </div>
-                            </div>
-                            <!-- Event Address -->
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.venue_name|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.street_address1|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.street_address2|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.event_city|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.event_country|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.postcode|as_crispy_field }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.event_datetime|as_crispy_field }}
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    {{ invitation_form.fee|as_crispy_field }}
-                                </div>
-                                <div class="col-12">
-                                    {{ invitation_form.additional_info|as_crispy_field }}
-                                </div>
-                                <div class="col-12">
-                                <!-- Dynamic Audio Formset -->
-                                {% if audio_formset %}
-                                    <h3 class="primary_font">Your Audio Files</h3>
-                                    <p><small class="secondary_font alert_style">Each file should not exceed 5MB</small></p>
-                                    <!-- Formset Management -->
-                                    {{ audio_formset.management_form }}
-                                    <!---->
-                                    <div id="audio_form_list">
-                                        {% for form in audio_formset %}
-                                            <div class="audio_form">
-                                                {{ form|crispy }}
-                                            </div>
-                                        {% endfor %}
-                                    
+                        {% if not page_name == "tier_two_booking_form" %}
+                            <form action="{% url 'booking_form' invitation.pk %}?event_tier=tier_one" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.event_name|as_crispy_field }}
                                     </div>
-                                    <div id="empty_form" class="hidden">
-                                        {{ audio_formset.empty_form|crispy }}
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.artist_name|as_crispy_field }}
                                     </div>
-                                    <!-- Display Error if more than 15 forms are added to formset -->
-                                    <p id="audiofile_error_message"></p>
-                                    <button type="button" class="btn form-btn audio_form_btn" id="add_more_btn">Add More Audio</button>
-                                {% endif %}
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6 centered mt-3 mt-md-0">
-                                    {{ booking_form.travel_provided|as_crispy_field }}
+                                <!-- Event Address -->
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.venue_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.street_address1|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.street_address2|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.event_city|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.event_country|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.postcode|as_crispy_field }}
+                                    </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.travel_info|as_crispy_field }}
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.event_datetime|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ invitation_form.fee|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12">
+                                        {{ invitation_form.additional_info|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12">
+                                    <!-- Dynamic Audio Formset -->
+                                    {% if audio_formset %}
+                                        <h3 class="primary_font">Your Audio Files</h3>
+                                        <p><small class="secondary_font alert_style">Each file should not exceed 5MB</small></p>
+                                        <!-- Formset Management -->
+                                        {{ audio_formset.management_form }}
+                                        <!---->
+                                        <div id="audio_form_list">
+                                            {% for form in audio_formset %}
+                                                <div class="audio_form">
+                                                    {{ form|crispy }}
+                                                </div>
+                                            {% endfor %}
+                                        
+                                        </div>
+                                        <div id="empty_form" class="hidden">
+                                            {{ audio_formset.empty_form|crispy }}
+                                        </div>
+                                        <!-- Display Error if more than 15 forms are added to formset -->
+                                        <p id="audiofile_error_message"></p>
+                                        <button type="button" class="btn form-btn audio_form_btn" id="add_more_btn">Add More Audio</button>
+                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6 centered mt-3 mt-md-0">
-                                    {{ booking_form.backline_provided|as_crispy_field }}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 centered mt-3 mt-md-0">
+                                        {{ booking_form.travel_provided|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.travel_info|as_crispy_field }}
+                                    </div>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    {{ booking_form.backline_info|as_crispy_field }}
+                                <div class="row">
+                                    <div class="col-12 col-md-6 centered mt-3 mt-md-0">
+                                        {{ booking_form.backline_provided|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.backline_info|as_crispy_field }}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 submit_btn_container">
-                                    <button type="submit" class="btn submit-btn">Submit</button>
+                                <div class="row">
+                                    <div class="col-12 submit_btn_container">
+                                        <button type="submit" class="btn submit-btn">Submit</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                     
+                            </form>
+                        {% else %}
+                            <form action="{% url "tier_two_booking_form" job.pk %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.event_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.artist_name|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.venue_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.street_address1|as_crispy_field }}
+                                    </div>
+                                     <div class="col-12 col-md-6">
+                                        {{ booking_form.street_address2|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.event_city|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.event_country|as_crispy_field }}
+                                    </div> 
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.postcode|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ job_form.job_description|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.event_datetime|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ job_form.fee|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        {% if audio_formset %}
+                                        <h3 class="primary_font">Your Audio Files</h3>
+                                        <p><small class="secondary_font alert_style">Each file should not exceed 5MB</small></p>
+                                        <!-- Formset Management -->
+                                        {{ audio_formset.management_form }}
+                                        <!---->
+                                        <div id="audio_form_list">
+                                            {% for form in audio_formset %}
+                                                <div class="audio_form">
+                                                    {{ form|crispy }}
+                                                </div>
+                                            {% endfor %}
+                                        
+                                        </div>
+                                        <div id="empty_form" class="hidden">
+                                            {{ audio_formset.empty_form|crispy }}
+                                        </div>
+                                        <!-- Display Error if more than 15 forms are added to formset -->
+                                        <p id="audiofile_error_message"></p>
+                                        <button type="button" class="btn form-btn audio_form_btn" id="add_more_btn">Add More Audio</button>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 centered mt-3 mt-md-0">
+                                        {{ booking_form.travel_provided|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.travel_info|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 centered mt-3 mt-md-0">
+                                        {{ booking_form.backline_provided|as_crispy_field }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{ booking_form.backline_info|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 submit_btn_container">
+                                        <button type="submit" class="btn submit-btn">Submit</button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -23,6 +23,8 @@ from social.models import Message
 from social.functions import reverse_querystring
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
+from jobs.models import Job
+from jobs.forms import JobForm
 
 
 def invitation_form_view(request):
@@ -79,6 +81,7 @@ def get_invitation_messages(request, pk):
         Additionally, all message objects for the given invitation
         are updated with 'is_read' status, and saved to the database.
         """
+
         invitation = get_object_or_404(Invitation, pk=pk)
 
         messages = invitation.invitation_messages.all()
@@ -264,8 +267,11 @@ def booking_form(request, invitation_pk):
                     child_form.related_booking = parent_form
                 child_form.save()
 
+
             request.session["booking_id"] = (
                 current_booking.related_invitation.invitation_number)
+
+            request.session["tier_one_booking_form"] = True
 
             messages.success(request, "Booking Form Submitted")
             return redirect(reverse("booking_success", args=[current_booking.id]))
@@ -283,6 +289,81 @@ def booking_form(request, invitation_pk):
     return render(request, "bookings/booking_form.html", context=context)
 
 
+def tier_two_booking_form(request, job_id):
+    """
+    Tier Two Booking Form
+
+    Displays and handles all form data related to a confirmed Job related to the
+    Tier Two "Find a Job" feature.
+    Contains two forms:
+
+    - Booking Form
+    - AudioFormset Factory
+
+    AudioFormsetFactory provides dynamic addition of audio form file fields.
+    """
+
+    current_job = get_object_or_404(Job, pk=job_id)
+    current_user = get_object_or_404(UserProfile, user__username=request.user.username)
+
+    # Restrict access to page to user responsible for invite.
+    if (current_job.job_poster != current_user):
+        messages.warning(request, mark_safe("You may not browse another member's booking."))
+        return redirect("home")
+
+    current_booking = get_object_or_404(Booking, related_job=current_job)
+
+    job_form = JobForm(instance=current_job)
+    booking_form = BookingForm()
+
+    # Initialize formset factory and query booking object for audio files
+    AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
+    queryset = current_booking.audio_resources.all()
+    audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
+                                        queryset=queryset)
+
+    if request.method == "POST":
+        booking_form = BookingForm(request.POST or None, instance=current_booking)
+        audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
+                                            queryset=queryset)
+
+        if all([booking_form.is_valid(), audio_formset.is_valid()]):
+            # Process Booking Form
+            parent_form = booking_form.save(commit=False)
+            parent_form.save()
+
+            try:
+                current_booking.booking_details_sent = True
+                current_booking.save()
+            except Exception as e:
+                print(f"Exception: {e}")
+
+            for form in audio_formset:
+                child_form = form.save(commit=False)
+                # Assign Audio Formset to related booking (if not done so already)
+                if child_form.related_booking is None:
+                    child_form.related_booking = parent_form
+                child_form.save()
+
+            request.session["tier_two_booking_form_submit"] = True
+
+            messages.success(request, "Booking Form Submitted")
+            return redirect(reverse("booking_success", args=[current_booking.id]))
+        else:
+            messages.error(request, "Your form was invalid, please try again.")
+
+    context = {
+        "job_form": job_form,
+        "booking_form": booking_form,
+        "audio_formset": audio_formset,
+        "job": current_job,
+        "page_name": "tier_two_booking_form",
+    }
+
+    return render(request, "bookings/booking_form.html", context=context)
+
+
+
 class BookingSuccessView(View):
     """
     Booking Success View
@@ -292,16 +373,23 @@ class BookingSuccessView(View):
     """
     def get(self, request, booking_id):
         event = get_object_or_404(Booking, pk=booking_id)
-
+        
+        print(self.request.session.get("tier_two_booking_form_submit"))
+        tier_type = None
+        if not self.request.session.get("tier_two_booking_form_submit"):
+            tier_type = 1
         # Restricts access to page only to users associated with the booking.
-        if (not event.related_invitation.invite_sender.user.username == request.user.username
-            and not event.related_invitation.invite_receiver.user.username == request.user.username):
-            messages.warning(request, mark_safe("You may not browse another user's booking."))
-            return redirect(reverse("home"))
+            if (not event.related_invitation.invite_sender.user.username == request.user.username
+                and not event.related_invitation.invite_receiver.user.username == request.user.username):
+                messages.warning(request, mark_safe("You may not browse another user's booking."))
+                return redirect(reverse("home"))
+        else:
+            tier_type = 2
 
         context = {
             "page_name": "booking_success",
             "event": event,
+            "tier_type": tier_type
         }
 
         return render(request, "bookings/booking_success.html",
@@ -430,8 +518,11 @@ def get_invitation_id(request, booking_id):
     Utilised in dashboard_modals.js file in 'profiles' app.
     To trigger a specific message modal upon page load.
     """
-    requested_booking = get_object_or_404(Booking, pk=booking_id)
-    invitation_id = requested_booking.related_invitation.pk
-    return JsonResponse({"invitation_id": invitation_id})
+
+    if not request.session.get("tier_two_booking_form_submit"):
+        requested_booking = get_object_or_404(Booking, pk=booking_id)
+        invitation_id = requested_booking.related_invitation.pk
+        return JsonResponse({"invitation_id": invitation_id})
+    return HttpResponse(status=200)
 
 
