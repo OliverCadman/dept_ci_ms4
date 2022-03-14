@@ -210,12 +210,12 @@ $(document).ready(function() {
                   <div class="invitation-card-header justify_between_row">
                     <div class="invitation-card-title">
                       <p class="primary_font med_small_text">${member.first_name} ${member.last_name}</p> 
-                      <p class="secondary_font small_text">${member.city}, ${member.country}</p>
+                      <p class="primary_font light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-location-dot"></i></span>${member.city}, ${member.country}</p>
                     </div>
                     <img src="${member.profile_image}" alt="Member Avatar" class="modal_avatar" width="40" height="40">
                   </div>
                   <div class="invitation-card-body">
-                      <p class="secondary_font small_text">${membersInstruments}</p>
+                      <p class="primary_font light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-guitar"></i></span>${membersInstruments}</p>
                   </div>
                   <div class="invitation-btn-wrapper">
                     <a href="/profile/${member.username}" class="btn primary_bg white_font secondary_font modal_btn mb-2 mt-3">Visit Profile</a>

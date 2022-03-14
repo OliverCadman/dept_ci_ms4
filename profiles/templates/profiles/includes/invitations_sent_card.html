@@ -1,6 +1,6 @@
 {% load custom_tags %}
 
-<div class="invitation-card">
+<div class="job-card">
     {% if invitation.is_accepted %}
         <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
     {% endif %}
@@ -8,12 +8,13 @@
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
     </div>
     <p class="invitation_card_title">Invitation to {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_name }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-circle-play"></i></span>{{ invitation.event_name }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-location-dot"></i></span>{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-clock"></i></span>{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-money-bill-1"></i></span>£{{ invitation.fee }}</p>
     <div class="invitation_btn_wrapper">
         {% if not invitation.is_accepted %}
-            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</a>
+            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</button>
         {% else %}
             <a href="{% url "booking_form" invitation.pk %}" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
         {% endif %}

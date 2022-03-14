@@ -1,5 +1,5 @@
 {% load custom_tags %}
-<div class="invitation-card">
+<div class="job-card">
     {% if invitation.is_accepted %}
         <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
     {% endif %}
@@ -7,10 +7,10 @@
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
     </div>
     <p class="invitation_card_title">Invitation from {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_name|capfirst }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
-    <p class="invitation_card_detail">{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>    
-    <p class="invitation_card_detail">£{{ invitation.fee }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-circle-play"></i></span>{{ invitation.event_name|capfirst }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-location-dot"></i></span>{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-clock"></i></span>{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>    
+    <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-money-bill-1"></i></span>£{{ invitation.fee }}</p>
     <div class="invitation_btn_wrapper">
         {% if not invitation.is_accepted %}
             <button class="modal-trigger btn invitation_card_btn view_detail_btn" data-bs-toggle="modal"
@@ -38,7 +38,7 @@
         data-invite-username={{ invitation.invite_sender.user }}
         data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk }}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
-        data-modal-profile-img="{% if invitation.invite_sender.profile_image %}{{ invitation.invite_sender.profile_image.url }{% endif %}"
+        data-modal-profile-img="{% if invitation.invite_sender.profile_image %}{{ invitation.invite_sender.profile_image.url }}{% endif %}"
         data-invitation-id="{{ invitation.pk }}">
             Message {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}
                 {% if invitation|count_unread_messages %}

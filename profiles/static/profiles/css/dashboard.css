@@ -77,6 +77,12 @@
     font-weight: 600;
 }
 
+.dashboard_card_icon {
+    font-size: 1.25rem;
+    margin: 0 0.25rem;
+    color: #727294;
+}
+
 .benefits-list {
     display: flex;
     flex-direction: column;
@@ -156,6 +162,30 @@
     padding: 1rem 0;
 }
 
+#job_offer_modal_container {
+    height: 400px;
+    overflow: auto;
+}
+
+.job-card.job_offer_modal {
+    padding: 1.75rem .75rem;
+}
+
+.modal_btn {
+    width: 100%;
+}
+
+
+
+.modal_avatar {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+}
+
+
+
 /* Sidebar Filter Bootstrap Accordion */
 
 .filter_sidebar_container {
@@ -196,7 +226,7 @@
 
 /* Invitation Cards */
 
-.invitation-card {
+.job-card {
     border-radius: 10px;
     padding: .75rem .4rem;
     background-color: #f7f7f7;
@@ -428,7 +458,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
         display: inline;
     } 
 
-    .invitation-card {
+    .job-card {
         padding: .3rem .5rem;
         margin: 1rem 0;
     }
@@ -488,7 +518,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
 
     }
 
-    .invitation-card {
+    .job-card {
         position: relative;
     }
 

@@ -15,7 +15,7 @@ $(document).ready(function() {
 
        // Traverse DOM to find the star_rating_wrapper relative to each input in the loop.
        let starRatingWrapper = hiddenRatingInputs[i].parentElement.children[1]
-       console.log(starRatingWrapper)
+
         
        // Create filled FontAwesome stars for each point of rating
        for (let k = 0; k < rating; k++) {
@@ -45,8 +45,9 @@ $(document).ready(function() {
     
     // Grab values from json_script
     const currentPath = window.location.href
-    const endPoint = currentPath.split("/")[3]
-    console.log(endPoint)
+    let endPoint = currentPath.split("/")[3]
+    let dashboardEndpoint = currentPath.split("/")[4];
+
     if (endPoint === "profile") {
          let averageRating =
            document.getElementById("average_rating").textContent;
@@ -89,9 +90,5 @@ $(document).ready(function() {
            numOfReviewsDisplay.className = "secondary_font white_font";
            container.appendChild(numOfReviewsDisplay);
          }
-    } else {
-        
     }
-   
-
 })
