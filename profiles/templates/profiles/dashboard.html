@@ -188,7 +188,7 @@
                                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
                                             Tier One
                                         </a>
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn bg-warning w-100 switch_btn">
                                             Tier Two
                                         </a>
                                     </div>
@@ -277,10 +277,10 @@
                                 <div class="col-12 col-md-8 p-0">
                                         <div id="job_page_breadcrumb_wrapper">
                                             <div class="job-nav-button-wrapper">
-                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}active{% endif %}">My Offers</a>
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=offers_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" %}active{% endif %}">My Offers</a>
                                             </div>
                                             <div class="job-nav-button-wrapper">
-                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}active{% endif %}">My Posted Jobs</a>
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}active{% endif %}">My Posted Jobs</a>
                                             </div>
                                         </div>
                                     </div>
@@ -324,12 +324,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}
-                                        {% if invitations_sent %}
+                                    {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}
+                                        {% if posted_jobs %}
                                             <div class="col-12 col-md-8 col-lg-10 col-xl-8">
-                                                    {% for invitation in invitations_sent %}
-                                                        {% include "profiles/includes/invitations_sent_card.html" %}
-                                                    {% endfor %}
+                                                {% for job in posted_jobs %}
+                                                    {{ job }}
+                                                {% endfor %}
                                             </div>
                                             {% else %}
                                                     <div class="col-12 col-md-8 col-xl-8 no-results-display">
