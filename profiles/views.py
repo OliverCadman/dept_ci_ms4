@@ -334,14 +334,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
         received_reviews = user_profile.received_reviews.all()
-        print(received_reviews)
         average_rating = 0
         if received_reviews:
             average_rating = user_profile.calculate_average_rating
             print(average_rating)
 
         current_page = "dashboard"
-        current_section = "invites_sent"
+        current_section = "tier_one"
+        current_subsection = "invites_received"
         current_filter = "all"
 
         # Grab Booking ID if user is visiting dashboard from
@@ -374,31 +374,34 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             current_page = self.request.GET["page"]
             if "section" in self.request.GET:
                 current_section = self.request.GET["section"]
-                if current_section == "invites_sent":
-                    if "filter" in self.request.GET: 
-                        current_filter = self.request.GET["filter"]
-                        if current_filter == "all":
-                            invitations_sent = user_profile.invitations_sent.all()
-                        elif current_filter == "pending":
-                            invitations_sent = user_profile.invitations_sent.filter(is_accepted=False)
-                        elif current_filter == "accepted":
-                            invitations_sent = user_profile.invitations_sent.filter(is_accepted=True)
-                elif current_section == "invites_received":
-                    if "filter" in self.request.GET:
-                        current_filter = self.request.GET["filter"]
-                        if current_filter == "all":
-                            invitations_received = user_profile.invitations_received.all()
-                        elif current_filter == "pending":
-                            invitations_received = user_profile.invitations_received.filter(is_accepted=False)
-                        elif current_filter == "accepted":
-                            invitations_received = user_profile.invitations_received.filter(is_accepted=True)
-                        elif current_filter == booking_id:
-                            invitations_received = user_profile.invitations_received.filter(
-                                related_booking__pk=booking_id)
-                        elif current_filter == invitation_id:
-                            invitations_received = user_profile.invitations_received.filter(
-                                pk=invitation_id
-                            )
+                if current_section == "tier_one":
+                    if "subsection" in  self.request.GET:
+                        current_subsection = self.request.GET["subsection"]
+                        if current_subsection == "invites_sent":
+                            if "filter" in self.request.GET: 
+                                current_filter = self.request.GET["filter"]
+                                if current_filter == "all":
+                                    invitations_sent = user_profile.invitations_sent.all()
+                                elif current_filter == "pending":
+                                    invitations_sent = user_profile.invitations_sent.filter(is_accepted=False)
+                                elif current_filter == "accepted":
+                                    invitations_sent = user_profile.invitations_sent.filter(is_accepted=True)
+                        elif current_subsection == "invites_received":
+                            if "filter" in self.request.GET:
+                                current_filter = self.request.GET["filter"]
+                                if current_filter == "all":
+                                    invitations_received = user_profile.invitations_received.all()
+                                elif current_filter == "pending":
+                                    invitations_received = user_profile.invitations_received.filter(is_accepted=False)
+                                elif current_filter == "accepted":
+                                    invitations_received = user_profile.invitations_received.filter(is_accepted=True)
+                                elif current_filter == booking_id:
+                                    invitations_received = user_profile.invitations_received.filter(
+                                        related_booking__pk=booking_id)
+                                elif current_filter == invitation_id:
+                                    invitations_received = user_profile.invitations_received.filter(
+                                        pk=invitation_id
+                                    )
                         
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
@@ -414,6 +417,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "current_user": current_user,
             "current_page" : current_page,
             "current_section": current_section,
+            "current_subsection": current_subsection,
             "tier_two_price_id": tier_two_price_id,
             "invitations_sent": invitations_sent,
             "invitations_received": invitations_received,

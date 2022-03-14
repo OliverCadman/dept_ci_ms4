@@ -25,7 +25,7 @@
                         <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item dashboard">
-                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
+                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
                     </li>
                     <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}">Reset Your Password</a>
@@ -184,16 +184,25 @@
                 <div id="job_container">
                     <div class="container-fluid">
                         <div class="row d-flex justify-content-center">
-                            <div class="col-12 p-0">
+                            <div class="col-12 col-md-4 job_page_switch_wrapper centered">
+                                <div id="job_page_switch_btns">
+                                    <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
+                                        Tier One
+                                    </a>
+                                    <a href="{% url "dashboard" current_user %}?page=jobs=&section=tier_two&filter=all" class="btn bg-warning w-100 switch_btn">
+                                        Tier Two
+                                    </a>
+                                </div>
+                            </div>
+                            {% if current_page == "jobs" and current_section == "tier_one" %}
+                            <div class="col-12 col-md-8 p-0">
                                 <div id="job_page_breadcrumb_wrapper">
-                                     {% if current_page == "jobs" %}
                                     <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "invites_sent"%}active{% endif %}">Sent Invitations</a>
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}active{% endif %}">Sent Invitations</a>
                                     </div>
                                     <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "invites_received"%}active{% endif %}">Received Invitations</a>
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}active{% endif %}">Received Invitations</a>
                                     </div>
-                                {% endif %} 
                                 </div>
                             </div>
                         </div>
@@ -236,7 +245,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if current_page == "jobs" and current_section == "invites_sent" %}
+                            {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}
                                 {% if invitations_sent %}
                                    <div class="col-12 col-md-8 col-lg-10 col-xl-8">
                                         {% for invitation in invitations_sent %}
@@ -248,7 +257,7 @@
                                             <p>No Invitations</p>
                                         </div>
                                 {% endif %}
-                            {% elif current_page == "jobs" and current_section == "invites_received" %}
+                            {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
                                 {% if invitations_received %}
                                     <div class="col-12 col-md-8 col-lg-10 col-xl-8">
                                         {% for invitation in invitations_received %}
@@ -265,6 +274,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             {% elif current_page == "reset_password" %}
                 <h2>Reset Your Password</h2>
             {% elif current_page == "membership" %}
