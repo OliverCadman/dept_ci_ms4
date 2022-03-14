@@ -365,6 +365,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         invitations_sent = None
         invitations_received = None
 
+        posted_jobs = None
+
         """
         Change pages and nested sections of dashboard page.
         Filter invitations relative to URL filter params:
@@ -402,6 +404,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     invitations_received = user_profile.invitations_received.filter(
                                         pk=invitation_id
                                     )
+                elif current_section == "tier_two":
+                    if "subsection" in self.request.GET:
+                        current_subsection = self.request.GET["subsection"]
+                        if current_subsection == "posted_jobs":
+                            if "filter" in self.request.GET:
+                                current_filter = self.request.GET["filter"]
+                                if current_filter == "all":
+                                    posted_jobs = user_profile.posted_jobs.all()
+                                elif current_filter == "pending":
+                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=False)
+                                elif current_filter == "accepted":
+                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
                         
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
@@ -424,7 +438,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "received_reviews": received_reviews,
             "average_rating": average_rating,
             "message_form": message_form,
-
+            "posted_jobs": posted_jobs
         }
+
+        print(context["current_page"])
+        print(context["current_section"])
 
         return context
