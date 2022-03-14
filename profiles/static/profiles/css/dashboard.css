@@ -10,6 +10,11 @@
     border-top: 10px solid #aaa;
 }
 
+.switch_btn {
+    margin: 0.4rem 0;
+}
+
+
 #job_nav {
     width: 100%;
 }
@@ -122,7 +127,34 @@
 
 }
 
-/* ------ Job Page ------ */
+/* Tier Two */
+
+.avatar_list {
+    list-style: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.avatar_list li {
+    display: inline-block;
+}
+
+.avatar_thumbnail {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #eee;
+}
+
+.overlap_item {
+    margin-right: -20px;
+}
+
+.card_detail_wrapper {
+    padding: 1rem 0;
+}
 
 /* Sidebar Filter Bootstrap Accordion */
 
@@ -266,22 +298,6 @@ https://codepen.io/thetallweeks/pen/yybGra */
 
 /* Message Modal */
 
-.dashboard-modal-header {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 600;
-    color: #fefefe;
-    background-color: #14161b;
-    border-bottom: none;
-}
-
-.dashboard-modal-body {
-    background-color: #1f2131;
-}
-
-.btn-close {
-    background-color: #fefefe;
-}
-
 .modal_profile_img {
     border-radius: 50%;
     object-fit: cover;
@@ -392,6 +408,10 @@ https://codepen.io/thetallweeks/pen/yybGra */
         padding-left: 1rem;
     }
 
+    .job_page_switch_wrapper {
+        border-right: 5px solid #ddd;
+    }
+
     /* Sidebar */
 
     .filter_sidebar_container {
@@ -427,7 +447,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
         font-size: 2rem;
     }
 
-    /* Jobs Page */
+    /* --- Jobs Page --- */
    
 
     .breadcrumb-item.job a {
@@ -447,6 +467,13 @@ https://codepen.io/thetallweeks/pen/yybGra */
     .job-nav-btn {
         padding: 1rem;
         margin: 0 1rem;
+    }
+
+    /* Tier Two */
+
+    .avatar_thumbnail {
+        width: 55px;
+        height: 55px;
     }
 }
 
@@ -517,5 +544,9 @@ https://codepen.io/thetallweeks/pen/yybGra */
     .breadcrumb-item.job a {
         padding: .2rem .4rem;
         margin: 0;
+    }
+
+    .card_detail_wrapper {
+        padding: 2rem 0;
     }
 }

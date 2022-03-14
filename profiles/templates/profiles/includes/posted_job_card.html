@@ -1,0 +1,48 @@
+<div class="invitation-card">
+    {% if invitation.is_accepted %}
+        <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
+    {% endif %}
+    <div class="avatar_container position-relative float-end mt-3">
+        {% if job.interested_member.all|length > 0 %}
+            <span class="badge position-absolute top-0 start-0 translate-middle bg-success secondary_font">{{ job.interested_member.all|length }} members interested</span>
+            <ul class="avatar_list me-3">
+                {% for member in job.interested_member.all %}
+                    <li>
+                        {% if member.profile_image %}
+                            <img src="{{ member.profile_image.url }}" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
+                        {% else %}
+                            <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div class="card_detail_wrapper">
+        <p class="invitation_card_title">{{ job.job_title }}</p>
+        <p class="invitation_card_detail">{{ job.event_name }}</p>
+        <p class="invitation_card_detail">{{ job.event_city}}, {{ job.event_country.name }}</p>
+        <p class="invitation_card_detail">{{ job.event_datetime|date:"d/m/Y H:i" }}</p>
+    </div>
+    <div class="invitation_btn_wrapper">
+            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</button>
+
+            <a href="#" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
+
+        <button class="btn invitation_card_btn message_modal_btn position-relative"
+        data-bs-toggle="modal"
+        data-bs-target="#message_modal"
+        data-invite-fname="{{ invitation.invite_receiver.first_name }}"
+        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+        data-invite-username="{{ invitation.invite_receiver.user }}"
+        data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
+        data-modal-profile-img="{% if invitation.invite_receiver.profile_image %}{{ invitation.invite_receiver.profile_image.url }}{% endif %}"
+        data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
+        data-invitation-id="{{ invitation.pk }}">
+            Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}
+
+                <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
+
+        </button>
+    </div>
+</div>
