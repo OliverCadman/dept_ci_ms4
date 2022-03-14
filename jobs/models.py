@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django_countries.fields import CountryField
 
 from profiles.models import UserProfile, Instrument
@@ -59,8 +60,9 @@ class Job(models.Model):
 
     job_poster = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                    related_name="posted_jobs")
-    interested_member = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
-                                          null=True, blank=True, related_name="jobs")
+    interested_member = models.ManyToManyField(UserProfile, null=True, blank=True)
+    confirmed_member = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True,
+                                         blank=True, related_name="confirmed_jobs")
     job_title = models.CharField(null=True, max_length=150)
     image = models.ImageField(upload_to="job_images", null=True, blank=True)
     event_name = models.CharField(max_length=150)
@@ -89,9 +91,12 @@ class Job(models.Model):
             print(image.size)
             return image
 
+
+
     def save(self, *args, **kwargs):
         if self.image:
             self.convert_to_webp(self.image.file)
+     
         super().save(*args, **kwargs)
 
 

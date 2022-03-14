@@ -6,9 +6,9 @@ from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from profiles.models import UserProfile
-import uuid
+from jobs.models import Job
 
-import datetime
+import uuid
 
 
 class Invitation(models.Model):
@@ -46,7 +46,10 @@ class Invitation(models.Model):
 
 class Booking(models.Model):
     related_invitation = models.OneToOneField(Invitation, on_delete=models.CASCADE,
-                                              related_name="related_booking")
+                                              related_name="related_booking", null=True,
+                                              blank=True)
+    related_job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name="related_job",
+                                       null=True, blank=True)
     venue_name = models.CharField(max_length=100, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
@@ -133,4 +136,3 @@ class Review(models.Model):
             self.review_created = timezone.now()
         self.review_modified = timezone.now()
         return super(Review, self).save(*args, **kwargs)
-
