@@ -173,7 +173,6 @@
                                                 </p>
                                             </div>
                                         {% endif %}
-
                                     </div>
                                 </div>
                             </div>
@@ -181,107 +180,188 @@
                     </div>
                 </div>
                 {% elif current_page == "jobs" %}
-                <div id="job_container">
-                    <div class="container-fluid">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-12 col-md-4 job_page_switch_wrapper centered">
-                                <div id="job_page_switch_btns">
-                                    <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
-                                        Tier One
-                                    </a>
-                                    <a href="{% url "dashboard" current_user %}?page=jobs=&section=tier_two&filter=all" class="btn bg-warning w-100 switch_btn">
-                                        Tier Two
-                                    </a>
-                                </div>
-                            </div>
-                            {% if current_page == "jobs" and current_section == "tier_one" %}
-                            <div class="col-12 col-md-8 p-0">
-                                <div id="job_page_breadcrumb_wrapper">
-                                    <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}active{% endif %}">Sent Invitations</a>
-                                    </div>
-                                    <div class="job-nav-button-wrapper">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}active{% endif %}">Received Invitations</a>
+                    <div id="job_container">
+                        <div class="container-fluid">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-12 col-md-4 job_page_switch_wrapper centered">
+                                    <div id="job_page_switch_btns">
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
+                                            Tier One
+                                        </a>
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
+                                            Tier Two
+                                        </a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="d-none d-md-block dashboard-block-divider">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 col-md-4 col-lg-2 col-xl-4 p-0">
-                                <div class="filter_sidebar_container accordion" id="filter_accordion">
-                                    <div class="accordion-item">
-                                        <h5 class="accordion-header custom-accordion-header" id="accordion_header">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_dropdown" aria-expanded="true" aria-controls="filter_dropdown">
-                                                Filter Invitations
-                                            </button>
-                                        </h5>
-                                        <div class="accordion-collapse show" id="filter_dropdown" aria-labelledby="accordion_header" data-bs-parent="#filter_accordion">
-                                            <div class="accordion-body">
-                                                <ul id="sidebar_filter_list">
-                                                    <li>
-                                                        <a 
-                                                        href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
-                                                        <hr>
-                                                        <ul id="sidebar_nested_list">
-                                                            <li>
-                                                                <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
-                                                            </li>
-                                                            <hr>
-                                                            <li>
-                                                                <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
-                                                            </li>
-                                                            <hr>
-                                                            <li>
-                                                                <a href="#">Completed</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
+                                {% if current_page == "jobs" and current_section == "tier_one" %}
+                                    <div class="col-12 col-md-8 p-0">
+                                        <div id="job_page_breadcrumb_wrapper">
+                                            <div class="job-nav-button-wrapper">
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}active{% endif %}">Sent Invitations</a>
+                                            </div>
+                                            <div class="job-nav-button-wrapper">
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}active{% endif %}">Received Invitations</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}
-                                {% if invitations_sent %}
-                                   <div class="col-12 col-md-8 col-lg-10 col-xl-8">
-                                        {% for invitation in invitations_sent %}
-                                            {% include "profiles/includes/invitations_sent_card.html" %}
-                                        {% endfor %}
-                                   </div>
-                                {% else %}
-                                        <div class="col-12 col-md-8 col-xl-8 no-results-display">
-                                            <p>No Invitations</p>
+                            <hr class="d-none d-md-block dashboard-block-divider">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 col-lg-2 col-xl-4 p-0">
+                                        <div class="filter_sidebar_container accordion" id="filter_accordion">
+                                            <div class="accordion-item">
+                                                <h5 class="accordion-header custom-accordion-header" id="accordion_header">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_dropdown" aria-expanded="true" aria-controls="filter_dropdown">
+                                                        Filter Invitations
+                                                    </button>
+                                                </h5>
+                                                <div class="accordion-collapse show" id="filter_dropdown" aria-labelledby="accordion_header" data-bs-parent="#filter_accordion">
+                                                    <div class="accordion-body">
+                                                        <ul id="sidebar_filter_list">
+                                                            <li>
+                                                                <a 
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
+                                                                <hr>
+                                                                <ul id="sidebar_nested_list">
+                                                                    <li>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
+                                                                    </li>
+                                                                    <hr>
+                                                                    <li>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
+                                                                    </li>
+                                                                    <hr>
+                                                                    <li>
+                                                                        <a href="#">Completed</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                {% endif %}
-                            {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
-                                {% if invitations_received %}
-                                    <div class="col-12 col-md-8 col-lg-10 col-xl-8">
-                                        {% for invitation in invitations_received %}
-                                            {% include "profiles/includes/invitations_received_card.html" %}
-                                        {% endfor %}
                                     </div>
-                                {% else %}
-                                    <!-- TODO: "No Invitations"-->
-                                    <div class="col-12 col-md-8 col-xl-8 no-results-display">
-                                        <p>No Invitations</p>
+                                    {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}
+                                        {% if invitations_sent %}
+                                            <div class="col-12 col-md-8 col-lg-10 col-xl-8">
+                                                    {% for invitation in invitations_sent %}
+                                                        {% include "profiles/includes/invitations_sent_card.html" %}
+                                                    {% endfor %}
+                                            </div>
+                                            {% else %}
+                                                    <div class="col-12 col-md-8 col-xl-8 no-results-display">
+                                                        <p>No Invitations</p>
+                                                    </div>
+                                            {% endif %}
+                                    {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
+                                        {% if invitations_received %}
+                                            <div class="col-12 col-md-8 col-lg-10 col-xl-8">
+                                                {% for invitation in invitations_received %}
+                                                    {% include "profiles/includes/invitations_received_card.html" %}
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <!-- TODO: "No Invitations"-->
+                                            <div class="col-12 col-md-8 col-xl-8 no-results-display">
+                                                <p>No Invitations</p>
+                                            </div>
+                                        {% endif %}
+                                        {% endif %}
                                     </div>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+                                </div>
+                            </div>
+                            {% elif current_page == "jobs" and current_section == "tier_two" %}
+                                <div class="col-12 col-md-8 p-0">
+                                        <div id="job_page_breadcrumb_wrapper">
+                                            <div class="job-nav-button-wrapper">
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}active{% endif %}">My Offers</a>
+                                            </div>
+                                            <div class="job-nav-button-wrapper">
+                                                <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}active{% endif %}">My Posted Jobs</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-none d-md-block dashboard-block-divider">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 col-lg-2 col-xl-4 p-0">
+                                        <div class="filter_sidebar_container accordion" id="filter_accordion">
+                                            <div class="accordion-item">
+                                                <h5 class="accordion-header custom-accordion-header" id="accordion_header">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_dropdown" aria-expanded="true" aria-controls="filter_dropdown">
+                                                        Filter Invitations
+                                                    </button>
+                                                </h5>
+                                                <div class="accordion-collapse show" id="filter_dropdown" aria-labelledby="accordion_header" data-bs-parent="#filter_accordion">
+                                                    <div class="accordion-body">
+                                                        <ul id="sidebar_filter_list">
+                                                            <li>
+                                                                <a 
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
+                                                                <hr>
+                                                                <ul id="sidebar_nested_list">
+                                                                    <li>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
+                                                                    </li>
+                                                                    <hr>
+                                                                    <li>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
+                                                                    </li>
+                                                                    <hr>
+                                                                    <li>
+                                                                        <a href="#">Completed</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}
+                                        {% if invitations_sent %}
+                                            <div class="col-12 col-md-8 col-lg-10 col-xl-8">
+                                                    {% for invitation in invitations_sent %}
+                                                        {% include "profiles/includes/invitations_sent_card.html" %}
+                                                    {% endfor %}
+                                            </div>
+                                            {% else %}
+                                                    <div class="col-12 col-md-8 col-xl-8 no-results-display">
+                                                        <p>No Invitations</p>
+                                                    </div>
+                                            {% endif %}
+                                    {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
+                                        {% if invitations_received %}
+                                            <div class="col-12 col-md-8 col-lg-10 col-xl-8">
+                                                {% for invitation in invitations_received %}
+                                                    {% include "profiles/includes/invitations_received_card.html" %}
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <!-- TODO: "No Invitations"-->
+                                            <div class="col-12 col-md-8 col-xl-8 no-results-display">
+                                                <p>No Invitations</p>
+                                            </div>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-none d-md-block dashboard-block-divider">
+                    {% endif %}
+                {% elif current_page == "reset_password" %}
+                    <h2>Reset Your Password</h2>
+                {% elif current_page == "membership" %}
+                    <h2>Membership</h2>
                 {% endif %}
-            {% elif current_page == "reset_password" %}
-                <h2>Reset Your Password</h2>
-            {% elif current_page == "membership" %}
-                <h2>Membership</h2>
-            {% endif %}
-        </section>
-        <aside>
+            </section>
+            <aside>
             <div class="modal fade" id="invitation_detail_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
