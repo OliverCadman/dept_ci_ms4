@@ -1,7 +1,7 @@
 from ast import parse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.contrib import messages
 
@@ -201,6 +201,42 @@ def register_interest(request, job_id, username):
     current_user = get_object_or_404(UserProfile, user__username=username)
 
     current_job.interested_member.add(current_user)
+    current_job.interest_count += 1
     current_job.save()
 
     return redirect(reverse("job_list"))
+
+def get_interested_members(request, job_id):
+    """
+    AJAX Handler to return details of members who have
+    registered 
+    """
+    job = get_object_or_404(Job, pk=job_id)
+
+    if len(job.interested_member.all()) > 0:
+        interested_members = []
+        member_details = {}
+        for member in job.interested_member.all():
+            
+            members_instruments = []
+
+            if member.first_name or not member.first_name == "":
+                member_details["first_name"] = member.first_name
+                member_details["last_name"] = member.last_name
+            else:
+                member_details["username"] = member.user.username
+            if member.profile_image:
+                member_details["profile_image"] = member.profile_image.url
+            if member.city and member.country:
+                member_details["city"] = member.city
+                member_details["country"] = member.country.name
+            member_details["username"] = member.user.username
+            member_details["job_id"] = job.pk
+
+            if len(member.instruments_played.all()) > 0:
+                for instrument in member.instruments_played.all():
+                    members_instruments.append(instrument.instrument_name)
+                    member_details["instruments_played"] = members_instruments
+
+            interested_members.append(member_details.copy())
+        return JsonResponse({"member_details": interested_members})

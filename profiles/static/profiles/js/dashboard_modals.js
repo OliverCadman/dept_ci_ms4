@@ -1,14 +1,26 @@
 /* Used in 'Jobs' section of Dashboard:
 
+---- TIER ONE ----
+
 Details Modal:
-- Populates fields in modal displaying details of engagement.
+  - Populates fields in modal displaying details of engagement.
 
 Message Modal/Message Form:
-- Performs AJAX request to gather messages for given invitation, and populate modal if any messages are present.
-- Populates header of modal with message receiver's name.
-- Dynamically generates form action URL with relevant params required.
+  - Performs AJAX request to gather messages for given invitation, and populate modal if any messages are present.
+  - Populates header of modal with message receiver's name.
+  - Dynamically generates form action URL with relevant params required.
 
+---- TIER TWO ---- 
+
+Job Offer Modal:
+  - Performs AJAX request to gather details of all members expressing interest in a posted job offer.
+  - Populates the relative modal with details of all members expressing interest, with links to profile
+    and button to confirm user.
 */
+
+// TIER ONE 
+
+const requestUserId = parseInt($("#request_user_id").val());
 
 $(document).ready(function() {
   $(".view_detail_btn").click(function (e) {
@@ -30,8 +42,6 @@ $(document).ready(function() {
 
   //
   $(".message_modal_btn").click(function () {
-    console.log($(this).data("invite-fname"));
-    console.log($(this).data("modal-profile-img"));
     if ($(this).data("modal-profile-img") != "") {
       $("#message_modal_header").html(
         `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data("invite-fname")}" width="100" height="100" class="modal_profile_img">
@@ -55,7 +65,6 @@ $(document).ready(function() {
     );
 
     const invitationId = $(this).data("invitation-id");
-    const requestUserId = parseInt($("#request_user_id").val());
 
     const messageContainer = $("#message_display_container");
 
@@ -168,6 +177,62 @@ $(document).ready(function() {
       })
 
   }
+
+  // - End of Tier One
+
+  // TIER TWO
+
+  // Job Post Modal
+
+  $(".offers_received_modal_btn").click(function() {
+    let jobId = $(this).data("job-id");
+
+    $("#offers_received_modal_header").html(`
+      ${$(this).data("job-offer-count")} members are interested.`)
+
+    // AJAX Request to get details of members who have registered interest in a given job.
+    $.ajax({
+      url: `/jobs/get_interested_members/${jobId}`,
+      type: "GET",
+      success: function(res) {
+        let interestedMembers = res.member_details
+
+        // Populate relative modal with details of each member who registered interest.
+        for (let member of interestedMembers) {
+          
+          let membersInstruments = member.instruments_played;
+          membersInstruments = membersInstruments.join(", ");
+        
+          $("#interested_member_container").append(
+            `
+            <div class="col-12">
+              <div class="job-card job_offer_modal">
+                  <div class="invitation-card-header justify_between_row">
+                    <div class="invitation-card-title">
+                      <p class="primary_font med_small_text">${member.first_name} ${member.last_name}</p> 
+                      <p class="secondary_font small_text">${member.city}, ${member.country}</p>
+                    </div>
+                    <img src="${member.profile_image}" alt="Member Avatar" class="modal_avatar" width="40" height="40">
+                  </div>
+                  <div class="invitation-card-body">
+                      <p class="secondary_font small_text">${membersInstruments}</p>
+                  </div>
+                  <div class="invitation-btn-wrapper">
+                    <a href="/profile/${member.username}" class="btn primary_bg white_font secondary_font modal_btn mb-2 mt-3">Visit Profile</a>
+                    <a href="/jobs/confirm_offer/${member.job_id}" class="btn custom_success secondary_font white_font modal_btn">Confirm ${member.first_name}</a>
+                  </div>
+              </div>
+            </div>
+            `
+          );
+        }
+      }
+    })
+  })
+
+  $("#offers_received_modal").on("hidden.bs.modal", function() {
+    $("#interested_member_container").empty()
+  })
   
   // Displays a Toast with error message in case of AJAX errors
   function displayAJAXErrorMessage(status) {

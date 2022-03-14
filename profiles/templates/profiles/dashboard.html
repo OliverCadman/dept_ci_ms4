@@ -302,15 +302,15 @@
                                                         <ul id="sidebar_filter_list">
                                                             <li>
                                                                 <a 
-                                                                href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=all">All</a>
                                                                 <hr>
                                                                 <ul id="sidebar_nested_list">
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=pending">Pending</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section={% if current_page == "jobs" and current_section == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=accepted">Accepted</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
@@ -328,12 +328,12 @@
                                         {% if posted_jobs %}
                                             <div class="col-12 col-md-8 col-lg-10 col-xl-8">
                                                 {% for job in posted_jobs %}
-                                                    {{ job }}
+                                                    {% include "profiles/includes/posted_job_card.html" %}
                                                 {% endfor %}
                                             </div>
                                             {% else %}
                                                     <div class="col-12 col-md-8 col-xl-8 no-results-display">
-                                                        <p>No Invitations</p>
+                                                        <p>No Jobs</p>
                                                     </div>
                                             {% endif %}
                                     {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
@@ -431,6 +431,27 @@
                                         {{ message_form|crispy }}
                                         <button type="submit" class="btn message-submit-btn">Submit</button>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="offers_received_modal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header custom-modal-header">
+                            <h6 id="offers_received_modal_header" class="med_small_text">
+                                
+                            </h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="job_offer_modal_container">
+                            <div class="modal-body" id="offers_received_modal_body">
+                                <div class="row">
+                                    <div id="interested_member_container">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
