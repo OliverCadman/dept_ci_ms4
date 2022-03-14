@@ -306,11 +306,11 @@
                                                                 <hr>
                                                                 <ul id="sidebar_nested_list">
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=pending">Pending</a>
+                                                                       <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=offers_sent">Offers Sent</a> 
                                                                     </li>
                                                                     <hr>
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=accepted">Accepted</a>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=accepted">Confirmed</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>

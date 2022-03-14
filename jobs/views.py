@@ -11,6 +11,7 @@ from .forms import JobForm
 from .models import Job
 
 from profiles.models import UserProfile, Instrument, Genre
+from bookings.models import Booking
 
 from .functions import handle_get_params
 
@@ -196,6 +197,7 @@ def post_job(request):
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
 
+
 def register_interest(request, job_id, username):
     current_job = get_object_or_404(Job, pk=job_id)
     current_user = get_object_or_404(UserProfile, user__username=username)
@@ -205,6 +207,38 @@ def register_interest(request, job_id, username):
     current_job.save()
 
     return redirect(reverse("job_list"))
+
+
+def confirm_job_offer(request, job_id, confirmed_user_username):
+    """
+    Handles Booking object creation, when one member confirms another
+    on a job they have advertised (Tier Two feature).
+
+    Gets the current job by ID, and both the job poster's profile and
+    confirmed member's profile.
+
+    Create a Booking object with a relation to the confirmed job.
+
+    Set the "confirmed_member" attribute of the Job model to the 
+    confirmed_user_profile.
+
+    Set the "is_taken" attribute of the Job object to True.
+    """
+    current_job = get_object_or_404(Job, pk=job_id)
+    confirmed_user_profile = get_object_or_404(UserProfile, user__username=confirmed_user_username)
+    job_poster_profile = get_object_or_404(UserProfile, user__username=request.user.username)
+
+    try:
+        Booking.objects.create(related_job=current_job)
+        current_job.confirmed_member = confirmed_user_profile
+        current_job.is_taken = True
+        current_job.save()
+        messages.success(request, f"{confirmed_user_profile.first_name} has been confirmed.")
+        return redirect(reverse("dashboard", args=[job_poster_profile.slug]))
+    except Exception as e:
+        print(f"Exception: {e}")
+        messages.error(request, f"Sorry, something went wrong. Please try again.")
+        return redirect(reverse("dashboard", args=[job_poster_profile.slug]))
 
 def get_interested_members(request, job_id):
     """
@@ -240,3 +274,5 @@ def get_interested_members(request, job_id):
 
             interested_members.append(member_details.copy())
         return JsonResponse({"member_details": interested_members})
+
+

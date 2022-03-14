@@ -1,25 +1,39 @@
 <div class="job-card">
-    {% if invitation.is_accepted %}
+    {% if job.is_taken %}
         <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
     {% endif %}
     <div class="avatar_container position-relative float-end mt-3">
-        {% if job.interested_member.all|length > 0 %}
-            <span class="badge position-absolute top-0 start-0 translate-middle bg-success secondary_font">{{ job.interested_member.all|length }} members interested</span>
-            <ul class="avatar_list me-3">
-                {% for member in job.interested_member.all %}
-                    <li>
-                        {% if member.profile_image %}
-                        <a href="{% url "profile" member.user.username %}">
-                            <img src="{{ member.profile_image.url }}" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
-                        </a>
-                        {% else %}
-                        <a href="{% url "profile" member.user.username %}">
-                            <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
-                        </a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
+        {% if not job.is_taken %}
+            {% if job.interested_member.all|length > 0 %}
+                <span class="badge position-absolute top-0 start-0 translate-middle bg-success secondary_font">{{ job.interested_member.all|length }} members interested</span>
+                <ul class="avatar_list me-3">
+                    {% for member in job.interested_member.all %}
+                        <li>
+                            {% if member.profile_image %}
+                            <a href="{% url "profile" member.user.username %}">
+                                <img src="{{ member.profile_image.url }}" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
+                            </a>
+                            {% else %}
+                            <a href="{% url "profile" member.user.username %}">
+                                <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{ member.user.username }}" class="avatar_thumbnail overlap_item" width="40" height="40">
+                            </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}                    
+                </ul>
+                {% endif %}
+        {% else %}
+            <span class="badge position-absolute top-0 start-10 translate-middle bg-success secondary_font rounded-pill"><i class="fa-solid fa-check"></i></span>    
+            {% if job.confirmed_member.profile_image %}
+                <a href="{% url "profile" job.confirmed_member.user.username %}">
+                    <img src="{{ job.confirmed_member.profile_image.url }}" alt="{{ job.confirmed_member.user.username }}" class="avatar_thumbnail" width="40" height="40">
+                </a>
+            {% else %}
+                <a href="{% url "profile" job.confirmed_member.user.username %}">
+                    <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{ job.confirmed_member.user.username }}" class="avatar_thumbnail" width="40" height="40">
+                </a>
+            {% endif %}
+  
         {% endif %}
     </div>
     <div class="card_detail_wrapper">
@@ -29,14 +43,18 @@
         <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-clock"></i></span>{{ job.event_datetime|date:"d/m/Y H:i" }}</p>
     </div>
     <div class="invitation_btn_wrapper">
-        {% if job.interested_member.all|length > 0 %}
-            <button class="btn invitation_card_btn bg-warning text-dark offers_received_modal_btn"
-            data-bs-toggle="modal"
-            data-bs-target="#offers_received_modal"
-            data-job-id="{{ job.pk }}"
-            data-job-offer-count="{{ job.interested_member.all|length }}">Choose a member</button>
+        {% if not job.is_taken %}
+            {% if job.interested_member.all|length > 0 %}
+                <button class="btn invitation_card_btn bg-warning text-dark offers_received_modal_btn"
+                data-bs-toggle="modal"
+                data-bs-target="#offers_received_modal"
+                data-job-id="{{ job.pk }}"
+                data-job-offer-count="{{ job.interested_member.all|length }}">Choose a member</button>
+            {% else %}
+                <button type="button" class="btn disabled secondary_font invitation_card_btn">No Offers Received</button>
+            {% endif %}
         {% else %}
-            <button type="button" class="btn disabled secondary_font invitation_card_btn">No Offers Received</button>
+            <a href="#" class="btn bg-warning secondary_font">Send Complete Details</a>
         {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
