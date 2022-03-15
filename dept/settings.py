@@ -100,7 +100,10 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ROOT_URLCONF = 'dept.urls'
 
-DOMAIN_ROOT = "http://127.0.0.1:8000/"
+if "DEVELOPMENT" in os.environ:
+    DOMAIN_ROOT = "http://127.0.0.1:8000/"
+else:
+    DOMAIN_ROOT = "http://dept-ci-ms4.herokuapp.com/"
 
 TEMPLATES = [
     {
