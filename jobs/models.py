@@ -66,7 +66,6 @@ class Job(models.Model):
     job_title = models.CharField(null=True, max_length=150)
     image = models.ImageField(upload_to="job_images", null=True, blank=True)
     event_name = models.CharField(max_length=150)
-    instrument_required = models.ManyToManyField(Instrument)
     artist_name = models.CharField(max_length=100, null=True, blank=True)
     job_description = models.TextField(max_length=500)
     fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)

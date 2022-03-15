@@ -53,10 +53,6 @@ class JobForm(forms.ModelForm):
                     css_class="col-12 col-md-6"
                 ),
                 Div(
-                    "instrument_required",
-                    css_class="col-12"
-                ),
-                Div(
                     "job_description",
                     css_class="col-12"
                 ),
@@ -110,12 +106,6 @@ class JobForm(forms.ModelForm):
                                   widget=forms.TextInput(attrs={
                                       "placeholder": "Ariana Grande"
                                   }))
-    
-    instrument_required = forms.ModelMultipleChoiceField(
-                                  queryset=Instrument.objects.all(),
-                                  label="Which instrument do you require?",
-                                  widget=forms.Select(),
-                                )
 
     job_description = forms.CharField(label="What does the job involve?",
                                       widget=forms.Textarea(attrs={
