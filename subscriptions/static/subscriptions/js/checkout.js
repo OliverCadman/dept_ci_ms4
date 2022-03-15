@@ -12,7 +12,6 @@ $(document).ready(function() {
          // Requests backend for stripe public key and returns result in json format
          fetch("/subscribe/config/")
          .then((res) => { 
-           console.log(res)
             return res.json(); })
          .then((data) => {
              // Initialize Stripe object
@@ -33,12 +32,10 @@ $(document).ready(function() {
                         return res;
                       },
                     }).then((data) => {
-                        console.log(data)
                       if (data.error) {
                           // TODO: Customise error handling
                         throw Error("An error has occurred!");
                       } else {
-                        console.log(data);
                         return stripe.redirectToCheckout({
                           sessionId: data.session_id,
                         });
@@ -59,7 +56,6 @@ $(document).ready(function() {
                         // TODO: Customise error handling
                          throw Error("An error has occurred!");
                        } else {
-                         console.log(data);
                          return stripe.redirectToCheckout({
                            sessionId: data.session_id,
                          });
