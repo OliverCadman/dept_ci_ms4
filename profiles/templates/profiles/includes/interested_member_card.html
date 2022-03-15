@@ -36,12 +36,12 @@
         <button class="btn invitation_card_btn tier_two_message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
-        data-invite-fname="{{ invitation.invite_receiver.first_name }}"
-        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+        data-invite-fname="{{ job.job_poster.first_name }}"
+        data-invite-lname="{{ job.job_poster.last_name }}"
         data-invite-username="{{ job.job_poster.user }}"
-        data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
-        data-modal-profile-img="{% if invitation.invite_receiver.profile_image %}{{ invitation.invite_receiver.profile_image.url }}{% endif %}"
-        data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
+        data-invite-receiver-userid="{{ job.job_poster.user.pk}}"
+        data-modal-profile-img="{% if job.job_poster.profile_image %}{{ job.job_poster.profile_image.url }}{% endif %}"
+        data-invite-sender-userid="{{ job.job_poster.user.pk }}"
         data-job-post-id="{{ job.pk }}">
             Message {{ job.job_poster.first_name }} 
 

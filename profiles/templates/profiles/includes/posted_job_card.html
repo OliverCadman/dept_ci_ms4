@@ -60,12 +60,12 @@
         <button class="btn invitation_card_btn tier_two_message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
-        data-invite-fname="{{ invitation.invite_receiver.first_name }}"
-        data-invite-lname="{{ invitation.invite_receiver.last_name }}"
+        data-invite-fname="{{ job.confirmed_member.first_name }}"
+        data-invite-lname="{{ job.confirmed_member.last_name }}"
         data-invite-username="{{ job.confirmed_member.user }}"
-        data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
-        data-modal-profile-img="{% if invitation.invite_receiver.profile_image %}{{ invitation.invite_receiver.profile_image.url }}{% endif %}"
-        data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
+        data-invite-receiver-userid="{{ job.confirmed_member.user.pk}}"
+        data-modal-profile-img="{% if job.confirmed_member.profile_image %}{{ job.confirmed_member.profile_image.url }}{% endif %}"
+        data-invite-sender-userid="{{ job.job_poster.user.pk }}"
         data-job-post-id="{{ job.pk }}">
             Message {{ job.confirmed_member.first_name }}
             <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
