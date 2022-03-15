@@ -35,6 +35,10 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "DEVELOPMENT" in os.environ
 
+# Use HTTPS in production
+if not "DEVELOPMENT" in os.environ:
+    SECURE_SSL_REDIRECT = True
+
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
 SITE_ID = 2
