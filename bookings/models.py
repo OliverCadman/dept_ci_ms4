@@ -61,7 +61,10 @@ class Booking(models.Model):
     booking_details_sent = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Booking {self.related_invitation.invitation_number}"
+        if self.related_invitation:
+            return f"T1 Booking: {self.related_invitation.event_name}"
+        elif self.related_job:
+            return self.related_job.event_name
 
 
 class SheetMusic(models.Model):
@@ -73,7 +76,7 @@ class SheetMusic(models.Model):
 
 
 @receiver(post_save, sender=Invitation)
-def create_booking(sender, instance, created, *args, **kwargs):
+def create_tier_one_booking(sender, instance, created, *args, **kwargs):
     if not created:
         invitation = instance
         if invitation.is_accepted == True:
