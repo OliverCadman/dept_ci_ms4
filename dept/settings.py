@@ -69,7 +69,10 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     # Bootstrap Datepicker Plus
-    'bootstrap_datepicker_plus'
+    'bootstrap_datepicker_plus',
+
+    # S3Boto3Storage
+    'storages',
 
 ]
 
