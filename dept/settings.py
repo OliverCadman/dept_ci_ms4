@@ -246,9 +246,14 @@ STRIPE_TIERONE_PRICE_ID = os.environ.get("STRIPE_TIERONE_PRICE_ID")
 STRIPE_TIERTWO_PRICE_ID = os.environ.get("STRIPE_TIERTWO_PRICE_ID")
 
 # Stripe API Credentials 
-STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
-STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
-STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
+if not "DEVELOPMENT" in os.environ:
+    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+    STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
+else:
+    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE SECRET_KEY")
+    STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
 
 
 # Static files (CSS, JavaScript, Images)
