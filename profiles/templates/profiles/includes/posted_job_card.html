@@ -54,22 +54,22 @@
                 <button type="button" class="btn disabled secondary_font invitation_card_btn">No Offers Received</button>
             {% endif %}
         {% else %}
-            <a href="#" class="btn bg-warning secondary_font">Send Complete Details</a>
+            <a href="{% url "tier_two_booking_form" job.pk %}?event_tier=tier_two" class="btn bg-warning secondary_font">Send Complete Details</a>
         {% endif %}
-        <button class="btn invitation_card_btn message_modal_btn position-relative"
+        {% if job.is_taken %}
+        <button class="btn invitation_card_btn tier_two_message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
         data-invite-fname="{{ invitation.invite_receiver.first_name }}"
         data-invite-lname="{{ invitation.invite_receiver.last_name }}"
-        data-invite-username="{{ invitation.invite_receiver.user }}"
+        data-invite-username="{{ job.confirmed_member.user }}"
         data-invite-receiver-userid="{{ invitation.invite_receiver.user.pk}}"
         data-modal-profile-img="{% if invitation.invite_receiver.profile_image %}{{ invitation.invite_receiver.profile_image.url }}{% endif %}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
-        data-invitation-id="{{ invitation.pk }}">
-            Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}
-
-                <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
-
+        data-job-post-id="{{ job.pk }}">
+            Message {{ job.confirmed_member.first_name }}
+            <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
         </button>
+        {% endif %}
     </div>
 </div>
