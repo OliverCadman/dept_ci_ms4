@@ -28,6 +28,8 @@ class InvitationAdmin(admin.ModelAdmin):
 class BookingAdmin(admin.ModelAdmin):
     inlines = [AudioFileInline]
 
+    readonly_fields = ("pk",)
+
 class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ("review_created",)
 
