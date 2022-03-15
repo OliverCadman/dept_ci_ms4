@@ -1,8 +1,13 @@
-$(document).ready(function() {
-  /* Disable Travel and Backline Input Elements by Default, until
+$(document).ready(function () {
+  /* Disable Travel and Backline Info Input Elements by Default, until
        the relative checkboxes are clicked */
-  $("#id_backline_info").prop("disabled", true);
-  $("#id_travel_info").prop("disabled", true);
+  if ($("#id_backline_info").val() === "") {
+    $("#id_backline_info").prop("disabled", true);
+  }
+
+  if ($("#id_travel_info").val() === "") {
+    $("#id_travel_info").prop("disabled", true);
+  }
 
   // Handle travel-provided-checkbox when checked */
   const travelProvidedCheckbox = $("#id_travel_provided");
@@ -38,7 +43,12 @@ $(document).ready(function() {
       elementToDisable.prop("disabled", false);
     } else {
       toggler.attr("checked", false);
+      // Clear textarea if checkbox uncheck after inputting information
+      if (elementToDisable.val() !== "") {
+        elementToDisable.val("")
+      }
       elementToDisable.prop("disabled", true);
     }
   }
-})
+});
+
