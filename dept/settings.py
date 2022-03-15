@@ -36,8 +36,8 @@ else:
 DEBUG = "DEVELOPMENT" in os.environ
 
 # Use HTTPS in production
-if not "DEVELOPMENT" in os.environ:
-    SECURE_SSL_REDIRECT = True
+# if not "DEVELOPMENT" in os.environ:
+#     SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
