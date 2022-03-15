@@ -56,8 +56,13 @@ def send_notification_on_booking_details_sent(
     sender, instance, created, **kwargs):
     if not created:
         booking = instance
-        notification_sender = booking.related_invitation.invite_sender
-        notification_receiver = booking.related_invitation.invite_receiver
+        print(booking)
+        if booking.related_invitation:
+            notification_sender = booking.related_invitation.invite_sender
+            notification_receiver = booking.related_invitation.invite_receiver
+        else:
+            notification_sender = booking.related_job.job_poster
+            notification_receiver = booking.related_job.confirmed_member
 
         Notification.objects.create(
             notification_sender=notification_sender,
