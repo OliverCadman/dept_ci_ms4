@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator
 
 from profiles.models import UserProfile
 from bookings.models import Invitation, Booking
+from jobs.models import Job
 
 
 
@@ -11,6 +12,7 @@ class Message(models.Model):
     message_sender = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="sent_messages")
     message_receiver = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="received_messages")
     invitation_id = models.ForeignKey(Invitation, on_delete=models.CASCADE, null=True, related_name="invitation_messages")
+    related_job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True, related_name="job_messages")
     date_of_message = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     message = models.TextField(max_length=400)
