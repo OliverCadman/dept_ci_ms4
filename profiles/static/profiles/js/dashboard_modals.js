@@ -42,106 +42,49 @@ $(document).ready(function() {
 
   //
   $(".message_modal_btn").click(function () {
-    if ($(this).data("modal-profile-img") != "") {
-      $("#message_modal_header").html(
-        `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data("invite-fname")}" width="100" height="100" class="modal_profile_img">
-        ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
-      );
-    } else {
-      $("#message_modal_header").html(
-        `<img src="/media/dept-logo.webp" alt="${$(this).data(
-          "invite-fname"
-        )}" width="100" height="100" class="modal_profile_img">
-        ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
-      );
-    }
+      if ($(this).data("modal-profile-img") != "") {
+        $("#message_modal_header").html(
+          `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data("invite-fname")}" width="100" height="100" class="modal_profile_img">
+          ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
+        );
+      } else {
+        $("#message_modal_header").html(
+          `<img src="/media/dept-logo.webp" alt="${$(this).data(
+            "invite-fname"
+          )}" width="100" height="100" class="modal_profile_img">
+          ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
+        );
+      }
 
-    // Form action with dynamic URL params passed from data attributes of 'message_modal_btn'
-    $("#message_form").attr(
-      "action",
-      `/social/send_message/${$(this).data("invite-username")}/${$(this).data(
-        "invitation-id"
-      )}`
-    );
+        // Form action with dynamic URL params passed from data attributes of 'message_modal_btn'
+        $("#message_form").attr(
+          "action",
+          `/social/send_message/${$(this).data("invite-username")}/${$(this).data(
+            "invitation-id"
+          )}`
+        );
 
     const invitationId = $(this).data("invitation-id");
-
-    const messageContainer = $("#message_display_container");
-
-    // AJAX GET request to populate modal with sent messages
-    $.ajax({
-      type: "GET",
-      url: `/bookings/get_invitation_messages/${invitationId}`,
-      success: function (res) {
-        const messages = res.messages;
-
-        if (messages.length > 0) {
-          for (let messageObject of messages) {
-            let messageDateTime = new Date(messageObject.date_of_message);
-
-            let formattedDate = formatDate(messageDateTime);
-
-            // Compare today's date with datetime object of message
-            // Render time of message without date if message was sent today.
-            const now = new Date();
-
-            dateDiff = dateDiffInDays(messageDateTime, now);
-            let timeNoDate;
-            if (dateDiff < 2) {
-              timeNoDate = formattedDate.split(" ")[1];
-            }
-
-            // Create message elemets and populate with data as content
-            let messageWrapper = document.createElement("div");
-            let dateTimeSpan = document.createElement("span");
-            dateTimeSpan.classList.add("message-datetime");
-            dateTimeSpan.innerText = dateDiff < 1 ? timeNoDate : formattedDate;
-
-            let messageContent = messageObject.message;
-            let messageElement = document.createElement("p");
-            messageElement.classList.add("message-content")
-
-            messageWrapper.classList.add("message");
-            let messageSender = messageObject.message_sender;
-
-            // Places sent message on left of containing div, and received message on right.
-            if (messageSender === requestUserId) {
-              messageWrapper.classList.add("sender");
-            } else {
-              messageWrapper.classList.add("receiver");
-            }
-
-            messageWrapper.append(dateTimeSpan);
-            messageWrapper.append(messageElement);
-            messageElement.innerText = messageContent;
-            messageContainer.append(messageWrapper);
-
-            /* Remove 'centered' class in the case that a user 
-                  visits a populated message modal after visiting an 
-                  unpopulated message modal */
-            if (messageContainer.hasClass("centered")) {
-              messageContainer.removeAttr("class");
-            }
-          }
-        } else {
-          messageContainer.addClass("centered");
-          const noResultsEl = document.createElement("p");
-          const noResultsMsg = "Start a Conversation";
-          noResultsEl.innerText = noResultsMsg;
-          messageContainer.append(noResultsEl);
-        }
-      },
-      error: function (err) {
-        displayAJAXErrorMessage(err.status)
-      },
-    });
-
-
-    // Empty messages from message modal when modal is hidden
-    $("#message_modal").on("hidden.bs.modal", function () {
-      messageContainer.empty();
-    });
+    const messageContainerId = "#message_display_container";
+    const messageModalId = "#message_modal"
+    let tierOneAjaxMessageGETUrl = `/bookings/get_invitation_messages/${invitationId}`;
+            
+    // Populate message modal with messages
+    displayMessages(tierOneAjaxMessageGETUrl)
   });
+
+  $(".tier_two_message_modal_btn").click(function() {
+    const jobPostId = $(this).data("job-post-id");
+    const tierTwoAjaxMessageGETUrl = `/bookings/get_invitation_messages/${jobPostId}`;
+    displayMessages(tierTwoAjaxMessageGETUrl);
+
+    $("#message_form").attr(
+      "action",
+      `/social/send_message/${$(this).data("invite-username")}/${jobPostId}`
+    )
+  })
+
+  /* ---------------------------- */
 
   /* Open Message Modal if user visits from Booking Detail page
   by clicking 'Message <user>' button. 
@@ -219,7 +162,7 @@ $(document).ready(function() {
                   </div>
                   <div class="invitation-btn-wrapper">
                     <a href="/profile/${member.username}" class="btn primary_bg white_font secondary_font modal_btn mb-2 mt-3">Visit Profile</a>
-                    <a href="/jobs/confirm_offer/${member.job_id}" class="btn custom_success secondary_font white_font modal_btn">Confirm ${member.first_name}</a>
+                    <a href="/jobs/confirm_job_offer/${member.job_id}/${member.username}" class="btn custom_success secondary_font white_font modal_btn">Confirm ${member.first_name}</a>
                   </div>
               </div>
             </div>
@@ -230,9 +173,88 @@ $(document).ready(function() {
     })
   })
 
+
   $("#offers_received_modal").on("hidden.bs.modal", function() {
     $("#interested_member_container").empty()
   })
+
+
+function displayMessages(url) {
+  let messageContainer = $("#message_display_container");
+
+  $.ajax({
+    type: "GET",
+    url: url,
+    success: function (res) {
+      console.log(res.messages);
+      const messages = res.messages;
+      if (messages.length > 0) {
+        for (let messageObject of messages) {
+          let messageDateTime = new Date(messageObject.date_of_message);
+
+          let formattedDate = formatDate(messageDateTime);
+
+          // Compare today's date with datetime object of message
+          // Render time of message without date if message was sent today.
+          const now = new Date();
+
+          dateDiff = dateDiffInDays(messageDateTime, now);
+          let timeNoDate;
+          if (dateDiff < 2) {
+            timeNoDate = formattedDate.split(" ")[1];
+          }
+
+          // Create message elemets and populate with data as content
+          let messageWrapper = document.createElement("div");
+          let dateTimeSpan = document.createElement("span");
+          dateTimeSpan.classList.add("message-datetime");
+          dateTimeSpan.innerText = dateDiff < 1 ? timeNoDate : formattedDate;
+
+          let messageContent = messageObject.message;
+          let messageElement = document.createElement("p");
+          messageElement.classList.add("message-content");
+
+          messageWrapper.classList.add("message");
+          let messageSender = messageObject.message_sender;
+
+          // Places sent message on left of containing div, and received message on right.
+          if (messageSender === requestUserId) {
+            messageWrapper.classList.add("sender");
+          } else {
+            messageWrapper.classList.add("receiver");
+          }
+
+          messageWrapper.append(dateTimeSpan);
+          messageWrapper.append(messageElement);
+          messageElement.innerText = messageContent;
+          messageContainer.append(messageWrapper);
+
+          /* Remove 'centered' class in the case that a user 
+              visits a populated message modal after visiting an 
+              unpopulated message modal */
+          if (messageContainer.hasClass("centered")) {
+            messageContainer.removeAttr("class");
+          }
+        }
+      } else {
+        messageContainer.addClass("centered");
+        const noResultsEl = document.createElement("p");
+        const noResultsMsg = "Start a Conversation";
+        noResultsEl.innerText = noResultsMsg;
+        messageContainer.append(noResultsEl);
+      }
+    },
+    error: function (err) {
+      displayAJAXErrorMessage(err.status);
+    },
+  });
+
+  // Empty messages from message modal when modal is hidden
+  $("#message_modal").on("hidden.bs.modal", function () {
+    messageContainer.empty();
+  });
+}
+
   
   // Displays a Toast with error message in case of AJAX errors
   function displayAJAXErrorMessage(status) {
