@@ -103,7 +103,7 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        exclude = ("related_invitation",)
+        exclude = ("related_invitation", "related_job",)
     
 
     venue_name = forms.CharField(label="Name of the Venue",
