@@ -20,7 +20,7 @@ from .utils import render_to_pdf
 
 
 from social.models import Message
-from social.functions import reverse_querystring
+from social.functions import reverse_querystring, get_referral_path
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
 from jobs.models import Job
@@ -82,9 +82,20 @@ def get_invitation_messages(request, pk):
         are updated with 'is_read' status, and saved to the database.
         """
 
-        invitation = get_object_or_404(Invitation, pk=pk)
+        referal_path = get_referral_path(request, split_index1="/", split_index2="&",
+                                         slice_index1=5, slice_index2=1)
 
-        messages = invitation.invitation_messages.all()
+        
+        messages = None
+        if not referal_path == "section=tier_two":
+
+            invitation = get_object_or_404(Invitation, pk=pk)
+
+            messages = invitation.invitation_messages.all()
+        else:
+            job = get_object_or_404(Job, pk=pk)
+
+            messages = job.job_messages.all()
         message_list = []
 
         if not len(messages) == 0:
@@ -236,7 +247,7 @@ def booking_form(request, invitation_pk):
     
 
     invitation_form = InvitationForm(instance=current_invitation)
-    booking_form = BookingForm()
+    booking_form = BookingForm(instance=current_booking)
 
     # Initialize formset factory and query booking object for audio files
     AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
@@ -314,11 +325,11 @@ def tier_two_booking_form(request, job_id):
     current_booking = get_object_or_404(Booking, related_job=current_job)
 
     job_form = JobForm(instance=current_job)
-    booking_form = BookingForm()
+    booking_form = BookingForm(instance=current_booking)
 
     # Initialize formset factory and query booking object for audio files
     AudioFormsetFactory = modelformset_factory(AudioFile, form=AudioForm, extra=1)
-    queryset = current_booking.audio_resources.all()
+    queryset = current_booking.audio_resources.all().exclude(file="")
     audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
                                         queryset=queryset)
 
@@ -519,10 +530,15 @@ def get_invitation_id(request, booking_id):
     To trigger a specific message modal upon page load.
     """
 
-    if not request.session.get("tier_two_booking_form_submit"):
-        requested_booking = get_object_or_404(Booking, pk=booking_id)
+
+    requested_booking = get_object_or_404(Booking, pk=booking_id)
+    print("REQUESTED BOOKING")
+    print(requested_booking.related_invitation)
+    if requested_booking.related_invitation:
         invitation_id = requested_booking.related_invitation.pk
         return JsonResponse({"invitation_id": invitation_id})
-    return HttpResponse(status=200)
+    else:
+        return HttpResponse(status=200)
+
 
 

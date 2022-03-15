@@ -4,10 +4,11 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import View
 
-from .functions import reverse_querystring
+from .functions import reverse_querystring, get_referral_path
 
 from profiles.models import UserProfile
-from bookings.models import Invitation, Booking
+from bookings.models import Invitation
+from jobs.models import Job
 
 from .forms import MessageForm
 from .models import Notification
@@ -19,25 +20,48 @@ def send_message(request, message_receiver, invitation_id):
     in an active invitation/booking.
     """
 
+    referer_path = get_referral_path(request, split_index1="/",
+                                     split_index2="&", slice_index1=5, slice_index2=1)
+    print("REFERER PATH", referer_path)
+
     message_sender = get_object_or_404(UserProfile, user__username=request.user)
 
     message_receiver = get_object_or_404(UserProfile, user__username=message_receiver)
 
-    invitation = get_object_or_404(Invitation, pk=invitation_id)
+    if not referer_path == "section=tier_two":
+        invitation = get_object_or_404(Invitation, pk=invitation_id)
 
-    if request.method == "POST":
-        message_form = MessageForm(request.POST)
-        if message_form.is_valid():
-            message = message_form.save(commit=False)
-            message.message_sender = message_sender
-            message.message_receiver = message_receiver
-            message.invitation_id = invitation
-            message_form.save()
-            messages.success(request, f"Message sent to {message_receiver}")
-            return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
-        else:
-            messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
-            return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+        if request.method == "POST":
+            message_form = MessageForm(request.POST)
+            if message_form.is_valid():
+                message = message_form.save(commit=False)
+                message.message_sender = message_sender
+                message.message_receiver = message_receiver
+                message.invitation_id = invitation
+                message_form.save()
+                messages.success(request, f"Message sent to {message_receiver}")
+                return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+            else:
+                messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
+                return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+    else:
+        job = get_object_or_404(Job, pk=invitation_id)
+
+        if request.method == "POST":
+            message_form = MessageForm(request.POST)
+            if message_form.is_valid():
+                message = message_form.save(commit=False)
+                message.message_sender = message_sender
+                message.message_receiver = message_receiver
+                message.related_job = job
+                message_form.save()
+                messages.success(request, f"Message sent to {message_receiver}")
+                return redirect(reverse_querystring("dashboard",
+                                args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+            else:
+                messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
+                return redirect(reverse_querystring("dashboard",
+                                args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
 
 def get_notification_date(request):
 
