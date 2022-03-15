@@ -97,6 +97,9 @@
                                                 You have booked {{ invite_receiver.user.username }}
                                             {% endif %}
                                         </h1>
+                                        <div class="header-btn-wrapper">
+                                            <a href="{% url "dashboard" event.related_invitation.invite_sender.slug %}?page=jobs&section=tier_one&subsection=invites_sent&filter={{event.pk}}" class="btn custom_success inset_light_shadow">Message {% if invite_receiver.first_name %}{{invite_receiver.first_name}}{% else %}{{ invite_receiver.user.username }}{% endif %}</a>
+                                        </div>
                                         {% if not invite_receiver.profile_image %}
                                             <div id="dept_logo_fallback_container">
                                                 <figure id="dept_logo_wrapper_sm">
@@ -111,7 +114,7 @@
                                             {% if confirmed_member.first_name %}
                                                 You have booked {{ confirmed_member.first_name }}
                                             {% else %}
-                                                You havfsdfe booked {{ confirmed_member.user.username }}
+                                                You have booked {{ confirmed_member.user.username }}
                                             {% endif %}
                                         </h1>
                                         {% if not confirmed_member.profile_image %}
@@ -208,6 +211,9 @@
                                         You have booked {{ invite_receiver.user.username }}
                                     {% endif %}
                                 </h1>
+                                <div class="btn_wrapper_lg">
+                                    <a href="{% url "dashboard" event.related_invitation.invite_sender.slug %}?page=jobs&section=tier_one&subsection=invites_sent&filter={{event.pk}}" class="btn">Message {% if invite_receiver.first_name %}{{invite_receiver.first_name}}{% else %}{{ invite_receiver.user.username }}{% endif %}</a>
+                                </div>
                             {% endif %}
                         {% endwith %}
                     {% else %}

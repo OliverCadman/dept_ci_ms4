@@ -388,6 +388,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     invitations_sent = user_profile.invitations_sent.filter(is_accepted=False)
                                 elif current_filter == "accepted":
                                     invitations_sent = user_profile.invitations_sent.filter(is_accepted=True)
+                                elif current_filter == booking_id:
+                                    invitations_sent = user_profile.invitations_sent.filter(
+                                        related_booking__pk=booking_id)
                         elif current_subsection == "invites_received":
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
@@ -412,9 +415,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
                                     posted_jobs = user_profile.posted_jobs.all()
-                                elif current_filter == "pending":
-                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=False)
-                                elif current_filter == "accepted":
+                                elif current_filter == "offers_sent":
+                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=False, interested_member__gt=0)
+                                    print("POSTED JOBS WITH OFFERS RECEIVED")
+                                    print(posted_jobs)
+                                elif current_filter == "confirmed":
                                     posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
                         
         # Stripe Price ID to inject into hidden input

@@ -33,6 +33,13 @@
     background-color: rgba(0, 0, 0, 0.801);
 }
 
+.header-btn-wrapper a {
+    color: #fefefe;
+    font-family: "Oxygen",
+    sans-serif; 
+    padding: .8rem;
+}
+
 @media screen and (min-width: 768px) {
      .profile-header-container {
          padding-top: 65px;
