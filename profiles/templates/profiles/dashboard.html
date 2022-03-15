@@ -302,15 +302,17 @@
                                                         <ul id="sidebar_filter_list">
                                                             <li>
                                                                 <a 
-                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=all">All</a>
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=all">All</a>
                                                                 <hr>
                                                                 <ul id="sidebar_nested_list">
                                                                     <li>
-                                                                       <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=offers_sent">Offers Sent</a> 
+                                                                       <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=pending_offers">
+                                                                           {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}Offers Received{% else %}Offers Sent{% endif %}
+                                                                        </a> 
                                                                     </li>
                                                                     <hr>
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}my_offers{% endif %}&filter=accepted">Confirmed</a>
+                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=confirmed">Confirmed</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
@@ -336,11 +338,11 @@
                                                         <p>No Jobs</p>
                                                     </div>
                                             {% endif %}
-                                    {% elif current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" %}
-                                        {% if invitations_received %}
+                                    {% elif current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" %}
+                                        {% if offers_sent %}
                                             <div class="col-12 col-md-8 col-lg-10 col-xl-8">
-                                                {% for invitation in invitations_received %}
-                                                    {% include "profiles/includes/invitations_received_card.html" %}
+                                                {% for job in offers_sent %}
+                                                    {% include "profiles/includes/interested_member_card.html" %}
                                                 {% endfor %}
                                             </div>
                                         {% else %}
@@ -349,7 +351,7 @@
                                                 <p>No Invitations</p>
                                             </div>
                                         {% endif %}
-                                        {% endif %}
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>

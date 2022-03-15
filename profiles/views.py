@@ -10,13 +10,12 @@ from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
 from django.conf import settings
 
-from bookings.models import Invitation, Review
 from bookings.forms import InvitationForm, ReviewForm
-from .models import UserProfile, AudioFile, Equipment, UnavailableDate
-
 from social.forms import MessageForm
-from .forms import UserProfileForm, EquipmentForm, AudioForm
+from jobs.models import Job
 
+from .models import UserProfile, AudioFile, Equipment, UnavailableDate
+from .forms import UserProfileForm, EquipmentForm, AudioForm
 from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
 
 import datetime
@@ -364,8 +363,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         invitations_sent = None
         invitations_received = None
-
         posted_jobs = None
+        offers_sent = None
 
         """
         Change pages and nested sections of dashboard page.
@@ -421,6 +420,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     print(posted_jobs)
                                 elif current_filter == "confirmed":
                                     posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
+                        elif current_subsection == "offers_sent":
+                            if "filter" in self.request.GET:
+                                current_filter = self.request.GET["filter"]
+                                if current_filter == "all":
+                                    offers_sent = user_profile.job_set.all()
+                                elif current_filter == "pending_offers":
+                                    offers_sent = user_profile.job_set.all().exclude(is_taken=True)
+                                elif current_filter == "confirmed":
+                                    offers_sent = user_profile.job_set.filter(confirmed_member=user_profile)
+                                
                         
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
@@ -443,7 +452,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "received_reviews": received_reviews,
             "average_rating": average_rating,
             "message_form": message_form,
-            "posted_jobs": posted_jobs
+            "posted_jobs": posted_jobs,
+            "offers_sent": offers_sent
         }
 
         print(context["current_page"])
