@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
@@ -511,7 +513,10 @@ def download_audiofile(request, file_id):
     https://stackoverflow.com/questions/2681338/django-serving-a-download-in-a-generic-view
     """
     audio_file = get_object_or_404(AudioFile, pk=file_id)
-    fsock = open(audio_file.file.path, "rb")
+    if "DEVELOPMENT" in os.environ:
+        fsock = open(audio_file.file.path, "rb")
+    else:
+        fsock = open(audio_file.file, "rb")
     if fsock:
         response = HttpResponse(fsock, content_type="audio/mpeg")
         response["Content-Disposition"] = "attachment; filename=%s" %(audio_file.file_name)
