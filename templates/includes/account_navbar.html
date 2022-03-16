@@ -1,3 +1,5 @@
+{% load static %}
+
 <div id="account_dropdown_container">
     <div id="account_dropdown_header_wrapper">
         <h4 id="account_dropdown_header">{{user_profile.user}}</h4>
@@ -24,16 +26,16 @@
                 <div class="float-end">
                     {% if user_profile.profile_image %}
                     <figure>
-                        <img src="{{MEDIA_URL}}{{user_profile.profile_image.url}}"
+                        <img src="{{user_profile.profile_image.url}}"
                         alt="{{user_profile.user}}"
                         id="profile_image_navbar"
                         width="150"
                         height="150">
                     </figure>
                     {% else %}
-                    <figure>
-                        <img src="/media/dept-logo.webp" alt="DepT Logo" width="150" height="150" id="dept_logo_account">
-                    </figure>
+
+                        <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="150" height="150" id="dept_logo_account">
+
                     {% endif %}
                 </div>
             </div>
