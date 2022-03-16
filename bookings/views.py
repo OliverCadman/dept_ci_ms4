@@ -14,6 +14,7 @@ from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 
 from dateutil import parser
+import html_to_json
 
 from .forms import InvitationForm, BookingForm
 from .models import Invitation, Booking
@@ -64,14 +65,17 @@ def invitation_form_view(request):
                 form.save()
                 print("success")
                 messages.success(request, "Invitation Sent")
+                return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
             except Exception as e:
                 print(f"Exception: {e}")
         else:
             if "event_datetime" in invitation_form.errors:
                 messages.error(request, "Invalid date/time, please try again.")
             invitation_form = InvitationForm(request.POST, instance=request.user)
+          
+            messages.error(request, "Form invalid")
+            return JsonResponse({"errors":invitation_form.errors.as_json()})
 
-        return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
 
 
 def get_invitation_messages(request, pk):
