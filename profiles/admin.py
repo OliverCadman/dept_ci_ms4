@@ -12,7 +12,7 @@ class UserAudioInline(admin.TabularInline):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    inlines = [UserEquipmentInline, UserAudioInline]
+    inlines = [UserEquipmentInline]
     list_display = ["first_name", "user"]
     raw_id_fields = ["user"]
 

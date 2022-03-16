@@ -376,10 +376,10 @@ class AudioFile(models.Model):
 
 
     def __str__(self):
-        return self.file.name
-
-
-
+        if self.file:
+            return self.file_name
+        else:
+            return ""
 
 class UnavailableDate(models.Model):
     """
@@ -400,7 +400,6 @@ class UnavailableDate(models.Model):
                                      related_name="unavailable_user")
 
     def __str__(self):
-
         return str(self.date)
 
 
@@ -416,15 +415,3 @@ def create_or_update_user(sender, instance, created, **kwargs):
     
     # Otherwise, save the profile.
     instance.userprofile.save()
-
-
-
-
-
-
-    
-
-
-    
-
-
