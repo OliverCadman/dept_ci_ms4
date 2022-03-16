@@ -68,7 +68,7 @@
                             {% elif job.job_poster.profile_image %}
                                 <img src="{{ job.job_poster.profile_image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% else %}
-                                <img src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
+                                <img srcset="{{MEDIA_URL}}dept_card_image_default.webp, {{MEDIA_URL}}dept_card_image_default.png" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% endif %}
                             <div class="card-body">
                                 <div class="card_detail">

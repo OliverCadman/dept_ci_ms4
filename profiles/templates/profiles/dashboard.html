@@ -183,12 +183,12 @@
                     <div id="job_container">
                         <div class="container-fluid">
                             <div class="row d-flex justify-content-center">
-                                <div class="col-12 col-md-4 job_page_switch_wrapper centered">
+                                <div class="col-12 col-md-4 job_page_switch_wrapper centered mt-2 mb-2">
                                     <div id="job_page_switch_btns">
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn bg-warning w-100 switch_btn">
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" %}active{% endif %} w-100 switch_btn mb-1">
                                             Tier One
                                         </a>
-                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn bg-warning w-100 switch_btn">
+                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_two" %}active{% endif %} w-100 switch_btn mt-1">
                                             Tier Two
                                         </a>
                                     </div>

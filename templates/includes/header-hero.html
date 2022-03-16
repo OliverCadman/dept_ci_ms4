@@ -6,7 +6,7 @@
                     {% if p == "user_profile_form" %}
                     <div id="dept-logo-wrapper-sm">
                         <figure>
-                            <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
+                            <img srcset="{{MEDIA_URL}}dept-logo.png, {{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
                         </figure>
                     </div>
                     {% endif %}
@@ -143,7 +143,7 @@
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
                 <figure>
-                    <img src="{{MEDIA_URL}}dept-logo.png" alt="DepT Logo" width="300" height="300" id="dept-logo">
+                    <img srcset="{{MEDIA_URL}}dept-logo.png, {{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="300" height="300" id="dept-logo">
                 </figure>
             </div>
             {% endif %}
@@ -199,9 +199,9 @@
         </div>
         <div class="dynamic-header-container">
              {% if p == "dep_list" %}
-                <img src="{{MEDIA_URL}}dept_findadep_landing.webp" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
+                <img srcset="{{MEDIA_URL}}dept_findadep_landing.webp, {{MEDIA_URL}}dept_findadep_landing.jpg" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
              {% elif p == "job_list" %}
-                <img src="{{MEDIA_URL}}dept_joblist_hero.webp" alt="DepT - Job List Hero" width="900" height="500" id="joblist_hero">
+                <img srcset="{{MEDIA_URL}}dept_joblist_hero.webp, {{MEDIA_URL}}dept_joblist_hero.jpg" alt="DepT - Job List Hero" width="900" height="500" id="joblist_hero">
             {% endif %}
             <div class="success-button-wrapper">
                 <div id="dynamic-lead-header-lg">

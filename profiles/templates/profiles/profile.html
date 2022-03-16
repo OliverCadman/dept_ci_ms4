@@ -52,7 +52,7 @@
                                                     height="40"
                                                     class="circle_border cover review_sender_img">
                                                 {% else %}
-                                                    <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{review.review_sender.user.username}}"
+                                                    <img srcset="{{MEDIA_URL}}dept-logo.webp, {{MEDIA_URL}}dept-logo.png" alt="{{review.review_sender.user.username}}"
                                                     width="40"
                                                     height="40"
                                                     class="circle_border cover review_sender_img">
@@ -234,13 +234,22 @@
 </div>
 <aside>
     <div class="modal fade" id="invitation_modal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body modal_form_container">
                     <div class="modal_form_wrapper">
+                        {% if invitation_form.errors %}
+                            {% for field in invitation_form %}
+                                {% for error in field.errors %} 
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                         {% crispy invitation_form %}
                     </div>
                 </div>
@@ -274,6 +283,7 @@
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
     <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
     <script src="{% static "bookings/js/rating.js" %}"></script>
+    <script src="{% static "js/form_ajax.js" %}"></script>
     <script>
         $(function() {
             $("#date_time_picker").datetimepicker({

@@ -1,0 +1,42 @@
+
+{% if p == "dep_list" %}
+    <div id="pagination-wrapper" class="primary_bg">
+        <div class="pagination centered">
+            {% if page_obj.has_previous %}
+                <span class="step-links">
+                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=1 %}" class="secondary_font white_font">&laquo; first</a>
+                    <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}" class="secondary_font white_font">prev</a>
+                {% endif %}
+                    <span class="current secondary_font white_font page_no_indicator">
+                        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                    </span>
+                {% if page_obj.has_next %}
+                    <span class="step-links">
+                        <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}" class="secondary_font white_font">next</a>
+                        <a href="{% url "dep_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}" class="secondary_font white_font">last &raquo;</a>
+                    </span>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div id="pagination-wrapper" class="primary_bg">
+        <div class="pagination centered">
+            {% if page_obj.has_previous %}
+                <span class="step-links">
+                    <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=1 %}" class="secondary_font white_font">&laquo; first</a>
+                    <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=page_obj.previous_page_number %}" class="secondary_font white_font">prev</a>
+                {% endif %}
+                    <span class="current secondary_font white_font page_no_indicator">
+                        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                    </span>
+                {% if page_obj.has_next %}
+                    <span class="step-links">
+                        <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=page_obj.next_page_number %}" class="secondary_font white_font">next</a>
+                        <a href="{% url "job_list" %}?{% append_page_no_to_url_params page=paginator.num_pages %}" class="secondary_font white_font">last &raquo;</a>
+                    </span>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
