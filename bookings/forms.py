@@ -1,3 +1,4 @@
+from distutils.log import error
 from django import forms
 from django.forms import ValidationError
 from django_countries import Countries
@@ -190,18 +191,94 @@ class BookingForm(forms.ModelForm):
         """
         model = Booking
         exclude = ("related_invitation", "related_job",)
+
     
+    def clean_venue_name(self):
+        """
+        Raise a validation error if venue_name field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        venue_name = self.cleaned_data["venue_name"]
+        regex = "^[0-9]+$"
+        if re.match(regex, venue_name):
+            raise ValidationError("Please enter words as well as numbers.")
+        else:
+            return venue_name
+
+    
+    def clean_street_address1(self):
+        """
+        Raise a validation error if street_address1 field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        street_address1 = self.cleaned_data["street_address1"]
+        regex = "^[0-9]+$"
+        if re.match(regex, street_address1):
+            raise ValidationError("Please enter words as well as numbers.")
+        else:
+            return street_address1
+
+    def clean_street_address2(self):
+        """
+        Raise a validation error if street_address2 field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        street_address2 = self.cleaned_data["street_address2"]
+        regex = "^[0-9]+$"
+        if re.match(regex, street_address2):
+            raise ValidationError("Please enter words as well as numbers.")
+        else:
+            return street_address2
+
+    def clean_travel_info(self):
+        """
+        Raise a validation error if travel_info field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        travel_info = self.cleaned_data["travel_info"]
+        regex = "^[0-9]+$"
+        if re.match(regex, travel_info):
+            raise ValidationError("Please enter words as well as numbers.")
+        else:
+            return travel_info
+
+    
+    def clean_backline_info(self):
+        """
+        Raise a validation error if backline_info field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        backline_info = self.cleaned_data["backline_info"]
+        regex = "^[0-9]+$"
+        if re.match(regex, backline_info):
+            raise ValidationError("Please enter words as well as numbers.")
+        else:
+            return backline_info
 
     # Define form widgets.
     venue_name = forms.CharField(label="Name of the Venue",
-                                 widget=forms.TextInput)
+                                 widget=forms.TextInput,
+                                 error_messages={
+                                     "invalid": "Please enter worlds as well as numbers."
+                                 })
     
     street_address1 = forms.CharField(label="Street Address 1",
-                                 widget=forms.TextInput)
+                                 widget=forms.TextInput, 
+                                 error_messages={
+                                     "invalid": "Please enter words as well as numbers."
+                                 })
 
     street_address2 = forms.CharField(label="Street Address 2",
                                  widget=forms.TextInput,
-                                 required=False)
+                                 required=False,
+                                 error_messages={
+                                     "invalid": "Please enter words as well as numbers."
+                                 })
 
     postcode = forms.CharField(label="Postcode/ZIP",
                                widget=forms.TextInput,
@@ -216,7 +293,10 @@ class BookingForm(forms.ModelForm):
                                   required=False,
                                   widget=forms.Textarea(attrs={
                                       "rows": "3"
-                                  }))
+                                  }),
+                                  error_messages={
+                                      "invalid": "Please enter words as well as numbers."
+                                  })
 
     backline_provided = forms.BooleanField(label="Is backline provided?",
                                           required=False,
@@ -228,7 +308,10 @@ class BookingForm(forms.ModelForm):
                                     required=False,
                                     widget=forms.Textarea(attrs={
                                         "rows": "2"
-                                    }))
+                                    }),
+                                    error_messages={
+                                        "invalid": "Please enter words as well as numbers."
+                                    })
 
 
 class ReviewForm(forms.ModelForm):
