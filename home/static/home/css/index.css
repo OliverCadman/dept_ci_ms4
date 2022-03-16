@@ -178,6 +178,39 @@
     flex-direction: column;
 }
 
+#how_dept_works__carousel {
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel_item {
+    margin-top: 1.5rem;
+    opacity: 0;
+    transition: all 0.6s;
+    position: absolute;
+    background-color: #252525;
+    border-radius: 30px;
+    padding: .4rem 1rem;
+}
+
+.carousel_item.active {
+    opacity: 1;
+    transition: all 0.6s;
+}
+
+.carousel_img {
+    width: 325px;
+    max-width: 500px;
+    height: 230px;
+    object-fit: contain;
+    border-radius: 5%;
+}
+
 /* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
 @media screen and (min-width: 390px) and (max-width:414px) {
     #home-hero-container-sm {
@@ -207,8 +240,19 @@
        font-size: 1.25rem;
    }
 
+   /* How DepT Works */
+
    .list-circle-text p {
        font-size: 1.25rem;
+   }
+
+   .carousel_img {
+       width: 350px;
+       height: 275px;
+   }
+
+   .carousel_item {
+       margin-top: 0;
    }
 
    /* Subscribe Section */
@@ -383,6 +427,10 @@
 
     /* How DepT Works */
 
+    #how-dept-works {
+        height: 80vh;
+    }
+
     .how-dept-works-list li {
         position: relative;
     }
@@ -413,6 +461,11 @@
 
     .how-dept-works-list>li:nth-child(4) {
         left: 9em;
+    }
+
+    .carousel_img {
+        width: 500px;
+        height: 360px;
     }
 
     /* Subscribe Section */
@@ -477,6 +530,28 @@
     #home-hero-container-sm {
         height: 95vh;
     }
+
+    .carousel_img {
+        width: 250px;
+        height: 200px;
+    }
+}
+
+@media screen and (min-width: 353px) and (max-width: 360px) {
+    .carousel_img {
+        width: 300px;
+        height: 215px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    #how-dept-works {
+        height: 60vh;
+    }
+
+    .list-circle-text p {
+        font-size: 1.5rem;
+    }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
@@ -491,4 +566,11 @@
     .dept-details p {
         font-size: 1.5rem;
     }
+
+    .carousel_img {
+        width: 600px;
+        height: 390px;
+    }
+
+    /* How Dept Works */
 }
