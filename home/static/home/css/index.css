@@ -478,3 +478,17 @@
         height: 95vh;
     }
 }
+
+@media screen and (min-width: 1920px) and (max-width: 1920px) {
+    .hero-section-lg h1 {
+        font-size: 3rem;
+    }
+
+    .hero-section-lg p {
+        font-size: 1.75rem;
+    }
+
+    .dept-details p {
+        font-size: 1.5rem;
+    }
+}
