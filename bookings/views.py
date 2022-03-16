@@ -14,7 +14,6 @@ from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 
 from dateutil import parser
-import html_to_json
 
 from .forms import InvitationForm, BookingForm
 from .models import Invitation, Booking
@@ -293,6 +292,8 @@ def booking_form(request, invitation_pk):
             messages.success(request, "Booking Form Submitted")
             return redirect(reverse("booking_success", args=[current_booking.id]))
         else:
+            print("ERRORS")
+            print(booking_form.errors)
             messages.error(request, "Your form was invalid, please try again.")
 
     context = {
