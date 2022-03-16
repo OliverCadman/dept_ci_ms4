@@ -15,7 +15,7 @@
     <div class="container" id="home-hero-container">
         <figure>
             <!--TODO: Add variable width and height to image for performance -->
-            <img src="{% static "media/dept-logo.webp" %}" id="dept-logo" alt="DepT Logo" width="225" height="225">
+            <img src="{{MEDIA_URL}}dept-logo.webp" id="dept-logo" alt="DepT Logo" width="225" height="225">
         </figure>
         <h1 class="text-light">Created by Artists, for Artists.</h1>
     </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="header-hero-bg">
             <figure>
-                <img src="{% static "media/home-hero-lg.webp" %}" id="home-hero-image" alt="Home Hero Image">
+                <img src="{{MEDIA_URL}}home-hero-lg.webp" id="home-hero-image" alt="Home Hero Image">
             </figure>
         </div>
     </div>
