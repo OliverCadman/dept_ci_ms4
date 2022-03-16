@@ -227,6 +227,7 @@
     .user_instruments_lg {
         font-family: "Oxygen", sans-serif;
         font-size: 2rem;
+        width: 80%
     }
 
     .edit_user_details_btn_wrapper {
