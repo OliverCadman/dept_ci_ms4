@@ -26,7 +26,7 @@
                 <div class="float-end">
                     {% if user_profile.profile_image %}
                     <figure>
-                        <img src="{{user_profile.profile_image.url}}"
+                        <img src="{{MEDIA_URL}}{{user_profile.profile_image.url}}"
                         alt="{{user_profile.user}}"
                         id="profile_image_navbar"
                         width="150"
