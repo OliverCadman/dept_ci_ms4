@@ -89,7 +89,7 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                            {% if not request.user == user.user.username %}
+                            {% if not request.user.username == user.user.username %}
                                 <div id="no_reviews_container">
                                     <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
                                     <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
@@ -100,6 +100,11 @@
                                             <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
                                         {% endif %}
                                     </div>
+                                </div>
+                            {% else %}
+                                <div id="no_reviews_container">
+                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                    <p class="med_small_text secondary_font light_font text-center">Complete some jobs to increase your review rate!</p>
                                 </div>
                             {% endif %}
                     {% endif %}
