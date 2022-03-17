@@ -31,7 +31,7 @@
                         <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}">Reset Your Password</a>
                     </li> 
                     <li class="breadcrumb-item dashboard">
-                        <a href="{% url "dashboard" current_user %}?page=membership" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
+                        <a href="{% url "choose_subscription" %}" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
                     </li>
                 </ol>
                 <!-- Nav Link for Mobile Only -->
@@ -89,8 +89,10 @@
                                                         Access to the jobs board
                                                     </li>
                                                 </ul>
-                                                <input type="hidden" name="price_id" id="tier_two_price_id" value="{{tier_two_price_id}}">
-                                                <button class="checkout-portal">Upgrade</button>
+                                                <form action="{% url "customer_portal" %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="subscription_btn">Upgrade</button>
+                                                </form>
                                             </div>
                                         {% endif %}
                                     </div>
