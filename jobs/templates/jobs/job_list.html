@@ -107,14 +107,16 @@
                                         class="btn primary_bg secondary_font white_font d-block w-100 mb-2 job_detail_btn" data-bs-toggle="modal" data-bs-target="#job_detail_modal">
                                             View Details
                                         </button>
-                                        {% if not job in current_users_jobs %}
-                                        <a href="{% url "register_interest" job.pk request.user.username %}" class="btn custom_success secondary_font white_font d-block w-100">
-                                            Send Offer
-                                        </a>
-                                        {% else %}
-                                          <a href="{% url "register_interest" job.pk request.user.username %}"class="btn disabled custom_danger secondary_font white_font d-block w-100">
-                                            Offer Sent
-                                        </a>
+                                        {% if request.user.is_authenticated %}
+                                            {% if not job in current_users_jobs %}
+                                            <a href="{% url "register_interest" job.pk request.user.username %}" class="btn custom_success secondary_font white_font d-block w-100">
+                                                Send Offer
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url "register_interest" job.pk request.user.username %}"class="btn disabled custom_danger secondary_font white_font d-block w-100">
+                                                Offer Sent
+                                            </a>
+                                            {% endif %}
                                         {% endif %}
                                     
                                     </div>

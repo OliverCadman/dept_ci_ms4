@@ -1,7 +1,7 @@
 from ast import parse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.generic import ListView
 from django.contrib import messages
 
@@ -10,7 +10,7 @@ from dateutil import parser
 from .forms import JobForm
 from .models import Job
 
-from profiles.models import UserProfile, Instrument, Genre
+from profiles.models import UserProfile, Instrument, Genre, AudioFile
 from bookings.models import Booking
 
 from .functions import handle_get_params
@@ -127,11 +127,11 @@ class JobListView(ListView):
         # Populate the "instrument" select dropdown with values from Instrument Model.
         context["instrument_list"] = Instrument.objects.all()
 
-        current_user = get_object_or_404(UserProfile, user__username=self.request.user.username)
-        current_users_jobs = current_user.job_set.all()
-
-        context["current_user"] = current_user
-        context["current_users_jobs"] = current_users_jobs
+        if self.request.user.is_authenticated:
+            current_user = get_object_or_404(UserProfile, user__username=self.request.user.username)
+            current_users_jobs = current_user.job_set.all()
+            context["current_user"] = current_user
+            context["current_users_jobs"] = current_users_jobs
 
         return context
 
@@ -162,6 +162,9 @@ def post_job(request):
         # as "job_poster".
         current_user = request.user
         user_profile = get_object_or_404(UserProfile, user__username=current_user)
+
+        print("JOB POST")
+        print(request.POST)
 
 
         # Parse the datetime field into python datetime object,
@@ -194,6 +197,7 @@ def post_job(request):
             messages.success(request, "Your job has been posted.")
             return redirect(reverse("job_list"))
         else:
+            print(job_form.errors)
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
 
@@ -274,5 +278,3 @@ def get_interested_members(request, job_id):
 
             interested_members.append(member_details.copy())
         return JsonResponse({"member_details": interested_members})
-
-
