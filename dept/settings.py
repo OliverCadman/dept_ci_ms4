@@ -33,7 +33,7 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "DEVELOPMENT" in os.environ
+DEBUG = True
 
 # Use HTTPS in production
 # if not "DEVELOPMENT" in os.environ:
