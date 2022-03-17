@@ -15,13 +15,16 @@
 <!-- Content -->
 {% block content %}
 <section>
-    <!-- Container to display choices on cards -->
-    {% with page_name as p %}
+    <!-- Header -->
         {% include 'includes/header-hero.html' %}
     {% endwith %}
+    <!-- Tier One Subscription Choice Container-->
     <div class="container-fluid subscription-choice-container">
         <div class="row h-100 d-flex justify-content-center justify-content-md-around align-items-center">
             <div class="col-9 col-md-5 col-lg-3 subscription-choice-card">
+                {% if not current_user.is_paid %}
+                    <div class="opaque_overlay_xlight rounded_border"></div>
+                {% endif %}
                 <div class="subscription-details">
                     <h2 class="subscription-header text-center">
                         Tier One
@@ -48,10 +51,31 @@
                         </ul>
                     </div>
                 </div>
-                        <input type="hidden" name="price_id" id="tier_one_price_id" value="{{tier_one_price_id}}">
-                        <button type="button" class="checkout-portal">Choose Tier One</button>
+                    <!-- Tier One Subscription Choice Buttons  -->
+                    <input type="hidden" name="price_id" id="tier_one_price_id" value="{{tier_one_price_id}}">
+                    {% if request.user.is_authenticated %}
+                        {% if current_user.subscription_chosen %}
+                            {% if current_user.is_paid %}
+                                <!-- Form used to open the Stripe Customer Portal -->
+                                <form action="{% url "customer_portal" %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="checkout-portal subscription_btn">Upgrade Your Plan</button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn checkout-portal subscription_btn disabled">Your Current Subscription</button>
+                            {% endif %}
+                        {% else %}
+                            <button type="button" class="btn checkout-portal subscription_btn">Choose Tier One</button>  
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url "account_login" %}?next={{request.path}}" class="subscription_btn">Choose Tier One</a>
+                    {% endif %}
                 </div>
+            <!-- Tier Two Subscription Choice Card -->
             <div class="col-9 col-md-5 col-lg-3 subscription-choice-card">
+                {% if current_user.is_paid %}
+                    <div class="opaque_overlay_xlight rounded_border"></div>
+                {% endif %}
                 <div class="subscription-details">
                     <h3 class="subscription-header text-center">
                         Tier Two
@@ -86,8 +110,25 @@
                             </ul>
                         </div>
                     </div>
+                    <!-- Tier Two Subscription Choice Buttons  -->
                     <input type="hidden" name="price_id" id="tier_two_price_id" value="{{tier_two_price_id}}">
-                    <button type="button" class="checkout-portal">Choose Tier Two</button>
+                    {% if request.user.is_authenticated %}
+                        {% if current_user.subscription_chosen %}
+                            {% if not current_user.is_paid %}
+                                <!-- Form used to open Stripe customer portal -->
+                                <form action="{% url "customer_portal" %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn subscription_btn">Upgrade your Plan</button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn checkout-portal subscription_btn disabled">Your Current Subscription</button>
+                            {% endif %}
+                        {% else %}
+                                <button type="button" class="btn checkout-portal subscription_btn">Choose Tier Two</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url "account_login" %}?next={{request.path}}" class="checkout-portal">Choose Tier Two</a>
+                    {% endif %}
                 </div>
             </div>
     </div>
