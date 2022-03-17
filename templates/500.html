@@ -1,0 +1,42 @@
+<!-- 500 Page -->
+
+{% extends "base.html" %}
+
+{% block title %}500 Error{% endblock %}
+
+{% block content %}
+    <!-- 500 Header, Message and CTA for Mobile and Tablet Devices -->
+    <section class="errorpage_section_sm d-lg-none d-block">
+        <div class="container-fluid errorpage_container_sm">
+            <div class="row">
+                <div class="col-12 centered_column">
+                    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" height="50" width="50" class="logo_errorpage">
+                    <div class="errorpage_msg_display mt-5">
+                        <h1 class="primary_font xl_text text-center">500 Error</h1>
+                        <p class="primary_font light_weight text-center med_text">Sorry, we are having server issues.</p>
+                        <a href="{% url "home" %}" class="btn cta-btn-dark white_font secondary_font p-3 w-100 med_text">Take me Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 500 Header, Message and CTA for Laptop devices and larger -->
+    <section class="errorpage_section_lg d-none d-lg-block">
+        <div class="container-fluid errorpage_container">
+            <div class="row">
+                <div class="col-12 ps-5">
+                    <div class="errorpage_msg_display">
+                        <h1 class="primary_font white_font xl_text">500 Error</h1>
+                        <p class="primary_font med_weight white_font large_text">Sorry, we are having server issues.</p>
+                        <a href="{% url "home" %}" class="btn cta-btn-light secondary_font p-3 w-100 med_text">Take me Home</a>
+                    </div>
+                    <div class="error
+                    
+                    -hero-bg d-none d-lg-block">
+                        <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" height="100" width="100" class="logo_errorpage">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oxygen:wght@300;400&family=Jost:wght@300;400;500&family=Roboto:wght@300;400&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oxygen:wght@300;400&family=Jost:wght@300;400;500&family=Roboto:wght@300;400&family=Varela+Round&display=swap');
 
 body,
 html {
@@ -29,7 +29,7 @@ body {
     line-height: 1.25rem;
 }
 
-.med-size {
+.med_size {
     font-size: 1.2rem;
 }
 
@@ -77,6 +77,18 @@ body {
     color: #111 !important;
 }
 
+.light_weight {
+    font-weight: 300;
+}
+
+.med_weight {
+    font-weight: 400;
+}
+
+.xl_text {
+    font-size: 4rem;
+}
+
 .large_text {
     font-size: 1.75rem;
 }
@@ -94,7 +106,7 @@ body {
 }
 
 .xs_text {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
 }
 
 .text-bold {
@@ -105,9 +117,14 @@ body {
     background: #fafafa;
 }
 
-.alert_style {
+.alert_style,
+.invalid-feedback {
     color: #9c1e1e;
     font-style: italic;
+}
+
+.invalid-feedback {
+    font-family: "Open Sans", sans-serif;
 }
 
 .full_height {
@@ -122,6 +139,10 @@ body {
 
 .custom_success {
     background-color: #0e8347;
+}
+
+.custom_danger {
+    background-color: #8a0000;
 }
 
 .block-divider {
@@ -189,7 +210,16 @@ body {
 .cta-btn {
     background-color: #2c7222;
     color: #fefefe;
-    font-family: "Open Sans", sans-serif;
+    transition: all 0.3s;
+}
+
+.cta-btn-light {
+    background-color: #ddd;
+    transition: all 0.3s;
+}
+
+.cta-btn-dark {
+    background-color: #222;
 }
 
 /* Global Form Styling */
@@ -204,12 +234,29 @@ body {
 
 /* Global Modals */
 
+.custom-modal-header {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 600;
+    color: #fefefe;
+    background-color: #14161b;
+    border-bottom: none;
+}
+
+.custom-modal-body {
+    background-color: #1f2131;
+    color: #fefefe;
+}
+
 .modal_profile_image_thumbnail {
     border-radius: 50%;
     object-fit: cover;
     width: 50px;
     height: 50px;
     display: inline-block;
+}
+
+.btn-close {
+    background-color: #fefefe;
 }
 
 /* Override default bootstrap SVG colour */
@@ -463,10 +510,6 @@ body {
     color: #8b8b8b;
 }
 
-/* Featured Instrument Link Cards (Home and "Find a Dep" pages) */
-
-
-
 /* Form Elements */
 
 .modal_form_container {
@@ -541,17 +584,57 @@ body {
     color: #eee;
 }
 
+/* 404 Page */
 
+.errorpage_section_sm {
+    height: 60vh;
+    background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+}
+
+.errorpage_container_sm {
+    padding-top: 7rem;
+}
+
+.logo_errorpage {
+    width: 120px;
+    height: 120px;
+}
+
+/* -------------- MEDIA QUERIES ------------- */
+
+
+/* ----- Tablet ---- */
 @media screen and (min-width: 768px) {
 
+    /* Utility Classes */
 
     .small_text {
         font-size: 1rem;
     }
 
+    .med_text {
+        font-size: 2rem;
+    }
+
+    .large_text {
+        font-size: 5rem;
+    }
+
+    .xl_text {
+        font-size: 6rem;
+    }
+
     .xs_text {
         font-size: 0.75rem;
     }
+
+    /* Global Modal Styles */
+
+    .modal_profile_image_thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+    
 
     /* NavBar */
 
@@ -571,6 +654,19 @@ body {
 
     .nav-item {
         padding: .75rem 0;
+    }
+
+    .navbar-brand {
+        order: 1;
+    }
+
+    .navbar-toggler {
+        order: 0;
+
+    }
+
+    .navbar-nav {
+        align-items: center;
     }
 
     /* Notifications */
@@ -597,24 +693,23 @@ body {
         flex-direction: column;
         align-items: center;
     }
-}
 
-@media screen and (min-width:768px) {
-    .navbar-brand {
-        order: 1;
+    /* 404 Page */
+
+    .errorpage_section_sm {
+        height: 80vh;
     }
 
-    .navbar-toggler {
-        order: 0;
-
-    }
-
-    .navbar-nav {
-        align-items: center;
+    .errorpage_container_sm {
+        padding-top: 13rem;
     }
 }
 
+
+/* Laptop/Desktop Devices */
 @media screen and (min-width: 992px) {
+
+    /* Utility Classes */
 
     .med_small_text {
          font-size: 1.35rem;
@@ -627,6 +722,69 @@ body {
     .large_text {
         font-size: 2.5rem;
     }
+
+    .xl_text {
+        font-size: 7rem;
+    }
+
+    .cta-btn-light:hover {
+        background-color:#339944;
+        color: #fefefe;
+        transition: all 0.3s;
+    }
+
+    /* 404/500 Pages */
+
+     .errorpage_section_lg {
+         background-color: #1a2342;
+         position: relative;
+         margin-top: 4rem;
+         height: 67vh;
+     }
+
+     .errorpage_container {
+         padding-top: 6rem;
+     }
+
+     .hero-block-divider {
+         border: 2px solid white;
+         width: 97%;
+         margin: 0 auto !important;
+     }
+
+     .error-hero-bg {
+         position: absolute;
+         width: 50%;
+         height: 100%;
+         top: 0;
+         right: 0;
+         background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+     }
+
+     .error-hero-bg:after {
+         background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+         content: '';
+         width: 25%;
+         height: 100%;
+         position: absolute;
+         top: 0;
+         left: 0;
+         z-index: 2;
+     }
+
+     .logo_errorpage {
+         position: absolute;
+         left: 40%;
+         transform: translateY(50%);
+         width: 250px;
+         height: 250px;
+     }
+
+     .errorpage_msg_display {
+         width: 40%;
+     }
+
+     /* Profile Page and Booking Detail/Success Header*/
 
     #profile_image_navbar {
         width: 150px;
@@ -693,5 +851,32 @@ body {
         color: #fefefe;
     }   
 
+}
+
+
+/* iPhone 5/SE */
+@media screen and (min-width: 320px) and (max-width: 320px) {
+    /* 404/500 Page */
+    .errorpage_section_sm {
+        height: 95vh;
+    }
+}
+
+/* iPhone 6/7/8 and 6/7/8 Pro */
+@media screen and (min-width: 360px) and (max-width: 414px) {
+
+    /* 404/500 Page */
+    .errorpage_section_sm {
+        height: 80vh;
+    }
+}
+
+/* Large/XL Screens */
+@media screen and (min-width: 1435px) {
+
+    /* 400/500 Page */
+    .errorpage_section_lg {
+        height: 69vh;
+    }
 }
 
