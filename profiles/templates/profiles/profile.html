@@ -97,7 +97,7 @@
                                         {% if request.user.is_authenticated %}
                                             <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                                         {% else %}
-                                            <a href="{% url "account_login" %}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
+                                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
                                         {% endif %}
                                     </div>
                                 </div>

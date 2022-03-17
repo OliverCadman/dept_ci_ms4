@@ -144,10 +144,14 @@
                     </div>
                     {% if p == "user_profile" %}
                     <div class="header-btn-wrapper">
-                        {% if not request.user.username == user.user.username %}
-                            <button class="btn inset_light_shadow" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
+                        {% if request.user.is_authenticated %}
+                        {% if not request.user.username == user.user.username %}</button>
+                            <button class="btn custom_success inset_light_shadow" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}
                         {% else %}
                             <a href="{% url "edit_profile" %}" class="btn custom_success secondary_font white_font inset_light_shadow">Edit My Profile</a>
+                        {% endif %}
+                        {% else %}
+                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font inset_light_shadow">Invite {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</a>
                         {% endif %}
                     </div>
 
@@ -186,17 +190,17 @@
                         {{user.city}}, {{user.country.name}}
                     </p>
                     <div class="btn_wrapper_lg">
-                        {% if not request.user.username == user.user.username %}
-                            {% if request.user.is_authenticated %}
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
-                                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                        {% if request.user.is_authenticated %}
+                            {% if not request.user.username == user.user.username %}
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                             {% else %}
-                                <a href="{% url "account_login" %}" class="btn">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
-                                <a href="{% url "account_login" %}" class="btn">Leave a Review</a>
+                                <a href="{% url "edit_profile" %}" class="btn">Edit My Profile</a>
                             {% endif %}
                         {% else %}
-                            <a href="{% url "edit_profile" %}" class="btn">Edit My Profile</a>
-                        {% endif %}
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn">Leave a Review</a>
+                        {% endif%}
                     </div>
                 </div>
                 <!-- Booking Party's Username for Booking Success Page (Large Screens) -->
