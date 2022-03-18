@@ -1,0 +1,35 @@
+<!-- Edit Job Template -->
+
+<!-- Contains a single form to update Job object -->
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<!-- Title -->
+{% block title %}Edit Your Job{% endblock %}
+
+<!-- Content -->
+{% block content %}
+    <!-- Job Form -->
+    <section class="edit_form_section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center primary_font">Edit Your Job</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-container">
+                        <form action="{% url "edit_job" object.pk %}" method="POST">
+                            {% crispy form %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

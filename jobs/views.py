@@ -1,8 +1,7 @@
-from ast import parse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import JsonResponse
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
 from django.contrib import messages
 
 from dateutil import parser
@@ -128,8 +127,12 @@ class JobListView(ListView):
         context["instrument_list"] = Instrument.objects.all()
 
         if self.request.user.is_authenticated:
+
             current_user = get_object_or_404(UserProfile, user__username=self.request.user.username)
+
+            # Get current user's jobs to personalize CTA buttons (if they have expressed interest)
             current_users_jobs = current_user.job_set.all()
+
             context["current_user"] = current_user
             context["current_users_jobs"] = current_users_jobs
 
@@ -163,16 +166,10 @@ def post_job(request):
         current_user = request.user
         user_profile = get_object_or_404(UserProfile, user__username=current_user)
 
-        print("JOB POST")
-        print(request.POST)
-
-
         # Parse the datetime field into python datetime object,
         # readable by Django.
         event_datetime = request.POST.get("event_datetime")
         parsed_datetime = parser.parse(event_datetime)
-
-        print(request.FILES.get("image"))
 
         # Prepare new request dictionary to allow inclusion of 
         # prepared datetime field.
@@ -200,6 +197,51 @@ def post_job(request):
             print(job_form.errors)
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
+
+class EditJobView(UpdateView):
+
+    """
+    Updates a given Job object using JobForm,
+    with fields pre-populated with values inputted by the 
+    invite sender from submitting the original form from
+    the job list page.
+    """
+
+    template_name = "jobs/edit_job.html"
+    form_class = JobForm
+    queryset = Job.objects.all()
+    success_url = "/jobs/find_a_job"
+
+    def get_object(self):
+        """
+        Get the current job object to be edited.
+        """
+        job_id = self.kwargs.get("job_id")
+        return get_object_or_404(Job, pk=job_id)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Process the "event_datetime" field of the post request,
+        turning it into a python datetime object, interpretable
+        by Django.
+        """
+        
+        event_datetime = request.POST.get("event_datetime")
+        parsed_datetime = parser.parse(event_datetime)
+        request.POST = request.POST.copy()
+        request.POST["event_datetime"] = parsed_datetime
+     
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """
+        Return success message upon successful submission of form.
+        """
+        messages.success(self.request, "Job form edited")
+        return super().form_valid(form)
+
+    
+
 
 
 def register_interest(request, job_id, username):
