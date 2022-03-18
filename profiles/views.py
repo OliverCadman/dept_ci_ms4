@@ -346,8 +346,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Grab Booking ID if user is visiting dashboard from
         # booking details page (clicking 'Message User')
 
+        referer_url_path = None
         referer_url = self.request.META.get("HTTP_REFERER")
-        referer_url_path = referer_url.split("/")[3]
+        if referer_url is not None:
+            referer_url_path = referer_url.split("/")[3]
 
         # Set filter to Booking ID if user visiting dashboard
         # from Booking Detail Page.
