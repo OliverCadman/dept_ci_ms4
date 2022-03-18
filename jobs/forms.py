@@ -35,7 +35,7 @@ class JobForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.form_action = "/jobs/post_job"
+        self.helper.form_tag = False
         self.helper.form_method = "post"
         self.helper.form_id = "job_post_form"
         self.helper.layout = Layout(
