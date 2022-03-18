@@ -65,8 +65,6 @@ $(document).ready(function() {
         );
 
     const invitationId = $(this).data("invitation-id");
-    const messageContainerId = "#message_display_container";
-    const messageModalId = "#message_modal"
     let tierOneAjaxMessageGETUrl = `/bookings/get_invitation_messages/${invitationId}`;
             
     // Populate message modal with messages
@@ -74,6 +72,22 @@ $(document).ready(function() {
   });
 
   $(".tier_two_message_modal_btn").click(function() {
+    if ($(this).data("modal-profile-img") != "") {
+      $("#message_modal_header").html(
+        `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data(
+          "invite-fname"
+        )}" width="100" height="100" class="modal_profile_img">
+          ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
+      );
+    } else {
+      $("#message_modal_header").html(
+        `<img src="/media/dept-logo.webp" alt="${$(this).data(
+          "invite-fname"
+        )}" width="100" height="100" class="modal_profile_img">
+          ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
+      );
+    }
+
     const jobPostId = $(this).data("job-post-id");
     const tierTwoAjaxMessageGETUrl = `/bookings/get_invitation_messages/${jobPostId}`;
     displayMessages(tierTwoAjaxMessageGETUrl);
@@ -186,7 +200,6 @@ function displayMessages(url) {
     type: "GET",
     url: url,
     success: function (res) {
-      console.log(res.messages);
       const messages = res.messages;
       if (messages.length > 0) {
         for (let messageObject of messages) {
@@ -239,6 +252,7 @@ function displayMessages(url) {
       } else {
         messageContainer.addClass("centered");
         const noResultsEl = document.createElement("p");
+        noResultsEl.className = "secondary_font";
         const noResultsMsg = "Start a Conversation";
         noResultsEl.innerText = noResultsMsg;
         messageContainer.append(noResultsEl);
