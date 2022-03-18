@@ -85,6 +85,13 @@
                                             {{ review.review_content }}
                                         </p>
                                     </div>
+                                    <div class="edit_delete_btn_wrapper float-end">
+                                        <button type="button"
+                                        class="btn custom_success white_font edit_review_modal_trigger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#review_modal"
+                                        data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
@@ -255,7 +262,9 @@
                                 {% endfor %}
                             {% endfor %}
                         {% endif %}
-                        {% crispy invitation_form %}
+                        <form action="{% url "invitation" %}" method="POST">
+                            {% crispy invitation_form %}
+                        </form>
                     </div>
                 </div>
             </div>
@@ -281,14 +290,52 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="edit_review_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal_form_container">
+                    <div id="review_form_wrapper">
+                        <form action="{% url "profile" user.user.username %}" method="POST">
+                            {% csrf_token %}
+                             <h3 class='form-header'>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}.</h3>
+                            {% include "includes/star_icons.html" %}
+                            {{ review_form|crispy }}
+                            <button class="btn custom_success white_font secondary_font" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete_profile_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-center primary_font">Deleting your Account</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="secondary_font">Are you sure you want to do this?</p>
+                    <div class="cta-btn-wrapper">
+                        <a href="#" class="btn alert_bg primary_font light_weight white_font w-50 me-2 med_small_text" id="confirm_profile_delete">Yes, delete my account.</a>
+                        <button type="button" class="btn custom_success primary_font light_weight white_font w-50 ms-2 med_small_text" data-bs-dismiss="modal" aria-label="Close">No, I've changed my mind!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </aside>
 {% endblock %}
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
     <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
+    <script src="{% static "profiles/js/edit_review_modal.js" %}"></script>
     <script src="{% static "bookings/js/rating.js" %}"></script>
     <script src="{% static "js/form_ajax.js" %}"></script>
+    <script src="{% static "js/delete_alert_modals.js" %}"></script>
     <script>
         $(function() {
             $("#date_time_picker").datetimepicker({
