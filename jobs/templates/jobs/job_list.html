@@ -89,7 +89,11 @@
                                         {% if request.user.is_authenticated %}
                                             {% if current_user == job.job_poster %}
                                                 <a href="{% url "edit_job" job.pk %}" class="primary_font text-success"><small>Edit</small></a>
-                                                <a href="#" class="primary_font text-danger"><small>Delete</small></a>
+                                                <button type="button"
+                                                class="no_bg underline primary_font text-danger confirm_job_delete_btn"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#delete_job_modal"
+                                                data-job-id="{{ job.pk }}"><small>Delete</small></button>
                                             {% endif %}
                                         {% endif %}
                                     </div>
@@ -228,6 +232,23 @@
                 </div>
             </div>
         </div>
+        <!-- Delete Job Modal -->
+        <div class="modal fade" id="delete_job_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="primary_font text-center">Delete this Job?</h2>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="cta-btn-wrapper">
+                            <a href="#" class="btn alert_bg secondary_font white_font me-2 w-50" id="confirm_job_delete">Yes</a>
+                            <button class="btn custom_success secondary_font white_font ms-2 w-50" data-bs-dismiss="modal" aria-label="Close">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </aside>
 {% endblock %}
 
@@ -237,4 +258,5 @@
     <script src="{% static "jobs/js/job_fee_icons.js" %}"></script>
     <script src="{% static "jobs/js/job_detail_modal.js" %}"></script>
     <script src={% static "jobs/js/filter.js" %}></script>
+    <script src="{% static "js/delete_alert_modals.js" %}"></script>
 {% endblock %}

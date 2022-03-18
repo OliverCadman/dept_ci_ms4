@@ -241,7 +241,28 @@ class EditJobView(UpdateView):
         return super().form_valid(form)
 
     
+def delete_job(request, job_id):
+    """
+    Delete Job View
+    --------------------
 
+    Gets the job object using the ID passed in url, 
+    and deletes it from the table.
+
+    If successful, a success message is displayed, 
+    and user is redirected back to the job_list page.
+
+    If unsuccessful, an error message is displayed,
+    and user is redirected back to the job_list page.
+    """
+    current_job = get_object_or_404(Job, pk=job_id)
+    try:
+        current_job.delete()
+        messages.success(request, "Your job was deleted.")
+        return redirect(reverse("job_list"))
+    except Exception as e:
+        messages.error(request, f"Sorry, there was an error: {e}")
+        return redirect(reverse("job_list"))
 
 
 def register_interest(request, job_id, username):
