@@ -42,7 +42,7 @@ class InvitationForm(forms.ModelForm):
         self.helper.form_action = "/bookings/invite"
         self.helper.form_method = "post"
         self.helper.form_id = "invitation_form"
-        self.helper.add_input(Submit('submit', "Submit"))
+        self.helper.add_input(Submit('submit', "Submit", css_class="custom_success secondary_font"))
         self.helper.layout = Layout(
             Div(
                 Div(
