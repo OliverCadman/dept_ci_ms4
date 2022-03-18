@@ -475,6 +475,23 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal Alert to Confirm Invite Deletion -->
+            <div class="modal fade" id="confirm_invite_delete_modal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header custom-modal-header">
+                            <h6 class="text-center primary_font">Delete this invitation?</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-3">
+                            <div class="cta-btn-wrapper">
+                                <a href="#" class="btn alert_bg secondary_font white_font w-50 me-3" id="confirm_invite_delete">Yes</a>
+                                <button type="button" class="btn custom_success secondary_font white_font w-50 ms-3" data-bs-dismiss="modal" aria-label="Close">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </aside>
 {% endblock %}
 {% block postload_js %}
@@ -490,4 +507,5 @@
         {% endif %}
         <script src="{% static "js/format_date.js" %}"></script>
         <script src="{% static "profiles/js/dashboard_modals.js" %}"></script>
+        <script src="{% static "js/delete_alert_modals.js" %}"></script>
 {% endblock %}

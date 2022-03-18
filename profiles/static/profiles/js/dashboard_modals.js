@@ -23,6 +23,7 @@ Job Offer Modal:
 const requestUserId = parseInt($("#request_user_id").val());
 
 $(document).ready(function() {
+  // Detail Modal
   $(".view_detail_btn").click(function (e) {
     $("#modal_event_name").html($(this).data("event-name"));
     $("#modal_invite_personage").html(
@@ -40,38 +41,53 @@ $(document).ready(function() {
     }
   });
 
-  //
+  // Message Modal
   $(".message_modal_btn").click(function () {
-      if ($(this).data("modal-profile-img") != "") {
-        $("#message_modal_header").html(
-          `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data("invite-fname")}" width="100" height="100" class="modal_profile_img">
+    if ($(this).data("modal-profile-img") != "") {
+      $("#message_modal_header").html(
+        `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data(
+          "invite-fname"
+        )}" width="100" height="100" class="modal_profile_img">
           ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
-        );
-      } else {
-        $("#message_modal_header").html(
-          `<img src="/media/dept-logo.webp" alt="${$(this).data(
-            "invite-fname"
-          )}" width="100" height="100" class="modal_profile_img">
+      );
+    } else {
+      $("#message_modal_header").html(
+        `<img src="/media/dept-logo.webp" alt="${$(this).data(
+          "invite-fname"
+        )}" width="100" height="100" class="modal_profile_img">
           ${$(this).data("invite-fname")} ${$(this).data("invite-lname")}`
-        );
-      }
+      );
+    }
 
-        // Form action with dynamic URL params passed from data attributes of 'message_modal_btn'
-        $("#message_form").attr(
-          "action",
-          `/social/send_message/${$(this).data("invite-username")}/${$(this).data(
-            "invitation-id"
-          )}`
-        );
+    // Form action with dynamic URL params passed from data attributes of 'message_modal_btn'
+    $("#message_form").attr(
+      "action",
+      `/social/send_message/${$(this).data("invite-username")}/${$(this).data(
+        "invitation-id"
+      )}`
+    );
 
     const invitationId = $(this).data("invitation-id");
     let tierOneAjaxMessageGETUrl = `/bookings/get_invitation_messages/${invitationId}`;
-            
+
     // Populate message modal with messages
-    displayMessages(tierOneAjaxMessageGETUrl)
+    displayMessages(tierOneAjaxMessageGETUrl);
   });
 
-  $(".tier_two_message_modal_btn").click(function() {
+  /* Delete Invitation Modal
+  --------------------------------
+   Grabs invitation as data-attribute passed through
+   button to open confirmation modal, and sets the href attribute of
+   link to delete invitation, with invitation id appended. */
+  $(".confirm_invite_delete_btn").click(function () {
+    $("#confirm_invite_delete").attr(
+      "href",
+      `/bookings/delete_invitation/${$(this).data("invitation-id")}`
+    );
+
+  });
+
+  $(".tier_two_message_modal_btn").click(function () {
     if ($(this).data("modal-profile-img") != "") {
       $("#message_modal_header").html(
         `<img src=${$(this).data("modal-profile-img")} alt="${$(this).data(
@@ -95,8 +111,8 @@ $(document).ready(function() {
     $("#message_form").attr(
       "action",
       `/social/send_message/${$(this).data("invite-username")}/${jobPostId}`
-    )
-  })
+    );
+  });
 
   /* ---------------------------- */
 
@@ -110,29 +126,28 @@ $(document).ready(function() {
   of .message_modal_btn. If one matches, that specific modal is triggered.
   */
   const referrer = document.referrer;
-  const referrerPath = referrer.split("/")
-  const referrerPageName = referrerPath[3]
-  const bookingId = referrerPath[5]
+  const referrerPath = referrer.split("/");
+  const referrerPageName = referrerPath[3];
+  const bookingId = referrerPath[5];
 
   // AJAX Request
   if (referrerPageName === "bookings") {
-      $.ajax({
-        url: `/bookings/get_invitation_id/${bookingId}`,
-        type: "get",
-        success: function(res) {
-          // Compare data-invitation-id attribute with returned Invitation ID
-          const invitationId = res.invitation_id
-          $(".message_modal_btn").each(function(){
-              if ($(this).data("invitation-id") === invitationId) {
-                $(this).trigger("click")
-              }
-          })
-        },
-        error: function(err) {
-          displayAJAXErrorMessage(err.status)
-        }
-      })
-
+    $.ajax({
+      url: `/bookings/get_invitation_id/${bookingId}`,
+      type: "get",
+      success: function (res) {
+        // Compare data-invitation-id attribute with returned Invitation ID
+        const invitationId = res.invitation_id;
+        $(".message_modal_btn").each(function () {
+          if ($(this).data("invitation-id") === invitationId) {
+            $(this).trigger("click");
+          }
+        });
+      },
+      error: function (err) {
+        displayAJAXErrorMessage(err.status);
+      },
+    });
   }
 
   // - End of Tier One
@@ -141,25 +156,24 @@ $(document).ready(function() {
 
   // Job Post Modal
 
-  $(".offers_received_modal_btn").click(function() {
+  $(".offers_received_modal_btn").click(function () {
     let jobId = $(this).data("job-id");
 
     $("#offers_received_modal_header").html(`
-      ${$(this).data("job-offer-count")} members are interested.`)
+      ${$(this).data("job-offer-count")} members are interested.`);
 
     // AJAX Request to get details of members who have registered interest in a given job.
     $.ajax({
       url: `/jobs/get_interested_members/${jobId}`,
       type: "GET",
-      success: function(res) {
-        let interestedMembers = res.member_details
+      success: function (res) {
+        let interestedMembers = res.member_details;
 
         // Populate relative modal with details of each member who registered interest.
         for (let member of interestedMembers) {
-          
           let membersInstruments = member.instruments_played;
           membersInstruments = membersInstruments.join(", ");
-        
+
           $("#interested_member_container").append(
             `
             <div class="col-12">
@@ -183,117 +197,114 @@ $(document).ready(function() {
             `
           );
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
+  $("#offers_received_modal").on("hidden.bs.modal", function () {
+    $("#interested_member_container").empty();
+  });
 
-  $("#offers_received_modal").on("hidden.bs.modal", function() {
-    $("#interested_member_container").empty()
-  })
+  function displayMessages(url) {
+    let messageContainer = $("#message_display_container");
 
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (res) {
+        const messages = res.messages;
+        if (messages.length > 0) {
+          for (let messageObject of messages) {
+            let messageDateTime = new Date(messageObject.date_of_message);
 
-function displayMessages(url) {
-  let messageContainer = $("#message_display_container");
+            let formattedDate = formatDate(messageDateTime);
 
-  $.ajax({
-    type: "GET",
-    url: url,
-    success: function (res) {
-      const messages = res.messages;
-      if (messages.length > 0) {
-        for (let messageObject of messages) {
-          let messageDateTime = new Date(messageObject.date_of_message);
+            // Compare today's date with datetime object of message
+            // Render time of message without date if message was sent today.
+            const now = new Date();
 
-          let formattedDate = formatDate(messageDateTime);
+            dateDiff = dateDiffInDays(messageDateTime, now);
+            let timeNoDate;
+            if (dateDiff < 2) {
+              timeNoDate = formattedDate.split(" ")[1];
+            }
 
-          // Compare today's date with datetime object of message
-          // Render time of message without date if message was sent today.
-          const now = new Date();
+            // Create message elemets and populate with data as content
+            let messageWrapper = document.createElement("div");
+            let dateTimeSpan = document.createElement("span");
+            dateTimeSpan.classList.add("message-datetime");
+            dateTimeSpan.innerText = dateDiff < 1 ? timeNoDate : formattedDate;
 
-          dateDiff = dateDiffInDays(messageDateTime, now);
-          let timeNoDate;
-          if (dateDiff < 2) {
-            timeNoDate = formattedDate.split(" ")[1];
-          }
+            let messageContent = messageObject.message;
+            let messageElement = document.createElement("p");
+            messageElement.classList.add("message-content");
 
-          // Create message elemets and populate with data as content
-          let messageWrapper = document.createElement("div");
-          let dateTimeSpan = document.createElement("span");
-          dateTimeSpan.classList.add("message-datetime");
-          dateTimeSpan.innerText = dateDiff < 1 ? timeNoDate : formattedDate;
+            messageWrapper.classList.add("message");
+            let messageSender = messageObject.message_sender;
 
-          let messageContent = messageObject.message;
-          let messageElement = document.createElement("p");
-          messageElement.classList.add("message-content");
+            // Places sent message on left of containing div, and received message on right.
+            if (messageSender === requestUserId) {
+              messageWrapper.classList.add("sender");
+            } else {
+              messageWrapper.classList.add("receiver");
+            }
 
-          messageWrapper.classList.add("message");
-          let messageSender = messageObject.message_sender;
+            messageWrapper.append(dateTimeSpan);
+            messageWrapper.append(messageElement);
+            messageElement.innerText = messageContent;
+            messageContainer.append(messageWrapper);
 
-          // Places sent message on left of containing div, and received message on right.
-          if (messageSender === requestUserId) {
-            messageWrapper.classList.add("sender");
-          } else {
-            messageWrapper.classList.add("receiver");
-          }
-
-          messageWrapper.append(dateTimeSpan);
-          messageWrapper.append(messageElement);
-          messageElement.innerText = messageContent;
-          messageContainer.append(messageWrapper);
-
-          /* Remove 'centered' class in the case that a user 
+            /* Remove 'centered' class in the case that a user 
               visits a populated message modal after visiting an 
               unpopulated message modal */
-          if (messageContainer.hasClass("centered")) {
-            messageContainer.removeAttr("class");
+            if (messageContainer.hasClass("centered")) {
+              messageContainer.removeAttr("class");
+            }
           }
+        } else {
+          messageContainer.addClass("centered");
+          const noResultsEl = document.createElement("p");
+          noResultsEl.className = "secondary_font";
+          const noResultsMsg = "Start a Conversation";
+          noResultsEl.innerText = noResultsMsg;
+          messageContainer.append(noResultsEl);
         }
-      } else {
-        messageContainer.addClass("centered");
-        const noResultsEl = document.createElement("p");
-        noResultsEl.className = "secondary_font";
-        const noResultsMsg = "Start a Conversation";
-        noResultsEl.innerText = noResultsMsg;
-        messageContainer.append(noResultsEl);
-      }
-    },
-    error: function (err) {
-      displayAJAXErrorMessage(err.status);
-    },
-  });
+      },
+      error: function (err) {
+        displayAJAXErrorMessage(err.status);
+      },
+    });
 
-  // Empty messages from message modal when modal is hidden
-  $("#message_modal").on("hidden.bs.modal", function () {
-    messageContainer.empty();
-  });
-}
+    // Empty messages from message modal when modal is hidden
+    $("#message_modal").on("hidden.bs.modal", function () {
+      messageContainer.empty();
+    });
+  }
 
-  
   // Displays a Toast with error message in case of AJAX errors
   function displayAJAXErrorMessage(status) {
-      if (status === 0) {
-        errorMsg = "Cannot connect, please make sure you are connected";
-      } else if (status === 404) {
-        errorMsg = `${status} error. We apologize; the resource was not found.`;
-      } else if (status === 500) {
-        errorMsg = `${status} error. We apologize. There is an internal server error.`;
-      } else {
-        errorMsg =
-          "We apologize, there has been an error. We are working hard to rectify this.";
-      }
+    if (status === 0) {
+      errorMsg = "Cannot connect, please make sure you are connected";
+    } else if (status === 404) {
+      errorMsg = `${status} error. We apologize; the resource was not found.`;
+    } else if (status === 500) {
+      errorMsg = `${status} error. We apologize. There is an internal server error.`;
+    } else {
+      errorMsg =
+        "We apologize, there has been an error. We are working hard to rectify this.";
+    }
 
-      Toastify({
-        text: errorMsg,
-        duration: 10000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        style: {
-          background: "#ff7086",
-          fontFamily: "'Oxygen', sans-serif",
-          color: "#202020",
-        },
-      }).showToast();
+    Toastify({
+      text: errorMsg,
+      duration: 10000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      style: {
+        background: "#ff7086",
+        fontFamily: "'Oxygen', sans-serif",
+        color: "#202020",
+      },
+    }).showToast();
   }
 })
