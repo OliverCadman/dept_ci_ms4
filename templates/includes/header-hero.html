@@ -21,7 +21,11 @@
                                 Add Your Music
                             {% endif %}
                         {% elif p == "choose_subscription" %}
-                            Subscribe
+                            {% if not current_user.subscription_chosen %}
+                                Subscribe
+                            {% else %}
+                                Your Subscription
+                            {% endif %}
                         {% elif p == "dashboard" %}
                             Dashboard
                         {% elif p == "booking_form" or p == "tier_two_booking_form" %}
@@ -81,7 +85,11 @@
                             </p>
                             <div class="centered mb-3">
                                 {% if request.user.is_authenticated %}
-                                <button type="button" class="btn custom_success secondary_font white_font inset_light_shadow" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                                    {% if current_user.is_paid %}
+                                        <button type="button" class="btn custom_success secondary_font white_font inset_light_shadow" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                                    {% else %}
+                                        <button type="button" class="btn custom_success secondary_font white_font inset_light_shadow" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button>
+                                    {% endif %}
                                 {% else %}
                                 <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font inset_light_shadow">Post a Job</a>
                                 {% endif %}
@@ -162,7 +170,11 @@
                         Add your Music
                     {% endif %}
                 {% elif p == "choose_subscription" %}
-                    Subscribe
+                    {% if not current_user.subscription_chosen %}
+                        Subscribe
+                    {% else %}
+                        Your Subscription
+                    {% endif %}
                 {% elif p == "dashboard" %}
                     Your Dashboard.
                 {% elif p == "booking_form" or p == "tier_two_booking_form" %}
@@ -199,7 +211,11 @@
                     <p class="med_text width_40">If you have a specific job that needs covering, this is the place to go.</p>
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
-                            <button type="button" class="btn secondary_font" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                            {% if current_user.is_paid %}
+                                <button type="button" class="btn secondary_font" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                            {% else %}
+                                <button type="button" class="btn secondary_font" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button> 
+                            {% endif %}
                         {% else %}
                             <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font inset_light_shadow">Post a Job</a>
                         {% endif %}
