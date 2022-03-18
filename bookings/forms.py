@@ -39,10 +39,9 @@ class InvitationForm(forms.ModelForm):
         """
         super(InvitationForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = "/bookings/invite"
-        self.helper.form_method = "post"
-        self.helper.form_id = "invitation_form"
-        self.helper.add_input(Submit('submit', "Submit", css_class="custom_success secondary_font"))
+        self.helper.form_tag = False
+        self.helper.error_text_inline = True
+        self.helper.add_input(Submit("submit", "Submit"))
         self.helper.layout = Layout(
             Div(
                 Div(

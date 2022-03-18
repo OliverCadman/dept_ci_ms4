@@ -1,0 +1,12 @@
+/* Tiny amount of padding and style rules for edit_invitation template */
+
+#edit_invitation_section {
+    padding-top: 6rem;
+    background-color: #f3f3f3;
+}
+
+@media screen and (min-width: 768px) {
+    #edit_invitation_section {
+        padding-top: 7.5rem;
+    }
+}

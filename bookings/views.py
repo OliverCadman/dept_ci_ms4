@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.forms.models import modelformset_factory
-from django.views.generic import View, DetailView
+from django.views.generic import View, DetailView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.template.loader import get_template
@@ -64,6 +64,7 @@ def invitation_form_view(request):
                 form.save()
                 print("success")
                 messages.success(request, "Invitation Sent")
+
                 return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
             except Exception as e:
                 print(f"Exception: {e}")
@@ -76,6 +77,66 @@ def invitation_form_view(request):
             return JsonResponse({"errors":invitation_form.errors.as_json()})
 
 
+class EditInvitationForm(UpdateView):
+    """
+    Updates a given Invitation object using InvitationForm,
+    with fields pre-populated with values inputted by the 
+    invite sender from submitting the original form from
+    a profile page.
+    """
+    template_name = "bookings/edit_invitation.html"
+    form_class = InvitationForm
+
+    # Make Django aware of which model needs to be queried.
+    queryset = Invitation.objects.all()
+
+
+    def get_object(self):
+        """
+        Gets the current invitation
+        """
+
+        invitation_id = self.kwargs.get("invitation_id")
+        return get_object_or_404(Invitation, pk=invitation_id)
+        
+    def form_valid(self, form):
+        """
+        Return success message upon successful submission of form.
+        """
+        messages.success(self.request, "Invitation form edited")
+        return super().form_valid(form)
+    
+
+    def post(self, request, *args, **kwargs):
+        """
+        Process the "event_datetime" field of the post request,
+        turning it into a python datetime object, interpretable
+        by Django.
+        """
+        
+        event_datetime = request.POST.get("event_datetime")
+        parsed_datetime = parser.parse(event_datetime)
+        request.POST = request.POST.copy()
+        request.POST["event_datetime"] = parsed_datetime
+     
+        return super().post(request, *args, **kwargs)
+    
+    def get_success_url(self):
+        """
+        Get invitation object and use invitation sender's slug 
+        in query arg , along with the relevant page,
+        section, subsection and invitation pk as filter keyword args.
+        """
+        invitation = self.get_object()
+        invite_sender = invitation.invite_sender
+        return reverse_querystring("dashboard",
+                                   args=[invite_sender.slug],
+                                   query_kwargs={
+                                       "page": "jobs",
+                                       "section": "tier_one",
+                                       "subsection": "invites_sent",
+                                       "filter": invitation.pk
+                                   })
 
 def get_invitation_messages(request, pk):
         """
@@ -539,16 +600,16 @@ def get_invitation_id(request, booking_id):
     Utilised in dashboard_modals.js file in 'profiles' app.
     To trigger a specific message modal upon page load.
     """
-
-
-    requested_booking = get_object_or_404(Booking, pk=booking_id)
-    print("REQUESTED BOOKING")
-    print(requested_booking.related_invitation)
-    if requested_booking.related_invitation:
-        invitation_id = requested_booking.related_invitation.pk
-        return JsonResponse({"invitation_id": invitation_id})
-    else:
+    try:
+        requested_booking = Booking.objects.get(pk=booking_id)
+    
+        if requested_booking.related_invitation:
+            invitation_id = requested_booking.related_invitation.pk
+            if invitation_id:
+                return JsonResponse({"invitation_id": invitation_id})
+    except Booking.DoesNotExist:
         return HttpResponse(status=200)
-
+  
+ 
 
 

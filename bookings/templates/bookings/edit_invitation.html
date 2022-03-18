@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% crispy invitation_form invitation_form.helper %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "bookings/css/edit_invitation.css" %}">
+{% endblock %}
+
+{% block title %} Edit Your Invitation {% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <section id="edit_invitation_section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 me-2">
+                    <h1 class="primary_font large_text text-center">Edit Your Invitation</h1>
+                    <p class="primary_font light_weight text-center">Invitation Number {{ object.invitation_number }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-container">
+                        <!-- Edit Invitation Form -->
+                        <form action="{% url "edit_invitation" invitation.pk %}" method="POST">
+                            {% crispy form %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
