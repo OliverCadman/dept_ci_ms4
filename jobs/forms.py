@@ -13,6 +13,8 @@ from .models import Job
 from profiles.widgets import CustomClearableFileInput
 from profiles.models import Instrument
 
+import re
+
 class JobForm(forms.ModelForm):
     """
     Form to Post a Job Advertisement
@@ -36,8 +38,6 @@ class JobForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.form_method = "post"
-        self.helper.form_id = "job_post_form"
         self.helper.layout = Layout(
             Div(
                 Div(
@@ -86,12 +86,77 @@ class JobForm(forms.ModelForm):
             )
         )
 
-
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "secondary_font"
 
         # Prepend Pound sign icon to "Fee" Field
         self.helper["fee"].wrap(PrependedText, mark_safe("<i class='fas fa-pound-sign'></i>"))
+
+    def clean_job_title(self):
+        """
+        Raise a validation error if job_title field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        job_title = self.cleaned_data["job_title"]
+        regex = "^[0-9]+$"
+        if re.match(regex, job_title):
+            raise forms.ValidationError("Please enter words as well as numbers.", code="invalid")
+        else:
+            return job_title
+
+    def clean_event_name(self):
+        """
+        Raise a validation error if event_name field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        event_name = self.cleaned_data["event_name"]
+        regex = "^[0-9]+$"
+        if re.match(regex, event_name):
+            raise forms.ValidationError("Please enter words as well as numbers.", code="invalid")
+        else:
+            return event_name
+
+    def clean_artist_name(self):
+        """
+        Raise a validation error if artist_name field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        artist_name = self.cleaned_data["artist_name"]
+        regex = "^[0-9]+$"
+        if re.match(regex, artist_name):
+            raise forms.ValidationError("Please enter words as well as numbers.", code="invalid")
+        else:
+            return artist_name
+
+    def clean_job_description(self):
+        """
+        Raise a validation error if job_description field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        job_description = self.cleaned_data["job_description"]
+        regex = "^[0-9]+$"
+        if re.match(regex, job_description):
+            raise forms.ValidationError("Please enter words as well as numbers.", code="invalid")
+        else:
+            return job_description
+
+    def clean_event_city(self):
+        """
+        Raise a validation error if event_city field consists of only numbers.
+
+        Uses regex pattern to compare against input's value.
+        """
+        event_city = self.cleaned_data["event_city"]
+        regex = "^[0-9]+$"
+        if re.match(regex, event_city):
+            raise forms.ValidationError("Please enter words as well as numbers.", code="invalid")
+        else:
+            return event_city
+        
 
     job_title = forms.CharField(label="Who are you looking for?",
                                 widget=forms.TextInput(attrs={
