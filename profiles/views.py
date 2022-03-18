@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from bookings.forms import InvitationForm, ReviewForm
 from social.forms import MessageForm
@@ -20,6 +21,9 @@ from .functions import calculate_invite_acceptance_delta, calculate_profile_prog
 
 import datetime
 
+import logging
+
+logger = logging.getLogger(__file__)
 
 @csrf_exempt
 def get_users_unavailable_dates(request, username):
@@ -209,6 +213,16 @@ def edit_profile(request):
 
 def upload_audio(request, username):
 
+    logger.debug()
+    logger.info()
+    logger.warn()
+    logger.error()
+
+    try:
+        raise Exception()
+    except Exception:
+        logger.exception()
+
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
 
@@ -348,18 +362,27 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         referer_url_path = None
         referer_url = self.request.META.get("HTTP_REFERER")
+
+        # Get the referal url path (looking for "bookings" or "bookings/edit_invitation")
         if referer_url is not None:
-            referer_url_path = referer_url.split("/")[3]
+            referer_url_path = "/".join(referer_url.split("/")[3:-1])
+            print(referer_url_path)
+
+        booking_id = None
+        invitation_id = None
 
         # Set filter to Booking ID if user visiting dashboard
         # from Booking Detail Page.
-        booking_id = None
-        if referer_url_path == "bookings":
+        if referer_url_path == "bookings/success":
             booking_id = self.request.GET.get("filter")
+
+        # Set filter to Invitation ID if user visiting dashboard
+        # from Edit Invitation Page.
+        elif referer_url_path == "bookings/edit_invitation":
+            invitation_id = self.request.GET.get("filter")
         
         # Set filter to Invitation ID if user visiting dashboard
         # by clicking notification "<user> has invited you to play <event>"
-        invitation_id = None
         if "invitation_id" in self.request.session:
             invitation_id = self.request.GET.get("filter")
 
@@ -392,6 +415,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                 elif current_filter == booking_id:
                                     invitations_sent = user_profile.invitations_sent.filter(
                                         related_booking__pk=booking_id)
+                                elif current_filter == invitation_id:
+                                    print("HELLO")
+                                    invitations_sent = user_profile.invitations_sent.filter(
+                                        pk=invitation_id
+                                    )
                         elif current_subsection == "invites_received":
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
@@ -462,3 +490,26 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         print(context["current_section"])
 
         return context
+
+
+def delete_account(request, profile_id):
+    """
+    Deletes a given User object, identified through
+    the associated UserProfile object's ID.
+    """
+    current_user_profile = get_object_or_404(UserProfile, pk=profile_id)
+
+    try:
+        auth_user = User.objects.get(username=current_user_profile.user.username)
+        auth_user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect(reverse("home"))
+    except User.DoesNotExist:
+        messages.error(request, "This user doesn't exist.")
+        return redirect(reverse("profile", args=[auth_user.username]))
+    except Exception as e:
+        messages.error(request, f"Sorry, there was an error: {e}")
+        return redirect(reverse("profile", args=[auth_user.username]))
+
+
+
