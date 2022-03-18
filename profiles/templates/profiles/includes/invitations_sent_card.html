@@ -13,11 +13,6 @@
     <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-clock"></i></span>{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>
     <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-money-bill-1"></i></span>£{{ invitation.fee }}</p>
     <div class="invitation_btn_wrapper">
-        {% if not invitation.is_accepted %}
-            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</button>
-        {% else %}
-            <a href="{% url "booking_form" invitation.pk %}?event_tier=tier_one" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
-        {% endif %}
         <button class="btn invitation_card_btn message_modal_btn position-relative"
         data-bs-toggle="modal"
         data-bs-target="#message_modal"
@@ -33,5 +28,16 @@
                 <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
             {% endif %}
         </button>
+        {% if not invitation.is_accepted %}
+            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</button>
+            <a href="{% url "edit_invitation" invitation.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2"><i class="fas fa-edit"></i></a>
+            <button
+            class="btn alert_bg secondary_font white_font confirm_invite_delete_btn"
+            data-bs-toggle="modal"
+            data-bs-target="#confirm_invite_delete_modal"
+            data-invitation-id="{{ invitation.pk }}"><i class="fas fa-times"></i></button>
+        {% else %}
+            <a href="{% url "booking_form" invitation.pk %}?event_tier=tier_one" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
+        {% endif %}
     </div>
 </div>
