@@ -86,6 +86,12 @@
                                         <p class="secondary_font job_detail_content">
                                             {{ job.job_description }}
                                         </p>
+                                        {% if request.user.is_authenticated %}
+                                            {% if current_user == job.job_poster %}
+                                                <a href="{% url "edit_job" job.pk %}" class="primary_font text-success"><small>Edit</small></a>
+                                                <a href="#" class="primary_font text-danger"><small>Delete</small></a>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                     <div class="cta_btn_wrapper">
                                         <button type="button"
