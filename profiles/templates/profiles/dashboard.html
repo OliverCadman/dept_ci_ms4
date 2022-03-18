@@ -37,38 +37,40 @@
                 <!-- Nav Link for Mobile Only -->
                 <ul class="d-flex justify-content-center d-md-none dashboard_nav_mobile">
                     <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}"><i class="fas fa-dashboard"></i></a>
+                        <a href="{% url "dashboard" current_user %}?page=dashboard"><i class="fas fa-dashboard {% if current_page == "dashboard" %}active{% endif %}"></i></a>
                     </li>
                     <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=jobs&section=invites_sent&filter=all" class="{% if current_page == "jobs" %}active{% endif %}"><i class="fa-solid fa-handshake"></i></a>
+                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all"><i class="fa-solid fa-handshake {% if current_page == "jobs" %}active{% endif %}"></i></a>
                     </li>
                     <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}"><i class="fa-solid fa-unlock"></i></a>
+                        <a href="{% url "dashboard" current_user %}?page=reset_password"><i class="fa-solid fa-unlock {% if current_page == "reset_password" %}active{% endif %}"></i></a>
                     </li> 
                     <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=membership" class="{% if current_page == "membership" %}active{% endif %}"><i class="fa-solid fa-user-gear"></i></a>
+                        <a href="{% url "dashboard" current_user %}?page=membership"><i class="fa-solid fa-user-gear {% if current_page == "membership" %}active{% endif %}"></i></a>
                     </li>
                 </ul>
             </nav>
         </div>
         <section>
             {% if current_page == "dashboard" %}
-                <div class="dashboard_header">
-                    <h2>Dashboard</h2>
-                </div>
                 <div id="dashboard_container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="membership_detail_card_container">
+                    <div class="container w-100">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-md-6">
                                     {% if user_profile.is_paid %}
-                                        <div id="membership_detail_card_wrapper">
-                                            <h3 class="text-center mt-4">
-                                                    You are a Tier Two Member
+                                        <div class="membership_detail_card_wrapper dashboard-card">
+                                            <h3 class="text-center mt-4 primary_font large_text">
+                                                You are a Tier Two Member
                                             </h3>
+                                            <p class="text-center light_weight med_small_text">You have full access to all of DepT's features.</p>
+                                            <p class="text-center light_weight med_small_text">Thanks for being with us!</p>
+                                            <form action="{% url "customer_portal" %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="subscription_btn">Manage my Subscription</button>
+                                            </form>
                                         </div>
                                         {% else %}
-                                            <div id="membership_detail_card_wrapper" class="dashboard-card">
+                                            <div class="dashboard-card membership_detail_card_wrapper">
                                                 <h3 class="mt-4 primary_font med_text text-center">
                                                     You are a Tier One Member
                                                 </h3>
@@ -98,10 +100,10 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div id="invite_count_wrapper" class="dashboard-card">
-                                    <h4 class="mt-4 primary_font med_text text-center">Your Invites</h4>
+                                <div id="invite_count_wrapper" class="dashboard-card centered_column">
+                                    <h4 class="primary_font large_text text-center">Your Invites</h4>
                                     {% if invite_acceptance_delta > 0 %}
                                         {% if not invite_acceptance_delta == 1 %}
                                             <p class="text-center">
@@ -113,7 +115,7 @@
                                             </p>
                                         {% endif %}
                                         <div class="cta-btn-wrapper">
-                                            <button class="btn cta-btn">Respond Now</button>
+                                            <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received" class="btn primary_bg white_font secondary_font inset_light_shadow">Respond Now</a>
                                         </div>
                                     {% else %}
                                         <p class="secondary_font light_font text-center">
@@ -123,13 +125,13 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div id="profile_progress_bar_container" class="dashboard-card">
-                                    <h4 class="mt-4 primary_font med_text text-center">
+                                <div id="profile_progress_bar_container" class="dashboard-card center_column">
+                                    <h4 class="mt-4 primary_font text-center large_text">
                                         Your Profile
                                     </h4>
                                     <div id="progress_bar_wrapper">
                                         <div id="progress_bar">
-                                            <div id="progress_bar_inner" class="w3-center" data-progress="{{ profile_progress_percentage }}">
+                                            <div id="progress_bar_inner" class="w3-center custom_success white_font secondary_font" data-progress="{{ profile_progress_percentage }}">
                                                 <span id="profile_progress_percentage">
                                                     {{ profile_progress_percentage}}%
                                                 </span>
@@ -141,7 +143,7 @@
                                                 Complete your profile to improve your chances of being booked.
                                             </p>
                                             <div class="cta-btn-wrapper mb-3">
-                                                <a href="{% url 'edit_profile' %}" class="btn cta-btn mb-4">
+                                                <a href="{% url 'edit_profile' %}" class="btn primary_bg white_font secondary_font inset_light_shadow mb-4">
                                                     Complete your Profile
                                                 </a>
                                             </div>
@@ -154,14 +156,13 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6 col-lg-4">
-                                <div id="review_overview_container" class="dashboard-card">
-                                    <h5 class="primary_font med_text text-center">Your Star Rating</h5>
+                                <div id="review_overview_container" class="dashboard-card centered_column">
+                                    <h5 class="primary_font large_text text-center">Your Star Rating</h5>
                                     <div id="rating_display" class="centered_column">
                                         <input type="hidden" value="{{ average_rating.average_rating }}" class="review_rating_no">
                                         <input type="hidden" id="average_rating">
                                         {% if received_reviews|length > 0 %}
                                             <div class="star-icons inline">
-
                                             <span id="num_of_reviews" class="inline">({{ average_rating.num_of_reviews }})</span>
                                             </div>
                                             <div id="reviews_message" class="mt-2 p-2">
@@ -173,6 +174,18 @@
                                                     Good job! You're a top class member.
                                                     {% endif %}
                                                 </p>
+                                            </div>
+                                        {% else %}
+                                            <div id="no_reviews_display" class="mt-3">
+                                                <p class="text-center med_small_text light_font">
+                                                    You have no reviews
+                                                </p>
+                                                <p class="text-center">
+                                                    Increase your review count by meeting new musicians and getting gigs.
+                                                </p>
+                                                <div class="cta-btn-wrapper">
+                                                    <a href="{% url "dep_list" %}" class="btn primary_bg secondary_font white_font inset_light_shadow">Meet the Community</a>
+                                                </div>
                                             </div>
                                         {% endif %}
                                     </div>
