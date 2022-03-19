@@ -373,14 +373,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         invitation_id = None
 
         # Set filter to Booking ID if user visiting dashboard
-        # from Booking Detail Page.
-        if referer_url_path == "bookings/success":
+        # from Booking Success/Detail Page.
+        if (referer_url_path == "bookings/success"
+            or referer_url_path == "bookings/booking_detail"):
+
             booking_id = self.request.GET.get("filter")
 
-        # Set filter to Invitation ID if user visiting dashboard
-        # from Edit Invitation Page.
-        elif referer_url_path == "bookings/edit_invitation":
-            invitation_id = self.request.GET.get("filter")
+        # # Set filter to Invitation ID if user visiting dashboard
+        # # from Edit Invitation Page.
+        # elif referer_url_path == "bookings/edit_invitation":
+        invitation_id = self.request.GET.get("filter")
+
+
+        job_id = self.request.GET.get("filter")
         
         # Set filter to Invitation ID if user visiting dashboard
         # by clicking notification "<user> has invited you to play <event>"
@@ -451,6 +456,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     print(posted_jobs)
                                 elif current_filter == "confirmed":
                                     posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
+                                elif current_filter == job_id:
+                                    posted_jobs = user_profile.posted_jobs.filter(pk=job_id)
                         elif current_subsection == "offers_sent":
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
@@ -460,6 +467,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     offers_sent = user_profile.job_set.all().exclude(is_taken=True)
                                 elif current_filter == "confirmed":
                                     offers_sent = user_profile.job_set.filter(confirmed_member=user_profile)
+                                elif current_filter == job_id:
+                                    offers_sent = user_profile.job_set.filter(pk=job_id)
+
                                 
                         
         # Stripe Price ID to inject into hidden input
