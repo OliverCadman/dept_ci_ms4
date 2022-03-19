@@ -166,7 +166,7 @@
     </section>
     {% endif %}
         </div>
-    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "tier_two_booking_form" or p == "booking_success" or p == "checkout_success" %}checkout_success{% endif %}{% if p == "dep_list" %}dep_list {% elif p == "job_list" %}job_list{% endif %} d-none d-lg-block">
+    <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" or p == "booking_form" or p == "tier_two_booking_form" or p == "booking_success" %}short{% elif p == "checkout_success" %}checkout_success{% endif %}{% if p == "dep_list" %}dep_list {% elif p == "job_list" %}job_list{% endif %} d-none d-lg-block">
         <div id="dynamic-hero-container">
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
@@ -175,7 +175,7 @@
                 </figure>
             </div>
             {% endif %}
-            <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% elif p == "job_list" %}job_list{% elif p == "checkout_success" %}checkout_success{% endif %}" class="ms-4">
+            <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% elif p == "job_list" %}job_list{% elif p == "checkout_success" %}checkout_success{% endif %}">
                 <h1 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
                     {% if request.session.form_page == 1 %}
@@ -252,7 +252,7 @@
             </div>
         </div>
         <div class="dynamic-header-container">
-            {% if p == "checkout_success" or p == "user_profile_form" %}
+            {% if p == "choose_subscription" or p == "checkout_success" or p == "user_profile_form" or p == "dashboard" %}
                 <div class="opaque_overlay"></div>
             {% endif %}
              {% if p == "dep_list" %}
@@ -270,7 +270,7 @@
                        {% endif %}
                     </h2>
                 </div>
-                <div class="dynamic-prompt-lead text-center">
+                <div class="dynamic-prompt-lead text-center {% if p == "dashboard" %}dashboard{% endif %}">
                     {% if p == "checkout_success" %}
                         <p class="white_font">
                         Your chances of being hired are much higher if you have a complete profile.
@@ -280,15 +280,15 @@
                         </p>
                         <a href="{% url 'edit_profile' %}" class="btn custom_success primary_font white_font med_small_text inset_light_shadow">Build my Profile</a>
                     {% elif p == "choose_subscription" %}
-                        <p>
+                        <p class="white_font">
                             Tier Two members go through a selective screening process. This assures the quality of work is high, which makes for happy clients who return and tell their friends. It also lowers competition for our Tier Two members which helps them close more jobs.
                         </p>
-                        <p>
+                        <p class="white_font">
                             Note that we accept new Tier Two members based demand for particular specialties, to maintain a balanced marketplace. As a result we can only accept a small percentage of applicants.
                         </p>
                     {% elif p == "dashboard" %}
-                        <p>Welcome to your Dashboard.</p>
-                        <p>Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
+                        <p class="white_font">Welcome to your Dashboard.</p>
+                        <p class="white_font">Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
                     {% elif p == "booking_form" %}
                         <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }},{% else %}{{ invitation.invite_sender.user }},{% endif %}
                            {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
