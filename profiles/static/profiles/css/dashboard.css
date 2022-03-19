@@ -232,6 +232,12 @@
     text-decoration: none;
 }
 
+#sidebar_filter_list li a.active {
+    font-style: normal;
+    color: #333;
+    font-size: 1.25rem;
+}
+
 /* Invitation Cards */
 
 .job-card {
@@ -416,6 +422,8 @@ https://codepen.io/thetallweeks/pen/yybGra */
     padding: 1rem 0;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .job_nav_breadcrumb {

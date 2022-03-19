@@ -203,13 +203,14 @@
                                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" %}active{% endif %} w-100 switch_btn mb-1">
                                             Tier One
                                         </a>
-                                        {% if current_user.is_paid %}
+                                        {% if user_profile.is_paid %}
                                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_two" %}active{% endif %} w-100 switch_btn mt-1">
                                             Tier Two
                                         </a>
                                         {% endif %}
                                     </div>
                                 </div>
+                                <hr class="block_divider_dark d-md-none d-block">
                                 {% if current_page == "jobs" and current_section == "tier_one" %}
                                     <div class="col-12 col-md-8 p-0">
                                         <div id="job_page_breadcrumb_wrapper">
@@ -238,16 +239,18 @@
                                                     <div class="accordion-body">
                                                         <ul id="sidebar_filter_list">
                                                             <li>
-                                                                <a 
-                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
+                                                                <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "all" %}active{% endif %}"
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_subsection == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
                                                                 <hr>
                                                                 <ul id="sidebar_nested_list">
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
+                                                                        <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "pending" %}active{% endif %}"
+                                                                        href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
+                                                                        <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "accepted" %}active{% endif %}"
+                                                                         href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
@@ -318,18 +321,20 @@
                                                     <div class="accordion-body">
                                                         <ul id="sidebar_filter_list">
                                                             <li>
-                                                                <a 
+                                                                <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "all" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "all" %}active{% endif %}"
                                                                 href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=all">All</a>
                                                                 <hr>
                                                                 <ul id="sidebar_nested_list">
                                                                     <li>
-                                                                       <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=pending_offers">
+                                                                       <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "pending_offers" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "pending_offers" %}active{% endif %}"
+                                                                       href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=pending_offers">
                                                                            {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}Offers Received{% else %}Offers Sent{% endif %}
                                                                         </a> 
                                                                     </li>
                                                                     <hr>
                                                                     <li>
-                                                                        <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=confirmed">Confirmed</a>
+                                                                        <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "confirmed" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "confirmed" %}active{% endif %}"
+                                                                        href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=confirmed">Confirmed</a>
                                                                     </li>
                                                                     <hr>
                                                                     <li>
