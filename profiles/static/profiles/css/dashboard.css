@@ -536,7 +536,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
     .accepted_stamp {
         float: none;
         position: absolute;
-        right: 45%;
+        right: 20%;
         width: 150px;
         height: 150px;
     }
