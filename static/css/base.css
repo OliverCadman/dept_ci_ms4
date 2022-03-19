@@ -26,7 +26,6 @@ body {
 
 .underline {
     text-decoration: underline;
-    line-height: 1.25rem;
 }
 
 .med_size {
@@ -67,6 +66,10 @@ body {
 
 .white_font { 
     color: #fefefe !important;
+}
+
+.success_font {
+    color: #0e8347;
 }
 
 .light_font {
@@ -168,6 +171,10 @@ body {
     width: 40%;
 }
 
+.width_45 {
+    width: 45%;
+}
+
 .dark_bg {
     background-color: #111111 !important;
 }
@@ -180,8 +187,18 @@ body {
     background-color: #1a2342;
 }
 
+.no_bg {
+    background: none;
+    border: none;
+}
+
+
 .inset_light_shadow {
     box-shadow: inset 0px 1px 11px 0px rgba(255, 255, 255, 0.3);
+}
+
+.header_shadow {
+    text-shadow: 2px 2px 11px #333457;
 }
 
 .rating_star {
@@ -240,6 +257,12 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
+.edit_form_section {
+    padding-top: 6rem;
+    background-color: #f3f3f3;
+}
+
+
 /* Global Modals */
 
 .custom-modal-header {
@@ -285,13 +308,22 @@ body {
 
 /* Opaque Overlays */
 
+.opaque_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.644);
+}
+
 .opaque_overlay_xlight {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(20, 88, 37, 0.178);
+    background-color: rgba(0, 0, 0, 0.178);
 }
 
 /* -------------------------- Website Content -------------------------- */
@@ -818,7 +850,7 @@ body {
         margin-bottom: 1rem;
     }
 
-    .btn_wrapper_lg button,
+    .btn_wrapper_lg button:not(:last-of-type),
     .btn_wrapper_lg a {
         background-color: #ededed;
         color: #222;
@@ -828,7 +860,15 @@ body {
         transition: all 0.3s;
     }
 
-    .btn_wrapper_lg button:hover,
+    .btn_wrapper_lg button:last-of-type {
+        padding: 1rem;
+        background-color: #9c1e1e;
+        color: #ededed;
+        font-family: "Oxygen", sans-serif;
+        font-size: 1.25rem;
+    }
+
+    .btn_wrapper_lg button:not(:last-of-type):hover,
     .btn_wrapper_lg a:hover {
         background-color: #236933;
         color: #fefefe;
