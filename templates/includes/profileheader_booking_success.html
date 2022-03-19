@@ -76,15 +76,17 @@
                                 
                         </div>
                         <p id="instrument_list">
-                        {% if instrument_list %}
+                        {% if instrument_list|length > 0 %}
                             {% for instrument in instrument_list %}
                                 {{ instrument }}{% if not forloop.last %},{% endif %}
                             {% endfor %}
                         {% endif %}
                         </p>
-                        <p class="user_location">
-                            {{ user.city }}, {{user.country.name}}
-                        </p>
+                        {% if user.city or user.city and user.country %}
+                            <p class="user_location">
+                                {{ user.city }}, {{user.country.name}}
+                            </p>
+                        {% endif %}
                         <!-- Header for Booking Success Page (Small Screens) -->
                         {% elif p == "booking_success" or p == "booking_detail" %}
                             {% if p == "booking_success" %}
@@ -181,7 +183,7 @@
                         {% endif %}
                     </h1>
                     <div class="header_star_icons"></div>
-                    {% if instrument_list %}
+                    {% if instrument_list|length > 0 %}
                     <p class="user_instruments_lg">
                             <!-- User's instruments for loop, joined with comma -->
                             {% for instrument in instrument_list %}
@@ -189,9 +191,11 @@
                             {% endfor %}
                             </p>
                     {% endif %}
-                    <p class="user_location">
-                        {{user.city}}, {{user.country.name}}
-                    </p>
+                    {% if user.city or user.city and user.country %}
+                        <p class="user_location">
+                            {{user.city}}, {{user.country.name}}
+                        </p>
+                    {% endif %}
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
                             {% if not request.user.username == user.user.username %}

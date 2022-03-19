@@ -33,7 +33,8 @@
     background-color: rgba(0, 0, 0, 0.801);
 }
 
-.header-btn-wrapper a {
+.header-btn-wrapper a,
+.header-btn-wrapper button {
     color: #fefefe;
     font-family: "Oxygen",
     sans-serif; 
@@ -46,7 +47,8 @@
      }
 
      #profile_header_wrapper {
-         height: 450px;
+         height: 350px;
+         padding: 4rem 0;
      }
 
      #profile_header {

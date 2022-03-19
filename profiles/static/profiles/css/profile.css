@@ -66,12 +66,6 @@
      margin: 0 auto;
  }
  
-
-#calendar_container,
-#genre_list_container {
-    margin-top: 2rem;
-}
-
 #calendar_container p small {
     font-family: "Open Sans", sans-serif;
 }
@@ -96,6 +90,7 @@
 
 .single_review_container {
     margin: .8rem .4rem;
+    position: relative;
 }
 
 .review_sender_img,
@@ -110,6 +105,14 @@
 
 .review {
     padding: 1rem;
+}
+
+.edit_delete_btn_wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: .3rem;
+    margin-right: .3rem;
 }
 
 .fas.fa-star {
@@ -203,8 +206,15 @@
 }
 
 @media screen and (min-width: 768px) {
-    #calendar_container {
+    .custom-w-100 {
+        width: 100%;
+    }
+
+    .custom-w-50 {
         width: 50%;
+    }
+
+    #calendar_container {
         display: inline-block;
         border-right: 8px solid #222;
     }

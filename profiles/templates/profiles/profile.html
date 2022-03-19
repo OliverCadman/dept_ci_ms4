@@ -28,11 +28,13 @@
 <div class="container-fluid bg-light">
     <div class="row">
         <!-- User Description and Reviews -->
-        <div class="col-12 col-lg-8 description-review-container">
-            <div class="user-desc-wrapper secondary_font">
-                <p class="secondary_font">{{user.user_info|linebreaks}}</p>
-            </div>
-            <hr>
+        <div class="col-12 col-lg-8 description-review-container pt-4 pb-4">
+            {% if user.user_info %}
+                <div class="user-desc-wrapper secondary_font">
+                    <p class="secondary_font">{{user.user_info|linebreaks}}</p>
+                </div>
+                <hr>
+            {% endif %}
             <div id="review_container">
                 <h5 class="primary_font">
                    What the community says about 
@@ -121,115 +123,105 @@
         <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
             <!-- Music Player -->
             {% if users_tracks|length > 0 %}
-            <div id="music_player_wrapper" class="profile-card">
-                <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
-                <div id="music_player">
-                    <div class="sm2-bar-ui playlist-open">
-                        <div class="bd sm2-main-controls">
-                            <div class="sm2-inline-texture"></div>
-                            <div class="sm2-inline-gradient"></div>
-                                <div class="sm2-inline-element sm2-button-element">
-                                <div class="sm2-button-bd">
-                                 <a href="#play" class="sm2-inline-button sm2-icon-play-pause">Play / pause</a>
+                <div id="music_player_wrapper" class="profile-card">
+                    <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
+                    <div id="music_player">
+                        <div class="sm2-bar-ui playlist-open">
+                            <div class="bd sm2-main-controls">
+                                <div class="sm2-inline-texture"></div>
+                                <div class="sm2-inline-gradient"></div>
+                                    <div class="sm2-inline-element sm2-button-element">
+                                    <div class="sm2-button-bd">
+                                        <a href="#play" class="sm2-inline-button sm2-icon-play-pause">Play / pause</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="sm2-inline-element sm2-inline-status">
-                            <div class="sm2-playlist">
-                                <div class="sm2-playlist-target"><ul class="sm2-playlist-bd"><li><b>SonReal</b> - LA<span class="label">Explicit</span></li></ul></div>
-                            </div>
-                            <div class="sm2-progress">
-                                <div class="sm2-row">
-                                    <div class="sm2-inline-time">0:00</div>
-                                    <div class="sm2-progress-bd">
-                                        <div class="sm2-progress-track">
-                                            <div class="sm2-progress-bar"></div>
-                                                <div class="sm2-progress-ball">
-                                                    <div class="icon-overlay"></div>
+                                <div class="sm2-inline-element sm2-inline-status">
+                                <div class="sm2-playlist">
+                                    <div class="sm2-playlist-target"><ul class="sm2-playlist-bd"><li><b>SonReal</b> - LA<span class="label">Explicit</span></li></ul></div>
+                                </div>
+                                <div class="sm2-progress">
+                                    <div class="sm2-row">
+                                        <div class="sm2-inline-time">0:00</div>
+                                        <div class="sm2-progress-bd">
+                                            <div class="sm2-progress-track">
+                                                <div class="sm2-progress-bar"></div>
+                                                    <div class="sm2-progress-ball">
+                                                        <div class="icon-overlay"></div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="sm2-inline-duration">0:00</div>
                                         </div>
-                                        <div class="sm2-inline-duration">0:00</div>
+                                    </div>
+                                </div>
+                                <div class="sm2-inline-element sm2-button-element sm2-volume">
+                                    <div class="sm2-button-bd">
+                                        <span class="sm2-inline-button sm2-volume-control volume-shade"></span>
+                                            <a href="#volume" class="sm2-inline-button sm2-volume-control">volume</a>
+                                    </div>
+                                </div>
+                                <div class="sm2-inline-element sm2-button-element">
+                                    <div class="sm2-button-bd">
+                                        <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
+                                    </div>
+                                </div>
+                                <div class="sm2-inline-element sm2-button-element">
+                                    <div class="sm2-button-bd">
+                                        <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                    </div>
+                                </div>
+                                <div class="sm2-inline-element sm2-button-element sm2-menu">
+                                    <div class="sm2-button-bd">
+                                        <a href="#menu" class="sm2-inline-button sm2-icon-menu">menu</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="sm2-inline-element sm2-button-element sm2-volume">
-                                <div class="sm2-button-bd">
-                                    <span class="sm2-inline-button sm2-volume-control volume-shade"></span>
-                                        <a href="#volume" class="sm2-inline-button sm2-volume-control">volume</a>
+                            <div class="bd sm2-playlist-drawer sm2-element" style="height: 147px;">
+                                <div class="sm2-inline-texture">
+                                    <div class="sm2-box-shadow"></div>
                                 </div>
-                            </div>
-                            <div class="sm2-inline-element sm2-button-element">
-                                <div class="sm2-button-bd">
-                                    <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
-                                </div>
-                            </div>
-                            <div class="sm2-inline-element sm2-button-element">
-                                <div class="sm2-button-bd">
-                                    <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
-                                </div>
-                            </div>
-                            <div class="sm2-inline-element sm2-button-element sm2-menu">
-                                <div class="sm2-button-bd">
-                                    <a href="#menu" class="sm2-inline-button sm2-icon-menu">menu</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bd sm2-playlist-drawer sm2-element" style="height: 147px;">
-                            <div class="sm2-inline-texture">
-                                <div class="sm2-box-shadow"></div>
-                            </div>
-                            <div class="sm2-playlist-wrapper">
-                                <ul class="sm2-playlist-bd">
-                                    <!-- Track Name -->
-                                    <li class="selected">
-                                        <div class="sm2-row">
-                                            <div class="sm2-col sm2-wide">
-                                             <!-- Populated by JS with track name upon playback of each track -->
+                                <div class="sm2-playlist-wrapper">
+                                    <ul class="sm2-playlist-bd">
+                                        <!-- Track Name -->
+                                        <li class="selected">
+                                            <div class="sm2-row">
+                                                <div class="sm2-col sm2-wide">
+                                                    <!-- Populated by JS with track name upon playback of each track -->
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    {% for track in users_tracks %}
-                                        <li>
-                                        <a href="{{track.file.url}}">{{track.file_name|capfirst}}</a>
                                         </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="sm2-extra-controls">
-                                <div class="bd">
-                                    <div class="sm2-inline-element sm2-button-element">
-                                    <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
-                                    </div>
-                                    <div class="sm2-inline-element sm2-button-element">
-                                    <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                        {% for track in users_tracks %}
+                                            <li>
+                                            <a href="{{track.file.url}}">{{track.file_name|capfirst}}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="sm2-extra-controls">
+                                    <div class="bd">
+                                        <div class="sm2-inline-element sm2-button-element">
+                                        <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
+                                        </div>
+                                        <div class="sm2-inline-element sm2-button-element">
+                                        <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-            {% else %}
-            <div id="no_tracks_container">
-                <div id="no_tracks_wrapper">
-                    <h6 class="text-center" id="no_tracks_header">No Tracks</h6>
-                    <figure>
-                        <img src="{{MEDIA_URL}}no-tracks-vector.png" alt="No Tracks" id="no_tracks_vector" width="200" height="200">
-                    </figure>
-                </div>
-            </div>
             {% endif %}
-            <div id="calendar_container" class="profile-card">
+            <div id="calendar_container" class="profile-card {% if users_genres|length > 0 %}custom-w-50{% else %}custom-w-100{% endif %}">
                 <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
                 <input type="hidden" value="{{user_id}}" id="user_id">
                 <h4 class="sidebar_header">My Availability {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h4>
                 <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
                 <div id="calendar_wrapper"></div>
             </div>
-            <div id="genre_list_container" class="float-md-end">
-                <h5 class="sidebar_header">Genres {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h5>
-                {% if users_genres %}
+            {% if users_genres %}
+                <div id="genre_list_container" class="float-md-end">
+                    <h5 class="sidebar_header">Genres {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h5>
                     <div id="genre_list_wrapper">
                         {% for genre in users_genres %}
                             {% if forloop.counter|divisibleby:"2" %}
@@ -239,8 +231,8 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
