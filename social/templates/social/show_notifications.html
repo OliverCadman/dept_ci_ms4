@@ -203,20 +203,39 @@
                             {% endwith %}
                         </a>
                     </li>
-               <!-- Received Message -->
-               {% elif notification.notification_type == 5 %}
-                    <li class="dropdown-item">
-                        <a href="#" class="notification">
-                            {% with notification.related_invitation.related_booking.invite_sender as invite_sender %}
-                                {% if invite_sender.first_name %}
-                                    {{ invite_sender.first_name }} has sent you a message!
-                                {% else %}
-                                    {{ invite_sender.user.username }} has sent you a message!
-                                {% endif %}
+               {% endif %}
+            {% elif notification.related_job %}
+                {% if notification.notification_type == 5 %}
+                    <li class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                        <span class="remove_notification" onclick="removeNotification(`{% url "remove_notification" notification.pk %}`,`{{ request.path }}` )">&times;</span>
+                        <a href="{% url "dashboard" notification.notification_receiver.slug %}?page=jobs&section=tier_two&subsection={% if notification.notification_sender == notification.related_job.job_poster %}offers_sent{% else %}posted_jobs{% endif %}&filter={{ notification.related_job.pk }}" class="notification">
+                            {% with notification.notification_sender as notification_sender %}
+                                <div class="notification_content">
+                                    <div class="notification_img">
+                                        {% if notification_sender.profile_image %}
+                                            <img src="{{MEDIA_URL}}{{ notification_sender.profile_image.url }}"
+                                            alt="{{ notification_sender }}"
+                                            class="notification_profile_img"
+                                            width="40"
+                                            height="40">
+                                        {% else %}
+                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                        {% endif %}   
+                                    </div>
+                                    <div class="notification_text">
+                                        <p>
+                                        {% if notification_sender.first_name %}
+                                            <strong>{{ notification_sender.first_name }}</strong> has sent you a message about <strong>{{ notification.related_job.job_title }}</strong>.
+                                        {% else %}
+                                            {{ notification_sender.user.username }} has sent you a message about <strong>{{ notification.related_job.job_title }}</strong>.
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
                             {% endwith %}
                         </a>
                     </li>
-               {% endif %}
+                {% endif %}
             {% endif %}
         {% endfor %}
     </ul>

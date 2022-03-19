@@ -39,13 +39,17 @@ def send_message(request, message_receiver, invitation_id):
                 message.message_receiver = message_receiver
                 message.invitation_id = invitation
                 message_form.save()
+                
+                send_message_notification(message_sender, message_receiver, invitation, related_booking=None)
+
                 messages.success(request, f"Message sent to {message_receiver}")
                 return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
             else:
                 messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
                 return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
     else:
-        job = get_object_or_404(Job, pk=invitation_id)
+        confirmed_job = get_object_or_404(Job, pk=invitation_id)
+        related_booking = confirmed_job.job_booking
 
         if request.method == "POST":
             message_form = MessageForm(request.POST)
@@ -53,15 +57,19 @@ def send_message(request, message_receiver, invitation_id):
                 message = message_form.save(commit=False)
                 message.message_sender = message_sender
                 message.message_receiver = message_receiver
-                message.related_job = job
+                message.related_job = confirmed_job
                 message_form.save()
+
+                send_message_notification(message_sender, message_receiver, related_job=confirmed_job,
+                                          related_booking=None, related_invitation=None)
+
                 messages.success(request, f"Message sent to {message_receiver}")
-                return redirect(reverse_querystring("dashboard",
-                                args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
-            else:
-                messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
-                return redirect(reverse_querystring("dashboard",
-                                args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+        return redirect(reverse_querystring("dashboard",
+                            args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
+            # else:
+            #     messages.error(request, "Sorry, message not sent. Please make sure your message is valid.")
+            #     return redirect(reverse_querystring("dashboard",
+            #                     args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
 
 def get_notification_date(request):
 
@@ -147,10 +155,15 @@ def remove_notification(request, notification_id):
 
     return HttpResponse("Success", content_type="text/plain")
 
+def send_message_notification(message_sender, message_receiver, 
+                              related_invitation, related_booking,
+                              related_job):
 
-
-        
-    
-        
-        
-
+    Notification.objects.create(
+        notification_sender=message_sender,
+        notification_receiver=message_receiver,
+        related_booking=related_booking,
+        related_invitation=related_invitation,
+        related_job=related_job,
+        notification_type=5
+    )
