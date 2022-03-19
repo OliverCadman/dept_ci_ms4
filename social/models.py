@@ -36,6 +36,7 @@ class Notification(models.Model):
         4. A user has sent booking details.
         5. A user has received a message.
         6. A user has received a review.
+        7. A sent invitation has been deleted.
     
     
     4. Related invitation (FK) - The invitation related to the notification
@@ -49,7 +50,7 @@ class Notification(models.Model):
     notification_receiver = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                               related_name="notifications_received")
                                               
-    notification_type = models.SmallIntegerField(validators=[MaxValueValidator(6)])
+    notification_type = models.SmallIntegerField(validators=[MaxValueValidator(7)])
 
     related_invitation = models.ForeignKey(Invitation, on_delete=models.CASCADE, null=True,
                                            blank=True, related_name="invitation_notifications")
