@@ -202,16 +202,16 @@
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                             {% else %}
-                                <a href="{% url "edit_profile" %}" class="btn">Edit My Profile</a>
+                                <a href="{% url "edit_profile" %}" class="btn light_bg btn_lg edit_profile_btn inset_light_shadow">Edit My Profile</a>
                                 <button type="button"
-                                class="btn alert_bg secondary_font white_font inset_light_shadow confirm_profile_delete_btn"
+                                class="btn btn_lg light_bg secondary_font inset_light_shadow confirm_profile_delete_btn"
                                 data-bs-toggle="modal"
                                 data-bs-target="#delete_profile_modal"
                                 data-profile-id="{{ user.pk }}">Delete my Profile</button>
                             {% endif %}
                         {% else %}
-                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
-                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn">Leave a Review</a>
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn_lg">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn_lg">Leave a Review</a>
                         {% endif%}
                     </div>
                 </div>

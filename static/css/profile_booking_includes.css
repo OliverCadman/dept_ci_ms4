@@ -61,6 +61,8 @@
 }
 
 @media screen and (min-width: 992px) {
+
+
     .profile-header-container {
         padding: 60px 0 0 0;
     }
@@ -121,6 +123,16 @@
 
     .no_profile_image_fallback_bg {
         background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+    }
+
+    .edit_profile_btn:hover {
+        background-color: #0e8347;
+        color: #fefefe;
+    }
+
+    .confirm_profile_delete_btn:hover {
+        background-color: #9c1e1e;
+        color: #fefefe;
     }
 }
 
