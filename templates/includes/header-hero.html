@@ -252,7 +252,7 @@
             </div>
         </div>
         <div class="dynamic-header-container">
-            {% if p == "choose_subscription" or p == "checkout_success" or p == "user_profile_form" or p == "dashboard" %}
+            {% if p == "choose_subscription" or p == "checkout_success" or p == "user_profile_form" or p == "dashboard" or p == "booking_form" %}
                 <div class="opaque_overlay"></div>
             {% endif %}
              {% if p == "dep_list" %}
@@ -290,18 +290,18 @@
                         <p class="white_font">Welcome to your Dashboard.</p>
                         <p class="white_font">Here you can keep track of your invites and active engagements, as well as your profile progress and performance analytics.</p>
                     {% elif p == "booking_form" %}
-                        <p>Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }},{% else %}{{ invitation.invite_sender.user }},{% endif %}
+                        <p class="white_font">Congratulations {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }},{% else %}{{ invitation.invite_sender.user }},{% endif %}
                            {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user }}{% endif %}
                            has accepted your invitation:
                         </p>
-                        <p class="header_event_name">{{ invitation.event_name }}</p>
-                        <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
+                        <p class="header_event_name white_font">{{ invitation.event_name }}</p>
+                        <p class="white_font">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                     {% elif p == "tier_two_booking_form" %}
-                          <p>Congratulations {% if job.job_poster.first_name %}{{ job.job_poster.first_name }},{% else %}{{ job.job_poster.user }},{% endif %}
+                          <p class="white_font">Congratulations {% if job.job_poster.first_name %}{{ job.job_poster.first_name }},{% else %}{{ job.job_poster.user }},{% endif %}
                           you have confirmed {% if job.confirmed_member.first_name %}{{ job.confirmed_member.first_name }}{% else %}{{ job.confirmed_member.user }}{% endif %}.
                         </p>
                         <p class="header_event_name">{{ invitation.event_name }}</p>
-                        <p>Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
+                        <p class="white_font">Use the form below to provide the full details of the gig. Help to make your dep's job simple by sending sheet music, audio files, or providing travel/backline information.</p>
                     {% elif p == "user_profile_form" %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center white_font">
