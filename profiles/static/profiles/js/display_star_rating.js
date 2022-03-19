@@ -82,12 +82,13 @@ $(document).ready(function() {
            let numOfReviewsDisplay = document.createElement("span");
            
            if (numOfReviews > 0) {
+             numOfReviewsDisplay.className =
+               "secondary_font white_font";
              numOfReviewsDisplay.textContent = `(${numOfReviews})`;
            } else {
+             numOfReviewsDisplay.className = "secondary_font white_font med_small_text";
              numOfReviewsDisplay.textContent = "No Reviews"
            }
-
-           numOfReviewsDisplay.className = "secondary_font white_font";
            container.appendChild(numOfReviewsDisplay);
          }
     }
