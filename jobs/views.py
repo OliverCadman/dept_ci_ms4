@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.views.generic import ListView, UpdateView
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 from dateutil import parser
 
@@ -160,12 +161,18 @@ def post_job(request):
     """
     Handles Job Form submission from "Find a Job" Page.
     """
-    if request.method == "POST":
-        # Grab request user's profile to include in Job instance creationg
-        # as "job_poster".
-        current_user = request.user
-        user_profile = get_object_or_404(UserProfile, user__username=current_user)
 
+    # Grab request user's profile to include in Job instance creationg
+    # as "job_poster".
+    current_user = request.user
+    user_profile = get_object_or_404(UserProfile, user__username=current_user)
+
+    # Restrict access to post_job view if current user does not have "is_paid" status.
+    if not user_profile.is_paid:
+        messages.warning(request, "You need to be a Tier Two member to post a job.")
+        return redirect(reverse("job_list"))
+
+    if request.method == "POST":
         # Parse the datetime field into python datetime object,
         # readable by Django.
         event_datetime = request.POST.get("event_datetime")
@@ -198,6 +205,8 @@ def post_job(request):
             messages.error(request, "Please make sure your form is valid.")
             return redirect(reverse("job_list"))
 
+        
+
 class EditJobView(UpdateView):
 
     """
@@ -219,6 +228,17 @@ class EditJobView(UpdateView):
         job_id = self.kwargs.get("job_id")
         return get_object_or_404(Job, pk=job_id)
 
+    def get(self, *args, **kwargs):
+        """
+        Restrict access to Edit Job page only to user who owns the Job object.
+        """
+        current_job = self.get_object()
+        if not current_job.job_poster.user == self.request.user:
+            messages.warning(self.request, mark_safe("You cannot browse another member's job."))
+            return redirect(reverse("home"))
+        return super().get(*args, **kwargs)
+
+
     def post(self, request, *args, **kwargs):
         """
         Process the "event_datetime" field of the post request,
@@ -239,6 +259,8 @@ class EditJobView(UpdateView):
         """
         messages.success(self.request, "Job form edited")
         return super().form_valid(form)
+
+
 
     
 def delete_job(request, job_id):
@@ -266,8 +288,17 @@ def delete_job(request, job_id):
 
 
 def register_interest(request, job_id, username):
+    """
+    View to update a given Job object with the profile
+    of a user who has sent an offer to do a Job. 
+    """
     current_job = get_object_or_404(Job, pk=job_id)
     current_user = get_object_or_404(UserProfile, user__username=username)
+
+    # Restrict access to view to Tier Two members only.
+    if not current_user.is_paid:
+        messages.warning(request, "You need to be a Tier Two member to make an offer.")
+        return redirect(reverse("job_list"))
 
     current_job.interested_member.add(current_user)
     current_job.interest_count += 1
@@ -294,6 +325,10 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
     current_job = get_object_or_404(Job, pk=job_id)
     confirmed_user_profile = get_object_or_404(UserProfile, user__username=confirmed_user_username)
     job_poster_profile = get_object_or_404(UserProfile, user__username=request.user.username)
+
+    # Restrict access to view to the owner of the job object.
+    if current_job.job_poster.user != request.user:
+        messages.warning(request, "You do not have the authority to be here!")
 
     try:
         Booking.objects.create(related_job=current_job)

@@ -118,14 +118,20 @@
                                             View Details
                                         </button>
                                         {% if request.user.is_authenticated %}
-                                            {% if not job in current_users_jobs %}
-                                            <a href="{% url "register_interest" job.pk request.user.username %}" class="btn custom_success secondary_font white_font d-block w-100">
-                                                Send Offer
-                                            </a>
+                                            {% if current_user.subscription_chosen and current_user.is_paid %}
+                                                    {% if not job in current_users_jobs %}
+                                                    <a href="{% url "register_interest" job.pk request.user.username %}" class="btn custom_success secondary_font white_font d-block w-100">
+                                                        Send Offer
+                                                    </a>
+                                                    {% else %}
+                                                    <a href="{% url "register_interest" job.pk request.user.username %}"class="btn disabled custom_danger secondary_font white_font d-block w-100">
+                                                        Offer Sent
+                                                    </a>
+                                                    {% endif %}
                                             {% else %}
-                                            <a href="{% url "register_interest" job.pk request.user.username %}"class="btn disabled custom_danger secondary_font white_font d-block w-100">
-                                                Offer Sent
-                                            </a>
+                                                    <button class="btn custom_success secondary_font white_font d-block w-100" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">
+                                                        Send Offer
+                                                    </button>
                                             {% endif %}
                                         {% endif %}
                                     
@@ -156,7 +162,9 @@
                     <div class="modal-body modal_form_container">
                         <div class="modal_form_wrapper">
                             <div class="row">
-                                {% crispy job_form %}
+                                <form action="{% url "post_job" %}" method="POST">
+                                    {% crispy job_form %}
+                                </form>
                             </div>
                         </div>
                     </div>
