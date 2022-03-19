@@ -2,22 +2,22 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block head_title %}{% trans "Verify Your Email Address" %}{% endblock %}
 
 {% block inner_content %}
     <section class="auth-section verify">
-        <div class="container auth-container verify">
+        <div class="container auth-container">
             <div class="row">
                 <div class="col-12 col-lg-8 mt-5">
-                     <h1 class="auth-header dark mt-4">{% trans "Verify Your E-mail Address" %}</h1>
+                     <h1 class="auth-header primary_font  dark mt-4">{% trans "Verify Your Email Address" %}</h1>
                 </div>
                  </div>
                 <div class="row">
                     <div class="col-12 col-lg-8 mt-4">
-                            <p class="auth-info">{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.{% endblocktrans %}</p>
+                            <p class="auth-info med_small_text position-relative">{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.{% endblocktrans %}</p>
                     </div>
                     <div class="col-12 col-lg-4">
-                        <div class="float-end float-md-none">
+                        <div class="float-end position-relative mt-4">
                             <figure>
                                 <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="200" height="200" class="dept-logo-lg">
                             </figure>
