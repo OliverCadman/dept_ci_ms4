@@ -192,6 +192,24 @@
 
 }
 
+@media screen and (min-width: 1500px) {
+    .auth-section {
+        height: 75vh;
+    }
+
+    .auth-header {
+        font-size: 4.5rem;
+    }
+
+    .med_small_text {
+        font-size: 1.6rem;
+    }
+
+    .auth-btn {
+        font-size: 1.4rem;
+    }
+}
+
 @media screen and (min-width: 320px) and (max-width: 320px) {
     .med_small_text {
         font-size: 1.15rem;
