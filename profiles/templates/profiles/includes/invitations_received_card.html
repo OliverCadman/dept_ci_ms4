@@ -6,7 +6,7 @@
     <div class="invitation_date_wrapper">
         <span class="invitation_date">{{ invitation.date_of_invitation|date:"d/m/Y" }}</span>
     </div>
-    <p class="invitation_card_title">Invitation from {{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}</p>
+    <p class="invitation_card_title">Invitation from {% if invitation.invite_sender.first_name %}{{ invitation.invite_sender.first_name }} {{ invitation.invite_sender.last_name }}{% else %}{{ invitation.invite_sender.user }}{% endif %}</p>
     <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-circle-play"></i></span>{{ invitation.event_name|capfirst }}</p>
     <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-location-dot"></i></span>{{ invitation.event_city}}, {{ invitation.event_country.name }}</p>
     <p class="primary_font med_small_text light_weight"><span class="dashboard_card_icon"><i class="fa-regular fa-clock"></i></span>{{ invitation.event_datetime|date:"d/m/Y H:i" }}</p>    
