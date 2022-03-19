@@ -18,11 +18,11 @@ Job Offer Modal:
     and button to confirm user.
 */
 
-// TIER ONE 
+// TIER ONE
 
 const requestUserId = parseInt($("#request_user_id").val());
 
-$(document).ready(function() {
+$(document).ready(function () {
   // Detail Modal
   $(".view_detail_btn").click(function (e) {
     $("#modal_event_name").html($(this).data("event-name"));
@@ -72,19 +72,6 @@ $(document).ready(function() {
 
     // Populate message modal with messages
     displayMessages(tierOneAjaxMessageGETUrl);
-  });
-
-  /* Delete Invitation Modal
-  --------------------------------
-   Grabs invitation as data-attribute passed through
-   button to open confirmation modal, and sets the href attribute of
-   link to delete invitation, with invitation id appended. */
-  $(".confirm_invite_delete_btn").click(function () {
-    $("#confirm_invite_delete").attr(
-      "href",
-      `/bookings/delete_invitation/${$(this).data("invitation-id")}`
-    );
-
   });
 
   $(".tier_two_message_modal_btn").click(function () {
@@ -307,4 +294,4 @@ $(document).ready(function() {
       },
     }).showToast();
   }
-})
+});
