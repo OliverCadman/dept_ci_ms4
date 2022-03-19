@@ -14,6 +14,7 @@ from bookings.forms import InvitationForm, ReviewForm
 
 from social.models import Notification
 from social.forms import MessageForm
+from social.functions import reverse_querystring
 
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
@@ -324,13 +325,31 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         current_user = get_object_or_404(UserProfile, user__username=self.request.user)
 
         url_path = self.request.get_full_path()
-        url_endpoint = "".join(url_path.split("/")[3])
-        if "?" in url_endpoint:
-            url_endpoint = "".join(url_endpoint.split("?")[0])
-         
-        if not current_user.slug == url_endpoint:
+
+        # Restrict access to Dashboard page to request user who owns the profile object.
+        user_check = "".join(url_path.split("/")[3])
+        if "?" in url_path:
+            user_check = user_check.split("?")[0]
+        if not current_user.slug == user_check:
             messages.info(self.request, mark_safe("You may not visit another member's dashboard."))
-            return redirect(reverse("home"))
+            return redirect(reverse_querystring("dashboard", args=[current_user.slug],
+                                                    query_kwargs={
+                                                        "page": "jobs",
+                                                        "section": "tier_one"
+                                                    }))
+        
+        # Restrict access to Tier Two content if user profile doesn't have "is_paid" status.
+        tier_check = None
+        if "&" in url_path:
+            tier_check = "".join(url_path.split("&")[1])
+            if tier_check == "section=tier_two":
+                if not current_user.is_paid:
+                    messages.warning(self.request, mark_safe("You do not have Tier Two access."))
+                    return redirect(reverse_querystring("dashboard", args=[current_user.slug],
+                                                        query_kwargs={
+                                                            "page": "jobs",
+                                                            "section": "tier_one"
+                                                        }))
         return super().get(*args, **kwargs)
     
     def get_context_data(self, **kwargs):
