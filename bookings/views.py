@@ -301,12 +301,20 @@ def decline_invitation(request, invitation_pk):
 def delete_invitation(request, invitation_id):
     invitation = get_object_or_404(Invitation, pk=invitation_id)
     invite_sender = invitation.invite_sender
+    invite_receiver = invitation.invite_receiver
     try:
+        Notification.objects.create(
+            notification_sender=invite_sender,
+            notification_receiver=invite_receiver,
+            declined_invitation=invitation.event_name,
+            notification_type=7
+        )
         invitation.delete()
         messages.success(request, "Invitation deleted.")
         return redirect(reverse("dashboard", args=[invite_sender.slug]))
     except Exception as e:
         messages.error(request, f"Sorry, something went wrong: {e}")
+        return redirect(reverse("dashboard", args=[invite_sender.slug]))
 
 
 
