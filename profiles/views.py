@@ -1,3 +1,4 @@
+from webbrowser import get
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
@@ -20,7 +21,7 @@ from .forms import UserProfileForm, EquipmentForm, AudioForm
 from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
 
 import datetime
-
+import stripe
 import logging
 
 logger = logging.getLogger(__file__)
@@ -498,9 +499,9 @@ def delete_account(request, profile_id):
     the associated UserProfile object's ID.
     """
     current_user_profile = get_object_or_404(UserProfile, pk=profile_id)
-
+    auth_user = User.objects.get(username=current_user_profile.user.username)
     try:
-        auth_user = User.objects.get(username=current_user_profile.user.username)
+        delete_stripe_customer(auth_user.email)
         auth_user.delete()
         messages.success(request, "Your account has been deleted.")
         return redirect(reverse("home"))
@@ -510,6 +511,26 @@ def delete_account(request, profile_id):
     except Exception as e:
         messages.error(request, f"Sorry, there was an error: {e}")
         return redirect(reverse("profile", args=[auth_user.username]))
+
+
+def delete_stripe_customer(customer_email):
+    """
+    Retrieves the user's stripe account details from the Stripe API
+    and deletes them from the stripe database, cancelling their
+    subscription automatically.
+    """
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    get_stripe_customer = stripe.Customer.list(email=customer_email)
+    if get_stripe_customer:
+        stripe_customer_id = get_stripe_customer.data[0].id
+        try:
+            stripe.Customer.delete(stripe_customer_id)
+            return HttpResponse(status=200)
+        except Exception:
+            return HttpResponse(status=404)
+    else:
+        return None
+     
 
 
 
