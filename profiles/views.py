@@ -450,10 +450,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
                                     posted_jobs = user_profile.posted_jobs.all()
-                                elif current_filter == "offers_sent":
+                                elif current_filter == "pending_offers":
                                     posted_jobs = user_profile.posted_jobs.filter(is_taken=False, interested_member__gt=0)
-                                    print("POSTED JOBS WITH OFFERS RECEIVED")
-                                    print(posted_jobs)
                                 elif current_filter == "confirmed":
                                     posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
                                 elif current_filter == job_id:
