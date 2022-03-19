@@ -148,7 +148,8 @@
                         <div class="header-btn-wrapper">
                             {% if request.user.is_authenticated %}
                                 {% if not request.user.username == user.user.username %}</button>
-                                    <button class="btn custom_success inset_light_shadow" data-bs-toggle="modal" data-bs-target="#invitation_modal" id="contact_btn">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}
+                                    <button class="btn custom_success inset_light_shadow" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
+                                    <button class="btn custom_success inset_light_shadow" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                                 {% else %}
                                     <a href="{% url "edit_profile" %}" class="btn custom_success secondary_font white_font inset_light_shadow">Edit My Profile</a>
                                     <button type="button" class="btn alert_bg secondary_font white_font inset_light_shadow confirm_profile_delete_btn"
@@ -157,7 +158,7 @@
                                     data-profile-id="{{ user.pk }}">Delete my Profile</button>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font inset_light_shadow">Invite {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</a>
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font inset_light_shadow">Contact {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</a>
                             {% endif %}
                         </div>
                     {% endif %}
