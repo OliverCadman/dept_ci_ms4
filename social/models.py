@@ -58,6 +58,9 @@ class Notification(models.Model):
     related_booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True,
                                         blank=True, related_name="booking_notifications")
 
+    related_job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True,
+                                    related_name="job_notifications")
+
     declined_invitation = models.CharField(max_length=150, null=True, blank=True)
     
     notification_date = models.DateTimeField(auto_now_add=True)
