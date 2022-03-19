@@ -1,7 +1,5 @@
-from webbrowser import get
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
-
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -13,8 +11,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from bookings.forms import InvitationForm, ReviewForm
+
+from social.models import Notification
 from social.forms import MessageForm
-from jobs.models import Job
 
 from .models import UserProfile, AudioFile, Equipment, UnavailableDate
 from .forms import UserProfileForm, EquipmentForm, AudioForm
@@ -54,7 +53,6 @@ def get_users_tracks(request, user_id):
             track_list.append(track_object)
 
         return JsonResponse({"track_list": track_list})
-
 
 
 class ProfileView(TemplateView):
@@ -146,6 +144,13 @@ class ProfileView(TemplateView):
             form.review_receiver = review_receiver_profile
             form.review_sender = review_sender_profile
             form.save()
+
+            # Create a notification object to inform review_receiver
+            Notification.objects.create(
+                notification_sender=review_sender_profile,
+                notification_receiver=review_receiver_profile,
+                notification_type=6
+            )
 
             # Check if invite receiver profile has a first name.
             # If not, default to the user profile's username.
