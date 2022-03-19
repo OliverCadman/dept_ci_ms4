@@ -39,10 +39,6 @@
     color: #fefefe;
 }
 
-.breadcrumb-item>form {
-    display: inline;
-}
-
 .active {
     color: rgb(233, 233, 30);
 }
@@ -531,8 +527,6 @@ https://codepen.io/thetallweeks/pen/yybGra */
 
     .membership_detail_card_wrapper {
         min-width: 400px;
-        max-width: 600px;
-
     }
 
     .job-card {
