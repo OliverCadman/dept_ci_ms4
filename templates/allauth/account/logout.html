@@ -5,16 +5,17 @@
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<section class="auth-section">
+<section class="auth-section linear_bg">
+  <div class="opaque_overlay_xlight"></div>
   <div class="container auth-container">
     <div class="row">
       <div class="col-12 col-lg-8 mt-4">
-        <h1 class="auth-header dark">{% trans "Sign Out" %}</h1>
+        <h1 class="auth-header white_font primary_font header_shadow">{% trans "Signing Out" %}</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-12 col-lg-8 mt-4">
-        <p class="auth-info">{% trans 'Are you sure you want to sign out?' %}</p>
+        <p class="auth-info med_small_text">{% trans 'We hope you enjoyed your stay.' %}</p>
         <form method="post" action="{% url 'account_logout' %}">
           {% csrf_token %}
           {% if redirect_field_value %}
@@ -26,9 +27,9 @@
         </form>
       </div>
       <div class="col-12 col-lg-4">
-        <div class="float-end float-md-none">
+        <div class="float-end mt-5">
           <figure>
-              <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="200" height="200" class="dept-logo-lg">
+              <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="200" height="200" class="dept-logo-lg position-relative">
           </figure>
 
         </div>

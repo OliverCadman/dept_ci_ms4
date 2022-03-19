@@ -1,12 +1,13 @@
 .auth-section {
-    background-color: #1a2342;
     padding: 3rem 0;
+    position: relative;
+    z-index: auto;
 }
 
 .auth-container {
     padding-top: 39px;
     /* min-height: 85vh; */
-    background-color: #1a2342;
+   
 }
 
 .auth-section.verify,
@@ -15,10 +16,12 @@
 }
 
 .auth-header {
-    font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
-    color: #fefefe;
     font-size: 2.5rem;
+}
+
+.auth-header, .auth-info, .auth-btn {
+    position: relative;
 }
 
 .auth-header.dark {
@@ -69,18 +72,12 @@
     width: 100%;
 }
 
-
-
 .auth-btn {
     background-color: #1a2342;
     color: #eee;
     font-family: "Oxygen", sans-serif;
     width: 100%;
     margin: 1rem 0;
-}
-
-.auth-btn.narrow {
-    width: 25%;
 }
 
 .auth-form {
@@ -98,15 +95,25 @@
 }
 
 @media screen and (min-width: 768px) {
+    
     .auth-container {
         min-height: 60vh;
     }
+
+    .auth-header {
+         padding-top: 6rem;
+    }
+
 
     .auth-form-container {
         display: flex;
         justify-content: center;
         flex-direction: column;
    
+    }
+
+    .auth-btn.narrow {
+        width: 25%;
     }
 }
 
@@ -183,4 +190,10 @@
         font-size: 1.3rem;
     }
 
+}
+
+@media screen and (min-width: 320px) and (max-width: 320px) {
+    .med_small_text {
+        font-size: 1.15rem;
+    }
 }
