@@ -203,9 +203,11 @@
                                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_one" %}active{% endif %} w-100 switch_btn mb-1">
                                             Tier One
                                         </a>
+                                        {% if current_user.is_paid %}
                                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection=posted_jobs&filter=all" class="btn job-nav-btn {% if current_page == "jobs" and current_section == "tier_two" %}active{% endif %} w-100 switch_btn mt-1">
                                             Tier Two
                                         </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 {% if current_page == "jobs" and current_section == "tier_one" %}
