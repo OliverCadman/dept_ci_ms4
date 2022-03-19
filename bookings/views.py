@@ -14,14 +14,15 @@ from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 
 from dateutil import parser
+import datetime
 
-from .forms import InvitationForm, BookingForm
-from .models import Invitation, Booking
+from .forms import InvitationForm, BookingForm, ReviewForm
+from .models import Invitation, Booking, Review
 from .functions import to_dict
 from .utils import render_to_pdf
 
 
-from social.models import Message
+from social.models import Message, Notification
 from social.functions import reverse_querystring, get_referral_path
 from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
@@ -137,6 +138,7 @@ class EditInvitationForm(UpdateView):
                                        "subsection": "invites_sent",
                                        "filter": invitation.pk
                                    })
+
 
 def get_invitation_messages(request, pk):
         """
@@ -267,6 +269,16 @@ def decline_invitation(request, invitation_pk):
         invite_sender_name = invitation.invite_sender.user.username
 
     try:
+        invite_receiver = invitation.invite_receiver
+        declined_invitation = invitation.event_name
+
+        Notification.objects.create(
+            notification_sender=invite_receiver,
+            notification_receiver=invitation.invite_sender_name,
+            notification_type=3,
+            declined_invitation=declined_invitation
+        )
+
         invitation.delete()
         messages.success(request, mark_safe(f"You declined {invite_sender_name}'s invitation."))
         return redirect(reverse_querystring("dashboard", args=[request.user],
@@ -284,6 +296,18 @@ def decline_invitation(request, invitation_pk):
                                                 "section": "invites_received",
                                                 "filter": "all"
                                             }))
+
+
+def delete_invitation(request, invitation_id):
+    invitation = get_object_or_404(Invitation, pk=invitation_id)
+    invite_sender = invitation.invite_sender
+    try:
+        invitation.delete()
+        messages.success(request, "Invitation deleted.")
+        return redirect(reverse("dashboard", args=[invite_sender.slug]))
+    except Exception as e:
+        messages.error(request, f"Sorry, something went wrong: {e}")
+
 
 
 @login_required
@@ -609,7 +633,8 @@ def get_invitation_id(request, booking_id):
                 return JsonResponse({"invitation_id": invitation_id})
     except Booking.DoesNotExist:
         return HttpResponse(status=200)
-  
- 
+
+
+
 
 
