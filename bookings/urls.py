@@ -4,8 +4,7 @@ from bookings.models import Invitation
 from .views import (invitation_form_view, get_invitation_messages,
                     accept_invitation, decline_invitation, booking_form, BookingSuccessView,
                     BookingDetailView, GeneratePDFFile, download_audiofile,
-                    get_invitation_id, tier_two_booking_form, EditInvitationForm, delete_invitation,
-                    get_review, edit_review)
+                    get_invitation_id, tier_two_booking_form, EditInvitationForm, delete_invitation)
 
 urlpatterns = [
     path('invite', invitation_form_view, name="invitation"),
