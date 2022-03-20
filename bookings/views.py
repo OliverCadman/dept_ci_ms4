@@ -611,10 +611,7 @@ def download_audiofile(request, file_id):
     https://stackoverflow.com/questions/2681338/django-serving-a-download-in-a-generic-view
     """
     audio_file = get_object_or_404(AudioFile, pk=file_id)
-    if "DEVELOPMENT" in os.environ:
-        fsock = open(audio_file.file.path, "rb")
-    else:
-        fsock = open(audio_file.file, "rb")
+    fsock = open(audio_file.file.path, "rb")
     if fsock:
         response = HttpResponse(fsock, content_type="audio/mpeg")
         response["Content-Disposition"] = "attachment; filename=%s" %(audio_file.file_name)
