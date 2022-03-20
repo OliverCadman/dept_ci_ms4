@@ -160,10 +160,6 @@ else:
 
 if "USE_AWS" in os.environ:
     # Cache Control
-    AWS_S3_OBJECT_PARAMETERS = {
-        "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
-        "CacheControl": "max-age 0,no-cache,no-store,must-revalidate"
-    }
 
     # Bucket Config
     AWS_STORAGE_BUCKET_NAME = "dept-bucket"
