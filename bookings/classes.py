@@ -1,4 +1,5 @@
 import boto3
+from botocore.client import Config
 import os
 
 
@@ -32,24 +33,28 @@ class DownloadS3Object(object):
     access_key = None
     secret_key = None
 
-    def __init__(self, access_key, secret_key, *args, **kwargs):
+    def __init__(self, access_key, secret_key, region, *args, **kwargs):
         """
         Initialize instance variables
         """
         self.access_key = access_key
         self.secret_key = secret_key
+        self.region = region
         super(DownloadS3Object, self).__init__(*args, **kwargs)
 
     def create_boto3_session(self):
         """
-        Instantiate a boto3 session
+        Instantiate a boto3 client
         """
-        session = boto3.Session(
+        client = boto3.client(
+            "s3",
+            config=Config(signature_version="s3v4"),
+            region_name=self.region,
             aws_access_key_id=self.access_key,
             aws_secret_access_key=self.secret_key
         )
         
-        return session
+        return client
 
     def generate_download_url(self, bucket_name, path, expiration):
         """
@@ -61,9 +66,7 @@ class DownloadS3Object(object):
         """
 
         if path:
-            session = self.create_boto3_session()
-            client = session.client("s3")
-
+            client = self.create_boto3_session()
             filename = os.path.basename(path)
             try:
                 download_url = client.generate_presigned_url(

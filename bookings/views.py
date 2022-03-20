@@ -631,16 +631,17 @@ def download_audiofile(request, file_id):
     else:
         bucket_name = settings.AWS_STORAGE_BUCKET_NAME
         access_key = settings.AWS_ACCESS_KEY_ID
+        region = settings.AWS_S3_REGION_NAME
         secret_key = settings.AWS_SECRET_ACCESS_KEY
         expiration = settings.AWS_DOWNLOAD_EXPIRE
         audio_filepath = audio_file.file.name
 
         # Instantiate the DownloadS3Object class and call generate_download_url
-        audio_download = DownloadS3Object(access_key, secret_key)
+        audio_download = DownloadS3Object(access_key, secret_key, region)
         url = audio_download.generate_download_url(
             bucket_name,
             audio_filepath,
-            expiration
+            expiration,
         )
 
         # HttpResponseRedirect to url to download the file.
