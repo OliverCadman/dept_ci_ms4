@@ -158,8 +158,6 @@ else:
     }
 }
 
-
-
 # Bucket Config
 AWS_STORAGE_BUCKET_NAME = "dept-bucket"
 AWS_S3_REGION_NAME = "eu-west-2"
@@ -234,6 +232,31 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Log Errors when in production
+LOGGING = {
+    "version": 1,
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG"
+        }
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "./logs/debug.log",
+            "formatter": "simpleRe"
+        }
+    },
+    "formatters": {
+        "simpleRe": {
+            "format": '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            "style": '{',
+        }
+    }
+}
 
 
 # Internationalization
