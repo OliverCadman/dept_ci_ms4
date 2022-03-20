@@ -250,7 +250,7 @@ def upload_audio(request, username):
                 messages.success(request, "Audio file removed")
                 return HttpResponse(status=200)
             except Exception as e:
-                logger.exception("There is an exception in audio file delete method!")
+                logger.error("Exception! %s", exc_info=1)
                 print(f"Exception: {e}")
                 return HttpResponse(status=500)
     
