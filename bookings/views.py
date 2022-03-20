@@ -1,8 +1,10 @@
+from email.mime import audio
 import os
+from urllib import response
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -13,13 +15,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 
-from dateutil import parser
-import datetime
-
 from .forms import InvitationForm, BookingForm, ReviewForm
 from .models import Invitation, Booking, Review
 from .functions import to_dict
 from .utils import render_to_pdf
+from .classes import DownloadS3Object
 
 
 from social.models import Message, Notification
@@ -28,6 +28,9 @@ from profiles.forms import AudioForm
 from profiles.models import UserProfile, AudioFile
 from jobs.models import Job
 from jobs.forms import JobForm
+
+from dateutil import parser
+import requests
 
 
 def invitation_form_view(request):
@@ -597,29 +600,56 @@ class GeneratePDFFile(View):
         return redirect(reverse("booking_detail", args=[current_booking.pk]))
         
 
-
 def download_audiofile(request, file_id):
     """
     View to handle request to download audio files.
 
-    Get AudioFile object from DB and open a socket connection
-    to the audio file, routed through the audiofile path.
-
-    If fsock is valid, return HTTP Response to serve the 
-    prepared audio file, as audio/mpeg attachment.
-
-    https://stackoverflow.com/questions/2681338/django-serving-a-download-in-a-generic-view
+    Both a development method and production method are required
+    since the serving the file from the production backend "Amazon S3"
+    requires different configuration and methods to serving the 
+    file in development.
     """
     audio_file = get_object_or_404(AudioFile, pk=file_id)
-    fsock = open(audio_file.file.path, "rb")
-    if fsock:
-        response = HttpResponse(fsock, content_type="audio/mpeg")
-        response["Content-Disposition"] = "attachment; filename=%s" %(audio_file.file_name)
-        return response
+    
+    # ------------ DEVELOPMENT -----------------
+    # If fsock is valid, return HTTP Response to serve the 
+    # prepared audio file, as audio/mpeg attachment.
+    # https://stackoverflow.com/questions/2681338/django-serving-a-download-in-a-generic-view
 
-    booking_id = audio_file.related_booking.pk
-    messages.error(request, "Sorry, something went wrong, please try again.")
-    return redirect(reverse("booking_detail", args=[booking_id]))
+    if "DEVELOPMENT" in os.environ:
+        fsock = open(audio_file.file.path, "rb")
+        if fsock:
+            response = HttpResponse(fsock, content_type="audio/mpeg")
+            response["Content-Disposition"] = "attachment; filename=%s" %(audio_file.file_name)
+            return response
+
+        booking_id = audio_file.related_booking.pk
+        messages.error(request, "Sorry, something went wrong, please try again.")
+        return redirect(reverse("booking_detail", args=[booking_id]))
+        
+    # # ----------- PRODUCTION ---------- 
+    else:
+        bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+        access_key = settings.AWS_ACCESS_KEY_ID
+        secret_key = settings.AWS_SECRET_ACCESS_KEY
+        expiration = settings.AWS_DOWNLOAD_EXPIRE
+        audio_filepath = audio_file.file.name
+
+        # Instantiate the DownloadS3Object class and call generate_download_url
+        audio_download = DownloadS3Object(access_key, secret_key)
+        url = audio_download.generate_download_url(
+            bucket_name,
+            audio_filepath,
+            expiration
+        )
+
+        # HttpResponseRedirect to url to download the file.
+        # Content Type and Content Disposition force download.
+        if url:
+            return HttpResponseRedirect(url)
+        else:
+            messages.error(request, "Sorry, we couldn't download the file.")
+            return HttpResponse(status=200)
 
 
 def get_invitation_id(request, booking_id):
