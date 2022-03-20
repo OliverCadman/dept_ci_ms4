@@ -5,7 +5,10 @@ on the website's 'Edit Profile' page.
 
 https://docs.dropzone.dev/
 */
-username = $("#user_name_2").val();
+let username = $("#request_user").text()
+username = username.replace(/\"/g, "");
+console.log(username)
+
 
 // Dropzone.autoDiscover = false;
 Dropzone.options.audioDropzone = {
