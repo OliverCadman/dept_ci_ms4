@@ -331,7 +331,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         if "?" in url_path:
             user_check = user_check.split("?")[0]
         if not current_user.slug == user_check:
-            messages.info(self.request, mark_safe("You may not visit another member's dashboard."))
+            messages.warning(self.request, mark_safe("You may not visit another member's dashboard."))
             return redirect(reverse_querystring("dashboard", args=[current_user.slug],
                                                     query_kwargs={
                                                         "page": "jobs",
@@ -509,6 +509,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "current_page" : current_page,
             "current_section": current_section,
             "current_subsection": current_subsection,
+            "current_filter": current_filter,
             "tier_two_price_id": tier_two_price_id,
             "invitations_sent": invitations_sent,
             "invitations_received": invitations_received,
@@ -517,6 +518,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "message_form": message_form,
             "posted_jobs": posted_jobs,
             "offers_sent": offers_sent
+
         }
 
         print(context["current_page"])
