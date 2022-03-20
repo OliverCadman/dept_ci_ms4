@@ -17,6 +17,8 @@ if os.path.exists("env.py"):
     import env
 
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,7 +35,7 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = "DEVELOPMENT" in os.environ
 
 # Use HTTPS in production
 # if not "DEVELOPMENT" in os.environ:
@@ -188,8 +190,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+if not "DEVELOPMENT" in os.environ:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -241,6 +243,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Log Errors when in production
 LOGGING = {
     "version": 1,
+    "disable_existing_loggers": False,
     "loggers": {
         "django": {
             "handlers": ["file"],
@@ -249,17 +252,10 @@ LOGGING = {
     },
     "handlers": {
         "file": {
-            "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "./logs/debug.log",
             "formatter": "simpleRe"
         },
-        "file": {
-            "level": "ERROR",
-            "class": "logging.FileHandler",
-            "filename": "./logs/debug.log",
-            "formatter": "simpleRe"
-        }
     },
     "formatters": {
         "simpleRe": {
@@ -268,6 +264,20 @@ LOGGING = {
         }
     }
 }
+
+sentry_sdk.init(
+    dsn="https://84013a6e106a4dc2889b7f9e546617cb@o1173215.ingest.sentry.io/6268104",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 
 # Internationalization
