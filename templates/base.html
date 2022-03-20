@@ -127,22 +127,26 @@
        <div class="message-container">
         {% for message in messages %}
             {% with message.level as level %}
+                <!-- ERROR -->
                 {% if level == 40 %}
                     <script>
                         let message = "{{message}}"
-                        displayToast(message)
+                        displayToast(message, "red")
                     </script>
+                <!-- WARNING -->
                 {% elif level == 30 %}
                     <script>
                         let message = "{{message}}"
-                        displayToast(message)
+                        displayToast(message, "#a64d00")
                     </script>
+                <!-- SUCCESS -->
                 {% elif level == 25 %}
                     <script>
                         let message = "{{message }}"
-                        displayToast(message)
+                        displayToast(message, "green")
                     </script>
                 {% else %}
+                    <!-- INFO -->
                     <script>
                         let message = "{{ message }}"
                         displayToast(message)
