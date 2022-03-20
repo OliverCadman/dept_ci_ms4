@@ -248,6 +248,12 @@ LOGGING = {
             "class": "logging.FileHandler",
             "filename": "./logs/debug.log",
             "formatter": "simpleRe"
+        },
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "./logs/debug.log",
+            "formatter": "simpleRe"
         }
     },
     "formatters": {
