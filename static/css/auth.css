@@ -2,11 +2,13 @@
     padding: 3rem 0;
     position: relative;
     z-index: auto;
+    background-color: #1a2342;
 }
 
 .auth-container {
     padding-top: 39px;
     /* min-height: 85vh; */
+    background-color: #1a2342;
 
 }
 
@@ -103,7 +105,7 @@
     }
 
     .auth-header {
-        padding-top: 6rem;
+        padding-top: 2rem;
     }
 
 

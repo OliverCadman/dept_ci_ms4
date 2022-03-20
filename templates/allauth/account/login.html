@@ -16,7 +16,7 @@
     </div>
   <div class="row d-flex justify-content-md-center">
     <div class="col-12 col-md-8 col-lg-5 col-xl-6">
-      <h1 class="auth-header mt-4 ms-lg-4 text-uppercase d-block d-lg-none">{% trans "Login" %}</h1>
+      <h1 class="auth-header mt-4 ms-lg-4 primary_font white_font text-uppercase d-block d-lg-none">{% trans "Login" %}</h1>
       <div class="auth-form-wrapper">
         {% get_providers as socialaccount_providers %}
         <form class="login auth-form" method="POST" action="{% url 'account_login' %}">

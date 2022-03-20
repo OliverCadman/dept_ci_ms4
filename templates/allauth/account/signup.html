@@ -16,7 +16,7 @@
     </div>
     <div class="row d-flex justify-content-center">
       <div class="col-12 col-md-8 col-lg-5 ms-lg-5">
-        <h1 class="auth-header mt-4 ms-lg-4 text-uppercase d-block d-lg-none">{% trans "Sign up " %}</h1>
+        <h1 class="auth-header mt-4 ms-lg-4 primary_font white_font text-uppercase d-block d-lg-none">{% trans "Sign up " %}</h1>
         <div class="auth-form-wrapper">
           <form class="signup auth-form" id="signup_form" method="post" action="{% url 'account_signup' %}">
             <div class="auth-button-wrapper">
@@ -47,7 +47,7 @@
             <div class="auth-button-wrapper">
               <button type="submit" class="btn auth-btn">{% trans "Sign Up with Email" %} &raquo;</button>
             </div>
-            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+            <p class="secondary_font">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
           </form>
         </div>
       </div>
