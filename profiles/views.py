@@ -24,11 +24,11 @@ import datetime
 import stripe
 import logging
 
-logger = logging.getLogger("django")
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
-def get_users_unavailable_dates(request, username):
-    current_user = get_object_or_404(UserProfile, user=username)
+def get_users_unavailable_dates(request, user_id):
+    current_user = get_object_or_404(UserProfile, user=user_id)
     # TODO: Change related name of object
 
     unavailable_dates = current_user.unavailable_user.all()
@@ -218,7 +218,7 @@ def edit_profile(request):
     return render(request, "profiles/edit_profile.html", context=context)
 
 
-def upload_audio(request, username):
+def upload_audio(request):
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
@@ -250,14 +250,13 @@ def upload_audio(request, username):
                 messages.success(request, "Audio file removed")
                 return HttpResponse(status=200)
             except Exception as e:
-                logger.error("Exception! %s", exc_info=1)
+                logger.debug("Exception! %s", exc_info=1)
                 print(f"Exception: {e}")
                 return HttpResponse(status=500)
     
     # GET request for AJAX success callback in 'audio_dropzone.js'
     success_msg = "Audio Files Saved"
     return JsonResponse({"form_page": 3, "success_msg": success_msg})
-
 
 
 def upload_unavailable_dates(request, user_id):
