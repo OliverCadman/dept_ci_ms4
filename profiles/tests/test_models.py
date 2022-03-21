@@ -97,11 +97,16 @@ class TestProfileModel(TestCase):
             password="reviewer_password",
             email="reviewer_email"
         )
+
+        # Get UserProfile for Test Review Sender to related to test Reviews.
         test_reviewsender_userprofile = get_object_or_404(UserProfile,
                                                           user=test_review_sender)
 
+        # Get UserProfile for Test Review Receiver.
         test_reviewreceiver_userprofile = get_object_or_404(UserProfile,
                                                             user=self.user)
+        
+        # Create three reviews 
         Review.objects.bulk_create([
             Review(
                 review_sender=test_reviewsender_userprofile,
