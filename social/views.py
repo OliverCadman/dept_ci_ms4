@@ -40,7 +40,8 @@ def send_message(request, message_receiver, invitation_id):
                 message.invitation_id = invitation
                 message_form.save()
                 
-                send_message_notification(message_sender, message_receiver, invitation, related_booking=None)
+                send_message_notification(message_sender, message_receiver, invitation,
+                                          related_job=None, related_booking=None)
 
                 messages.success(request, f"Message sent to {message_receiver}")
                 return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
@@ -49,8 +50,6 @@ def send_message(request, message_receiver, invitation_id):
                 return redirect(reverse_querystring("dashboard", args=[message_sender.slug], query_kwargs={'page': 'jobs'}))
     else:
         confirmed_job = get_object_or_404(Job, pk=invitation_id)
-        related_booking = confirmed_job.job_booking
-
         if request.method == "POST":
             message_form = MessageForm(request.POST)
             if message_form.is_valid():
