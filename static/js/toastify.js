@@ -1,4 +1,4 @@
-    function displayToast(message, representativeBackground, representativeColor) {
+    function displayToast(message, representativeColor) {
         Toastify({
           text: message,
           duration: -1,
@@ -6,9 +6,11 @@
           gravity: "top",
           position: "right",
           style: {
-            background: "#45425a",
+            background: "#fefefe",
             fontFamily: "'Josefin Sans', sans-serif",
-            color: "#fefefe",
+            color: representativeColor,
+            fontSize: "20px",
+            maxWidth: "100%"
           },
         }).showToast();
       }
