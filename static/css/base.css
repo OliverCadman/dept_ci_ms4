@@ -235,7 +235,6 @@ body {
 /* Call to Action Buttons */
 
 .header-btn-wrapper {
-    position: absolute;
     bottom: 0;
     right: 0;
     margin: 6px 0;
