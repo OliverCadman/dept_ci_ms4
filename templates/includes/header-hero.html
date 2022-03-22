@@ -2,7 +2,7 @@
     {% if p == "checkout_success" %}
         <div class="opaque-overlay-light"></div>
     {% endif %}
-        <div class="container-fluid choose_subscription_container_sm">
+        <div class="container-fluid {% if p == "choose_subscription" %}choose_subscription_container_sm{% else %}pt-4{% endif %}">
             <div class="row">
                 <div class="col-12 dynamic-header mt-3">
                     {% if p == "user_profile_form" %}
@@ -114,10 +114,13 @@
             </div>
     </section>
     {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" and not p == "job_list" and not p == "tier_two_booking_form" %}
-    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile{% elif p == "checkout_success" %}checkout_success{% endif %}">
+    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile linear_bg{% elif p == "checkout_success" %}checkout_success{% endif %}">
+        {% if p == "user_profile_form" %}
+            <div class="opaque_overlay"></div>
+        {% endif %}
         <div class="row">
             <div class="col-12">
-                <div class="dynamic-lead-container">
+                <div class="dynamic-lead-container position-relative">
                     <div id="dynamic-lead-header" class="mt-4 text-center primary_font">
                         {% if not p == "user_profile_form" %}
                         <h2>
@@ -150,13 +153,13 @@
                     {% else %}
                         {% if request.session.form_page == 1 %}
                             <div class="profile-prompt-lead text-center">
-                                <p>Let the community know you've arrived.</p>
-                                <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
+                                <p class="secondary_font white_font">Let the community know you've arrived.</p>
+                                <p class="secondary_font white_font">Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
                             </div>
                         {% elif request.session.form_page == 2 %}
                             <div class="profile-prompt-lead text-center">
-                                <p>Showcase your finest music.</p>
-                                <p>Your chances of being hired are much higher if our members are able to hear your work.</p>
+                                <p class="secondary_font white_font">Showcase your finest music.</p>
+                                <p class="secondary_font white_font">Your chances of being hired are much higher if our members are able to hear your work.</p>
                             </div>
                         {% endif %}
                     {% endif %}
@@ -240,12 +243,12 @@
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
                             {% if current_user.is_paid %}
-                                <button type="button" class="btn secondary_font" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                                <button type="button" class="btn btn_lg light_bg secondary_font" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
                             {% else %}
-                                <button type="button" class="btn secondary_font" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button> 
+                                <button type="button" class="btn btn_lg light_bg secondary_font" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button> 
                             {% endif %}
                         {% else %}
-                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font inset_light_shadow">Post a Job</a>
+                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn btn_lg custom_success secondary_font white_font inset_light_shadow">Post a Job</a>
                         {% endif %}
                     </div>
                 {% endif %}
@@ -309,14 +312,14 @@
                                 <p>Add the instruments you play, your best music, your unavailable dates, and a summary of yourself to increase your chance of being booked.</p>
                             </div>
                         {% elif request.session.form_page == 2 %}
-                            <div class="profile-prompt-lead text-center">
+                            <div class="profile-prompt-lead text-center white_font">
                                 <p>Showcase your finest music.</p>
                                 <p>Your chances of being hired are much higher if our members are able to hear your work.</p>
                             </div>
                         {% elif request.session.form_page == 3 %}
-                            <div class="profile-prompt-lead text-center">
-                                <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
-                                <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
+                            <div class="profile-prompt-lead text-center white_font">
+                                <p class="white_font">Finding a dep is quacke fidnufousr and easier if you know they are available on the day of your gig.</p>
+                                <p class="white_font">Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
                             </div>
                         {% endif %}
                     {% endif %}

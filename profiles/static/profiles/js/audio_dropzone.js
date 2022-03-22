@@ -5,10 +5,8 @@ on the website's 'Edit Profile' page.
 
 https://docs.dropzone.dev/
 */
-let username = $("#request_user").text()
+let username = $("#request_user").text();
 username = username.replace(/\"/g, "");
-console.log(username)
-
 
 // Dropzone.autoDiscover = false;
 Dropzone.options.audioDropzone = {
@@ -41,40 +39,40 @@ Dropzone.options.audioDropzone = {
         <div class="dz-error-message"><span data-dz-errormessage></span></div>
         </div>
     `,
-  removedfile: function(file) {
-    console.log(file)
-     let filename = file.name;
+  removedfile: function (file) {
+    console.log(file);
+    let filename = file.name;
 
-     $.ajax({
-       type: "post",
-       url: `/profile/upload_audio/${username}`,
-       data: {
-         filename: filename,
-         request: 2,
-       },
-       headers: {
-         "X-CSRFToken": $("input[name=csrfmiddlewaretoken]")[1].value,
-       },
-       success: function () {
-         file.previewElement.remove();
-         const successMsg = `${file.name} removed successfully.`
-          Toastify({
-            text: successMsg,
-            duration: -1,
-            close: true,
-            gravity: "top",
-            position: "right",
-            style: {
-              background: "#45425a",
-              fontFamily: "'Josefin Sans', sans-serif",
-              color: "#fefefe",
-            },
-          }).showToast();
-       }, 
-       error: function(error) {
-         displayAJAXErrorMessage(error.status);
-       }
-     });
+    $.ajax({
+      type: "post",
+      url: `/profile/upload_audio/${username}`,
+      data: {
+        filename: filename,
+        request: 2,
+      },
+      headers: {
+        "X-CSRFToken": $("input[name=csrfmiddlewaretoken]")[1].value,
+      },
+      success: function () {
+        file.previewElement.remove();
+        const successMsg = `${file.name} removed successfully.`;
+        Toastify({
+          text: successMsg,
+          duration: -1,
+          close: true,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "#45425a",
+            fontFamily: "'Josefin Sans', sans-serif",
+            color: "#fefefe",
+          },
+        }).showToast();
+      },
+      error: function (error) {
+        displayAJAXErrorMessage(error.status);
+      },
+    });
   },
   init: function () {
     userId = $("#user_id_2").val();
@@ -82,41 +80,41 @@ Dropzone.options.audioDropzone = {
     const submitBtn = $("#audio_submit_btn");
 
     const dropZoneInstance = this;
-    
+
     /* Fetch tracks if already uploaded by user and display in 
     dropzone window. */
     fetch(`/profile/get_users_tracks/${userId}`)
-    .then((res) => { return res.json()})
-    .then((data) => {
-      let files = data.track_list;
-      files.forEach((file) => {
-        let mockFile = file
-        let callback = null;
-        let crossOrigin = null;
-        let resizeThumbnail = true;
-        dropZoneInstance.displayExistingFile(
-          mockFile,
-          "/media/audio-icon.png",
-          callback,
-          crossOrigin,
-          resizeThumbnail
-        );
+      .then((res) => {
+        return res.json();
       })
-    })
-    
+      .then((data) => {
+        let files = data.track_list;
+        files.forEach((file) => {
+          let mockFile = file;
+          let callback = null;
+          let crossOrigin = null;
+          let resizeThumbnail = true;
+          dropZoneInstance.displayExistingFile(
+            mockFile,
+            "/media/audio-icon.png",
+            callback,
+            crossOrigin,
+            resizeThumbnail
+          );
+        });
+      });
 
     submitBtn.on("click", function () {
-      console.log("click")
+      console.log("click");
       dropZoneInstance.processQueue();
     });
 
     dropZoneInstance.on("processing", function (file) {
       console.log("processing");
-      console.log(dropZoneInstance)
+      console.log(dropZoneInstance);
     });
 
-
-    dropZoneInstance.on("success", function() {
+    dropZoneInstance.on("success", function () {
       $.ajax({
         type: "GET",
         url: `/profile/upload_audio/${userId}`,
@@ -137,80 +135,78 @@ Dropzone.options.audioDropzone = {
           setTimeout(() => {
             $("#add_audio_container").addClass("hidden");
             $("#calendar_container").removeClass("hidden");
-            $("#second_breadcrumb").addClass("fill-breadcrumb")
-            $("#second_breadcrumb_sm").addClass("fill-breadcrumb-sm")
-            $("#second_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm")
-            $("#second_breadcrumb_text").addClass("dark-text")
-            $(".edit_profile_header").html("Your Availability")
+            $("#second_breadcrumb").addClass("fill-breadcrumb");
+            $("#second_breadcrumb_sm").addClass("fill-breadcrumb-sm");
+            $("#second_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm");
+            $("#second_breadcrumb_text").addClass("dark-text");
+            $(".edit_profile_header").html("Your Availability");
 
             const pageThreeText = `
-                <div class="profile-prompt-lead text-center">
-                    <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
+                <div class="profile-prompt-lead text-center secondary_font white_font">
+                    <p>Finding a dep is quicker and easier if you know they are available on the day of your gig.</p>
                     <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
                 </div>
             `;
 
-            $(".profile-prompt-lead").html(pageThreeText)
-
-
-          }, 1500)
+            $(".profile-prompt-lead").html(pageThreeText);
+          }, 1500);
         },
-      }); 
-
-
-    })
+      });
+    });
   },
 };
 
 const availabilityHeader = "Your Availability";
-const avaliabilityLead = `<div class="profile-prompt-lead text-center">
-                            <p>Finding a dep is quicker and easier if you know if they are available on the day of your gig.</p>
+const avaliabilityLead = `<div class="profile-prompt-lead text-center secondary_font white_font">
+                            <p>Finding a dep is quicker and easier if you know they are available on the day of your gig.</p>
                             <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
                           </div>
-                          `
+                          `;
 
-$("#skip_audio_form").click({
-  param1: "#add_audio_container",
-  param2: "hidden",
-  param3: "#calendar_container",
-  param4: $(".edit_profile_header"),
-  param5: $(".profile-prompt-lead"),
-  param6: availabilityHeader,
-  param7: avaliabilityLead
-}, switchStep)
+$("#skip_audio_form").click(
+  {
+    param1: "#add_audio_container",
+    param2: "hidden",
+    param3: "#calendar_container",
+    param4: $(".edit_profile_header"),
+    param5: $(".profile-prompt-lead"),
+    param6: availabilityHeader,
+    param7: avaliabilityLead,
+  },
+  switchStep
+);
 
-$("#skip_calendar_form").click({
-  param1: "#calendar_container"
-}, switchStep)
-
-
+$("#skip_calendar_form").click(
+  {
+    param1: "#calendar_container",
+  },
+  switchStep
+);
 
 // Skip to Unavailability Calendar
 function switchStep(event) {
-    const el1 = $(event.data.param1);
-    const el2 = $(event.data.param3);
-    console.log(el1.attr("id"))
+  const el1 = $(event.data.param1);
+  const el2 = $(event.data.param3);
+  console.log(el1.attr("id"));
 
-    if (el1.attr("id") !== "calendar_container") {
+  if (el1.attr("id") !== "calendar_container") {
+    el1.addClass(event.data.param2);
+    el2.removeClass(event.data.param2);
 
-      el1.addClass(event.data.param2);
-      el2.removeClass(event.data.param2);
-  
-      let availabilityHeader = event.data.param4;
-      let availabilityLead = event.data.param5;
-      let headerContent = event.data.param6;
-      let leadContent = event.data.param7;
-  
-      changeHeader(
-        availabilityHeader,
-        availabilityLead,
-        headerContent,
-        leadContent
-      ); 
+    let availabilityHeader = event.data.param4;
+    let availabilityLead = event.data.param5;
+    let headerContent = event.data.param6;
+    let leadContent = event.data.param7;
 
-    } else {
-      window.location.href = "/"
-    }
+    changeHeader(
+      availabilityHeader,
+      availabilityLead,
+      headerContent,
+      leadContent
+    );
+  } else {
+    window.location.href = "/";
+  }
 }
 
 function changeHeader(headerEl, leadEl, header, lead) {
@@ -220,33 +216,33 @@ function changeHeader(headerEl, leadEl, header, lead) {
   const headerContent = header;
   const leadContent = lead;
 
-  el1.html(headerContent)
-  el2.html(leadContent)
+  el1.html(headerContent);
+  el2.html(leadContent);
 }
 
 // Displays a Toast with error message in case of AJAX errors
-  function displayAJAXErrorMessage(status) {
-      if (status === 0) {
-        errorMsg = "Cannot connect, please make sure you are connected";
-      } else if (status === 404) {
-        errorMsg = `${status} error. We apologize; the resource was not found.`;
-      } else if (status === 500) {
-        errorMsg = `${status} error. We apologize. There is an internal server error.`;
-      } else {
-        errorMsg =
-          "We apologize, there has been an error. We are working hard to rectify this.";
-      }
-
-      Toastify({
-        text: errorMsg,
-        duration: 10000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        style: {
-          background: "#ff7086",
-          fontFamily: "'Oxygen', sans-serif",
-          color: "#202020",
-        },
-      }).showToast();
+function displayAJAXErrorMessage(status) {
+  if (status === 0) {
+    errorMsg = "Cannot connect, please make sure you are connected";
+  } else if (status === 404) {
+    errorMsg = `${status} error. We apologize; the resource was not found.`;
+  } else if (status === 500) {
+    errorMsg = `${status} error. We apologize. There is an internal server error.`;
+  } else {
+    errorMsg =
+      "We apologize, there has been an error. We are working hard to rectify this.";
   }
+
+  Toastify({
+    text: errorMsg,
+    duration: 10000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    style: {
+      background: "#ff7086",
+      fontFamily: "'Oxygen', sans-serif",
+      color: "#202020",
+    },
+  }).showToast();
+}
