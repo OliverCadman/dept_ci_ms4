@@ -34,7 +34,7 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Use HTTPS in production
 # if not "DEVELOPMENT" in os.environ:
@@ -182,12 +182,12 @@ if "USE_AWS" in os.environ:
     # Override Static and Media File URLS in production
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+else:
+    STATIC_URL = 'static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
-MEDIA_URL = "media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_URL = "media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if not "DEVELOPMENT" in os.environ:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
