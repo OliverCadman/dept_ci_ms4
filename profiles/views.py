@@ -88,9 +88,10 @@ class ProfileView(TemplateView):
         users_reviews = user_profile.received_reviews.all()
         num_of_reviews = users_reviews.count()
         average_rating = None
+
         if user_profile.calculate_average_rating:
             average_rating = user_profile.calculate_average_rating["average_rating"]
-        
+       
         self.request.session["invited_username"] = username
 
         context = {
@@ -107,8 +108,6 @@ class ProfileView(TemplateView):
             "average_rating": average_rating,
             "num_of_reviews": num_of_reviews
         }
-
-        print(context["review_form"].fields["review_content"])
 
         return context
 
@@ -132,10 +131,11 @@ class ProfileView(TemplateView):
 
         context = self.get_context_data(**kwargs)
 
-        review_receiver_profile = context["user"]
+        review_receiver = context["user"]
         review_sender = request.user
 
-
+        review_receiver_profile = get_object_or_404(UserProfile,
+                                                    user__username=review_receiver)
         review_sender_profile = get_object_or_404(UserProfile, user__username=review_sender)
 
         
@@ -146,10 +146,11 @@ class ProfileView(TemplateView):
             form.review_sender = review_sender_profile
             form.save()
 
+            review_receiver_profile.save()
             # Create a notification object to inform review_receiver
             Notification.objects.create(
                 notification_sender=review_sender_profile,
-                notification_receiver=review_receiver_profile,
+                notification_receiver=review_receiver,
                 notification_type=6
             )
 
@@ -177,7 +178,6 @@ def edit_profile(request):
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
     queryset = user_profile.equipment.all().exclude(equipment_name="")
     equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
-    print(equipment_formset)
     audio_form = AudioForm(request.POST, instance=user_profile)
 
     request.session["form_page"] = 1
@@ -185,24 +185,18 @@ def edit_profile(request):
     if request.method == "POST":
         user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
-            try:
-                parent_form = user_profile_form.save(commit=False)
-                parent_form.save()
-                user_profile_form.save_m2m()
-                for form in equipment_formset:
-                    child_form = form.save(commit=False)
-                    if child_form.related_user is None:
-                        child_form.related_user = parent_form
-                    child_form.save()
+            parent_form = user_profile_form.save(commit=False)
+            parent_form.save()
+            user_profile_form.save_m2m()
 
-                messages.success(request, "Profile and Equipment Info Saved.")
-                request.session["form_page"] = 2
-                        
-            except Exception as e:
-                print(f"Exception: {e}")
-        else:
-            print("form invalid")
-            print(user_profile_form.errors)   
+            for form in equipment_formset:
+                child_form = form.save(commit=False)
+                if child_form.related_user is None:
+                    child_form.related_user = parent_form
+                child_form.save()
+
+            messages.success(request, "Profile and Equipment Info Saved.")
+            request.session["form_page"] = 2  
     else:
         audio_form = AudioForm(instance=user_profile)
         user_profile_form = UserProfileForm(instance=user_profile or None)
@@ -218,7 +212,7 @@ def edit_profile(request):
     return render(request, "profiles/edit_profile.html", context=context)
 
 
-def upload_audio(request):
+def upload_audio(request, username):
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
@@ -228,6 +222,7 @@ def upload_audio(request):
 
         # if not request == 2, upload audio files
         if not request.POST.get("request") == str(2):
+            print(request.FILES)
             files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
             form = AudioForm(request.POST, instance=user_profile)
             if form.is_valid():
