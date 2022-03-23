@@ -30,7 +30,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.801);
+    background-color: rgba(0, 0, 0, 0.603);
 }
 
 .header-btn-wrapper a,
@@ -47,7 +47,7 @@
      }
 
      #profile_header_wrapper {
-         height: 350px;
+         height: 500px;
          padding: 4rem 0;
      }
 

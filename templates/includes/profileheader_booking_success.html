@@ -163,7 +163,7 @@
                         <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font inset_light_shadow">Contact {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</a>
                     {% endif %}
                 </div>
-                <hr class="block_divider_dark">
+                <hr class="block-divider">
             {% endif %}
             <div id="profile_header_wrapper_lg" class="d-none d-lg-block">
                 <div id="profile_header_lg" class="ms-5">
