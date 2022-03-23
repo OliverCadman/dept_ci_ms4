@@ -48,7 +48,7 @@ class Booking(models.Model):
     related_invitation = models.OneToOneField(Invitation, on_delete=models.CASCADE,
                                               related_name="related_booking", null=True,
                                               blank=True)
-    related_job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name="related_job",
+    related_job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name="job_booking",
                                        null=True, blank=True)
     venue_name = models.CharField(max_length=100, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
@@ -117,7 +117,8 @@ class Review(models.Model):
     review_content = models.TextField(max_length=800)
     review_created = models.DateTimeField(editable=False)
     review_modified = models.DateTimeField(null=True, blank=True)
-    rating = models.SmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+    rating = models.SmallIntegerField(null=True, blank=True,
+                                      validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     def __str__(self):
         """
