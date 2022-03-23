@@ -51,12 +51,21 @@
                                             <label for="available_today_checkbox" class="secondary_font">Available Today</label>
                                             <input type="checkbox" name="available_today" value="{% if not availabletoday_checkbox_selected is empty %}true{% else %}false{% endif %}" id="available_today_checkbox">
                                     </div>
-                                    <div class="col-12 centered pt-3 pb-3 bottom_border">
-                                        <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>
+                                    <div class="col-6 centered pt-3 pb-3 bottom_border">
+                                        <div class="sort_select_wrapper">
+                                            <label for="sort"></label>
+                                            <select class="form-select float-start secondary_font sort_selector" name="sort" id="sort_select">
+                                                <option value="reset">Sort By Rating</option>
+                                                <option value="average_rating_asc">Low to High</option>
+                                                <option value="average_rating_desc">High to Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 pt-3 pb-3">
+                                        <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>   
                                     </div>
                                     </form>
                                     {% else %}
-
                                         <!-- Job List Filter/Search Accordion -->
                                         <form action="{% url "job_list" %}" method="GET" id="instrument_filter_form">
                                                 <label for="instrument_filter" class="secondary_font">I play this instrument...</label>
@@ -78,18 +87,18 @@
                                         <hr class="d-block d-md-none m-0">
                                         <div class="col-12 col-md-6 centered filter_field bottom_border">
                                             <label for="fee_select" class="secondary_font me-1">Fee Range:</label>
-                                                <select class="form-select secondary_font" name="fee" id="fee_select">
-                                                    <option value="all">All Ranges</option>
-                                                        <option value="1-100" {% if selected_fee == "1-100" %}selected{% endif %}>£1 - £100</option>
-                                                        <option value="101-200" {% if selected_fee == "101-200" %}selected{% endif %}>£101 - £200</option>
-                                                        <option value="201-300" {% if selected_fee == "201-300" %}selected{% endif %}>£201 - £300{{genre.genre_name}}</option>
-                                                        <option value="301-500" {% if selected_fee == "301-500" %}selected{% endif %}>£301 - £500</option>
-                                                        <option value="500"{% if fee == "500" %}selected{% endif %}>£500+</option>
-                                                </select>
+                                            <select class="form-select secondary_font" name="fee" id="fee_select">
+                                                <option value="all">All Ranges</option>
+                                                    <option value="1-100" {% if selected_fee == "1-100" %}selected{% endif %}>£1 - £100</option>
+                                                    <option value="101-200" {% if selected_fee == "101-200" %}selected{% endif %}>£101 - £200</option>
+                                                    <option value="201-300" {% if selected_fee == "201-300" %}selected{% endif %}>£201 - £300{{genre.genre_name}}</option>
+                                                    <option value="301-500" {% if selected_fee == "301-500" %}selected{% endif %}>£301 - £500</option>
+                                                    <option value="500"{% if fee == "500" %}selected{% endif %}>£500+</option>
+                                            </select>
                                         </div>
                                         <hr class="d-block d-md-none m-0">
-                                        <div class="col-12 centered pt-3 pb-3 bottom_border">
-                                            <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>
+                                        <div class="col-12 pt-3 pb-3 centered">
+                                            <button type="submit" class="btn custom_success white_font secondary_font">Submit</button>   
                                         </div>
                                         </form>
                                     {% endif %}
