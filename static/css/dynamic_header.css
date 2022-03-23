@@ -179,6 +179,11 @@
         height: 50vh;
     }
 
+    .dynamic-hero-section-lg.height_55vh {
+        height: 55vh;
+        padding-top: 7rem;
+    }
+
     .dynamic-hero-section-lg.choose_subscription {
         height: 60vh;
         padding-top: 5rem;
@@ -280,7 +285,10 @@
         padding-top: 1rem;
     }
 
-    
+     .dynamic-hero-section-lg.height_55vh {
+         height: 40vh;
+         padding-top: 6rem;
+     }
 
     .dynamic-header.checkout_success {
         padding-top: 10rem;
