@@ -71,7 +71,7 @@
 }
 
 .dynamic-lead-section-sm {
-    background-color: #fdf4a5;
+    position: relative;
     padding: 3rem 1rem;
 }
 
@@ -162,9 +162,14 @@
         padding-top: 5rem;
     }
 
+    .dynamic-hero-section-sm {
+        padding-top: 7rem;
+    }
+
     .dynamic-hero-section-sm.checkout_success {
         min-height: 50vh;
     }
+    
 }
 
 @media screen and (min-width: 992px){
