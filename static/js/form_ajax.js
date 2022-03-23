@@ -1,4 +1,5 @@
 $(document).on("submit", "div.modal-body form", function(e) {
+    console.log("hello")
     /*
     AJAX Request used for forms presented in modal windows.
 
@@ -17,15 +18,18 @@ $(document).on("submit", "div.modal-body form", function(e) {
 
             // If there are any validation errors...
             if (data.errors) {
+                console.log(data.errors)
                 // Clears form of any errors present, to avoid duplicates.
                 if ($(".form_error")) {
                     $(".form_error").remove()
               
                 }
                 let errorData = JSON.parse(data.errors);
+                console.log(errorData)
 
                 for (let name in errorData) {
                      let input = $("input[name='" + name + "']");
+                     let textArea = $("textarea[name='" + name + "'")
                      if (input.attr("name") === "event_datetime") {
                          input.next().parent().after(
                              `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
@@ -33,25 +37,30 @@ $(document).on("submit", "div.modal-body form", function(e) {
                      } else {
                         input.after(`<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`);
                      }
+                     if (textArea) {
+                         textArea.after(
+                           `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
+                         );
+                     }
                 }
             } else {
                 // If successful, display toast and refresh page after 2.5 seconds.
-                let success_msg = "Invitation sent!"
+                let successMessage = data.success_msg;
                  Toastify({
-                   text: success_msg,
-                   duration: 2500,
+                   text: successMessage,
+                   duration: 2000,
                    close: true,
                    gravity: "top",
                    position: "right",
                    style: {
-                     background: "#202020",
+                     background: "#fefefe",
                      fontFamily: "'Josefin Sans', sans-serif",
-                     color: "#fefefe",
+                     color: "#17661a",
                    },
                  }).showToast();
                  setTimeout(() => {
                      location.reload();
-                 }, 2500);
+                 }, 2000);
             }
         },
         error: function(data, options, thrownError) {
