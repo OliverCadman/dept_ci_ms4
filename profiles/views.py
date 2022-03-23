@@ -92,6 +92,8 @@ class ProfileView(TemplateView):
         if user_profile.calculate_average_rating:
             average_rating = user_profile.calculate_average_rating["average_rating"]
        
+        # Insert username of Profile owner into session, to use as 
+        # reference for Invitation Form.
         self.request.session["invited_username"] = username
 
         context = {
@@ -172,6 +174,9 @@ class ProfileView(TemplateView):
 
 
 def edit_profile(request):
+    """
+    
+    """
     user_profile = get_object_or_404(UserProfile, user=request.user)
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
     queryset = user_profile.equipment.all().exclude(equipment_name="")
@@ -373,7 +378,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Get the referal url path (looking for "bookings" or "bookings/edit_invitation")
         if referer_url is not None:
             referer_url_path = "/".join(referer_url.split("/")[3:-1])
-            print(referer_url_path)
 
         booking_id = None
         invitation_id = None
@@ -516,6 +520,12 @@ def delete_account(request, profile_id):
     """
     current_user_profile = get_object_or_404(UserProfile, pk=profile_id)
     auth_user = User.objects.get(username=current_user_profile.user.username)
+
+    # Ensure that a user can't maliciously delete another user's profile
+    # by typing in the URL manually.
+    if auth_user != request.user:
+        messages.warning(request, mark_safe("You can't delete another member's profile!"))
+        return redirect(reverse("home"))
     try:
         delete_stripe_customer(auth_user.email)
         auth_user.delete()
