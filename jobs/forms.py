@@ -5,13 +5,10 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, HTML, Div, ButtonHolder, Submit
 from crispy_forms.bootstrap import PrependedText
-
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 from .models import Job
-
 from profiles.widgets import CustomClearableFileInput
-from profiles.models import Instrument
 
 import re
 
