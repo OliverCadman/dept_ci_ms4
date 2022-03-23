@@ -7,6 +7,9 @@ def handle_get_params(params):
     Takes request.GET and kwargs as argument,
     and prepares and returns a context with the
     values provided in keyword arguments.
+
+    Function is shared between both the Dep List Page
+    and the Job List Page.
     """
 
     context = {
@@ -17,45 +20,58 @@ def handle_get_params(params):
         "min_fee": 1,
         "max_fee": float("inf"),
         "fee": None,
-        "city": None
+        "city": None,
+        "sort_params": "pk",
+        "sort_direction": None,
+        "sort": None
     }
 
+    # ----- Dep List Params ------ 
+
+    # Sort by Average Rating
+    if "sort" in params:
+        sort_criteria = f'{"".join(params["sort"].split("_")[0])}_{"".join(params["sort"].split("_")[1])}'
+        sort_direction = "".join(params["sort"].split("_")[2])
+        if sort_direction == "asc":
+            context["sort_direction"] = f"{sort_criteria}"
+            context["sort_params"] = context["sort_direction"]
+        else:
+            context["sort_direction"] = f"-{sort_criteria}"
+            context["sort_params"] = context["sort_direction"]
+
+    # Search by Instrument
     if "instrument" in params:
         instrument_arg = params["instrument"]
         context["instrument"] = instrument_arg
         context['search_params']["instruments_played__instrument_name__iexact"] = instrument_arg
 
-    if "instrument_required" in params:
-        instrument_required_arg = params["instrument_required"]
-        context["instrument"] = instrument_required_arg
-        context["search_params"]["instrument_required__instrument_name__iexact"] = instrument_required_arg
-
-
-    if "last_name" in params:
-        lname_arg = params["last_name"]
-        context["last_name"] = lname_arg
-        context["search_params"]["last_name__iexact"] = lname_arg
-
+    # Search for User that is Available Today
     if "available_today" in params:
         context["available_today"] = datetime.datetime.today()
         context["availability_params"] = context["available_today"]
 
+    # Search by User's City
     if "city" in params:
         city_arg = params["city"]
         context["city"] = city_arg
         context["search_params"]["city__iexact"] = city_arg
 
-    if "event_city" in params:
-        event_city_arg = params["event_city"]
-        context["city"] = event_city_arg
-        context["search_params"]["event_city__iexact"] = event_city_arg
-
-
+    # Search by User's Genre
     if "genre" in params:
         genre_arg = params["genre"]
         context["genre"] = genre_arg
         context["search_params"]["genres__genre_name"] = genre_arg
 
+
+    # ----- Job List ------
+
+    # Search by Event City
+    if "event_city" in params:
+        event_city_arg = params["event_city"]
+        context["city"] = event_city_arg
+        context["search_params"]["event_city__iexact"] = event_city_arg
+
+    # Search by Fee Range
     if "fee" in params:
         if not params["fee"] == "all" and not params["fee"] == "500":
             min_fee = params["fee"].split("-")[0]

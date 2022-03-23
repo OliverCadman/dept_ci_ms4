@@ -43,10 +43,13 @@ class DepListView(ListView):
         # Get the current context with any params included.
         self.pre_context = handle_get_params(self.request.GET)
 
+        print("PRE_CONTENXT", self.pre_context)
+
         # Filter the UserProfile table with provided search params.
         query = UserProfile.objects.filter_queryset(
             filter_params=self.pre_context["search_params"],
-            date_today=self.pre_context["available_today"]
+            date_today=self.pre_context["available_today"],
+            sort_params=self.pre_context["sort_params"]
         )
 
         return query
@@ -59,9 +62,6 @@ class DepListView(ListView):
 
         # Merge base context with pre context from "handle_get_params()"
         context =  super().get_context_data(**kwargs) | self.pre_context
-        
-        if self.get_queryset == None:
-            context["no_results"] = True
 
         # Page name required in order to render correct header content.
         context["page_name"] = "dep_list"
@@ -261,8 +261,6 @@ class EditJobView(UpdateView):
         return super().form_valid(form)
 
 
-
-    
 def delete_job(request, job_id):
     """
     Delete Job View
@@ -293,6 +291,7 @@ def register_interest(request, job_id, username):
     of a user who has sent an offer to do a Job. 
     """
     current_job = get_object_or_404(Job, pk=job_id)
+    print("JOB_ID", current_job.pk)
     current_user = get_object_or_404(UserProfile, user__username=username)
 
     # Restrict access to view to Tier Two members only.
