@@ -43,8 +43,6 @@ class DepListView(ListView):
         # Get the current context with any params included.
         self.pre_context = handle_get_params(self.request.GET)
 
-        print("PRE_CONTENXT", self.pre_context)
-
         # Filter the UserProfile table with provided search params.
         query = UserProfile.objects.filter_queryset(
             filter_params=self.pre_context["search_params"],
@@ -62,6 +60,7 @@ class DepListView(ListView):
 
         # Merge base context with pre context from "handle_get_params()"
         context =  super().get_context_data(**kwargs) | self.pre_context
+        print("CONTEXT", context)
 
         # Page name required in order to render correct header content.
         context["page_name"] = "dep_list"
@@ -80,6 +79,8 @@ class DepListView(ListView):
         # Used to populate the search bar with city searched by user
         # upon page refresh.
         context["selected_city"] = context["city"]
+
+        context["selected_sort"] = context["sort"]
 
         # Populates the "availabletoday_checkbox_selected" context key with a value.
         # Used to check the related checkbox upon page refresh (if checked by the user).

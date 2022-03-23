@@ -30,8 +30,8 @@ def handle_get_params(params):
 
     # Sort by Average Rating
     if "sort" in params:
+        context["sort"] = params["sort"]
         if params["sort"] != "reset":
-            print("PARAMShello", params["sort"])
             sort_criteria = f'{"".join(params["sort"].split("_")[0])}_{"".join(params["sort"].split("_")[1])}'
             sort_direction = "".join(params["sort"].split("_")[2])
             if sort_direction == "asc":
