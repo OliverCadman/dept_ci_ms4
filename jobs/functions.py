@@ -30,14 +30,16 @@ def handle_get_params(params):
 
     # Sort by Average Rating
     if "sort" in params:
-        sort_criteria = f'{"".join(params["sort"].split("_")[0])}_{"".join(params["sort"].split("_")[1])}'
-        sort_direction = "".join(params["sort"].split("_")[2])
-        if sort_direction == "asc":
-            context["sort_direction"] = f"{sort_criteria}"
-            context["sort_params"] = context["sort_direction"]
-        else:
-            context["sort_direction"] = f"-{sort_criteria}"
-            context["sort_params"] = context["sort_direction"]
+        if params["sort"] != "reset":
+            print("PARAMShello", params["sort"])
+            sort_criteria = f'{"".join(params["sort"].split("_")[0])}_{"".join(params["sort"].split("_")[1])}'
+            sort_direction = "".join(params["sort"].split("_")[2])
+            if sort_direction == "asc":
+                context["sort_direction"] = f"{sort_criteria}"
+                context["sort_params"] = context["sort_direction"]
+            else:
+                context["sort_direction"] = f"-{sort_criteria}"
+                context["sort_params"] = context["sort_direction"]
 
     # Search by Instrument
     if "instrument" in params:
