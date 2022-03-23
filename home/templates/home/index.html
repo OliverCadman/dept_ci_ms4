@@ -28,7 +28,7 @@
                 {% if not request.user.is_authenticated %}
                 <a href="{% url 'account_signup' %}" class="btn home-btn">Register</a>
                 {% endif %}
-                <a href="#" class="btn home-btn">Find a Dep</a>
+                <a href="{% url "dep_list" %}" class="btn home-btn">Find a Dep</a>
             </div>
         </div>
         <div class="header-hero-bg">
@@ -41,7 +41,7 @@
 <!-- Hero Section (Mobile/Tablet Devices) -->
 <section class="hero-section-sm d-lg-none d-sm-block">
     <div class="container-fluid" id="home-hero-container-sm">
-        <div class="opaque-overlay">&nbsp;</div>
+        <div class="opaque_overlay">&nbsp;</div>
         <div class="row">
             <div class="col-12">
                 <div class="jumbotron">
@@ -65,10 +65,11 @@
 </section>
 <!-- Featured Dep Instruments -->
 <section class="featured-section">
-    <div class="container featured-container">
+    <div class="container-fluid featured-container p-3">
         <div class="row">
             <div class="col-12 section-header">
                 <h2 class="text-center larger_text">Find a Professional</h2>
+                <hr class="block_divider_dark w-100 mb-4">
             </div>
         </div>
         <div class="row">
@@ -182,6 +183,7 @@
                 <h3>How DepT Works</h3>
             </div>
         </div>
+        <hr class="block_divider_dark w-100 mb-4">
         <div class="row">
             <div class="col-12 col-lg-6 d-flex justify-content-md-center">
                 <ol class="how-dept-works-list">

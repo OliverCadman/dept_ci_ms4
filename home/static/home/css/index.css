@@ -58,9 +58,9 @@
 
 /* Header (Mobile & Tablet) */
 #home-hero-container-sm {
-    background: url("../../../media/home-hero-dimmed.webp") no-repeat;
+    background: url("../../../media/home-hero.webp") no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: 37%;
     height: 85vh;
     display: flex;
     justify-content: center;
@@ -76,10 +76,6 @@
 }
 
 /* Featured Links */
-
-.featured-section {
-    background-color: #eee;
-}
 
 .section-header {
     font-family: "Josefin Sans", sans-serif;
@@ -116,7 +112,8 @@
 
 /* How DepT Works */
 
-#how-dept-works {
+#how-dept-works,
+.featured-section {
     padding: 1rem 0;
     background-color: #dfdfdf;
 }
@@ -162,6 +159,21 @@
     font-size: .9rem;
     margin-left: .3rem;
 }
+
+.how-dept-works-list li:not(:last-child)::after {
+    content: '';
+    width: 5px;
+    content: '';
+    height: 30px;
+    border-radius: 6px;
+    background-color: #aaa;
+    display: block;
+    position: relative;
+    transform: translateX(15px);
+    margin-top: 0;
+    margin-bottom: .6rem;
+}
+
 
 /* Subscribe Section */
 
@@ -220,11 +232,16 @@
 
 /* iPad */
 @media screen and (min-width: 768px) {
+
+    .p-lead-sm p {
+        margin-top: 10rem;
+    }
    .dept-detail-container {
        padding: 6rem 2rem;
    }
 
-   .section-header h3 {
+   .section-header h3,
+   .section-header h2 {
        font-size: 2.4rem;
    }
 
@@ -241,6 +258,10 @@
    }
 
    /* How DepT Works */
+
+   #how_dept_works__carousel {
+       margin-top: 2rem;
+   }
 
    .list-circle-text p {
        font-size: 1.25rem;
@@ -272,9 +293,9 @@
    }
 
    .subscribe-wrapper {
-       padding: 2rem 1rem;
+       padding: 2rem;
        border-radius: 20px;
-       background-color: #45425ac0;
+       background-color: #1a2342e3;
        display: flex;
        flex-direction: column;
        align-items: center;
@@ -435,10 +456,6 @@
         position: relative;
     }
 
-    .how-dept-works-list>li:nth-child(2) {
-        left: 3em;
-    }
-
     .how-dept-works-list li:not(:last-child)::after {
         content: '';
         width: 5px;
@@ -453,7 +470,9 @@
         position: relative;
     }
 
-   
+    .how-dept-works-list>li:nth-child(2) {
+        left: 3em;
+    }
 
     .how-dept-works-list>li:nth-child(3) {
         left: 6em;
