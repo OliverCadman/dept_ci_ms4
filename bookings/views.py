@@ -1,6 +1,6 @@
-from email.mime import audio
+
 import os
-from urllib import response
+
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -15,11 +15,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.template.loader import get_template
 
-from .forms import InvitationForm, BookingForm, ReviewForm
-from .models import Invitation, Booking, Review
+from .forms import InvitationForm, BookingForm
+from .models import Invitation, Booking
 from .functions import to_dict
 from .utils import render_to_pdf
 from .classes import DownloadS3Object
+
 
 
 from social.models import Message, Notification
@@ -61,18 +62,14 @@ def invitation_form_view(request):
         invitation_form = InvitationForm(invitation_post)
 
         if invitation_form.is_valid():
-            try:
-                form = invitation_form.save(commit=False)
-                form.invite_sender = invite_sender
-                form.invite_receiver = invite_receiver
-                form.save()
-                print("success")
-                success_msg = f"Invitation sent to {invite_receiver}"
-
-                return JsonResponse({ "success_msg": success_msg })
-            except Exception as e:
-                print(f"Exception: {e}")
-        else:
+            form = invitation_form.save(commit=False)
+            form.invite_sender = invite_sender
+            form.invite_receiver = invite_receiver
+            form.save()
+            print("success")
+            messages.success(request, "Invitation Sent")
+            return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
+        else:       
             return JsonResponse({"errors":invitation_form.errors.as_json()})
 
 
@@ -90,13 +87,32 @@ class EditInvitationForm(UpdateView):
     queryset = Invitation.objects.all()
 
 
+
     def get_object(self):
         """
-        Gets the current invitation
+        Get the current invitation
         """
 
         invitation_id = self.kwargs.get("invitation_id")
         return get_object_or_404(Invitation, pk=invitation_id)
+
+
+    def get(self, *args, **kwargs):
+        """
+        Restrict access to page only to user who owns the
+        Invitation object.
+        """
+        request_user_profile = get_object_or_404(
+            UserProfile, user__username=self.request.user
+            )
+
+        invitation = self.get_object()
+
+        if invitation.invite_sender != request_user_profile:
+            messages.warning(self.request, mark_safe("You may not browse another user's invitation."))
+            return redirect(reverse("home"))
+        
+        return super().get(*args, **kwargs)
         
     def form_valid(self, form):
         """
