@@ -5,7 +5,7 @@
 
 #profile_header_wrapper {
     position: relative;
-    min-height: 250px;
+    min-height: 350px;
 }
 
 #profile_header {
@@ -125,7 +125,8 @@
         background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
     }
 
-    .edit_profile_btn:hover {
+    .edit_profile_btn:hover,
+    .general_profile_cta:hover {
         background-color: #0e8347;
         color: #fefefe;
     }

@@ -201,8 +201,8 @@
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
                             {% if not request.user.username == user.user.username %}
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
-                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                                    <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
+                                    <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                             {% else %}
                                 <a href="{% url "edit_profile" %}" class="btn light_bg btn_lg edit_profile_btn inset_light_shadow">Edit My Profile</a>
                                 <button type="button"
