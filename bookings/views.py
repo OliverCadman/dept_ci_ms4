@@ -67,17 +67,12 @@ def invitation_form_view(request):
                 form.invite_receiver = invite_receiver
                 form.save()
                 print("success")
-                messages.success(request, "Invitation Sent")
+                success_msg = f"Invitation sent to {invite_receiver}"
 
-                return redirect(reverse("profile", kwargs={"user_name": invite_receiver}))
+                return JsonResponse({ "success_msg": success_msg })
             except Exception as e:
                 print(f"Exception: {e}")
         else:
-            if "event_datetime" in invitation_form.errors:
-                messages.error(request, "Invalid date/time, please try again.")
-            invitation_form = InvitationForm(request.POST, instance=request.user)
-          
-            messages.error(request, "Form invalid")
             return JsonResponse({"errors":invitation_form.errors.as_json()})
 
 

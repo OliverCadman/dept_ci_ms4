@@ -139,8 +139,10 @@ class ProfileView(TemplateView):
         review_sender_profile = get_object_or_404(UserProfile, user__username=review_sender)
 
         
-        review_form = context["review_form"]
+        review_form = ReviewForm(request.POST)
+        print("POST")
         if review_form.is_valid():
+            print("REVIEW_FORM", review_form)
             form = review_form.save(commit=False)
             form.review_receiver = review_receiver_profile
             form.review_sender = review_sender_profile
@@ -162,14 +164,10 @@ class ProfileView(TemplateView):
                 receiver_name = review_receiver_profile.first_name
             else:
                 receiver_name = review_receiver_profile.user.username
-            messages.success(request, f"You left a review for {receiver_name}")
-            return redirect(reverse("profile", args=[review_receiver_profile.user.username]))
+            success_msg = f"You left a review for {receiver_name}"
+            return JsonResponse({ "success_msg": success_msg })
         else:
-            context = self.get_context_data(**kwargs)
-            context["review_form"] = ReviewForm()
-
-            messages.error(request, "Review failed to send. Please make sure your review is valid.")
-            return redirect(reverse("profile", args=[review_receiver_profile.user.username]), context=context)
+            return JsonResponse({"errors": review_form.errors.as_json()})
 
 
 
