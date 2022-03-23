@@ -47,24 +47,7 @@ $(document).ready(function () {
     if($(".sort_selector").val() == "reset") {
       $(".sort_selector").prop("disabled", true);
 
-    } else {
-
-      let selector = $(".sort_selector");
-      let currentUrl = new URL(window.location);
-
-      let selectedVal = selector.val();
-      console.log(selectedVal)
-
-      if (selectedVal != "reset") {
-        let sortCriteria = selectedVal.split("_")[0];
-        let sortDirection = selectedVal.split("_")[1];
-
-        currentUrl.searchParams.set("sort", sortCriteria);
-        currentUrl.searchParams.set("direction", sortDirection);
-
-        window.location.replace(currentUrl);
-      } 
-    }
+    } 
   }
 
   $("#instrument_filter_form").on("submit", checkForUnusedFilterFields);
