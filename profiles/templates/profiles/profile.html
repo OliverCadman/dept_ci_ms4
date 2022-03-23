@@ -25,10 +25,10 @@
     {% include "includes/profileheader_booking_success.html" %}
 {% endwith %}
 
-<div class="container-fluid bg-light">
+<div class="container-fluid">
     <div class="row">
         <!-- User Description and Reviews -->
-        <div class="col-12 col-lg-8 description-review-container pt-4 pb-4">
+        <div class="col-12 col-lg-8 description-review-container pb-4">
             {% if user.user_info %}
                 <div class="user-desc-wrapper secondary_font">
                     <p class="secondary_font">{{user.user_info|linebreaks}}</p>
@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="rating_wrapper">
-                                        <input type="hidden" value={{ review.rating }} class="review_rating_no">
+                                        <input type="hidden" name="rating" value={{ review.rating }} class="review_rating_no">
                                         <!-- Star Icons Created in display_star_rating.js file -->
                                         <div class="rating">
     
@@ -305,8 +305,8 @@
     <div class="modal fade" id="delete_profile_modal">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="text-center primary_font m-0">Deleting your Account</h4>
+                <div class="modal-header secondary_bg">
+                    <h4 class="text-center primary_font m-0 white_font">Deleting your Account</h4>
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
