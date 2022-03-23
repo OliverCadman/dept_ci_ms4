@@ -72,7 +72,7 @@
 
 .dynamic-lead-section-sm {
     position: relative;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
 }
 
 .dynamic-lead-section-sm.checkout_success {
@@ -160,14 +160,15 @@
 
     .choose_subscription_container_sm {
         padding-top: 5rem;
-    }
-
-    .dynamic-hero-section-sm {
-        padding-top: 7rem;
+        padding-bottom: 1.5rem;
     }
 
     .dynamic-hero-section-sm.checkout_success {
         min-height: 50vh;
+    }
+
+    .dynamic-hero-section-sm.padding_top_7 {
+        padding-top: 7rem;
     }
     
 }
@@ -239,12 +240,16 @@
     .dynamic-hero-section-lg.checkout_success {
         height: 54vh;
     }
+
+    .dynamic-hero-section-lg.choose_subscription {
+        height: 65vh;
+    }
 }
 
 @media screen and (min-width: 1400px) {
-    .dynamic-hero-section-lg.choose_subscription {
-        height: 50vh;
-    }
+    /* .dynamic-hero-section-lg.choose_subscription {
+        height: 60vh;
+    } */
 
     /* .dynamic-hero-section-lg.job_list {
         height: 60vh;
@@ -265,6 +270,17 @@
     .dynamic-hero-section-lg.checkout_success {
         height: 69vh;
     }
+
+    .dynamic-hero-section-lg.choose_subscription {
+        height: 45vh;
+    }
+
+    .dynamic-hero-section-lg.edit_profile {
+        height: 35vh;
+        padding-top: 1rem;
+    }
+
+    
 
     .dynamic-header.checkout_success {
         padding-top: 10rem;

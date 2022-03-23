@@ -1,4 +1,4 @@
-<section class="dynamic-hero-section-sm {% if p == "checkout_success" %}checkout_success{% endif %} d-block d-lg-none">
+<section class="dynamic-hero-section-sm {% if p == "checkout_success" %}checkout_success{% elif p == "job_list" or p == "dep_list" %}padding_top_7{% endif %} d-block d-lg-none">
     {% if p == "checkout_success" %}
         <div class="opaque-overlay-light"></div>
     {% endif %}
@@ -44,10 +44,7 @@
                             Thankyou
                         {% endif %}
                     </h1>
-
-                        {% if not p == "user_profile_form" and not "choose_subscription" %}
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ipsum, illum dignissimos architecto ratione odit commodi ducimus esse cupiditate aliquid eius quae. Minus mollitia dolores ad saepe vero assumenda iure in repellendus nobis! Voluptas libero eum doloribus, commodi voluptate quis.</p>
-                        {% elif p == "checkout_success" %}
+                        {% if p == "checkout_success" %}
                             {% if subscribed_user.is_paid %}
                                 <p class="med_small_text text-center">
                                     You have subscribed to our Tier Two Policy. We hope you enjoy your time with us.
@@ -114,25 +111,27 @@
             </div>
     </section>
     {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" and not p == "job_list" and not p == "tier_two_booking_form" %}
-    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile linear_bg{% elif p == "checkout_success" %}checkout_success{% endif %}">
-        {% if p == "user_profile_form" %}
+    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile linear_bg{% elif p == "choose_subscription" %}linear_bg{% elif p == "checkout_success" %}checkout_success{% endif %}">
+        {% if p == "user_profile_form" or p == "choose_subscription" %}
             <div class="opaque_overlay"></div>
         {% endif %}
         <div class="row">
             <div class="col-12">
                 <div class="dynamic-lead-container position-relative">
-                    <div id="dynamic-lead-header" class="mt-4 text-center primary_font">
+                    <div id="dynamic-lead-header" class="mt-4 text-center primary_font position-relative">
                         {% if not p == "user_profile_form" %}
-                        <h2>
+                        <h2 class="white_font">
                             {% if p == "checkout_success" %}
                                 Get yourself noticed
                             {% elif p == "choose_subscription" %}
                                 Our Tier Two Policy
                             {% endif %}
                         </h2>
-                        <hr>
+                        {% if p == "choose_subscription" %}
+                            <hr class="block_divider_stub_light position-relative">
+                        {% endif %}
                     </div>
-                    <div class="profile-prompt-lead text-center">
+                    <div class="profile-prompt-lead text-center position-relative">
                         {% if p == "checkout_success" %}
                             <p class="secondary_font">
                                 Your chances of being hired are much higher if you have a complete profile.
@@ -142,10 +141,10 @@
                             </p>
                                 <a href="{% url "edit_profile" %}" class="btn custom_success white_font secondary_font p-3 mt-2">Build my Profile</a>
                         {% elif p == "choose_subscription" %}
-                            <p>
+                            <p class="secondary_font white_font mt-4">
                                 Tier Two members go through a selective screening process. This assures the quality of work is high, which makes for happy clients who return and tell their friends. It also lowers competition for our Tier Two members which helps them close more jobs.
                             </p>
-                            <p>
+                            <p class="secondary_font white_font">
                                 Note that we accept new Tier Two members based demand for particular specialties, to maintain a balanced marketplace. As a result we can only accept a small percentage of applicants.
                             </p>
                         {% endif %}
@@ -273,6 +272,9 @@
                        {% endif %}
                     </h2>
                 </div>
+                {% if p == "choose_subscription" %}
+                    <hr class="block_divider_stub_light">
+                {% endif %}
                 <div class="dynamic-prompt-lead text-center {% if p == "dashboard" %}dashboard{% endif %}">
                     {% if p == "checkout_success" %}
                         <p class="white_font">
@@ -283,7 +285,7 @@
                         </p>
                         <a href="{% url 'edit_profile' %}" class="btn custom_success primary_font white_font med_small_text inset_light_shadow">Build my Profile</a>
                     {% elif p == "choose_subscription" %}
-                        <p class="white_font">
+                        <p class="white_font mt-4">
                             Tier Two members go through a selective screening process. This assures the quality of work is high, which makes for happy clients who return and tell their friends. It also lowers competition for our Tier Two members which helps them close more jobs.
                         </p>
                         <p class="white_font">

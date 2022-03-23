@@ -11,6 +11,8 @@ body {
     margin: 0;
 }
 
+/* --------- Utility Classes ---------- */
+
 .dark-text {
     color: #222;
     font-weight: 600;
@@ -202,6 +204,14 @@ body {
     margin: 0 auto;
 }
 
+.block_divider_stub_light {
+    border: 5px solid #d6d6d6;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    opacity: 1;
+}
+
 .width_40 {
     width: 40%;
 }
@@ -210,6 +220,9 @@ body {
     width: 45%;
 }
 
+.padding_top_7 {
+    padding-top: 7rem;
+}
 
 .inset_light_shadow {
     box-shadow: inset 0px 1px 11px 0px rgba(255, 255, 255, 0.3);
@@ -236,7 +249,7 @@ body {
     display: inline;
 }
 
-/* Call to Action Buttons */
+/* ------ Call-to-Action Buttons -----  */
 
 .header-btn-wrapper {
     bottom: 0;
@@ -264,7 +277,7 @@ body {
     background-color: #222;
 }
 
-/* Global Form Styling */
+/* ------ Global Form Styling ------- */
 
 .form-container {
     background: rgb(241, 241, 241);
@@ -279,8 +292,47 @@ body {
     background-color: #f3f3f3;
 }
 
+.modal_form_container {
+    background-color: #45425a;
+}
 
-/* Global Modals */
+.modal_form_wrapper {
+    background-color: #ededed;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
+        0 10px 36px -4px rgba(77, 96, 232, .8);
+}
+
+.form-btn {
+    background-color: #1a2342;
+    color: #fefefe;
+    font-family: "Open Sans", sans-serif;
+}
+
+.form-label,
+.custom-formfield-font {
+    font-family: "Open Sans", sans-serif;
+}
+
+.submit-btn {
+    background-color: #0e8347;
+    font-family: "Open Sans", sans-serif;
+    color: #fefefe;
+}
+
+.asteriskField {
+    color: rgb(177, 6, 6);
+    margin-left: 2px;
+}
+
+.form-header {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 600;
+}
+
+
+/* ------ Global Modals -------  */
 
 .custom-modal-header {
     font-family: "Josefin Sans", sans-serif;
@@ -307,6 +359,8 @@ body {
     background-color: #fefefe;
 }
 
+/* ------ Accordions ------ */
+
 /* Override default bootstrap SVG colour */
 .accordion-button:not(.collapsed)::after {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
@@ -317,13 +371,13 @@ body {
 
 }
 
-/* Animate CSS */
+/* ------  Animate ------  CSS */
 
 .animate__animated.animate__fadeInDown {
     --animate-duration: .8s;
 }
 
-/* Opaque Overlays */
+/* ----- Opaque Overlays ------  */
 
 .opaque_overlay {
     position: absolute;
@@ -345,7 +399,7 @@ body {
 
 /* -------------------------- Website Content -------------------------- */
 
-/* Navbar */
+/* ------ Navbar ------  */
 
 .navbar {
     background-color: #45425a;
@@ -410,6 +464,8 @@ body {
     --animate-duration: .7s;
 }
 
+/* Account Navbar */
+
 .account-menu {
     width: 225%;
     min-height: 150px;
@@ -464,7 +520,7 @@ body {
     color: #202020;
 }
 
-/* Notifications */
+/* ------ Notifications -------  */
 
 #notification_dropdown_container {
     position: static;
@@ -524,7 +580,7 @@ body {
     font-family: "Josefin Sans", sans-serif;
 }
 
-/* Footer */
+/*  ------ Footer ------  */
 
 .base-footer {
     background-color: #45425a;
@@ -578,47 +634,6 @@ body {
 .social-icon {
     font-size: 2.2rem;
     color: #8b8b8b;
-}
-
-/* Form Elements */
-
-.modal_form_container {
-    background-color: #45425a;
-}
-
-.modal_form_wrapper {
-    background-color: #ededed;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
-    0 10px 36px -4px rgba(77, 96, 232, .8);
-}
-
-.form-btn {
-    background-color: #1a2342;
-    color: #fefefe;
-    font-family: "Open Sans", sans-serif;
-}
-
-.form-label,
-.custom-formfield-font {
-    font-family: "Open Sans", sans-serif;
-}
-
-.submit-btn {
-    background-color: #0e8347;
-    font-family: "Open Sans", sans-serif;
-    color: #fefefe;
-}
-
-.asteriskField {
-    color: rgb(177, 6, 6);
-    margin-left: 2px;
-}
-
-.form-header {
-    font-family: "Josefin Sans", sans-serif;
-    font-weight: 600;
 }
 
 /* Subscription Cards */
