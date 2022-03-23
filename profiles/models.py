@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 from django.dispatch import receiver
@@ -161,13 +162,12 @@ class UserProfileQueryset(models.QuerySet):
             elements and buttons.
     """
     
-    def filter_by_params(self, filter_params, date_today):
+    def filter_by_params(self, filter_params, date_today, sort_params):
     
         if date_today:
-            print("today")
             return self.filter(**filter_params).exclude(unavailable_user__date=date_today)
 
-        return self.filter(**filter_params)
+        return self.filter(**filter_params).order_by(sort_params)
     
     def nested_filter_by_params(self, first_params, second_params):
 
@@ -189,10 +189,11 @@ class UserProfileManager(models.Manager):
         return UserProfileQueryset(self.model, using=self._db)
 
     
-    def filter_queryset(self, filter_params, date_today):
+    def filter_queryset(self, filter_params, date_today, sort_params):
 
         return (
-            self.get_queryset().filter_by_params(filter_params, date_today).order_by("-id")
+            self.get_queryset().filter_by_params(
+                filter_params, date_today, sort_params)
         )
     
     def nested_filter_queryset(self, first_params, second_params):
@@ -259,6 +260,7 @@ class UserProfile(models.Model):
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
     invitation_count = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
+    average_rating = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
     slug = models.SlugField(null=True, blank=True, db_index=True)
 
     # Instantiate custom UserProfileManager
@@ -274,6 +276,10 @@ class UserProfile(models.Model):
         Automatically create a slug from the user's
         username when a UserProfile object is created.
         """
+
+        average_rating_object = self.calculate_average_rating
+        if average_rating_object is not None:
+            self.average_rating = average_rating_object["average_rating"]
         self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
 
@@ -358,6 +364,7 @@ class AudioFile(models.Model):
         """
         if file_path != "":
             file_url = file_path.url
+            print("FILE_URL", file_url)
             file_name = file_url.split("/")[-1]
             self.file_name = file_name
 
