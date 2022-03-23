@@ -34,7 +34,7 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Use HTTPS in production
 # if not "DEVELOPMENT" in os.environ:
@@ -148,7 +148,7 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 if "DATABASE_URL" in os.environ:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse("postgres://yitvibzqkkjpdj:8d58bd8c131d05e4e3a9e7a70d41be8a490ee6e73cce1cda950d9fd895407089@ec2-52-31-221-164.eu-west-1.compute.amazonaws.com:5432/d40bmdlirt9g8h")
     }
 
 else:
@@ -182,12 +182,12 @@ if "USE_AWS" in os.environ:
     # Override Static and Media File URLS in production
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
-else:
-    STATIC_URL = 'static/'
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-    MEDIA_URL = "media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_URL = 'static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 if not "DEVELOPMENT" in os.environ:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -236,31 +236,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-# Log Errors when in production
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": "DEBUG"
-        }
-    },
-    "handlers": {
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": "./logs/debug.log",
-            "formatter": "simpleRe"
-        },
-    },
-    "formatters": {
-        "simpleRe": {
-            "format": '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            "style": '{',
-        }
-    }
-}
 
 
 # Internationalization
