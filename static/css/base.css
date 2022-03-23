@@ -138,6 +138,27 @@ body {
     background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
 }
 
+.dark_bg {
+    background-color: #111111 !important;
+}
+
+.light_bg {
+    background-color: #eeeeee;
+}
+
+.primary_bg {
+    background-color: #1a2342;
+}
+
+.secondary_bg {
+    background-color: #45425a;
+}
+
+.no_bg {
+    background: none;
+    border: none;
+}
+
 .invalid-feedback {
     font-family: "Open Sans", sans-serif;
 }
@@ -187,23 +208,6 @@ body {
 
 .width_45 {
     width: 45%;
-}
-
-.dark_bg {
-    background-color: #111111 !important;
-}
-
-.light_bg {
-    background-color: #eeeeee;
-}
-
-.primary_bg {
-    background-color: #1a2342;
-}
-
-.no_bg {
-    background: none;
-    border: none;
 }
 
 
