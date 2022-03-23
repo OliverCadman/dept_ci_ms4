@@ -188,7 +188,8 @@ body {
 }
 
 .block-divider {
-    border: 5px solid rgb(255, 255, 255);
+    border: 5px solid rgb(189, 189, 189);
+    margin: 0;
 }
 
 .block_divider_dark {
@@ -218,6 +219,10 @@ body {
 
 .width_45 {
     width: 45%;
+}
+
+.height_55 {
+    height: 55vh;
 }
 
 .padding_top_7 {
@@ -254,7 +259,6 @@ body {
 .header-btn-wrapper {
     bottom: 0;
     right: 0;
-    margin: 6px 0;
 }
 
 .cta-btn-wrapper {
@@ -288,7 +292,7 @@ body {
 }
 
 .edit_form_section {
-    padding-top: 6rem;
+    padding-top: 8rem;
     background-color: #f3f3f3;
 }
 
@@ -308,6 +312,12 @@ body {
     background-color: #1a2342;
     color: #fefefe;
     font-family: "Open Sans", sans-serif;
+}
+
+#submit-id-submit {
+    width: 100%;
+    background-color: #0e8347;
+    font-family: "Oxygen", sans-serif;
 }
 
 .form-label,
@@ -385,7 +395,7 @@ body {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.644);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .opaque_overlay_xlight {
