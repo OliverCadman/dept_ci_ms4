@@ -359,10 +359,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         profile_progress_percentage = calculate_profile_progress_percentage(username)
 
         received_reviews = user_profile.received_reviews.all()
+        num_of_reviews = user_profile.received_reviews.count()
         average_rating = 0
         if received_reviews:
-            average_rating = user_profile.calculate_average_rating
-            print(average_rating)
+            average_rating = user_profile.calculate_average_rating["average_rating"]
+
 
         current_page = "dashboard"
         current_section = "tier_one"
@@ -384,10 +385,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         # Set filter to Booking ID if user visiting dashboard
         # from Booking Success/Detail Page.
-        if (referer_url_path == "bookings/success"
-            or referer_url_path == "bookings/booking_detail"):
+        # if (referer_url_path == "bookings/success"
+        #     or referer_url_path == "bookings/booking_detail"):
 
-            booking_id = self.request.GET.get("filter")
+        booking_id = self.request.GET.get("filter")
 
         # # Set filter to Invitation ID if user visiting dashboard
         # # from Edit Invitation Page.
@@ -432,7 +433,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                     invitations_sent = user_profile.invitations_sent.filter(
                                         related_booking__pk=booking_id)
                                 elif current_filter == invitation_id:
-                                    print("HELLO")
                                     invitations_sent = user_profile.invitations_sent.filter(
                                         pk=invitation_id
                                     )
@@ -501,14 +501,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "invitations_received": invitations_received,
             "received_reviews": received_reviews,
             "average_rating": average_rating,
+            "num_of_reviews": num_of_reviews,
             "message_form": message_form,
             "posted_jobs": posted_jobs,
             "offers_sent": offers_sent
-
         }
-
-        print(context["current_page"])
-        print(context["current_section"])
 
         return context
 
