@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.db.models.manager import Manager
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 from profiles.models import UserProfile, Instrument, Genre
@@ -16,7 +17,7 @@ from test_helpers import create_test_user
 from social.functions import reverse_querystring
 
 from django.utils import timezone
-from unittest.mock import patch
+import json
 
 class TestDeplistView(TestCase):
     """
@@ -418,3 +419,81 @@ class TestJobListView(TestCase):
         response = confirm_job_offer(request, test_job.pk, confirmed_user)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_get_interested_members(self):
+        """
+        Unit Test - Get Interested Members
+
+        Test the AJAX view which returns a list of members who have marked
+        interest in taking a particular Job advertised on the Job List Page.
+
+        Confirm that the view correctly returns the member's details
+        as a JSON object. 
+
+        Confirm that all low-level details, such as:
+        
+        1. First Name
+        2. Last Name
+        3. City
+        4. Country
+        5. Profile Image
+
+        are being returned correctly.
+        """
+        # Test that the interested member's instruments are
+        # returned in the view.
+
+        # Create a test instrument and add it to User Profile 2's
+        # list of instruments played.
+        test_instrument = Instrument.objects.create(
+            instrument_name="test_instrument"
+        )
+        self.test_user_profile_2.instruments_played.add(test_instrument)
+
+        test_profile_image = SimpleUploadedFile(
+            name="test_image.jpg", content=b"", content_type="image/jpeg")
+
+        # Give the test user a first and last name
+        self.test_user_profile_2.first_name = "test fname"
+        self.test_user_profile_2.last_name = "test lname"
+        self.test_user_profile_2.city = "test city"
+        self.test_user_profile_2.country = "GB"
+        self.test_user_profile_2.profile_image = test_profile_image
+        self.test_user_profile_2.save()
+
+        # Add the test user to the collection of interested members
+        # for a job.
+        test_job_object = get_object_or_404(Job, pk=self.test_job.pk)
+        test_job_object.interested_member.add(self.test_user_profile_2)
+        test_job_object.save()
+
+        response = self.client.get(reverse("get_interested_members", args=[self.test_job.pk]))
+        print(response.content)
+
+        instrument_array = []
+        instrument_array.append(test_instrument.instrument_name)
+
+        # Prepare the returned data to compare against the values set above.
+        control_fname = json.loads(response.content)["member_details"][0]["first_name"]
+        control_lname = json.loads(response.content)["member_details"][0]["last_name"]
+        control_instruments_played = json.loads(response.content)["member_details"][0]["instruments_played"]
+        control_job_id = json.loads(response.content)["member_details"][0]["job_id"]
+        control_username = json.loads(response.content)["member_details"][0]["username"]
+        control_city = json.loads(response.content)["member_details"][0]["city"]
+        control_country = json.loads(response.content)["member_details"][0]["country"]
+        control_profile_img = json.loads(response.content)["member_details"][0]["profile_image"]
+
+
+        # Determine and confirm a successful response with all data present.
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(control_fname, self.test_user_profile_2.first_name)
+        self.assertEqual(control_lname, self.test_user_profile_2.last_name)
+        self.assertEqual(control_city, self.test_user_profile_2.city)
+        self.assertEqual(control_country, "United Kingdom")
+        self.assertEqual(control_profile_img, self.test_user_profile_2.profile_image.url)
+        self.assertEqual(control_instruments_played, instrument_array)
+        self.assertEqual(control_job_id, self.test_job.pk)
+        self.assertEqual(control_username, self.test_user_2.username)
+
+
+
