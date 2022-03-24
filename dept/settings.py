@@ -74,6 +74,8 @@ INSTALLED_APPS = [
 
     # S3Boto3Storage
     'storages',
+
+    'raven.contrib.django.raven_compat',
 ]
 
 
@@ -239,33 +241,41 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "root": {"level": "INFO", "handlers": ["file"]},
-    "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": "./logs/prod.log",
-            "formatter": "app",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
         },
     },
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": "INFO",
-            "propagate": True
+    'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
         },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
     },
-    "formatters": {
-        "app": {
-            "format": (
-                u"%(asctime)s [%(levelname)-8s] "
-                "(%(module)s.%(funcName)s) %(message)s"
-            ),
-            "datefmt": "%Y-%m-%d %H:%M:%S",
+    'loggers': {
+        'django': {
+            'handlers': ['sentry'],
+            'level': 'INFO',
+            'propagate': True,
         },
-    },
+        'raven': {
+            'level': 'INFO',
+            'handlers': ['sentry'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'INFO',
+            'handlers': ['sentry'],
+            'propagate': False,
+        },
+    }
 }
 
 
