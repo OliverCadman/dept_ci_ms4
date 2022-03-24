@@ -72,7 +72,7 @@
                                 {{ user.user.username }}
                             {% endif %}
                             {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
-                        <div class="header_star_icons">
+                        <div class="star_icon_container">
                                 
                         </div>
                         <p id="instrument_list">
@@ -184,7 +184,7 @@
                             </button>
                         {% endif %}
                     </h1>
-                    <div class="header_star_icons"></div>
+                    <div class="star_icon_container"></div>
                     {% if instrument_list|length > 0 %}
                     <p class="user_instruments_lg">
                             <!-- User's instruments for loop, joined with comma -->
