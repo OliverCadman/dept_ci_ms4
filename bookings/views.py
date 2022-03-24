@@ -118,6 +118,7 @@ class EditInvitationForm(UpdateView):
         """
         Return success message upon successful submission of form.
         """
+        print("FORM", form)
         messages.success(self.request, "Invitation form edited")
         return super().form_valid(form)
     
@@ -128,11 +129,13 @@ class EditInvitationForm(UpdateView):
         turning it into a python datetime object, interpretable
         by Django.
         """
+        print("REQUEST",request.POST)
         
         event_datetime = request.POST.get("event_datetime")
         parsed_datetime = parser.parse(event_datetime)
         request.POST = request.POST.copy()
         request.POST["event_datetime"] = parsed_datetime
+        print("DATETIME", parsed_datetime)
      
         return super().post(request, *args, **kwargs)
     
@@ -142,6 +145,7 @@ class EditInvitationForm(UpdateView):
         in query arg , along with the relevant page,
         section, subsection and invitation pk as filter keyword args.
         """
+        print("HELLO?????")
         invitation = self.get_object()
         invite_sender = invitation.invite_sender
         return reverse_querystring("dashboard",
@@ -167,7 +171,6 @@ def get_invitation_messages(request, pk):
         referal_path = get_referral_path(request, split_index1="/", split_index2="&",
                                          slice_index1=5, slice_index2=1)
 
-        
         messages = None
         if not referal_path == "section=tier_two":
 
@@ -190,8 +193,6 @@ def get_invitation_messages(request, pk):
                 message = to_dict(message)
                 print(message)
                 message_list.append(message)
-        else:
-            print("NO MESSAGES")
 
         # Return JSON to be handled in JS file
         return JsonResponse({ "messages": message_list})
@@ -275,6 +276,7 @@ def decline_invitation(request, invitation_pk):
     "Received Invites" section of Jobs page, on Dashboard page.
     """
     invitation = get_object_or_404(Invitation, pk=invitation_pk)
+    invite_sender = get_object_or_404(UserProfile, pk=invitation.invite_sender.pk)
     
     invite_sender_name = None
     if invitation.invite_sender.first_name:
@@ -288,7 +290,7 @@ def decline_invitation(request, invitation_pk):
 
         Notification.objects.create(
             notification_sender=invite_receiver,
-            notification_receiver=invitation.invite_sender_name,
+            notification_receiver=invite_sender,
             notification_type=3,
             declined_invitation=declined_invitation
         )
