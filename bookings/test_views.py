@@ -1,5 +1,3 @@
-from tkinter.filedialog import test
-from urllib.request import Request
 from django.test import TestCase, Client, RequestFactory
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -10,8 +8,6 @@ from django.contrib.messages import get_messages
 from django.utils import timezone
 from django.conf import settings
 
-from dateutil import parser
-
 from test_helpers import (
     create_test_user, create_test_invitation, create_test_job,
     create_test_message)
@@ -21,14 +17,12 @@ from social.models import Message
 from social.functions import reverse_querystring
 from jobs.models import Job
 
-from .views import invitation_form_view, accept_invitation, booking_form
-from .models import Invitation
+from .views import invitation_form_view, accept_invitation, GeneratePDFFile
+from .models import Invitation, Booking
 
-
+from dateutil import parser
 import json
-
-
-
+import tempfile
 
 
 class TestInvitationPOSTView(TestCase):
@@ -127,7 +121,8 @@ class TestInvitationPOSTView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("errors" in str(response.content, encoding="utf-8"))
 
-class TestEditInvitationViewPOST(TestCase):
+# -------------------------------------------
+class TestEditInvitationPOSTView(TestCase):
     def setUp(self):
         """
         Setup two test users and user profiles, and log
@@ -219,7 +214,11 @@ class TestEditInvitationViewPOST(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(str(messages[0]), control_msg)
 
+# --------------------------------------------------
 class TestBookingViewGETMethods(TestCase):
+    """
+    Test all Booking View GET Methods
+    """
     
     def setUp(self):
         """
@@ -544,6 +543,470 @@ class TestBookingViewGETMethods(TestCase):
         self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
         self.assertEqual(str(messages[0]), warning_msg)
 
+    def test_booking_success_redirect_for_unauthorized_user(self):
+        """
+        Confirm that the Booking Success view is restricted only
+        to the users associated with the booking, with a successful
+        response and redirect to the home page, with the appropriate
+        error message.
+        """
 
+        username3 = "test3"
+        password3 = "test3"
+        email3 = "test3@test.com"
+
+        # Create another user profile to act as authorized user
+        authorized_user = create_test_user(username3, password3, email3)
+        authorized_user_profile = get_object_or_404(UserProfile, user=authorized_user)
+
+        authorized_user_profile.subscription_chosen = True
+        authorized_user_profile.save()
+
+        # self.test_user_profile1 is unauthorized and logged in.
+        unauthorized_user_profile = self.test_user_profile
+        unauthorized_user_profile.subscription_chosen = True
+        unauthorized_user_profile.save()
+
+        test_invitation = create_test_invitation(
+            authorized_user_profile,
+            self.test_user_profile_2
+        )
+        
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation.is_accepted = True
+
+        # Create a booking object
+        test_booking = Booking.objects.create(
+            related_invitation=test_invitation,
+            venue_name="test",
+            street_address1="test",
+            travel_provided=False,
+            backline_provided=False
+        )
+
+        # Determine a successful redirect response with the appropriate error message.
+        response = self.client.get(reverse("booking_success", args=[test_booking.pk]), follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+        error_msg = "You may not browse another user's booking."
+
+        self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), error_msg)
+
+    def test_booking_detail_redirect_for_unauthorized_user(self):
+        """
+        Confirm that the Booking Success view is restricted only
+        to the users associated with the booking, with a successful
+        response and redirect to the home page, with the appropriate
+        error message.
+        """
+
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
+ 
+        test_invitation = create_test_invitation(
+            self.test_user_profile,
+            self.test_user_profile_2
+        )
+        
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation.is_accepted = True
+
+        # Create a booking object
+        test_booking = Booking.objects.create(
+            related_invitation=test_invitation,
+            venue_name="test",
+            street_address1="test",
+            travel_provided=False,
+            backline_provided=False
+        )
+
+        test_booking_object = get_object_or_404(Booking, pk=test_booking.pk)
+        test_booking_object.booking_details_sent = True
+        test_booking_object.save()
+
+        # Determine a successful redirect response with the appropriate error message.
+        response = self.client.get(reverse("booking_detail", args=[test_booking.pk]), follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+        error_msg = "You may not browse another user's booking."
+
+        self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), error_msg)
+
+    def test_generate_pdf_file_view(self):
+        """
+        Test PDF Generation of Booking.
+
+        Confirm that the view returns a successful
+        response with a generated PDF in the response's
+        content.
+        """
+
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
+ 
+        test_invitation = create_test_invitation(
+            self.test_user_profile_2,
+            self.test_user_profile
+        )
+        
+
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation.is_accepted = True
+
+        # Create a booking object
+        test_booking = Booking.objects.create(
+            related_invitation=test_invitation,
+            venue_name="test",
+            street_address1="test",
+            travel_provided=False,
+            backline_provided=False
+        )
+
+        # Request Factory required for class-based view
+        request_factory = RequestFactory()
+        request = request_factory.get(reverse("generate_pdf", args=[test_booking.pk]))
+        request.user = self.test_user
+        request.download = True
+
+        # Session and Message Middleware required for Request Factory
+        session_middleware = SessionMiddleware(lambda x: x)
+        session_middleware.process_request(request)
+        request.session.save()
+
+        message_middleware = MessageMiddleware(lambda x: x)
+        message_middleware.process_request(request)
+
+        kwargs = {"booking_id": test_booking.pk}
+
+        response = GeneratePDFFile.as_view()(request, **kwargs)
+
+        # Determine a successful response
+        self.assertEqual(response.status_code, 200)
+
+    def test_restrict_access_to_generate_pdf_file_view(self):
+        """
+        Test Restricted Access to Generate PDF File View
+
+        Confirm that any user trying to access view
+        who is not the booking receiver, is redirected
+        back home.
+
+        Restriction applied in the case that a user
+        accesses the view manually through the URL.
+        """
+
+        # Test User Profile is the booking sender 
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
+ 
+        test_invitation = create_test_invitation(
+            self.test_user_profile,
+            self.test_user_profile_2
+        )
+
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation.is_accepted = True
+        test_invitation_object.save()
+
+        # Create a booking object
+        test_booking = Booking.objects.create(
+            related_invitation=test_invitation,
+            venue_name="test",
+            street_address1="test",
+            travel_provided=False,
+            backline_provided=False
+        )
+
+        # Request factory required to access class-based view
+        request_factory = RequestFactory()
+        request = request_factory.get(reverse("generate_pdf", args=[test_booking.pk]))
+        request.user = self.test_user
+
+        # Session and Message Middleware required for Request Factory
+        session_middleware = SessionMiddleware(lambda x: x)
+        session_middleware.process_request(request)
+        request.session.save()
+
+        message_middleware = MessageMiddleware(lambda x: x)
+        message_middleware.process_request(request)
+
+        kwargs = { "booking_id": test_booking.pk }
+
+        response = GeneratePDFFile.as_view()(request, **kwargs)
+        response.client = self.client 
+
+        # Determine a successful redirect back to home.
+        self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
+
+# -------------------------------------------------
+class TestBookingViewPOSTMethods(TestCase):
+    """
+    Test all Booking View POST methods
+    """
+    
+    def setUp(self):
+        """
+        Set up two test User objects along with 
+        User Profiles, and log Test User 1 in.
+        """
+
+        username = "test"
+        password = "test"
+        email = "test"
+
+        self.test_user = create_test_user(username, password, email)
+        self.test_user_profile = get_object_or_404(
+            UserProfile, user__username=self.test_user)
+
+        username2 = "test2"
+        password2 = "test2"
+        email2 = "test2"
+
+        self.test_user2 = create_test_user(username2, password2, email2)
+        self.test_user_profile2 = get_object_or_404(
+            UserProfile, user__username=self.test_user2)
+
+        # Set up a test invitation object
+        self.test_invitation = create_test_invitation(
+            self.test_user_profile,
+            self.test_user_profile2
+        )
+
+        self.client = Client()
+        logged_in = self.client.login(username=username, password=password)
+
+    
+    def test_booking_form_POST(self):
+        """
+        Test POST method of Booking Form view.
+        Confirm a successful POST request response,
+        with the appropriate redirect and success message
+        displayed.
+        """
+
+        # Subscribe user in order to make a booking.
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
+
+        test_invitation = self.test_invitation
+
+        # Accept the invitation to create a Booking object.
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation_object.is_accepted = True
+        test_invitation_object.save()
+
+        test_booking = get_object_or_404(Booking, related_invitation__pk=test_invitation.pk)
+
+        # Make a GET request to get the context
+        response = self.client.get(reverse("booking_form", args=[test_invitation.pk]))
+        self.assertEqual(response.status_code, 200)
+
+        test_audiofile = tempfile.NamedTemporaryFile(suffix=".mp3").name
+
+        data = {
+            "venue_name": "test_venue",
+            "street_address1": "test_street_address",
+            "postcode": "PR7 5RH",
+            "travel_provided": True,
+            "travel_info": "test_info",
+            "backline_provided": True,
+            "backline_info": "test_info",
+        }
+
+        # Mimic the Audio Formset
+        management_form = response.context["audio_formset"].management_form
+
+        for i in 'TOTAL_FORMS', 'INITIAL_FORMS', 'MIN_NUM_FORMS', 'MAX_NUM_FORMS':
+            data['%s-%s' % (management_form.prefix, i)] = management_form[i].value()
+        
+        for i in range(response.context['audio_formset'].total_form_count()):
+            # get form index 'i'
+            current_form = response.context['audio_formset'].forms[i]
+
+        # retrieve all the fields
+        for field_name in current_form.fields:
+            value = current_form[field_name].value()
+            data['%s-%s' % (current_form.prefix, field_name)] = value if value is not None else ''
+
+        # Post the Data to the View
+        response = self.client.post(
+            reverse("booking_form", args=[test_invitation.pk]), data, follow=True
+        )
+
+        # Determine a successful response with appropriate redirect and success message.
+        messages = list(get_messages(response.wsgi_request))
+        success_msg = "Booking Form Submitted."
+        self.assertRedirects(response, reverse("booking_success", args=[test_booking.pk]),
+                             status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), success_msg)
+    
+    def test_booking_form_POST_with_invalid_data(self):
+        """
+        Test the Booking Form POST with invalid data,
+        and confirm a successful redirect back to the
+        booking form page, with appropriate error message
+        displayed.
+        """
+
+         # Subscribe user in order to make a booking.
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
+
+        test_invitation = self.test_invitation
+
+        # Accept the invitation to create a Booking object.
+        test_invitation_object = get_object_or_404(Invitation, pk=test_invitation.pk)
+        test_invitation_object.is_accepted = True
+        test_invitation_object.save()
+
+        # Prepare POST request with invalid data
+        invalid_data = {
+            "venue_name": "111",
+            "street_address1": "111",
+            "travel_provided": True,
+            "travel_info": "111",
+            "backline_provided": True,
+            "backline_info": "111"
+        }
+
+        response = self.client.post(
+            reverse("booking_form", args=[test_invitation.pk]), invalid_data, follow=True)
+
+        # Determine the appropriate redirect with error message.
+        messages = list(get_messages(response.wsgi_request))
+        error_msg = "Your form was invalid, please try again."
+
+        self.assertRedirects(response, reverse("booking_form", args=[test_invitation.pk]), status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), error_msg)
+
+    
+    def test_tier_two_invitation_booking_form_POST_method(self):
+        """
+        Test the POST method of the booking form page
+        for Tier Two bookings, and confirm that the view
+        returns a successful redirect to the appropriate
+        success page, and that the appropriate success
+        message is displayed.
+        """
+
+        # Subsribe the user and set "is paid" to True in order 
+        # to make a Tier Two booking.
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.is_paid = True
+        self.test_user_profile.save()
+
+        # Create a test job.
+        test_job = create_test_job(self.test_user_profile)
+
+        test_job_object = get_object_or_404(Job, pk=test_job.pk)
+
+        # Tie User Profile two to test job as confirmed member.
+        test_job_object.is_taken = True
+        test_job_object.confirmed_member = self.test_user_profile2
+        test_job_object.save()
+
+
+        Booking.objects.create(
+            related_job=test_job
+        )
+
+        test_booking_object = get_object_or_404(Booking, related_job=test_job)
+
+        response = self.client.get(reverse("tier_two_booking_form", args=[test_job.pk]))
+        self.assertEqual(response.status_code, 200)
+
+        # Prepare a POST request
+        data = {
+            "venue_name": "test_venue",
+            "street_address1": "test_street_address",
+            "postcode": "PR7 5RH",
+            "travel_provided": True,
+            "travel_info": "test_info",
+            "backline_provided": True,
+            "backline_info": "test_info",
+        }
+
+         # Mimic the Audio Formset
+        management_form = response.context["audio_formset"].management_form
+
+        for i in 'TOTAL_FORMS', 'INITIAL_FORMS', 'MIN_NUM_FORMS', 'MAX_NUM_FORMS':
+            data['%s-%s' % (management_form.prefix, i)] = management_form[i].value()
+        
+        for i in range(response.context['audio_formset'].total_form_count()):
+            # get form index 'i'
+            current_form = response.context['audio_formset'].forms[i]
+
+        # retrieve all the fields
+        for field_name in current_form.fields:
+            value = current_form[field_name].value()
+            data['%s-%s' % (current_form.prefix, field_name)] = value if value is not None else ''
+
+        # Post the Data to the View
+        response = self.client.post(
+            reverse("tier_two_booking_form", args=[test_job.pk]), data, follow=True
+        )
+
+        # Determine a successful response with appropriate redirect and success message.
+        messages = list(get_messages(response.wsgi_request))
+        success_msg = "Booking Form Submitted"
+        self.assertRedirects(response, reverse("booking_success", args=[test_booking_object.pk]),
+                             status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), success_msg)
+
+    def test_tier_two_booking_form_POST_with_invalid_data(self):
+        """
+        Test the Tier Two Booking Form POST with invalid data,
+        and confirm a successful redirect back to the
+        booking form page, with appropriate error message
+        displayed.
+        """
+
+        # Subsribe the user and set "is paid" to True in order 
+        # to make a Tier Two booking.
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.is_paid = True
+        self.test_user_profile.save()
+
+        # Create a test job.
+        test_job = create_test_job(self.test_user_profile)
+
+        test_job_object = get_object_or_404(Job, pk=test_job.pk)
+
+        # Tie User Profile 2 to the Job and set "is taken" status to True.
+        test_job_object.is_taken = True
+        test_job_object.confirmed_member = self.test_user_profile2
+        test_job_object.save()
+
+        # Create a booking related to the job.
+        Booking.objects.create(
+            related_job=test_job
+        )
+
+        response = self.client.get(reverse("tier_two_booking_form", args=[test_job.pk]))
+        self.assertEqual(response.status_code, 200)
+
+        data = {
+            "venue_name": "111",
+            "street_address1": "111",
+            "postcode": "111",
+            "travel_provided": True,
+            "travel_info": "111",
+            "backline_provided": True,
+            "backline_info": "111",
+        }
+
+        # Post the Data to the View
+        response = self.client.post(
+            reverse("tier_two_booking_form", args=[test_job.pk]), data, follow=True
+        )
+
+        # Determine a successful response with appropriate redirect and success message.
+        messages = list(get_messages(response.wsgi_request))
+        error_msg = "Your form was invalid, please try again."
+        self.assertRedirects(response, reverse("tier_two_booking_form", args=[test_job.pk]),
+                             status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), error_msg)
 
 
