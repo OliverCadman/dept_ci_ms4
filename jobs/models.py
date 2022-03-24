@@ -4,17 +4,17 @@ from django_countries.fields import CountryField
 
 from profiles.models import UserProfile, Instrument
 
-from pathlib import Path
-from PIL import Image
+import uuid
 
 
 class JobQuerySet(models.QuerySet):
 
     def filter_by_params(self, filter_params, min_fee, max_fee):
         if not min_fee and not max_fee:
-            return self.filter(**filter_params)
+            return self.filter(**filter_params).exclude(is_taken=True)
         else:
-            return self.filter(**filter_params, fee__range=(min_fee, max_fee))
+            return self.filter(
+                **filter_params, fee__range=(min_fee, max_fee)).exclude(is_taken=True)
 
 class JobManager(models.Manager):
 
@@ -33,6 +33,8 @@ class Job(models.Model):
     Model representing an instance of a job.
 
     Attributes:
+
+        Job Number (CharField) - A UUID string representing a Job Instance.
 
         Job Poster (FK) - The member posting the job advertisement.
 
@@ -58,6 +60,7 @@ class Job(models.Model):
         Is Taken (Boolean) - Represents whether a dep has been confirmed to play the job.
     """
 
+    job_number = models.CharField(max_length=200, null=True, blank=True)
     job_poster = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
                                    related_name="posted_jobs")
     interested_member = models.ManyToManyField(UserProfile, null=True, blank=True)
@@ -78,27 +81,22 @@ class Job(models.Model):
     objects = JobManager()
 
     def __str__(self):
+        """
+        Return string representation of Job object.
+        """
         return f"{self.job_poster}'s job: {self.event_name}"
 
-    def convert_to_webp(self, source):
-        
-
-        if self.image is not None or source is not None:
-            image_to_convert = source
-            image = Image.open(image_to_convert)
-            image.save(image_to_convert.name, format="webp")
-            print(image.size)
-            return image
-
-
+    def generate_job_number(self):
+        """
+        Generate random UUID string to represent Job.
+        """
+        return uuid.uuid4().hex.upper()
 
     def save(self, *args, **kwargs):
-        if self.image:
-            self.convert_to_webp(self.image.file)
-     
+        """
+        Generate a Job number upon creation of a job object
+        """
+        if not self.job_number:
+            self.job_number = self.generate_job_number()
         super().save(*args, **kwargs)
 
-
-
-
-        
