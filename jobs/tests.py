@@ -1,9 +1,12 @@
+from venv import create
 from django.test import TestCase, Client, RequestFactory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.contrib.messages import get_messages
+from django.contrib.messages.storage.fallback import FallbackStorage
 from django.db.models.manager import Manager
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -55,6 +58,7 @@ class TestDeplistView(TestCase):
         test_genre = Genre.objects.create(
             genre_name="test_genre"
         )
+        
 
         test_instrument = Instrument.objects.get(instrument_name=test_instrument.instrument_name)
         test_genre = Genre.objects.get(genre_name=test_genre.genre_name)
@@ -66,19 +70,117 @@ class TestDeplistView(TestCase):
         self.test_user_profile.genres.add(test_genre)
         self.test_user_profile.save()
 
-        reverse_query_string = reverse_querystring("dep_list", query_kwargs={
+        reverse_query_string_without_date = reverse_querystring("dep_list", query_kwargs={
             "instrument": "test_instrument",
             "genre": "test_genre",
+            
         })
 
         # Determine a successful response, and the context contains the correct query
         # and context.
-        response = self.client.get(reverse_query_string)
+        response = self.client.get(reverse_query_string_without_date)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["instrument"], "test_instrument")
         self.assertTrue(response.context["genre"], "test_genre")
         self.assertTrue(test_instrument in response.context["instrument_list"])
         self.assertTrue(self.test_user_profile in response.context["dep_collection"])
+
+        reverse_query_string_with_date = reverse_querystring("dep_list", query_kwargs={
+            "instrument": "test_instrument",
+            "genre": "test_genre",
+            "available_today": True
+        })
+
+        response = self.client.get(reverse_query_string_with_date)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["instrument"], "test_instrument")
+        self.assertTrue(response.context["genre"], "test_genre")
+        self.assertTrue(test_instrument in response.context["instrument_list"])
+        self.assertTrue(self.test_user_profile in response.context["dep_collection"])
+    
+
+    def test_filter_with_sort(self):
+        """
+        Confirm that profile querysets can be sorted by
+        average rating.
+        """
+
+        # Create a second user to compare average rating against first user.
+        username = "test2"
+        password = "test2"
+        email = "test2@test.com"
+
+        test_user_2 = create_test_user(username, password, email)
+
+        test_user_profile_2 = get_object_or_404(UserProfile,user__username=test_user_2)
+
+        # Create a test instrument to use as filter parameter.
+        test_instrument = Instrument.objects.create(
+            instrument_name="test_instrument",
+        )
+
+        # Create a test genre to use as filter parameter.
+        test_genre = Genre.objects.create(
+            genre_name="test_genre"
+        )
+
+        # Set the average rating for each user
+        test_user_profile_2.average_rating = 2
+        test_user_profile_2.save()
+
+        self.test_user_profile.average_rating = 4
+        self.test_user_profile.save()
+
+        # Add test instrument and genre to both profiles, so their attributes
+        # are the same and a comparison of average rating can be made.
+        self.test_user_profile.instruments_played.add(test_instrument)
+        self.test_user_profile.genres.add(test_genre)
+        self.test_user_profile.save()
+
+        test_user_profile_2.instruments_played.add(test_instrument)
+        test_user_profile_2.genres.add(test_genre)
+        test_user_profile_2.save()
+        
+        # Sort with Average rating ascending (test_user_profile_2 should be returned first)
+        reverse_query_string_with_sort_asc = reverse_querystring("dep_list", query_kwargs={
+            "instrument": "test_instrument",
+            "genre": "test_genre",
+            "sort": "average_rating_asc"
+            
+        })
+
+        response = self.client.get(reverse_query_string_with_sort_asc)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["instrument"], "test_instrument")
+        self.assertTrue(response.context["genre"], "test_genre")
+        self.assertTrue(test_instrument in response.context["instrument_list"])
+
+        # Confirm that the objects are returned in the correct order
+        self.assertEqual(response.context["dep_collection"][0], test_user_profile_2) # Avg Rating: 2
+        self.assertEqual(response.context["dep_collection"][1], self.test_user_profile) # Avg Rating: 4
+
+
+        # Sort with average rating ascending (self.test_user_profile should be returned first.)
+        reverse_query_string_with_sort_desc = reverse_querystring("dep_list", query_kwargs={
+            "instrument": "test_instrument",
+            "genre": "test_genre",
+            "sort": "average_rating_desc"
+            
+        })
+
+        response = self.client.get(reverse_query_string_with_sort_desc)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["instrument"], "test_instrument")
+        self.assertTrue(response.context["genre"], "test_genre")
+        self.assertTrue(test_instrument in response.context["instrument_list"])
+
+        # Confirm that the objects are being returned in the correct, ascending order
+        self.assertEqual(response.context["dep_collection"][0], self.test_user_profile) # Avg Rating: 4
+        self.assertEqual(response.context["dep_collection"][1], test_user_profile_2) # Avg Rating: 2
+
+
+
 
 
 class TestJobListView(TestCase):
@@ -420,6 +522,44 @@ class TestJobListView(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
+    def test_job_confirmation_redirect_for_unauthorized_user(self):
+        
+        self.client.logout()
+
+        confirmed_user_username = "test_username"
+        confirmed_user_password = "test_password"
+        confirmed_user_email = "test_email"
+        
+        confirmed_user = create_test_user(
+            confirmed_user_username, confirmed_user_password, confirmed_user_email
+        )
+
+        confirmed_user_profile = get_object_or_404(UserProfile, user__username=confirmed_user)
+
+        test_job_object = get_object_or_404(Job, pk=self.test_job.pk)
+        test_job_object.confirmed_member = confirmed_user_profile
+        test_job_object.save()
+
+        user_2_logged_in = self.client.login(
+            username="test_user_2", password="test_password_2")
+        
+        self.assertTrue(user_2_logged_in)
+
+        request_factory = RequestFactory()
+        request = request_factory.get(reverse("confirm_job_offer",
+                                              args=[self.test_job.pk, confirmed_user]))
+        request.user = self.test_user_2
+        session_middleware = SessionMiddleware(lambda x: x)
+        session_middleware.process_request(request)
+        message_middleware = MessageMiddleware(lambda x: x)
+        message_middleware.process_request(request)
+        request.session.save()
+
+        response = confirm_job_offer(request, self.test_job.pk, confirmed_user)
+
+        self.assertEqual(response.status_code, 302)
+     
+
     def test_get_interested_members(self):
         """
         Unit Test - Get Interested Members
@@ -431,7 +571,7 @@ class TestJobListView(TestCase):
         as a JSON object. 
 
         Confirm that all low-level details, such as:
-        
+
         1. First Name
         2. Last Name
         3. City
