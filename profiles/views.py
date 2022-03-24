@@ -216,6 +216,10 @@ def edit_profile(request):
 
 
 def upload_audio(request, username):
+    logger.debug("This is a debug message in upload audio")
+    logger.info("This is an info message in upload audio")
+    logger.warn("This is a warn message in upload audio")
+    logger.error("This is an error message in upload audio")
 
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
@@ -244,11 +248,12 @@ def upload_audio(request, username):
         else:
             audiofile_to_delete =  get_object_or_404(AudioFile, file=request.POST.get("filename"))
             try:
+                logger.info("Trying to delete")
                 audiofile_to_delete.delete()
                 messages.success(request, "Audio file removed")
                 return HttpResponse(status=200)
             except Exception as e:
-                logger.debug("Exception! %s", exc_info=1)
+                logger.exception("There was an error!")
                 print(f"Exception: {e}")
                 return HttpResponse(status=500)
     
