@@ -1,7 +1,13 @@
 /* 
     Enables switching of form pages in Edit Profile form.
-
+    Page switching is mimiced through the hiding of the AudioForm
+    element and the showing of the FullCalendar element.
 */
+
+// let username = $("#request_user").text();
+
+// // Trims the quotes off the "request_user" value
+// username = username.replace(/\"/g, "");
 
 $("#skip_audio_form").click(
   {
@@ -46,7 +52,7 @@ function switchStep(event) {
       leadContent
     );
   } else {
-    window.location.href = "/";
+    window.location.href = `/profile/${username}`;
   }
 }
 
