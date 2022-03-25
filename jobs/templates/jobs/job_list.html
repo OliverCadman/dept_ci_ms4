@@ -232,9 +232,13 @@
                                         </div>
                                     </div>
                                     <div class="col-12 cta_btns">
-                                        <a href="#" type="button" class="btn custom_success secondary_font white_font d-block w-100" id="register_interest_btn">
-                                            I'm Interested
-                                        </a>
+                                        {% if request.user.is_authenticated %}
+                                            {% if current_user.is_paid %}
+                                                <a href="#" type="button" class="btn custom_success secondary_font white_font d-block w-100" id="register_interest_btn">
+                                                    I'm Interested
+                                                </a>
+                                             {% endif %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
