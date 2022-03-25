@@ -253,7 +253,9 @@ def upload_audio(request, username):
 
         # Else, remove audio file from database        
         else:
-            audiofile_to_delete =  get_object_or_404(AudioFile, file=request.POST.get("filename"))
+            audiofile_to_delete =  AudioFile.objects.filter(
+                file=request.POST.get("filename"), related_user=user_profile
+            )
             try:
                 logger.info("Trying to delete")
                 audiofile_to_delete.delete()
