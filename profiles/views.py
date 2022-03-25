@@ -311,7 +311,8 @@ def upload_unavailable_dates(request, user_id):
                     except Exception as e:
                         print(f"Exception: {e}")
                 success_msg = "Profile details saved."
-                return JsonResponse({ "url": "/", "success_msg": success_msg})
+                redirect_url = reverse("profile", args=[user_profile.user])
+                return JsonResponse({ "url": redirect_url, "success_msg": success_msg})
         else:
             # If request 2, the purpose is to remove dates from user's table.
             existing_unavailable_dates = user_profile.unavailable_user.all()
