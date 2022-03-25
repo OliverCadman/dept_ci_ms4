@@ -15,7 +15,7 @@ from profiles.models import UserProfile, Instrument, Genre
 from .models import Job
 from .views import post_job, EditJobView, confirm_job_offer
 
-from test_helpers import create_test_user
+from test_helpers import create_test_user, create_test_job_variable_city
 
 from social.functions import reverse_querystring
 
@@ -35,7 +35,12 @@ class TestDeplistView(TestCase):
     """
     def setUp(self):
         """
-        Create a test user.
+        Create two test users and give them attributes including:
+
+        - Instrument
+        - Genre
+        - City
+
         """
         username = "test_user_1"
         password = "test_password_1"
@@ -44,32 +49,49 @@ class TestDeplistView(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(UserProfile, user=self.test_user)
 
-        # Instantiate the client to make requests.
-        self.client = Client()
+        self.username2 = "test_user_2"
+        self.password2 = "test_password_2"
+        self.email2 = "test_email_2"
 
-    def test_get_queryset(self):
+        self.test_user_2 = create_test_user(self.username2, self.password2, self.email2)
+        self.test_user_profile_2 = get_object_or_404(
+            UserProfile, user__username=self.test_user_2)
+
 
         # Create a test instrument to use as filter parameter.
-        test_instrument = Instrument.objects.create(
+        self.test_instrument = Instrument.objects.create(
             instrument_name="test_instrument",
         )
 
         # Create a test genre to use as filter parameter.
-        test_genre = Genre.objects.create(
+        self.test_genre = Genre.objects.create(
             genre_name="test_genre"
         )
         
-
-        test_instrument = Instrument.objects.get(instrument_name=test_instrument.instrument_name)
-        test_genre = Genre.objects.get(genre_name=test_genre.genre_name)
-
-        # Add test instrument and genre to the test_user_profile object,
+         # Add test instrument and genre to the test_user_profile object,
         # which should be returned in queryset upon searching by this instrument
         # and/or genre.
-        self.test_user_profile.instruments_played.add(test_instrument)
-        self.test_user_profile.genres.add(test_genre)
+        self.test_user_profile.instruments_played.add(self.test_instrument)
+        self.test_user_profile.genres.add(self.test_genre)
+
+        self.test_user_profile.city = "test_city"
         self.test_user_profile.save()
 
+        self.test_user_profile_2.instruments_played.add(self.test_instrument)
+        self.test_user_profile_2.genres.add(self.test_genre)
+        self.test_user_profile_2.city = "test_city"
+
+        # Instantiate the client to make requests.
+        self.client = Client()
+
+    def test_get_queryset(self):
+        """
+        Test Filter Queryset Methods, with three variations of query parameters:
+
+        - With instrument and genre, without "Available Today" checked
+        - With instrument and genre, with "Available Today" checked
+        - With instrument, genre and city
+        """
         reverse_query_string_without_date = reverse_querystring("dep_list", query_kwargs={
             "instrument": "test_instrument",
             "genre": "test_genre",
@@ -82,7 +104,7 @@ class TestDeplistView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["instrument"], "test_instrument")
         self.assertTrue(response.context["genre"], "test_genre")
-        self.assertTrue(test_instrument in response.context["instrument_list"])
+        self.assertTrue(self.test_instrument in response.context["instrument_list"])
         self.assertTrue(self.test_user_profile in response.context["dep_collection"])
 
         reverse_query_string_with_date = reverse_querystring("dep_list", query_kwargs={
@@ -95,8 +117,24 @@ class TestDeplistView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["instrument"], "test_instrument")
         self.assertTrue(response.context["genre"], "test_genre")
-        self.assertTrue(test_instrument in response.context["instrument_list"])
+        self.assertTrue(self.test_instrument in response.context["instrument_list"])
         self.assertTrue(self.test_user_profile in response.context["dep_collection"])
+
+        reverse_query_string_with_city = reverse_querystring("dep_list", query_kwargs={
+            "instrument": "test_instrument",
+            "genre": "test_genre",
+            "city": "test_city"
+        })
+
+        response = self.client.get(reverse_query_string_with_city)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["instrument"], "test_instrument")
+        self.assertTrue(response.context["genre"], "test_genre")
+        self.assertTrue(response.context["city"], "test_city")
+        self.assertTrue(self.test_instrument in response.context["instrument_list"])
+        self.assertTrue(self.test_user_profile in response.context["dep_collection"])
+        self.assertEqual(response.context["dep_collection"][0].city, "test_city")
     
 
     def test_filter_with_sort(self):
@@ -116,30 +154,21 @@ class TestDeplistView(TestCase):
 
         # Create a test instrument to use as filter parameter.
         test_instrument = Instrument.objects.create(
-            instrument_name="test_instrument",
+            instrument_name="test_instrument2",
         )
 
         # Create a test genre to use as filter parameter.
         test_genre = Genre.objects.create(
-            genre_name="test_genre"
+            genre_name="test_genre2"
         )
 
         # Set the average rating for each user
-        test_user_profile_2.average_rating = 2
-        test_user_profile_2.save()
-
         self.test_user_profile.average_rating = 4
         self.test_user_profile.save()
 
-        # Add test instrument and genre to both profiles, so their attributes
-        # are the same and a comparison of average rating can be made.
-        self.test_user_profile.instruments_played.add(test_instrument)
-        self.test_user_profile.genres.add(test_genre)
-        self.test_user_profile.save()
+        self.test_user_profile_2.average_rating = 2
+        self.test_user_profile_2.save()
 
-        test_user_profile_2.instruments_played.add(test_instrument)
-        test_user_profile_2.genres.add(test_genre)
-        test_user_profile_2.save()
         
         # Sort with Average rating ascending (test_user_profile_2 should be returned first)
         reverse_query_string_with_sort_asc = reverse_querystring("dep_list", query_kwargs={
@@ -157,7 +186,7 @@ class TestDeplistView(TestCase):
         self.assertTrue(test_instrument in response.context["instrument_list"])
 
         # Confirm that the objects are returned in the correct order
-        self.assertEqual(response.context["dep_collection"][0], test_user_profile_2) # Avg Rating: 2
+        self.assertEqual(response.context["dep_collection"][0], self.test_user_profile_2) # Avg Rating: 2
         self.assertEqual(response.context["dep_collection"][1], self.test_user_profile) # Avg Rating: 4
 
 
@@ -177,10 +206,7 @@ class TestDeplistView(TestCase):
 
         # Confirm that the objects are being returned in the correct, ascending order
         self.assertEqual(response.context["dep_collection"][0], self.test_user_profile) # Avg Rating: 4
-        self.assertEqual(response.context["dep_collection"][1], test_user_profile_2) # Avg Rating: 2
-
-
-
+        self.assertEqual(response.context["dep_collection"][1], self.test_user_profile_2) # Avg Rating: 2
 
 
 class TestJobListView(TestCase):
@@ -220,7 +246,6 @@ class TestJobListView(TestCase):
             job_description="test"
         )
 
-
         """
         Instantiate the Client to make requests
         """
@@ -232,8 +257,47 @@ class TestJobListView(TestCase):
         and uses the correct template.
         """
         response = self.client.get(reverse("job_list"))
+        print("JOB_COLLECTION", response.context["job_collection"])
+
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed("jobs/dep_list.html")
+
+    
+    def test_get_queryset(self):
+        """
+        Test filtering of queryset Job list query set 
+        using two variants of query:
+
+        - Event City
+        - Fee Range
+
+        """
+        test_job_1 = create_test_job_variable_city(
+            self.test_user_profile_1,
+            "test_city_1"
+        )
+
+        print("TESTJOBONE", test_job_1)
+
+        test_job_2 = create_test_job_variable_city(
+            self.test_user_profile_1,
+            "test_city_2"
+        )
+
+        print("TESTJOBTWO", test_job_2)
+
+        response = self.client.get(reverse("job_list"))
+        print("JOB_LIST_INITIAL", response.context["job_collection"])
+
+        reverse_query_string_with_event_city = reverse_querystring("job_list", query_kwargs={
+            "event_city": "test_city_1"
+        })
+
+        response = self.client.get(reverse_query_string_with_event_city)
+        print(response.context["job_collection"])
+        print(response.context["city"])
+
+        self.assertEqual(response.status_code, 200)
 
     def test_currentuser_joblist_get(self):
         """
@@ -479,6 +543,106 @@ class TestJobListView(TestCase):
         
         self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
         self.assertTrue(self.test_user_profile_2 in test_job.interested_member.all())
+
+    
+    def test_remove_offer(self):
+        """
+        Test the view to remove an offer for a job.
+        Confirm a successful 302 to response, with 
+        redirect to the appropriate page.
+
+        Confirm that test_user_profile_2
+        is no longer in the collection of Job's
+        "interested members".
+        """
+
+        test_job = get_object_or_404(Job, pk=self.test_job.pk)
+
+        self.test_user_profile_2.subscription_chosen = True
+        self.test_user_profile_2.is_paid = True
+        self.test_user_profile_2.save()
+
+        test_job.interested_member.add(self.test_user_profile_2)
+        self.assertTrue(self.test_user_profile_2 in test_job.interested_member.all())
+
+        response = self.client.get(reverse("remove_offer", args=[test_job.pk, self.test_user_2]), follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
+        self.assertTrue(self.test_user_profile_2 not in test_job.interested_member.all())
+        self.assertEqual(str(messages[0]), "You have removed your offer for this job.")
+
+    def test_remove_offer_redirect(self):
+        """
+        Confirm that a user is redirected from view
+        if they are unauthorized.
+
+        Add two users (self.test_user_profile_2 and test_user_profile_3) to
+        the Job's collection of "interested members" (posted by self.test_user_profile)
+
+        Sign User Two in, and attempt to access view using User Three's username as
+        argument.
+
+        Confirm that User Two is redirected successfully, with the appropriate
+        message.
+        """
+
+        self.client.logout()
+
+        # Create a Third test user to act as authorized user
+        # who has registere
+        username = "test3"
+        password = "test3"
+        email = "test3@test.com"
+
+        test_user_3 = create_test_user(username, password, email)
+        test_user_profile_3 = get_object_or_404(UserProfile, user=test_user_3)
+
+        test_user_profile_3.subscription_chosen = True
+        test_user_profile_3.is_paid = True
+        test_user_profile_3.save()
+
+        test_job = get_object_or_404(Job, pk=self.test_job.pk)
+        test_job.interested_member.add(self.test_user_profile_2)
+        test_job.interested_member.add(test_user_profile_3)
+        test_job.save()
+
+        user_2_logged_in = self.client.login(username=self.username_2,
+                                             password=self.password_2)
+        
+        self.assertTrue(user_2_logged_in)
+
+        response = self.client.get(reverse("remove_offer", args=[test_job.pk, test_user_profile_3]), follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), "You may not remove another member's offer.")
+        self.assertTrue(test_user_profile_3 in test_job.interested_member.all())
+
+    def test_redirect_if_already_removed_interest(self):
+        """
+        Confirm that a user is redirected from view
+        if they already not interested.
+
+        Add self.test_user_profile_2
+
+        Confirm that User Two is redirected successfully, with the appropriate
+        message.
+        """
+
+        test_job = get_object_or_404(Job, pk=self.test_job.pk)
+
+        response = self.client.get(reverse("remove_offer",
+                                           args=[test_job.pk, self.test_user_profile_2]), follow=True)
+
+        messages = list(get_messages(response.wsgi_request))
+        
+        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
+        self.assertEqual(str(messages[0]), "You already have no interest in this job.")
+
+
     
     def test_register_interest_redirect_if_user_not_paid(self):
         """
