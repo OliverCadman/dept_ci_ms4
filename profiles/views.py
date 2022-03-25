@@ -185,6 +185,12 @@ def edit_profile(request):
 
     request.session["form_page"] = 1
 
+    print(type(request.GET.get("form_page")))
+
+    if request.GET.get("form_page") == str(2):
+        request.session["form_page"] = 2
+        request.session["page_one_complete"] = False
+
     if request.method == "POST":
         user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
@@ -200,6 +206,7 @@ def edit_profile(request):
 
             messages.success(request, "Profile and Equipment Info Saved.")
             request.session["form_page"] = 2  
+            request.session["page_one_complete"] = True
     else:
         audio_form = AudioForm(instance=user_profile)
         user_profile_form = UserProfileForm(instance=user_profile or None)
@@ -250,7 +257,6 @@ def upload_audio(request, username):
             try:
                 logger.info("Trying to delete")
                 audiofile_to_delete.delete()
-                messages.success(request, "Audio file removed")
                 return HttpResponse(status=200)
             except Exception as e:
                 logger.exception("There was an error!")
@@ -280,19 +286,32 @@ def upload_unavailable_dates(request, user_id):
     user_profile = get_object_or_404(UserProfile, user=user_id)
 
     if request.method == "POST":
+
+        # If not request 2, the purpose is to add dates to user's table.
         if not request.POST.get("request") == str(2):
             date_array = request.POST.getlist("date_array[]")
             if date_array is not None:
-                print("date array")
-                print(date_array)
+
+                # Get user's existing unavailable dates
+                users_existing_dates = UnavailableDate.objects.filter(related_user=user_profile)
+
+                # If a date in users_existing_dates matches a date in POST, 
+                # remove it from POST to avoid duplicates.
+                for existing_date in users_existing_dates:
+                    for posted_date in date_array:
+                        if str(existing_date.date) == posted_date:
+                          date_array.remove(posted_date)
+
+                # Create an UnavailableDate object for each date posted
                 for date in date_array:
                     try:
                         UnavailableDate.objects.create(date=date, related_user=user_profile)
                     except Exception as e:
                         print(f"Exception: {e}")
-            success_msg = "Profile details saved."
-            return JsonResponse({ "url": "/", "success_msg": success_msg})
+                success_msg = "Profile details saved."
+                return JsonResponse({ "url": "/", "success_msg": success_msg})
         else:
+            # If request 2, the purpose is to remove dates from user's table.
             existing_unavailable_dates = user_profile.unavailable_user.all()
             date_to_remove = request.POST.get("event_to_remove")
             date_to_remove = datetime.datetime.strptime(date_to_remove, "%Y-%m-%d").date()
