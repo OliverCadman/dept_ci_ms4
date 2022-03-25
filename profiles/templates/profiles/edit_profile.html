@@ -115,7 +115,7 @@
                         <div class="row">
                             <div class="col-12 d-flex justify-content-around">
                                 <button type="submit" id="submit_form" class="btn submit-btn w-50 inset_light_shadow me-1">Submit</button>
-                                <a href="{% url "edit_profile" %}?form_page=2" class="btn submit-btn w-50 inset_light_shadow ms-1">Skip Step</a>
+                                <a href="{% url "edit_profile" %}?form_page=2" class="btn form-btn primary_bg w-50 inset_light_shadow ms-1">Skip Step<span class="ms-2 d-none d-md-inline"><i class="fa-solid fa-circle-chevron-right"></i></span></a>
                             </div>
                         </div>
                     </form>
@@ -126,17 +126,18 @@
                         <div id="dropzone_container">
                             <input type="hidden" id="user_id_2" value="{{user_id}}">
                             <div class="dz-message">
-                                <span class="dropzone-init-message">Click here or drag and drop files to upload</span>
+                                <p class="dropzone-init-message">Click here or drag and drop files to upload</p>
+                                <small class="secondary_font dropzone-init-message">Files can be no larger than 5MB</small>
                             </div>
                             <div class="fallback">
                                 <input type="file" name="file" multiple>
                             </div>
                         </div>
                     </form>
-                    <div class="submit-btn-wrapper d-flex justify-content-around">
-                        <a class="btn submit-btn w-25 me-1" href="{% url "edit_profile" %}?form_page=1">Go Back</a>
-                        <button type="submit" id="audio_submit_btn" class="btn submit-btn w-25 ms-1 me-1">Save your Music</button>
-                        <button type="button" class="btn submit-btn w-25 ms-1" id="skip_audio_form">Skip Step</button>
+                    <div class="submit-btn-wrapper d-block d-md-flex justify-content-around">
+                        <a class="btn primary_bg inset_light_shadow form-btn me-1 mb-2 mb-md-0" href="{% url "edit_profile" %}?form_page=1"><span class="me-2"><i class="fa-solid fa-circle-chevron-left"></i></span>Go Back</a>
+                        <button type="submit" id="audio_submit_btn" class="btn form-btn submit_btn custom_success inset_light_shadow ms-md-1 me-md-1 mt-2 mt-md-0">Save your Music</button>
+                        <button type="button" class="btn primary_bg form-btn inset_light_shadow ms-md-1 mt-2 mt-md-0" id="skip_audio_form">Skip Step<span class="ms-2"><i class="fa-solid fa-circle-chevron-right"></i></span></button>
                     </div>
                 </div>
                 <div id="calendar_container" class="form-container hidden">
@@ -146,10 +147,10 @@
                         <div id="calendar_wrapper">
     
                         </div>
-                        <div class="submit-btn-wrapper d-flex justify-content-around">
-                            <a class="btn submit-btn w" href="{% url "edit_profile" %}?form_page=2">Go Back</a>
-                            <button type="button" class="btn submit-btn w-25 me-1" id="submit_unavailability">Submit</button>
-                            <button type="button" class="btn submit-btn w-25 ms-1" id="skip_calendar_form">Skip Step</button>
+                        <div class="submit-btn-wrapper d-block d-md-flex justify-content-around">
+                            <a class="btn form-btn primary_bg me-1 inset_light_shadow me-1 mb-2 mb-md-0" href="{% url "edit_profile" %}?form_page=2"><span class="me-2"><i class="fa-solid fa-circle-chevron-left"></i></span>Go Back</a>
+                            <button type="button" class="btn form-btn submit_btn inset_light_shadow custom_success ms-md-1 me-md-1 mt-2 mt-md-0" id="submit_unavailability">Submit</button>
+                            <button type="button" class="btn form-btn inset_light_shadow primary_bg ms-md-1 mt-2 mt-md-0" id="skip_calendar_form">Exit<span class="ms-2"><i class="fa-solid fa-circle-chevron-right"></i></span></button>
                         </div>
                     </form>
                 </div>
