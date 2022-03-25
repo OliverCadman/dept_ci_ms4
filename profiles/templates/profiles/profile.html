@@ -25,7 +25,7 @@
     {% include "includes/profileheader_booking_success.html" %}
 {% endwith %}
 
-<div class="container-fluid">
+<div class="container-fluid bg-light">
     <div class="row">
         <!-- User Description and Reviews -->
         <div class="col-12 col-lg-8 description-review-container pb-4">
@@ -124,7 +124,7 @@
             <!-- Music Player -->
             {% if users_tracks|length > 0 %}
                 <div id="music_player_wrapper" class="profile-card">
-                    <h3 class="sidebar_header">My Music {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h3>
+                    <h3 class="sidebar_header">My Music</h3>
                     <div id="music_player">
                         <div class="sm2-bar-ui playlist-open">
                             <div class="bd sm2-main-controls">
@@ -215,13 +215,13 @@
             <div id="calendar_container" class="profile-card {% if users_genres|length > 0 %}custom-w-50{% else %}custom-w-100{% endif %}">
                 <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
                 <input type="hidden" value="{{user_id}}" id="user_id">
-                <h4 class="sidebar_header">My Availability {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h4>
+                <h4 class="sidebar_header">My Availability</h4>
                 <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
                 <div id="calendar_wrapper"></div>
             </div>
             {% if users_genres %}
                 <div id="genre_list_container" class="float-md-end">
-                    <h5 class="sidebar_header">Genres {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h5>
+                    <h5 class="sidebar_header">My Genres</h5>
                     <div id="genre_list_wrapper">
                         {% for genre in users_genres %}
                             {% if forloop.counter|divisibleby:"2" %}

@@ -71,7 +71,7 @@
                             {% else %}
                                 {{ user.user.username }}
                             {% endif %}
-                            {% if user.user.username == request.user.username %} <button type="button" class="btn edit_user_details_btn" data-bs-toggle="modal" data-bs-target="#edit_profile_modal"><span><i class="fas fa-edit edit_profile_icon"></i></span></button> {% endif %}</h1>
+                        </h1>
                         <div class="star_icon_container">
                                 
                         </div>
@@ -174,14 +174,6 @@
                             {{ user.first_name }} {{ user.last_name }}
                         {% else %}
                             {{ user.user.username }}
-                        {% endif %}
-                        {% if user.user.username == request.user.username %}
-                            <button type="button"
-                                    class="btn edit_user_details_btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#edit_profile_modal">
-                                <span><i class="fas fa-edit edit_profile_icon"></i></span>
-                            </button>
                         {% endif %}
                     </h1>
                     <div class="star_icon_container"></div>
