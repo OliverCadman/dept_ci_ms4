@@ -5,15 +5,9 @@
 </a>
 <ul class="notification-message-links">
     {% if request.user.is_authenticated %}
-    <li>
+        <li>
             {% show_notifications %}
-    </li>
-    {% else %}
-    <li>
-        <a href="{% url 'account_login' %}">
-            <span><i class="fas fa-sign-in sign-in-icon"></i></span>
-        </a>
-    </li>
+        </li>
     {% endif %}
 </ul>
 <a href="{% url 'home' %}" class="navbar-brand d-none d-md-inline">
