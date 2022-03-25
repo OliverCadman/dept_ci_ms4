@@ -76,6 +76,12 @@
 
 /* Large Screens and Up */
 @media screen and (min-width: 992px) {
+
+    .btn_lg.job_list:hover {
+        background-color: #0e8347;
+        color: #fefefe;
+    }
+
     #joblist_hero {
         width: 100%;
         height: 100%;

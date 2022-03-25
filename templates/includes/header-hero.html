@@ -242,12 +242,12 @@
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
                             {% if current_user.is_paid %}
-                                <button type="button" class="btn btn_lg light_bg secondary_font" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
+                                <button type="button" class="btn btn_lg job_list light_bg secondary_font inset_light_shadow" data-bs-toggle="modal" data-bs-target="#job_advertisement_modal">Post a Job</button>
                             {% else %}
-                                <button type="button" class="btn btn_lg light_bg secondary_font" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button> 
+                                <button type="button" class="btn btn_lg job_list light_bg secondary_font inset_light" data-bs-toggle="modal" data-bs-target="#tier_two_alert_modal">Post a Job</button> 
                             {% endif %}
                         {% else %}
-                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn btn_lg custom_success secondary_font white_font inset_light_shadow">Post a Job</a>
+                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn btn_lg job_list secondary_font white_font inset_light_shadow">Post a Job</a>
                         {% endif %}
                     </div>
                 {% endif %}
