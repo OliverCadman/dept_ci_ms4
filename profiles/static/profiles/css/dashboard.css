@@ -598,4 +598,12 @@ https://codepen.io/thetallweeks/pen/yybGra */
     .card_detail_wrapper {
         padding: 2rem 0;
     }
+
+    .dashboard-card {
+        min-height: 400px;
+    }
+
+    .benefits-list li {
+        margin: 0.1rem 0;
+    }
 }
