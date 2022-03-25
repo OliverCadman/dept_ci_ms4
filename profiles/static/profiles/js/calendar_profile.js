@@ -32,31 +32,37 @@ $(document).ready(function() {
     })
 
      function generateUnavailabilityCalendar(ajaxResponse) {
-       let dateList = ajaxResponse;
-       let eventArray = [];
+         /*
+          Create a FullCalendar instance, populated with
+          dates returned from AJAX call (/profile/get_users_unavailable_dates)
+         */
+         let dateList = ajaxResponse;
+         let eventArray = [];
 
-       for (date of dateList) {
-         let eventObject = {
-           start: date,
-           allDay: true,
-           display: "background",
-           backgroundColor: "#ee9ea2"
-         };
+         // Create a FullCalendar event for each date in the response.
+         for (date of dateList) {
+             let eventObject = {
+                start: date,
+                allDay: true,
+                display: "background",
+                backgroundColor: "#ee9ea2"
+             };
 
-         eventArray.push(eventObject);
-       }
-
+             eventArray.push(eventObject);
+           }
+      
+       // Initialize and render the calender, with events added
        const calendarElement = document.getElementById("calendar_wrapper");
        calendar = new FullCalendar.Calendar(calendarElement, {
-         initialView: "dayGridMonth",
-         height: 300,
-         headerToolbar: {
-          center: '',
-          right: 'prev next',
-         },
-         events: eventArray,
-         dayHeaders: false
-       });
+           initialView: "dayGridMonth",
+           height: 300,
+           headerToolbar: {
+           center: '',
+           right: 'prev next',
+          },
+          events: eventArray,
+          dayHeaders: false
+        });
 
        calendar.render();
      }
