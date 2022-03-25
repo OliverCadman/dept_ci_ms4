@@ -74,6 +74,11 @@ $(document).ready(function() {
       initialView: "dayGridMonth",
       selectable: true,
       height: 450,
+      headerToolbar: {
+        left: "title",
+        center: "",
+        right: "prev,next"
+      },
       events: eventArray,
       dateClick: function (info) {        
         const events = calendar.getEvents();
