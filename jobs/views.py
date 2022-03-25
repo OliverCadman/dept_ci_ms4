@@ -150,6 +150,8 @@ class JobListView(ListView):
 
         self.pre_context = handle_get_params(self.request.GET)
 
+        print(self.pre_context["search_params"])
+
         query = Job.objects.filter_queryset(
             filter_params=self.pre_context["search_params"],
             min_fee=self.pre_context["min_fee"],
@@ -292,8 +294,12 @@ def register_interest(request, job_id, username):
     of a user who has sent an offer to do a Job. 
     """
     current_job = get_object_or_404(Job, pk=job_id)
-    print("JOB_ID", current_job.pk)
     current_user = get_object_or_404(UserProfile, user__username=username)
+
+    # Disallow request user from registering interest to their own job.
+    if current_job.job_poster == current_user:
+        messages.info(request, mark_safe("You can't send an offer for your own job."))
+        return redirect(reverse("job_list"))
 
     # Restrict access to view to Tier Two members only.
     if not current_user.is_paid:
