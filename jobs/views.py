@@ -290,7 +290,7 @@ def delete_job(request, job_id):
 
 def register_interest(request, job_id, username):
     """
-    View to update a given Job object with the profile
+    Updates a given Job object with the profile
     of a user who has sent an offer to do a Job. 
     """
     current_job = get_object_or_404(Job, pk=job_id)
@@ -310,7 +310,35 @@ def register_interest(request, job_id, username):
     current_job.interest_count += 1
     current_job.save()
 
+    messages.success(request, "You have made an offer for this job.")
     return redirect(reverse("job_list"))
+
+def remove_offer(request, job_id, username):
+    """
+    Updates a given Job object with the profile of
+    a user who has removed their offer to do a Job.
+    """
+
+    current_job = get_object_or_404(Job, pk=job_id)
+    current_user = get_object_or_404(UserProfile, user__username=username)
+
+    current_jobs_interested_members = current_job.interested_member.all()
+    for member in current_jobs_interested_members:
+        if member != current_user:
+            messages.warning(request, "You may not remove another member's offer.")
+            return redirect(reverse("job_list"))
+    
+    if current_user not in current_jobs_interested_members:
+        messages.info(request, "You already have no interest in this job.")
+        return redirect(reverse("job_list"))
+    
+    current_job.interested_member.remove(current_user)
+    messages.success(request, "You have removed your offer for this job.")
+    return redirect(reverse("job_list"))
+    
+    
+    
+    
 
 
 def confirm_job_offer(request, job_id, confirmed_user_username):

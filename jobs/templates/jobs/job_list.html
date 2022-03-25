@@ -103,11 +103,13 @@
                                         data-event-name="{{ job.event_name }}"
                                         data-artist-name="{{ job.artist_name }}"
                                         data-event-city="{{ job.event_city }}"
-                                        data-event-country="{{ job.event_country }}"
+                                        data-event-country="{{ job.event_country.name }}"
                                         data-event-date="{{ job.event_datetime }}"
                                         data-job-poster="{{ job.job_poster }}"
                                         data-job-description="{{ job.job_description }}"
                                         data-job-fee="{{ job.fee }}"
+                                        data-job-id="{{ job.pk }}"
+                                        data-request-user="{{ request.user }}"
                                         {% if job.image %}
                                         data-job-image="{{ job.image.url }}"
                                         {% endif %}
@@ -125,8 +127,8 @@
                                                         Send Offer
                                                     </a>
                                                     {% else %}
-                                                    <a href="{% url "register_interest" job.pk request.user.username %}"class="btn disabled custom_danger secondary_font white_font d-block w-100">
-                                                        Offer Sent
+                                                    <a href="{% url "remove_offer" job.pk request.user.username %}" class="btn custom_danger secondary_font white_font d-block w-100">
+                                                        Remove Offer
                                                     </a>
                                                     {% endif %}
                                                 {% else %}
@@ -148,7 +150,6 @@
                     <h6 class="primary_font large_text light_font">No Results</h6>
                 </div>
             {% endif %}
-      
             </div>
         </div>
     </section>
@@ -193,47 +194,47 @@
         <div class="modal fade" id="job_detail_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header custom-modal-header">
-                        <h4 id="job_title" class="med_text">
+                    <div class="modal-header secondary_bg">
+                        <h4 id="job_title" class="med_text white_font primary_font">
                         </h4>
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body custom-modal-body job_detail_wrapper">
+                    <div class="modal-body bg-light job_detail_wrapper">
                         <div class="container-fluid">
-                                <div class="row job_poster_row">
-                                    <div class="col-12 p-0">
-                                        <div id="job_poster_wrapper">
+                            <div class="row job_poster_row">
+                                <div class="col-12 p-0">
+                                    <div id="job_poster_wrapper">
                                             <span id="job_poster" class="secondary_font"></span>
-                                        </div>
-                                        <div id="poster_profile_img_wrapper">
+                                    </div>
+                                    <div id="poster_profile_img_wrapper">
 
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
+                            </div>
+                                <div class="row top_border_modal">
+                                    <div class="col-12 col-md-6 mt-md-2 details_container right_border_modal">
                                         <dl>
-                                            <dt class="primary_font med_size">Venue:</dt>
-                                            <dd id="event_name" class="secondary_font"></dd>
-                                            <dt class="primary_font med_size">Artist:</dt>
-                                            <dd id="artist_name" class="secondary_font"></dd>
-                                            <dt class="primary_font med_size">City:</dt>
-                                            <dd id="event_city" class="secondary_font"></dd>
-                                            <dt class="primary_font med_size">Country:</dt>
-                                            <dd id="event_country" class="secondary_font"></dd>
-                                            <dt class="primary_font med_size">Fee:</dt>
-                                            <dd id="fee" class="secondary_font"></dd>
+                                            <dt class="primary_font med_text light_font">Venue:</dt>
+                                            <dd id="event_name" class="secondary_font med_small_text"></dd>
+                                            <dt class="primary_font med_text light_font">Artist:</dt>
+                                            <dd id="artist_name" class="secondary_font med_small_text"></dd>
+                                            <dt class="primary_font med_text light_font">City:</dt>
+                                            <dd id="event_city" class="secondary_font med_small_text"></dd>
+                                            <dt class="primary_font med_text light_font">Country:</dt>
+                                            <dd id="event_country" class="secondary_font med_small_text"></dd>
+                                            <dt class="primary_font med_text light_font">Fee:</dt>
+                                            <dd id="fee" class="secondary_font med_small_text"></dd>
                                         </dl>
                                     </div>
-                                    <div class="col-12 col-md-6">
-                                        <div id="job_desciption_wrapper">
+                                    <div class="col-12 col-md-6 description_container mt-md-2">
+                                        <div id="job_description_wrapper">
                                             <p id="job_description" class="secondary_font"></p>
                                         </div>
                                     </div>
                                     <div class="col-12 cta_btns">
-                                        <button type="button" class="btn custom_success secondary_font white_font d-block w-100">
+                                        <a href="#" type="button" class="btn custom_success secondary_font white_font d-block w-100" id="register_interest_btn">
                                             I'm Interested
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -246,14 +247,14 @@
         <div class="modal fade" id="delete_job_modal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="primary_font text-center">Delete this Job?</h2>
+                    <div class="modal-header secondary_bg">
+                        <h2 class="primary_font text-center white_font">Delete this Job?</h2>
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="cta-btn-wrapper">
-                            <a href="#" class="btn alert_bg secondary_font white_font me-2 w-50" id="confirm_job_delete">Yes</a>
-                            <button class="btn custom_success secondary_font white_font ms-2 w-50" data-bs-dismiss="modal" aria-label="Close">No</button>
+                            <a href="#" class="btn alert_bg primary_font white_font light_weight med_small_text me-2 w-50" id="confirm_job_delete">Yes</a>
+                            <button class="btn custom_success primary_font white_font light_weight med_small_text ms-2 w-50" data-bs-dismiss="modal" aria-label="Close">No</button>
                         </div>
                     </div>
                 </div>
