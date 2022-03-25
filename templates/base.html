@@ -54,7 +54,6 @@
             <div class="d-md-none d-flex align-items-center">
                 {% include "includes/notification-message-links.html" %}
             </div>
-            
             <button class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#main-nav"
@@ -123,26 +122,26 @@
                 <!-- ERROR -->
                 {% if level == 40 %}
                     <script>
-                        let message = "{{message}}"
+                        let message = "{{ message }}"
                         displayToast(message, "red")
                     </script>
                 <!-- WARNING -->
                 {% elif level == 30 %}
                     <script>
-                        let message = "{{message}}"
+                        let message = "{{ message }}"
                         displayToast(message, "#a64d00")
                     </script>
                 <!-- SUCCESS -->
                 {% elif level == 25 %}
                     <script>
-                        let message = "{{message }}"
-                        displayToast(message, "green")
+                        let message = "{{ message }}"
+                        displayToast(message, "#287e28")
                     </script>
                 {% else %}
                     <!-- INFO -->
                     <script>
                         let message = "{{ message }}"
-                        displayToast(message, "green")
+                        displayToast(message, "#287e28")
                     </script>
                 {% endif %}
             {% endwith %}
@@ -151,6 +150,10 @@
     {% block postload_js %}
         {{ request.user.username|json_script:"request_user" }}
         <script src="{% static "js/notification.js" %}"></script>
+        <!-- Define MEDIA_URL to use for javascript -->
+        <script type="text/javascript">
+            let mediaUrl = "{{MEDIA_URL}}"
+        </script>
     {% endblock %}
 </body>
 </html>

@@ -1,10 +1,40 @@
 /* Dropzone JS
 
-Creates a new Dropzone instance, to allow for drag and drop of audio files
-on the website's 'Edit Profile' page.
+Audio Dropzone
+
+Create a GUI allowing the user the option to drag and drop their audio files, 
+in the 'Edit Profile' page. Users may also click the window to select files
+as-per normal.
+
+Additionally, an AJAX GET request is made to populate the window with any 
+audio files the user has already saved to their database. 
+
+Dropzone Methods:
+
+removedfile : An event handler fired when a user clicks the "Remove File"
+              link below a file displayed either from the AJAX GET request
+              to retrieve their existing audio files, or to remove a file
+              that they have added but not yet submitted.
+
+init: Initializes the Dropzone instance with parameters and template definition,
+      and performs the AJAX GET request to populate template with any existing
+      audio files in the user's table.
+
+
+
+A submit event posts any added audio files to the backend to be processed and
+saved to the database. If no files are present and submit button is clicked,
+a toast message is displayed, informing the user that they haven't added any
+audio files.
+
+Upon successful submission, the form GUI is hidden, and replaced with the calendar
+container, for form page 3.
+
 
 https://docs.dropzone.dev/
 */
+
+
 let username = $("#request_user").text();
 username = username.replace(/\"/g, "");
 
@@ -30,17 +60,16 @@ Dropzone.options.audioDropzone = {
             </div>
             <div class="dz-details">
                 <div class="dz-filename"><span data-dz-name></span></div>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                </div>
+                <div class="dz-size" data-dz-size></div>
             </div>
-            <div class="dz-size" data-dz-size></div>
-        </div>
-        <div class="dz-error-mark">✘</div>
-        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+            <div class="dz-error-mark">✘</div>
+            <div class="dz-error-message"><span data-dz-errormessage></span></div>
         </div>
     `,
   removedfile: function (file) {
-    console.log(file);
     let filename = file.name;
 
     $.ajax({
@@ -55,19 +84,8 @@ Dropzone.options.audioDropzone = {
       },
       success: function () {
         file.previewElement.remove();
-        const successMsg = `${file.name} removed successfully.`;
-        Toastify({
-          text: successMsg,
-          duration: -1,
-          close: true,
-          gravity: "top",
-          position: "right",
-          style: {
-            background: "#45425a",
-            fontFamily: "'Josefin Sans', sans-serif",
-            color: "#fefefe",
-          },
-        }).showToast();
+        const successMsg = `Your track has been removed.`;
+        displayToast(successMsg, "#287e28");
       },
       error: function (error) {
         displayAJAXErrorMessage(error.status);
@@ -96,7 +114,7 @@ Dropzone.options.audioDropzone = {
           let resizeThumbnail = true;
           dropZoneInstance.displayExistingFile(
             mockFile,
-            "/media/audio-icon.png",
+            `${mediaUrl}audio-icon.png`,
             callback,
             crossOrigin,
             resizeThumbnail
@@ -105,13 +123,14 @@ Dropzone.options.audioDropzone = {
       });
 
     submitBtn.on("click", function () {
-      console.log("click");
-      dropZoneInstance.processQueue();
-    });
+      if (dropZoneInstance.files.length === 0) {
 
-    dropZoneInstance.on("processing", function (file) {
-      console.log("processing");
-      console.log(dropZoneInstance);
+        // Display toast to inform user that can't submit
+        // if they haven't selected any audio.
+        const msg = "You haven't added any audio."
+        displayToast(msg, "#287e28");
+      }
+      dropZoneInstance.processQueue();
     });
 
     dropZoneInstance.on("success", function () {
@@ -119,19 +138,7 @@ Dropzone.options.audioDropzone = {
         type: "GET",
         url: `/profile/upload_audio/${userId}`,
         success: function (res) {
-          Toastify({
-            text: res.success_msg,
-            duration: 10000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            style: {
-              background: "#202020",
-              fontFamily: "'Josefin Sans', sans-serif",
-              color: "#fefefe",
-            },
-          }).showToast();
-
+          displayToast(res.success_msg, "#287e28");
           setTimeout(() => {
             $("#add_audio_container").addClass("hidden");
             $("#calendar_container").removeClass("hidden");
