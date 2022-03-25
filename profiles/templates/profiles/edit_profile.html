@@ -20,7 +20,7 @@
 {% block content %}
 
     <!-- Page Header -->
-    <section id="ogifdo">
+    <section>
         {% with page_name as p %}
         {% include 'includes/header-hero.html' %}
         {% endwith %}
@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="breadcrumb-wrapper d-none d-md-block">
                         <div class="breadcrumb-list">
-                            <div class="breadcrumb {% if not request.session.form_page == 1 %}fill-breadcrumb{% endif %}"><span class="{% if not request.session.form_page == 1 %}dark-text{% endif %}">Profile Details</span></div>
+                            <div class="breadcrumb {% if request.session.form_page == 2  and request.session.page_one_complete %}fill-breadcrumb{% endif %}"><span class="{% if not request.session.form_page == 1 and request.session.page_one_complete %}dark-text{% endif %}">Profile Details</span></div>
                             <div class="breadcrumb" id="second_breadcrumb"><span id="second_breadcrumb_text">Your Music</span></div>
                             <div class="breadcrumb" id="third_breadcrumb"><span id="third_breadcrumb_text">Your Availability</span></div>
                         </div>
@@ -113,8 +113,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12">
-                                <button id="submit_form" class="btn submit-btn">Submit</button>
+                            <div class="col-12 d-flex justify-content-around">
+                                <button type="submit" id="submit_form" class="btn submit-btn w-50 inset_light_shadow me-1">Submit</button>
+                                <a href="{% url "edit_profile" %}?form_page=2" class="btn submit-btn w-50 inset_light_shadow ms-1">Skip Step</a>
                             </div>
                         </div>
                     </form>
@@ -132,9 +133,10 @@
                             </div>
                         </div>
                     </form>
-                    <div class="submit-btn-wrapper">
-                        <button type="submit" id="audio_submit_btn" class="btn submit-btn">Save your Music</button>
-                        <button type="button" class="btn submit-btn" id="skip_audio_form">Skip Step</button>
+                    <div class="submit-btn-wrapper d-flex justify-content-around">
+                        <a class="btn submit-btn w-25 me-1" href="{% url "edit_profile" %}?form_page=1">Go Back</a>
+                        <button type="submit" id="audio_submit_btn" class="btn submit-btn w-25 ms-1 me-1">Save your Music</button>
+                        <button type="button" class="btn submit-btn w-25 ms-1" id="skip_audio_form">Skip Step</button>
                     </div>
                 </div>
                 <div id="calendar_container" class="form-container hidden">
@@ -144,9 +146,10 @@
                         <div id="calendar_wrapper">
     
                         </div>
-                        <div class="submit-btn-wrapper">
-                            <button type="button" class="btn submit-btn" id="submit_unavailability">Submit</button>
-                            <button type="button" class="btn submit-btn" id="skip_calendar_form">Skip Step</button>
+                        <div class="submit-btn-wrapper d-flex justify-content-around">
+                            <a class="btn submit-btn w" href="{% url "edit_profile" %}?form_page=2">Go Back</a>
+                            <button type="button" class="btn submit-btn w-25 me-1" id="submit_unavailability">Submit</button>
+                            <button type="button" class="btn submit-btn w-25 ms-1" id="skip_calendar_form">Skip Step</button>
                         </div>
                     </form>
                 </div>
