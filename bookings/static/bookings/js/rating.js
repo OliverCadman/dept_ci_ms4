@@ -11,20 +11,24 @@ $(document).ready(function() {
     */
     const ratingStars = [...document.getElementsByClassName("rating_star_review_modal")];
     const ratingDisplayEl = document.getElementsByClassName("rating_display")[0];
-    ratingDisplayEl.textContent = "0/5"
+    ratingDisplayEl.textContent = "0/5";
+    let activeClass = "rating_star rating_star_review_modal fas fa-star";
+    let inactiveClass = "rating_star rating_star_review_modal far fa-star";
 
-    const ratingStarArray = []
+    leaveStarRating(ratingStars, ratingDisplayEl, activeClass, inactiveClass);
 
-    for (let star of ratingStars) {
-        ratingStarArray.push(star)
-    }
+    const ratingStarsEdit = [...document.getElementsByClassName("rating_star_edit_review_modal")];
+    const ratingDisplayElEdit = document.getElementsByClassName("rating_display")[1];
+    ratingDisplayElEdit.textContent = "0/5";
+    const activeClassEdit = "rating_star rating_star_edit_review_modal fas fa-star";
+    const inactiveClassEdit = "rating_star rating_star_edit_review_modal far fa-star";
 
-    leaveStarRating(ratingStars, ratingDisplayEl);
+    leaveStarRating(ratingStarsEdit, ratingDisplayElEdit, activeClassEdit, inactiveClassEdit);
 
-    function leaveStarRating(starIcons, ratingDisplayEl) {
-        const activeStarIcon = "rating_star rating_star_review_modal fas fa-star"
-        const inactiveStarIcon = "rating_star rating_star_review_modal far fa-star"
-        const lengthOfStars = starIcons.length
+    function leaveStarRating(starIcons, ratingDisplayEl, activeClass, inactiveClass ) {
+        const activeStarIcon = activeClass;
+        const inactiveStarIcon = inactiveClass;
+        const lengthOfStars = starIcons.length;
         let i;
         starIcons.map((star) => {
             star.addEventListener("click", function() {
@@ -69,7 +73,16 @@ $(document).ready(function() {
         // Update span element with new rating (out of 5)
         ratingEl.textContent = `${number}/5`;
 
-        const ratingInput = document.getElementById("id_rating")
-        ratingInput.value = number
+        if (!ratingEl.classList.contains("edit_review_modal")) {
+                const ratingInput = document.getElementById("id_rating");
+                ratingInput.value = number;
+                console.log(ratingInput);
+                console.log(ratingInput.value)
+        } else {
+            const ratingInputEditReview = document.getElementById("edit_review_modal_rating");
+            ratingInputEditReview.value = number;
+            console.log(ratingInputEditReview);
+            console.log(ratingInputEditReview.value);
+        }
     }
 })
