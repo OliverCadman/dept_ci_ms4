@@ -23,19 +23,20 @@
         data-modal-profile-img="{% if invitation.invite_receiver.profile_image %}{{ invitation.invite_receiver.profile_image.url }}{% endif %}"
         data-invite-sender-userid="{{ invitation.invite_sender.user.pk }}"
         data-invitation-id="{{ invitation.pk }}">
-            Message {{ invitation.invite_receiver.first_name }} {{ invitation.invite_receiver.last_name }}
+            Message {% if invitation.invite_receiver.first_name %}{{ invitation.invite_receiver.first_name }}{% else %}{{ invitation.invite_receiver.user.username }}{% endif %}
             {% if invitation|count_unread_messages %}
                 <span class="badge position-absolute top-0 start-100 translate-middle bg-warning rounded-pill text-dark">!</span>
             {% endif %}
         </button>
         {% if not invitation.is_accepted %}
-            <button class="btn invitation_card_btn disabled_btn disabled">Awaiting a Response</button>
-            <a href="{% url "edit_invitation" invitation.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2"><i class="fas fa-edit"></i></a>
-            <button
-            class="btn alert_bg secondary_font white_font confirm_invite_delete_btn"
-            data-bs-toggle="modal"
-            data-bs-target="#confirm_invite_delete_modal"
-            data-invitation-id="{{ invitation.pk }}"><i class="fas fa-times"></i></button>
+            <div class="edit_delete_btn_wrapper tier_one">
+                <a href="{% url "edit_invitation" invitation.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2"><i class="fas fa-edit"></i></a>
+                <button
+                class="btn alert_bg secondary_font white_font confirm_invite_delete_btn"
+                data-bs-toggle="modal"
+                data-bs-target="#confirm_invite_delete_modal"
+                data-invitation-id="{{ invitation.pk }}"><i class="fas fa-times"></i></button>
+            </div>
         {% else %}
             <a href="{% url "booking_form" invitation.pk %}?event_tier=tier_one" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
         {% endif %}

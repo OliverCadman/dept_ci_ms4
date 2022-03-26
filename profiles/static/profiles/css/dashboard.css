@@ -141,7 +141,9 @@
 
 }
 
-/* Tier Two */
+/* --------- Tier Two ---------  */
+
+/* Job Cards */
 
 .avatar_list {
     list-style: none;
@@ -179,11 +181,16 @@
     padding: 1.75rem .75rem;
 }
 
+.edit_delete_btn_wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* "Confirm Member" Modals */
+
 .modal_btn {
     width: 100%;
 }
-
-
 
 .modal_avatar {
     border-radius: 50%;
@@ -191,8 +198,6 @@
     height: 75px;
     object-fit: cover;
 }
-
-
 
 /* Sidebar Filter Bootstrap Accordion */
 
@@ -498,7 +503,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
     }
 
     /* --- Jobs Page --- */
-   
+    
 
     .breadcrumb-item.job a {
         padding: 1rem;
@@ -519,11 +524,21 @@ https://codepen.io/thetallweeks/pen/yybGra */
         margin: 0 1rem;
     }
 
-    /* Tier Two */
+    /* ------ Tier One ------ */
+
+    /* .edit_delete_btn_wrapper.tier_one {
+        display: flex;
+        justify-content: center;
+    } */
+    /* ------ Tier Two -------  */
 
     .avatar_thumbnail {
         width: 55px;
         height: 55px;
+    }
+
+    .edit_delete_btn_wrapper {
+        display: inline;
     }
 }
 
@@ -544,7 +559,7 @@ https://codepen.io/thetallweeks/pen/yybGra */
     .accepted_stamp {
         float: none;
         position: absolute;
-        right: 20%;
+        right: 30%;
         width: 150px;
         height: 150px;
     }
