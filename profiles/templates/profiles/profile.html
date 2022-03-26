@@ -72,7 +72,7 @@
                                                     </a> 
                                                 </p>
                                             </div>
-                                             <span class="float-end xs_text light_font secondary_font">{{ review.review_created|date:"d/m/Y" }}</span>
+                                             <span class="float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
                                         </div>
                                     </div>
                                     <div class="rating_wrapper">
@@ -91,7 +91,7 @@
                                         <button type="button"
                                         class="btn custom_success white_font edit_review_modal_trigger"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#review_modal"
+                                        data-bs-target="#edit_review_modal"
                                         data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
                                     </div>
                                 </div>
@@ -262,6 +262,7 @@
             </div>
         </div>
     </div>
+    <!-- Review Modal -->
     <div class="modal fade" id="review_modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -282,19 +283,34 @@
             </div>
         </div>
     </div>
+    <!-- Edit Review Modal -->
     <div class="modal fade" id="edit_review_modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body modal_form_container">
-                    <div id="review_form_wrapper">
-                        <form action="{% url "profile" user.user.username %}" method="POST">
+                <div class="modal-body modal_form_container edit_review_form_container">
+                    <div id="edit_review_form_wrapper" class="form-container">
+                        <form action="#" method="POST" id="edit_review_form">
                             {% csrf_token %}
-                             <h3 class='form-header'>Leave a review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}.</h3>
-                            {% include "includes/star_icons.html" %}
-                            {{ review_form|crispy }}
+                             <h3 class='form-header'>Edit your review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}.</h3>
+                            <div class="star_icons">
+    <span>
+        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+    </span>
+    <span class="rating_display edit_review_modal primary_font med_small_text light_font">
+        
+    </span>
+</div>
+                            <textarea name="review_edit" id="review_edit" cols="30" rows="10" class="textarea form-control">
+                                
+                            </textarea>
+                            <input type="hidden" name="rating" id="edit_review_modal_rating" value="0">
                             <button class="btn custom_success white_font secondary_font" type="submit">Submit</button>
                         </form>
                     </div>
