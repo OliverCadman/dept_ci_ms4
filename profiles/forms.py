@@ -17,7 +17,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ("user", "subscription_chosen",
-                   "invitation_count, ""is_paid",)
+                   "invitation_count", "is_paid",)
         widgets = {"country": CountrySelectWidget()}
 
     def __init__(self, *args, **kwargs):
@@ -110,7 +110,6 @@ class AudioForm(forms.ModelForm):
         # Filesize Validation (5MB Limit)
         filesize_limit = 5 * 1024 * 1024
         data = self.cleaned_data["file"]
-        print("DATA")
         print(data)
         if data:
             if data.size > filesize_limit:
@@ -119,13 +118,16 @@ class AudioForm(forms.ModelForm):
             # File extension validation
             allowed_extensions = list(os.environ.get("ALLOWED_AUDIOFILE_EXTENSIONS").split(","))
             allowed_extensions = [x.strip(" ") for x in allowed_extensions]
+
+            print(allowed_extensions)
             filename, file_extension = os.path.splitext(data.name)
             print("filename")
             print(filename)
             print(file_extension)
             if filename != '':
                 if file_extension not in allowed_extensions:
-                    raise ValidationError("Only mp3, mp4, m4a, wav, aac, and flac files are supported.")
+                    raise ValidationError(
+                        "Only mp3, mp4, m4a, wav, aac, and flac files are supported.")
                 return data
 
     def save(self, commit=True):
