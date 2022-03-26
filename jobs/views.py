@@ -4,6 +4,9 @@ from django.http import JsonResponse
 from django.views.generic import ListView, UpdateView
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 
 from dateutil import parser
 
@@ -335,10 +338,6 @@ def remove_offer(request, job_id, username):
     current_job.interested_member.remove(current_user)
     messages.success(request, "You have removed your offer for this job.")
     return redirect(reverse("job_list"))
-    
-    
-    
-    
 
 
 def confirm_job_offer(request, job_id, confirmed_user_username):
@@ -369,6 +368,49 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
         current_job.confirmed_member = confirmed_user_profile
         current_job.is_taken = True
         current_job.save()
+
+        # ------- Send confirmation emails upon creation of Booking object.
+
+        # Job Number to be used in subject
+        job_number = current_job.job_number
+
+        # Job Poster Email
+        job_poster_email = current_job.job_poster.user.email
+
+        # Confirmed Member Email
+        confirmed_member_email = current_job.confirmed_member.user.email
+
+        subject = render_to_string(
+            "jobs/confirmation_emails/confirmation_email_subject.txt",
+            { "job_number": job_number }
+        )
+
+        # Send email to Job Poster
+        body = render_to_string(
+            "jobs/confirmation_emails/confirmation_email_job_poster.txt",
+            { "job": current_job }
+        )
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [job_poster_email]
+        )
+
+        # Send email to Confirmed Member
+        body = render_to_string(
+            "jobs/confirmation_emails/confirmation_email_confirmed_member.txt",
+            { "job": current_job }
+        )
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [confirmed_member_email]
+        )
+
         messages.success(request, f"{confirmed_user_profile.first_name} has been confirmed.")
         return redirect(reverse("dashboard", args=[job_poster_profile.slug]))
     except Exception as e:

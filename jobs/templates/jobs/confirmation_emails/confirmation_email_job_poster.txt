@@ -1,0 +1,15 @@
+Hello {{ job.job_poster }}
+
+This is a message to tell you you have booked {% if job.confirmed_member.first_name %}{{ job.confirmed_member.first_name }}{% else %}{{ job.confirmed_member.user.username }}{% endif %} for your gig: {{ job.event_name }}.
+
+Job Number: {{ job.job_number }}
+Services Required: {{ job.job_title }}
+Event: {{ job.event_name }}
+Event Location: {{ job.event_city }}, {{ job.event_country.name }}
+Date and Time of Event: {{ job.event_datetime }}
+Fee: {{ job.fee }}
+
+Please visit your dashboard if you wish to contact {% if job.confirmed_member.first_name %}{{ job.confirmed_member.first_name }}{% else %}{{ job.confirmed_member.user.username }}{% endif %} and finalize any arrangements.
+
+Many thanks!
+The DepT Team

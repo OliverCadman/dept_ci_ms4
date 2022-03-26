@@ -1,0 +1,1 @@
+DepT Booking Confirmation for Job Number {{ invitation_number }}
