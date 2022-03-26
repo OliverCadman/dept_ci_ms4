@@ -149,7 +149,10 @@
     </div>
     {% block postload_js %}
         {{ request.user.username|json_script:"request_user" }}
+
+        <!-- Global JS to use across multiple templates -->
         <script src="{% static "js/notification.js" %}"></script>
+        <script src="{% static "js/ajax_error_message.js" %}"></script>
         <!-- Define MEDIA_URL to use for javascript -->
         <script type="text/javascript">
             let mediaUrl = "{{MEDIA_URL}}"
