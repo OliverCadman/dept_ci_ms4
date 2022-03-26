@@ -180,50 +180,14 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 section-header text-center">
-                <h3>How DepT Works</h3>
+                <h3 class="larger_text">How DepT Works</h3>
             </div>
         </div>
         <hr class="block_divider_dark w-100 mb-4">
-        <div class="row">
-            <div class="col-12 col-lg-6 d-flex justify-content-md-center">
-                <ol class="how-dept-works-list">
-                    <li>
-                        <div class="list-circle">
-                            <span>1</span>
-                        </div>
-                        <div class="list-circle-text">
-                            <p>Search for your Dep.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="list-circle">
-                            <span>2</span>
-                        </div>
-                        <div class="list-circle-text">
-                            <p>Visit their profile.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="list-circle">
-                            <span>3</span>
-                        </div>
-                        <div class="list-circle-text">
-                            <p>Send them an invite to cover your gig.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="list-circle">
-                            <span>4</span>
-                        </div>
-                        <div class="list-circle-text">
-                            <p>Send full details when they accept.</p>
-                        </div> 
-                    </li>
-                </ol>
-            </div>
-             <!-- Carousel of images featuring website example usage -->
-            <div class="col-12 col-lg-6">
-                <ul id="how_dept_works__carousel" class="sequential_list cycle_gallery" data-interval="5000">
+        <div class="row d-flex">
+            <!-- Carousel of images featuring website example usage -->
+            <div class="col-12 col-lg-6 order-2 order-lg-1">
+                <ul id="how_dept_works__carousel" class="sequential_list benefits_gallery" data-interval="5000">
                     <li class="carousel_item active">
                         <div class="carousel_inner">
                             <img srcset="{{MEDIA_URL}}dept_profilelist_example.webp, {{MEDIA_URL}}dept_profilelist_example.png" alt="Image of DepT Deplist" width="300" height="250" class="carousel_img">
@@ -245,6 +209,42 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="col-12 col-lg-6 order-1 order-lg-2 d-flex justify-content-md-center justify-content-lg-start mt-lg-5">
+                <ol class="how-dept-works-list benefits_gallery">
+                    <li class="active">
+                        <div class="list-circle">
+                            <span>1</span>
+                        </div>
+                        <div class="list-circle-text">
+                            <p>Search for your Dep.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-circle">
+                            <span>2</span>
+                        </div>
+                        <div class="list-circle-text">
+                            <p>Visit their profile.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-circle">
+                            <span>3</span>
+                        </div>
+                        <div class="list-circle-text">
+                            <p>Invite them to cover your gig.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list-circle">
+                            <span>4</span>
+                        </div>
+                        <div class="list-circle-text">
+                            <p>Send details when they accept.</p>
+                        </div> 
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
@@ -280,7 +280,7 @@
             {% else %}
             <p>Time to Relax</p>
             <div class="cta-btns mx-auto">
-                <a href="#" class="btn">Find a Dep</a>
+                <a href="{% url "dep_list" %}" class="btn">Find a Dep</a>
             </div>
             {% endif %}
         </div>

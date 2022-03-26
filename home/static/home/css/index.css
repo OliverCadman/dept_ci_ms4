@@ -112,6 +112,10 @@
 
 /* How DepT Works */
 
+ol {
+    padding: 0;
+}
+
 #how-dept-works,
 .featured-section {
     padding: 1rem 0;
@@ -124,10 +128,36 @@
     font-size: 1.5rem;
 }
 
-.how-dept-works-list {
+.how-dept-works-list li {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+.how-dept-works-list li:not(.active) {
+    opacity:.5;
+}
+
+.how-dept-works-list li:not(.active)::after {
+    background-color: #eee;
+}
+
+.benefits_gallery li:not(.active)>.list-circle-text {
+    color: rgb(175, 174, 174);
+}
+
+.benefits_gallery li.active>.list-circle {
+    border: 4px solid #45425a;
+    transition: all 0.2s;
+}
+
+.benefits_gallery li.active>.list-circle>span {
+    color: #45425a;
+    transition: all 0.2s;
+}
+
+.benefits_gallery li.active::after {
+    color: green;
 }
 
 .list-circle {
@@ -141,39 +171,29 @@
     margin-bottom: 1rem;
 }
 
+.list-circle.active {
+    border: 4px solid #222;
+}
+
 .list-circle span {
     font-family: "Josefin Sans", sans-serif;
     font-weight: 600;
     color: #aaaaaa;
 }
 
+
 .list-circle-text {
     display: inline-block;
     font-family: "Oxygen", sans-serif;
     font-weight: 400;
-    color: #202020;
+    color: #45425a;
     
 }
 
 .list-circle-text p {
-    font-size: .9rem;
+    font-size: 1.1rem;
     margin-left: .3rem;
 }
-
-.how-dept-works-list li:not(:last-child)::after {
-    content: '';
-    width: 5px;
-    content: '';
-    height: 30px;
-    border-radius: 6px;
-    background-color: #aaa;
-    display: block;
-    position: relative;
-    transform: translateX(15px);
-    margin-top: 0;
-    margin-bottom: .6rem;
-}
-
 
 /* Subscribe Section */
 
@@ -258,6 +278,7 @@
    }
 
    /* How DepT Works */
+   
 
    #how_dept_works__carousel {
        margin-top: 2rem;
@@ -411,7 +432,7 @@
     }
 
     .header-hero-bg:after {
-        background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+        background: linear-gradient(286deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
         content: '';
         width: 25%;
         height: 100%;
@@ -452,6 +473,31 @@
         height: 80vh;
     }
 
+    .how_dept_works_section_lg {
+        position: relative;
+
+    }
+    
+    .how_dept_works_carousel_container {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background-color: grey;
+    }
+
+    .how_dept_works_carousel_container:after {
+        background: linear-gradient(286deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
+        content: '';
+        width: 25%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
     .how-dept-works-list li {
         position: relative;
     }
@@ -463,7 +509,7 @@
         width: 5px;
         height: 50px;
         border-radius: 6px;
-        background-color: #aaa;
+        background-color: #45425a;
         display: block;
         transform: rotate(-23deg);
         left: 40px;
