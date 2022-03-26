@@ -61,7 +61,7 @@
                 data-job-id="{{ job.pk }}"><i class="fas fa-times"></i></button>
             </div>
         {% else %}
-            <a href="{% url "tier_two_booking_form" job.pk %}?event_tier=tier_two" class="btn bg-warning secondary_font">Send Complete Details</a>
+            <a href="{% url "tier_two_booking_form" job.pk %}?event_tier=tier_two" class="btn send_details_btn bg-warning secondary_font">Send Complete Details</a>
         {% endif %}
         {% if job.is_taken %}
         <button class="btn invitation_card_btn tier_two_message_modal_btn position-relative"

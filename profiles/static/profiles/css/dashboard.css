@@ -92,6 +92,10 @@
     color: #727294;
 }
 
+.send_details_btn {
+    width: 100%;
+}
+
 .benefits-list {
     display: flex;
     flex-direction: column;
@@ -465,6 +469,10 @@ https://codepen.io/thetallweeks/pen/yybGra */
 
     .dashboard-card {
         min-height: 340px;
+    }
+
+    .send_details_btn {
+        width: inherit;
     }
 
     /* Sidebar */
