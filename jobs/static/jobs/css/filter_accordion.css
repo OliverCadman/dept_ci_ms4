@@ -1,17 +1,25 @@
+.accordion-body.job_list {
+    padding: 0 1.25rem;
+}
+
 .filter_field,
 .instrument_searchbar_select {
     padding: 1rem 0;
 }
 
-#city_search_wrapper {
+/* #city_search_wrapper {
     display: flex;
     align-items: center;
-}
+} */
 
-#city,
+/* #city,
 #city:focus {
-    border: none;
-}
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: #dedede;
+    border-radius: 0;
+
+} */
 
 .input-group-text {
     background-color: white;
@@ -32,7 +40,18 @@
 .icon-inside {
     position: absolute;
     right: 10px;
-    top: calc(50% - 12px);
+    top: 50%;
+    pointer-events: none;
+    font-size: 16px;
+    font-size: 1.125rem;
+    color: #c4c3c3;
+    z-index: 3;
+}
+
+.icon-inside.job_list {
+    position: absolute;
+    right: 25px;
+    top: 50%;
     pointer-events: none;
     font-size: 16px;
     font-size: 1.125rem;
@@ -83,5 +102,9 @@
 
     .filter_field:not(:last-of-type) {
         border-right: 1px solid #cecccc;
+    }
+
+    .sort_select {
+        width: 50%;
     }
 }
