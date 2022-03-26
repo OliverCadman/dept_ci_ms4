@@ -145,9 +145,16 @@ $(document).ready(function () {
 
   $(".offers_received_modal_btn").click(function () {
     let jobId = $(this).data("job-id");
+    
+    // Correct grammar if only one member is interested in a job.
+    if ($(this).data("job-offer-count") > 1) {
+      $("#offers_received_modal_header").html(`
+        ${$(this).data("job-offer-count")} members are interested.`);
+    } else {
+       $("#offers_received_modal_header").html(`
+        ${$(this).data("job-offer-count")} member is interested.`);
+    }
 
-    $("#offers_received_modal_header").html(`
-      ${$(this).data("job-offer-count")} members are interested.`);
 
     // AJAX Request to get details of members who have registered interest in a given job.
     $.ajax({
@@ -170,7 +177,7 @@ $(document).ready(function () {
                       <p class="primary_font med_small_text">${member.first_name} ${member.last_name}</p> 
                       <p class="primary_font light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-location-dot"></i></span>${member.city}, ${member.country}</p>
                     </div>
-                    <img src="${member.profile_image}" alt="Member Avatar" class="modal_avatar" width="40" height="40">
+                    <img src="${member.profile_image ? `${member.profile_image}` : `${mediaUrl}dept-logo.webp`}" alt="Member Avatar" class="modal_avatar" width="40" height="40">
                   </div>
                   <div class="invitation-card-body">
                       <p class="primary_font light_weight"><span class="dashboard_card_icon"><i class="fa-solid fa-guitar"></i></span>${membersInstruments}</p>

@@ -5,7 +5,7 @@
     <div class="avatar_container position-relative float-end mt-3">
         {% if not job.is_taken %}
             {% if job.interested_member.all|length > 0 %}
-                <span class="badge position-absolute top-0 start-0 translate-middle bg-success secondary_font">{{ job.interested_member.all|length }} members interested</span>
+                <span class="badge position-absolute top-0 start-0 translate-middle bg-success secondary_font">{% if job.interested_member.all|length > 1 %}{{ job.interested_member.all|length }} members interested{% else %}1 member interested{% endif %}</span>
                 <ul class="avatar_list me-3">
                     {% for member in job.interested_member.all %}
                         <li>
@@ -21,7 +21,7 @@
                         </li>
                     {% endfor %}                    
                 </ul>
-                {% endif %}
+            {% endif %}
         {% else %}
             <span class="badge position-absolute top-0 start-10 translate-middle bg-success secondary_font rounded-pill"><i class="fa-solid fa-check"></i></span>    
             {% if job.confirmed_member.profile_image %}
@@ -33,7 +33,6 @@
                     <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{ job.confirmed_member.user.username }}" class="avatar_thumbnail" width="40" height="40">
                 </a>
             {% endif %}
-  
         {% endif %}
     </div>
     <div class="card_detail_wrapper">
