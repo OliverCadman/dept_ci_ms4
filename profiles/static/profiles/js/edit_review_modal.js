@@ -22,7 +22,7 @@ $(document).ready(function() {
                 if (res.error) {
                     displayToast(res.error, "#9c1e1e")
                 }
-                const reviewContent = data.review;
+                const reviewContent = res.review;
                 $("#review_edit").val(reviewContent);
 
             }
