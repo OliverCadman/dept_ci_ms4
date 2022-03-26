@@ -15,6 +15,7 @@ from .models import Job
 
 from profiles.models import UserProfile, Instrument, Genre, AudioFile
 from bookings.models import Booking
+from social.models import Notification
 
 from .functions import handle_get_params
 
@@ -309,9 +310,18 @@ def register_interest(request, job_id, username):
         messages.warning(request, "You need to be a Tier Two member to make an offer.")
         return redirect(reverse("job_list"))
 
+    # Add the user visiting the view to the Job's collection of interested members.
     current_job.interested_member.add(current_user)
     current_job.interest_count += 1
     current_job.save()
+
+    # Send a Notification to the Job Poster that a user has registered interest.
+    Notification.objects.create(
+        notification_sender=current_user,
+        notification_receiver=current_job.job_poster,
+        notification_type=1,
+        related_job=current_job
+    )
 
     messages.success(request, "You have made an offer for this job.")
     return redirect(reverse("job_list"))
