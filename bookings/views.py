@@ -355,7 +355,7 @@ def booking_form(request, invitation_pk):
     # Restrict access to page to user responsible for invite.
     if (current_invitation.invite_sender != current_user):
         messages.warning(request, mark_safe("You may not browse another member's booking."))
-        return redirect("home")
+        return redirect(reverse("home"))
 
     current_booking = get_object_or_404(Booking, related_invitation=current_invitation)
     
@@ -370,6 +370,7 @@ def booking_form(request, invitation_pk):
                                         queryset=queryset)
 
     if request.method == "POST":
+        print("BOOKING FORM REQUEST", request.POST, request.FILES)
         booking_form = BookingForm(request.POST or None, instance=current_booking)
         audio_formset = AudioFormsetFactory(request.POST or None, request.FILES or None,
                                             queryset=queryset)
@@ -398,12 +399,11 @@ def booking_form(request, invitation_pk):
 
             request.session["tier_one_booking_form"] = True
 
-            messages.success(request, "Booking Form Submitted")
+            messages.success(request, "Booking Form Submitted.")
             return redirect(reverse("booking_success", args=[current_booking.id]))
         else:
-            print("ERRORS")
-            print(booking_form.errors)
             messages.error(request, "Your form was invalid, please try again.")
+            return redirect(reverse("booking_form", args=[current_invitation.pk]))
 
     context = {
         "invitation_form": invitation_form,
@@ -415,7 +415,7 @@ def booking_form(request, invitation_pk):
 
     return render(request, "bookings/booking_form.html", context=context)
 
-
+@login_required
 def tier_two_booking_form(request, job_id):
     """
     Tier Two Booking Form
@@ -478,6 +478,7 @@ def tier_two_booking_form(request, job_id):
             return redirect(reverse("booking_success", args=[current_booking.id]))
         else:
             messages.error(request, "Your form was invalid, please try again.")
+            return redirect(reverse("tier_two_booking_form", args=[current_job.pk]))
 
     context = {
         "job_form": job_form,
@@ -551,7 +552,8 @@ class BookingDetailView(DetailView):
             return redirect(reverse_querystring("dashboard", args=[user_profile.slug],
                                                 query_kwargs={
                                                     "page": "jobs",
-                                                    "section": "invites_received",
+                                                    "section": "tier_one",
+                                                    "subsection": "invites_sent",
                                                     "filter": "all"
                                                 }))
         
@@ -581,6 +583,12 @@ class GeneratePDFFile(View):
     def get(self, request, *args, **kwargs):
         booking_id = self.kwargs["booking_id"]
         current_booking = get_object_or_404(Booking, pk=booking_id)
+
+        # Restrict access to view only to booking receiver.
+        current_user = get_object_or_404(UserProfile, user__username=request.user)
+        if current_user != current_booking.related_invitation.invite_receiver:
+            messages.warning(request, "You may not browse another user's booking.")
+            return redirect(reverse("home"))
 
         # Get Booking Detail Display template using django template loaders
         template = get_template("bookings/pdf_files/booking_detail_display_pdf.html")
@@ -682,8 +690,3 @@ def get_invitation_id(request, booking_id):
                 return JsonResponse({"invitation_id": invitation_id})
     except Booking.DoesNotExist:
         return HttpResponse(status=200)
-
-
-
-
-

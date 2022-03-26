@@ -9,6 +9,7 @@ from profiles.models import UserProfile
 from jobs.models import Job
 
 import uuid
+import datetime
 
 
 class Invitation(models.Model):
@@ -140,3 +141,20 @@ class Review(models.Model):
             self.review_created = timezone.now()
         self.review_modified = timezone.now()
         return super(Review, self).save(*args, **kwargs)
+
+    def roundTime(self, dt=None, roundTo=60):
+        """Round a datetime object to any time lapse in seconds
+        dt : datetime.datetime object, default now.
+        roundTo : Closest number of seconds to round to, default 1 minute.
+        Author: Thierry Husson 2012 - Use it as you want but don't blame me.
+        """
+        if dt == None : dt = datetime.datetime.now()
+        seconds = (dt.replace(tzinfo=None) - dt.min).seconds
+        rounding = (seconds+roundTo/2) // roundTo * roundTo
+        return dt + datetime.timedelta(0,rounding-seconds,-dt.microsecond)
+
+    @property
+    def is_modified(self):
+        rounded_modified_date = self.roundTime(self.review_modified, roundTo=1*60)
+        rounded_created_date = self.roundTime(self.review_created, roundTo=1*60)
+        return rounded_modified_date > rounded_created_date
