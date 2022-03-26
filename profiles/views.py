@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.forms.models import modelformset_factory
@@ -11,6 +12,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from bookings.forms import InvitationForm, ReviewForm
+from bookings.models import Review
 
 from social.models import Notification
 from social.forms import MessageForm
@@ -23,6 +25,7 @@ from .functions import calculate_invite_acceptance_delta, calculate_profile_prog
 import datetime
 import stripe
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -171,11 +174,57 @@ class ProfileView(TemplateView):
         else:
             return JsonResponse({"errors": review_form.errors.as_json()})
 
+def get_review_to_edit(request, review_id):
+    """
+    AJAX GET Handler to retrieve a review object to populate the textarea in
+    modal window to edit a given review, in the Profile page.
 
+    Upon success, returns a JSON object with review content, otherwise 
+    a JSON Response is sent, informing the user that the Review cannot be found.
+    """
+    try:
+        review = Review.objects.get(pk=review_id)
+        review_content = review.review_content
+        return JsonResponse({ "review": review_content })
+    except Review.DoesNotExist:
+        return JsonResponse({"error": "Sorry, we can't find the review."})
+
+@require_POST
+def edit_review(request, review_id):
+    """
+    AJAX POST Handler to process data sent through form in the Edit Review Modal
+    Window. Compates the data of field "review_content" against regex to check
+    if there are only numbers present in content. If so, throw an error.
+
+    If data is valid, update the retrieved review object and save, then return
+    a JSON response with success message to display as toast.
+    """
+    review_to_edit = Review.objects.get(pk=review_id)
+
+    regex = "^[0-9]+$"
+    review_content = request.POST.get("review_edit")
+    if re.match(regex, review_content):
+        return JsonResponse({"error": "Please enter words as well as numbers."})
+    else:
+        review_to_edit.review_content = request.POST.get("review_edit")
+        review_to_edit.rating = request.POST.get("rating")
+        review_to_edit.save()
+        success_msg = "Your review has been edited."
+        return JsonResponse({ "success_msg" : success_msg })
 
 def edit_profile(request):
     """
-    
+    Edit Profile View
+    --------------------
+
+    Handles both all GET methods for all form pages of Edit Profile page.
+
+    Retrieves the profile of the user making the request, and displays 
+    a form for the user to fill in their personal details, as well
+    as a list of their equipment and collection of music.
+
+    Utilises the model formset factory to dynamically add extra fields
+    to the user's list of equipment.
     """
     user_profile = get_object_or_404(UserProfile, user=request.user)
     EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
@@ -185,12 +234,12 @@ def edit_profile(request):
 
     request.session["form_page"] = 1
 
-    print(type(request.GET.get("form_page")))
-
+    # Provides functionality to switch pages if "Skip Step" button is clicked.
     if request.GET.get("form_page") == str(2):
         request.session["form_page"] = 2
         request.session["page_one_complete"] = False
 
+    # POST request to handle personal details and Equipment Formset
     if request.method == "POST":
         user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
@@ -223,11 +272,17 @@ def edit_profile(request):
 
 
 def upload_audio(request, username):
-    logger.debug("This is a debug message in upload audio")
-    logger.info("This is an info message in upload audio")
-    logger.warn("This is a warn message in upload audio")
-    logger.error("This is an error message in upload audio")
+    """
+    Handles addition or removal of audio files in Edit Profile's
+    second page.
 
+    If '{"request": 2}' present in POST request, this informs the view
+    that the request is to remove an already-existing audio file from 
+    the database.
+
+    Otherwise, the audiofile is to be added.
+    """
+   
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
 
@@ -251,7 +306,7 @@ def upload_audio(request, username):
                 print("form invalid")
                 form = AudioForm(instance=user_profile)
 
-        # Else, remove audio file from database        
+        # Else, find the audiofile to remove, and remove from database        
         else:
             audiofile_to_delete =  AudioFile.objects.filter(
                 file=request.POST.get("filename"), related_user=user_profile
@@ -326,12 +381,37 @@ def upload_unavailable_dates(request, user_id):
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
+    """
+    Dashboard View
+    -----------------------
+
+    Displays a complete collection of a given user's metrics,
+    active/inactive jobs, and a link to manage their subscription.
+
+    Metrics include:
+
+    - Profile Completedness
+    - Review Rating
+    - Invitation Acceptance Delta
+    - Subscription Status
+
+    Job Page Includes:
+
+    - All Tier One engagements with sections 'Invitations Sent' and 'Inivatations Received'. 
+      Filterable by All, Pending and Confirmed.
+
+    - (If paid), All Tier Two engagements with sections 'Offers Sent' and 'My Posted Jobs'. 
+      Filterable by All, Pending and Confirmed.
+
+    
+    A link in the page's navbar is also displayed, to allow the user to manage their subscription.
+    """
 
     template_name = "profiles/dashboard.html"
 
     def get(self, *args, **kwargs):
         """
-        Disables a user from visiting another user's Dashboard.
+        Restricts access to users visiting another user's Dashboard.
         Checks endpoint slug against request user's slug, and redirects
         away from Dashboard page if they do not match.
         """
