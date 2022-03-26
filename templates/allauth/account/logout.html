@@ -6,16 +6,16 @@
 
 {% block content %}
 <section class="auth-section linear_bg">
-  <div class="opaque_overlay_xlight"></div>
+  <div class="opaque_overlay"></div>
   <div class="container auth-container">
     <div class="row">
       <div class="col-12 col-lg-8 mt-4">
-        <h1 class="auth-header white_font primary_font header_shadow">{% trans "Signing Out" %}</h1>
+        <h1 class="auth-header white_font primary_font header_shadow">{% trans "Signing Out." %}</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-12 col-lg-8 mt-4">
-        <p class="auth-info med_small_text">{% trans 'We hope you enjoyed your stay.' %}</p>
+        <p class="secondary_font white_font position-relative med_small_text">{% trans 'We hope you enjoyed your stay.' %}</p>
         <form method="post" action="{% url 'account_logout' %}">
           {% csrf_token %}
           {% if redirect_field_value %}
