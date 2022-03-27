@@ -28,9 +28,6 @@
                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="{% if current_page == "jobs" %}active{% endif %}">Jobs</a>
                     </li>
                     <li class="breadcrumb-item dashboard">
-                        <a href="{% url "dashboard" current_user %}?page=reset_password" class="{% if current_page == "reset_password" %}active{% endif %}">Reset Your Password</a>
-                    </li> 
-                    <li class="breadcrumb-item dashboard">
                         <a href="{% url "choose_subscription" %}" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
                     </li>
                 </ol>
@@ -43,10 +40,7 @@
                         <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_sent&filter=all"><i class="fa-solid fa-handshake {% if current_page == "jobs" %}active{% endif %}"></i></a>
                     </li>
                     <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=reset_password"><i class="fa-solid fa-unlock {% if current_page == "reset_password" %}active{% endif %}"></i></a>
-                    </li> 
-                    <li class="dashboard mobile">
-                        <a href="{% url "dashboard" current_user %}?page=membership"><i class="fa-solid fa-user-gear {% if current_page == "membership" %}active{% endif %}"></i></a>
+                        <a href="{% url "choose_subscription" %}"><i class="fa-solid fa-user-gear {% if current_page == "membership" %}active{% endif %}"></i></a>
                     </li>
                 </ul>
             </nav>
@@ -222,6 +216,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- TIER ONE FILTER -->
                             <hr class="d-none d-md-block dashboard-block-divider">
                             <div class="container-fluid">
                                 <div class="row">
@@ -238,21 +233,15 @@
                                                         <ul id="sidebar_filter_list">
                                                             <li>
                                                                 <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "all" %}active{% endif %}"
-                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_subsection == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>
-                                                                <hr>
+                                                                href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_subsection == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=all">All</a>                
                                                                 <ul id="sidebar_nested_list">
-                                                                    <li>
+                                                                    <li class="bottom_border">
                                                                         <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "pending" %}active{% endif %}"
                                                                         href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=pending">Pending</a>
                                                                     </li>
-                                                                    <hr>
-                                                                    <li>
+                                                                    <li class="bottom_border">
                                                                         <a class="{% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" and current_filter == "pending" or current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_received" and current_filter == "accepted" %}active{% endif %}"
                                                                          href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection={% if current_page == "jobs" and current_section == "tier_one" and current_subsection == "invites_sent" %}invites_sent{% else %}invites_received{% endif %}&filter=accepted">Accepted</a>
-                                                                    </li>
-                                                                    <hr>
-                                                                    <li>
-                                                                        <a href="#">Completed</a>
                                                                     </li>
                                                                 </ul>
                                                             </li>
@@ -304,6 +293,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- TIER TWO FILTER -->
                             <hr class="d-none d-md-block dashboard-block-divider">
                             <div class="container-fluid">
                                 <div class="row">
@@ -312,31 +302,27 @@
                                             <div class="accordion-item">
                                                 <h5 class="accordion-header custom-accordion-header" id="accordion_header">
                                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter_dropdown" aria-expanded="true" aria-controls="filter_dropdown">
-                                                        Filter Invitations
+                                                        Filter Jobs
                                                     </button>
                                                 </h5>
                                                 <div class="accordion-collapse show" id="filter_dropdown" aria-labelledby="accordion_header" data-bs-parent="#filter_accordion">
                                                     <div class="accordion-body">
                                                         <ul id="sidebar_filter_list">
-                                                            <li>
+                                                            <li class="bottom_border">
                                                                 <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "all" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "all" %}active{% endif %}"
                                                                 href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=all">All</a>
-                                                                <hr>
+                                                       
                                                                 <ul id="sidebar_nested_list">
-                                                                    <li>
+                                                                    <li class="bottom_border">
                                                                        <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "pending_offers" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "pending_offers" %}active{% endif %}"
                                                                        href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=pending_offers">
                                                                            {% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}Offers Received{% else %}Offers Sent{% endif %}
                                                                         </a> 
                                                                     </li>
-                                                                    <hr>
-                                                                    <li>
+                                                           
+                                                                    <li class="bottom_border">
                                                                         <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "confirmed" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "confirmed" %}active{% endif %}"
                                                                         href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=confirmed">Confirmed</a>
-                                                                    </li>
-                                                                    <hr>
-                                                                    <li>
-                                                                        <a href="#">Completed</a>
                                                                     </li>
                                                                 </ul>
                                                             </li>
@@ -388,7 +374,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header custom-modal-header">
-                            <h2 id="modal_event_name"></h2>
+                            <p id="modal_event_name" class="large_text"></p>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body custom-modal-body">
@@ -438,7 +424,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header custom-modal-header">
-                            <h6 id="message_modal_header"></h6>
+                            <p id="message_modal_header"></p>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body custom-modal-body">
@@ -463,10 +449,10 @@
             <div class="modal fade" id="offers_received_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header custom-modal-header">
-                            <h6 id="offers_received_modal_header" class="med_small_text">
+                        <div class="modal-header secondary_bg primary_font white_font">
+                            <p id="offers_received_modal_header" class="med_small_text m-0">
                                 
-                            </h6>
+                            </p>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="job_offer_modal_container">
@@ -521,7 +507,6 @@
         {{ block.super }}
         <!-- Stripe JS CDN and Custom JS Code -->
         {% if current_page == "dashboard" %}
-        <script src="https://js.stripe.com/v3/"></script>
         <script src="{% static "subscriptions/js/checkout.js" %}"></script>
         <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
 
