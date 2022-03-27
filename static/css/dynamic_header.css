@@ -57,7 +57,7 @@
      z-index: 2;
  }
 
-.dynamic-header h1 {
+.dynamic-header h2 {
     font-family: "Josefin Sans", sans-serif;
     font-size: 3rem;
     color: #fefefe;
@@ -154,7 +154,7 @@
 
 @media screen and (min-width: 768px) {
 
-    .dynamic-header h1 {
+    .dynamic-header h2 {
         font-size: 4rem;
     }
 
@@ -207,7 +207,7 @@
         padding-top: 8rem;
     }
 
-    .dynamic-header h1 {
+    .dynamic-header h2 {
         font-size: 4rem;
         margin-left: 1rem;
     }
@@ -230,7 +230,7 @@
         height: 40vh;
     }
 
-    .dynamic-hero-section-lg.short h1 {
+    .dynamic-hero-section-lg.short h2 {
         padding-top: 6rem;
     }
 
