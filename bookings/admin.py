@@ -3,6 +3,7 @@ from .models import Invitation, Booking, Review
 
 from profiles.models import AudioFile
 
+
 class AudioFileInline(admin.TabularInline):
 
     model = AudioFile
@@ -30,6 +31,7 @@ class BookingAdmin(admin.ModelAdmin):
 
     readonly_fields = ("pk",)
 
+
 class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ("review_created",)
 
@@ -38,4 +40,3 @@ class ReviewAdmin(admin.ModelAdmin):
 admin.site.register(Invitation, InvitationAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Review, ReviewAdmin)
-

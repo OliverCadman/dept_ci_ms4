@@ -31,7 +31,6 @@ class InvitationForm(forms.ModelForm):
         exclude = ("invite_sender", "invite_receiver",
                    "is_accepted", "date_of_invitation")
 
-
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and instantiate Crispy Helper
@@ -45,7 +44,11 @@ class InvitationForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    HTML("<h2 class='form-header'>Invite {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %} to your gig.</h2>"),
+                    HTML("<h2 class='form-header'>Invite"
+                         "{% if user.first_name %}"
+                         "{{user.first_name}}"
+                         "{% else %}{{ user.user.username }}"
+                         "{% endif %} to your gig.</h2>"),
                     "event_name",
                     "artist_name",
                     "event_city",
@@ -58,16 +61,17 @@ class InvitationForm(forms.ModelForm):
         )
 
         # Bootstrap prepend the "fee" field with a currency icon
-        self.helper["fee"].wrap(PrependedText, mark_safe("<i class='fas fa-pound-sign'></i>"))
+        self.helper["fee"].wrap(PrependedText, mark_safe(
+            "<i class='fas fa-pound-sign'></i>"))
 
         # Define placeholders
         placeholders = {
-        "event_name": "Headline slot at O2 Academy...",
-        "artist_name": "The Mars Volta, Radiohead...",
-        "event_city": "Manchester",
-        "fee": 150,
-        "event_datetime": "27/04/2021 14:00",
-        "additional_info": "90 minute set, charts provided..."
+            "event_name": "Headline slot at O2 Academy...",
+            "artist_name": "The Mars Volta, Radiohead...",
+            "event_city": "Manchester",
+            "fee": 150,
+            "event_datetime": "27/04/2021 14:00",
+            "additional_info": "90 minute set, charts provided..."
         }
 
         excluded_placeholders = ["event_country"]
@@ -87,11 +91,11 @@ class InvitationForm(forms.ModelForm):
         event_name = self.cleaned_data["event_name"]
         regex = "^[0-9]+$"
         if re.match(regex, event_name):
-            raise ValidationError("Please enter words as well as numbers.", code="invalid")
+            raise ValidationError(
+                "Please enter words as well as numbers.", code="invalid")
         else:
             return event_name
 
-    
     def clean_artist_name(self):
         """
         Raise a validation error if artist_name field consists of only numbers.
@@ -101,7 +105,8 @@ class InvitationForm(forms.ModelForm):
         artist_name = self.cleaned_data["artist_name"]
         regex = "^[0-9]+$"
         if re.match(regex, artist_name):
-            raise ValidationError("Please enter words as well as numbers.", code="invalid")
+            raise ValidationError(
+                "Please enter words as well as numbers.", code="invalid")
         else:
             return artist_name
 
@@ -112,25 +117,27 @@ class InvitationForm(forms.ModelForm):
         Uses regex pattern to compare against input's value.
         """
         event_city = self.cleaned_data["event_city"]
-        regex= "^[0-9]+$"
+        regex = "^[0-9]+$"
         if re.match(regex, event_city):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return event_city
 
     def clean_additional_info(self):
         """
-        Raise a validation error if additional_info field consists of only numbers.
+        Raise a validation error if additional_info
+        field consists of only numbers.
 
         Uses regex pattern to compare against input's value.
         """
         additional_info = self.cleaned_data["additional_info"]
         regex = "^[0-9]+$"
         if re.match(regex, additional_info):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return additional_info
-
 
     # Create widgets for inputs
     event_name = forms.CharField(
@@ -156,7 +163,6 @@ class InvitationForm(forms.ModelForm):
         widget=DateTimePickerInput(format=("%d-%m-%Y %H:%M:%S"), attrs={
             "id": "date_time_picker"
         }),
-
     )
 
     fee = forms.DecimalField(
@@ -179,7 +185,7 @@ class BookingForm(forms.ModelForm):
     Available once a member has accepted another member's
     invitation.
 
-    Used to collect further details of an engagement, with 
+    Used to collect further details of an engagement, with
     all other details persisting from the model created from
     the Invitation form.
     """
@@ -191,7 +197,6 @@ class BookingForm(forms.ModelForm):
         model = Booking
         exclude = ("related_invitation", "related_job",)
 
-    
     def clean_venue_name(self):
         """
         Raise a validation error if venue_name field consists of only numbers.
@@ -201,61 +206,68 @@ class BookingForm(forms.ModelForm):
         venue_name = self.cleaned_data["venue_name"]
         regex = "^[0-9]+$"
         if re.match(regex, venue_name):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return venue_name
 
-    
     def clean_street_address1(self):
         """
-        Raise a validation error if street_address1 field consists of only numbers.
+        Raise a validation error if street_address1
+        field consists of only numbers.
 
         Uses regex pattern to compare against input's value.
         """
         street_address1 = self.cleaned_data["street_address1"]
         regex = "^[0-9]+$"
         if re.match(regex, street_address1):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return street_address1
 
     def clean_street_address2(self):
         """
-        Raise a validation error if street_address2 field consists of only numbers.
+        Raise a validation error if street_address2
+        field consists of only numbers.
 
         Uses regex pattern to compare against input's value.
         """
         street_address2 = self.cleaned_data["street_address2"]
         regex = "^[0-9]+$"
         if re.match(regex, street_address2):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return street_address2
 
     def clean_travel_info(self):
         """
-        Raise a validation error if travel_info field consists of only numbers.
+        Raise a validation error if travel_info
+        field consists of only numbers.
 
         Uses regex pattern to compare against input's value.
         """
         travel_info = self.cleaned_data["travel_info"]
         regex = "^[0-9]+$"
         if re.match(regex, travel_info):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return travel_info
 
-    
     def clean_backline_info(self):
         """
-        Raise a validation error if backline_info field consists of only numbers.
+        Raise a validation error if backline_info
+        field consists of only numbers.
 
         Uses regex pattern to compare against input's value.
         """
         backline_info = self.cleaned_data["backline_info"]
         regex = "^[0-9]+$"
         if re.match(regex, backline_info):
-            raise ValidationError("Please enter words as well as numbers.")
+            raise ValidationError(
+                "Please enter words as well as numbers.")
         else:
             return backline_info
 
@@ -263,30 +275,32 @@ class BookingForm(forms.ModelForm):
     venue_name = forms.CharField(label="Name of the Venue",
                                  widget=forms.TextInput,
                                  error_messages={
-                                     "invalid": "Please enter worlds as well as numbers."
-                                 })
-    
-    street_address1 = forms.CharField(label="Street Address 1",
-                                 widget=forms.TextInput, 
-                                 error_messages={
-                                     "invalid": "Please enter words as well as numbers."
+                                     "invalid": "Please enter words "
+                                                "as well as numbers."
                                  })
 
+    street_address1 = forms.CharField(label="Street Address 1",
+                                      widget=forms.TextInput,
+                                      error_messages={
+                                        "invalid": "Please enter words "
+                                                   "as well as numbers."
+                                      })
+
     street_address2 = forms.CharField(label="Street Address 2",
-                                 widget=forms.TextInput,
-                                 required=False,
-                                 error_messages={
-                                     "invalid": "Please enter words as well as numbers."
-                                 })
+                                      widget=forms.TextInput,
+                                      required=False,
+                                      error_messages={
+                                        "invalid": "Please enter words "
+                                                   "as well as numbers."
+                                      })
 
     postcode = forms.CharField(label="Postcode/ZIP",
                                widget=forms.TextInput,
                                required=False)
 
-
     travel_provided = forms.BooleanField(label="Is Travel Provided?",
-                                        required=False,
-                                        widget=forms.CheckboxInput)
+                                         required=False,
+                                         widget=forms.CheckboxInput)
 
     travel_info = forms.CharField(label="What are the travel plans?",
                                   required=False,
@@ -294,14 +308,14 @@ class BookingForm(forms.ModelForm):
                                       "rows": "3"
                                   }),
                                   error_messages={
-                                      "invalid": "Please enter words as well as numbers."
+                                      "invalid": "Please enter words"
+                                                 "as well as numbers."
                                   })
 
     backline_provided = forms.BooleanField(label="Is backline provided?",
-                                          required=False,
-                                          widget=forms.CheckboxInput
-
-                                          )
+                                           required=False,
+                                           widget=forms.CheckboxInput
+                                           )
 
     backline_info = forms.CharField(label="What equipment is provided?",
                                     required=False,
@@ -309,7 +323,8 @@ class BookingForm(forms.ModelForm):
                                         "rows": "2"
                                     }),
                                     error_messages={
-                                        "invalid": "Please enter words as well as numbers."
+                                        "invalid": "Please enter words "
+                                                   "as well as numbers."
                                     })
 
 
@@ -319,31 +334,48 @@ class ReviewForm(forms.ModelForm):
 
     Enables a user to leave a review for another user.
     """
-     
+
     class Meta:
         """
         Define "Meta" properties of the form.
         """
         model = Review
         exclude = ("related_booking", "review_sender", "review_receiver",
-                "review_created", "review_modified",)
-    
-
+                   "review_created", "review_modified",)
 
     def __init__(self, *args, **kwargs):
         """
         Remove label for "review_content"
         """
         super().__init__(*args, **kwargs)
-        
+
         self.fields["review_content"].label = ""
-        
-    
+        self.fields["review_content"].attr["class"] = "secondary_font"
+
+    def clean_review_content(self):
+        review_content = self.cleaned_data["review_content"]
+        regex = "^[0-9]+$"
+        if re.match(regex, review_content):
+            raise ValidationError(
+                "Please enter words as well as numbers.")
+        else:
+            return review_content
+
+    def clean_rating(self):
+        rating = self.cleaned_data["rating"]
+        print("RATING, rating")
+        if rating == 0:
+            raise ValidationError("Please leave a rating.")
+        else:
+            return rating
+
     # Define form widgets
     review_content = forms.CharField(label="Leave your review",
                                      widget=forms.Textarea(attrs={
-                                         "placeholder": "Tell the community what you think"
+                                         "placeholder": "Tell the community"
+                                         "what you think"
                                      }))
 
-    # Hidden input value is determined by "star" rating, inputted through JavaScript.
-    rating = forms.IntegerField(widget=forms.HiddenInput)
+    # Hidden input value is determined by
+    # "star" rating, inputted through JavaScript.
+    rating = forms.IntegerField(required=False, widget=forms.HiddenInput)

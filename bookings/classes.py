@@ -3,7 +3,6 @@ from botocore.client import Config
 import os
 
 
-
 class DownloadS3Object(object):
     """
     DownloadS3Object
@@ -18,12 +17,12 @@ class DownloadS3Object(object):
                 access_key - Amazon AWS Access Key ID
                 secret_key - Amazon AWS Secret Access Key
 
-        
+
         create_boto3_session():
             Instantiate boto3 session, passing in the access key
             and secret access key provided in instance variables.
 
-        
+
         generate_download_url():
             Create an Amazon AWS "presigned url", containing
             the, bucket name, file path (as key), and expiration,
@@ -53,7 +52,7 @@ class DownloadS3Object(object):
             aws_access_key_id=self.access_key,
             aws_secret_access_key=self.secret_key
         )
-        
+
         return client
 
     def generate_download_url(self, bucket_name, path, expiration):
@@ -75,10 +74,11 @@ class DownloadS3Object(object):
                         "Bucket": bucket_name,
                         "Key": path,
                         "ResponseContentType": "audio/mpeg;force-download",
-                        "ResponseContentDisposition": "attachment;filename=%s"%filename
-                    },
+                        "ResponseContentDisposition": "attachment;filename=%s"
+                        % filename
+                        },
                     ExpiresIn=expiration,
-                )
+                    )
                 return download_url
             except Exception:
                 return None

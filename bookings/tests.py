@@ -1,4 +1,3 @@
-from re import S
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -92,7 +91,10 @@ class TestBookingForms(TestCase):
         )
 
         booking_form = BookingForm(data={
-            "related_invitation": invitation.pk,
+            "related_invitation": invitation,
+            "venue_name": "test_venue",
+            "street_address1": "test_street",
+            "postcode": "W11XN",
             "travel_provided": True,
             "travel_info": "test_travel_info",
             "backline_provided":  True,

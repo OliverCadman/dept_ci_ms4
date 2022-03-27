@@ -1,10 +1,12 @@
 from itertools import chain
 
-
 # Alternative to python's 'model_to_dict' function, which
 # was excluding the non-editable 'date_of_message' field.
 
-# https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
+# https://stackoverflow.com/questions/21925671/
+# convert-django-model-object-to-dict-with-all-of-the-fields-intact
+
+
 def to_dict(instance):
     opts = instance._meta
     data = {}
