@@ -141,12 +141,12 @@
     padding-top: 2rem;
 }
 
-#subscribe_choice_list {
+.subscribe_choice_list {
     font-family: "Oxygen", sans-serif;
     color: #fefefe;
 }
 
-#subscribe_choice_list li {
+.subscribe_choice_list li {
     margin: 1.3rem 0;
 }
 
@@ -220,7 +220,7 @@
         font-family: "Oxygen", sans-serif;
     }
 
-    #subscribe_choice_list p {
+    .subscribe_choice_list p {
         max-width: 45%;
     }
 
