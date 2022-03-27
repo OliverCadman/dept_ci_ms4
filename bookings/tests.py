@@ -9,7 +9,7 @@ from profiles.models import UserProfile
 
 import datetime
 
-# Create your tests here.
+
 class TestBookingForms(TestCase):
     """
     Test Validation of Invitation and Booking Forms
@@ -21,7 +21,7 @@ class TestBookingForms(TestCase):
 
         - One for invite sender
         - One for invite receiver
-        
+
         """
         sender_username = "test_sender"
         sender_password = "abc123"
@@ -30,7 +30,8 @@ class TestBookingForms(TestCase):
             username=sender_username,
             password=sender_password
         )
-        self.sender_profile = UserProfile.objects.get(user__username=self.invite_sender)
+        self.sender_profile = UserProfile.objects.get(
+            user__username=self.invite_sender)
 
         receiver_username = "test_receiver"
         receiver_password = "abc123"
@@ -38,41 +39,44 @@ class TestBookingForms(TestCase):
             username=receiver_username,
             password=receiver_password
         )
-        self.receiver_profile = UserProfile.objects.get(user__username=self.invite_receiver)
+        self.receiver_profile = UserProfile.objects.get(
+            user__username=self.invite_receiver)
 
         self.client = Client()
-        
 
     def test_invitation_form_valid_and_redirect_success(self):
-       """
-       Confirm Invitation form validates correctly and redirects
-       to invite receiver's profile upon submission.
-       """
-       form = InvitationForm(data={
-           "event_name": "test_event",
-           "artist_name": "test_artist",
-           "event_city": "test_city",
-           "event_country": "GB",
-           "event_datetime": timezone.now(),
-           "fee": 150,
-           "date_of_invitation": datetime.date.today(),
-           "additional_info": "test_additional_info",
-           "invite_sender": self.sender_profile,
-           "invite_receiver": self.receiver_profile
+        """
+        Confirm Invitation form validates correctly and redirects
+        to invite receiver's profile upon submission.
+        """
+        form = InvitationForm(data={
+            "event_name": "test_event",
+            "artist_name": "test_artist",
+            "event_city": "test_city",
+            "event_country": "GB",
+            "event_datetime": timezone.now(),
+            "fee": 150,
+            "date_of_invitation": datetime.date.today(),
+            "additional_info": "test_additional_info",
+            "invite_sender": self.sender_profile,
+            "invite_receiver": self.receiver_profile
 
-       })
-       
-       self.assertTrue(form.is_valid())
-       
-       response = self.client.get(reverse("profile", args=[self.receiver_profile.user]))
-       self.assertEquals(response.status_code, 200)
+        })
+
+        self.assertTrue(form.is_valid())
+
+        response = self.client.get(
+            reverse("profile", args=[self.receiver_profile.user]))
+        self.assertEquals(response.status_code, 200)
 
     def test_invitation_form_without_data(self):
+        """
+        Post empty data object to invitation form
+        and confirm that the form is indeed, invalid.
+        """
         empty_invitation_form = InvitationForm(data={})
-
         self.assertFalse(empty_invitation_form.is_valid())
 
-    
     def test_booking_form_valid(self):
         """
         Confirm Booking Form validates correctly.
@@ -82,7 +86,7 @@ class TestBookingForms(TestCase):
             artist_name="test_artist",
             event_city="test_city",
             event_country="GB",
-            event_datetime = timezone.now(),
+            event_datetime=timezone.now(),
             fee=150,
             date_of_invitation=datetime.date.today(),
             additional_info="test_additional_info",
@@ -102,10 +106,3 @@ class TestBookingForms(TestCase):
         })
 
         self.assertTrue(booking_form.is_valid())
-        
-
-
-
-    
-
-

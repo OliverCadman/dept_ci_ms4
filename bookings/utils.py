@@ -8,7 +8,8 @@ from profiles.models import AudioFile
 
 from xhtml2pdf import pisa
 
-def render_to_pdf(template_source, context_dict = {}):
+
+def render_to_pdf(template_source, context_dict={}):
     """
     Renders Booking Detail HTML Template to PDF Format
 
@@ -17,8 +18,8 @@ def render_to_pdf(template_source, context_dict = {}):
     Template Source - "booking_detail_display_pdf.html"
     Context Dict - Booking object (alias "event")
 
-    https://www.codingforentrepreneurs.com/blog/html-template-to-pdf-in-django/
-
+    https://www.codingforentrepreneurs.com/
+    blog/html-template-to-pdf-in-django/
     """
 
     template = get_template(template_source)
@@ -27,6 +28,7 @@ def render_to_pdf(template_source, context_dict = {}):
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
 
     if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type="application/pdf")
+        return HttpResponse(
+            result.getvalue(), content_type="application/pdf")
     else:
         return None
