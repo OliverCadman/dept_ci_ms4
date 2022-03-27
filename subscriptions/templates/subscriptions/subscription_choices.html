@@ -14,11 +14,11 @@
 
 <!-- Content -->
 {% block content %}
+<!-- Header -->
+{% with page_name as p %}
+{% include 'includes/header-hero.html' %}
+{% endwith %}
 <section>
-    <!-- Header -->
-    {% with page_name as p %}
-        {% include 'includes/header-hero.html' %}
-    {% endwith %}
     <!-- Tier One Subscription Choice Container-->
     <div class="container-fluid subscription-choice-container">
         <div class="row h-100 d-flex justify-content-center justify-content-md-around align-items-center">
