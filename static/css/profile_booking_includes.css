@@ -8,17 +8,17 @@
     min-height: 350px;
 }
 
-#profile_header {
+.page_header {
     position: relative;
     padding-top: 40px;
-    margin-left: 1rem;
+    width: 100%;
 }
 
-#profile_header h1 {
+.page_header h1 {
     font-family: "Josefin Sans", sans-serif;
 }
 
-#profile_header h1,
+.page_header h1,
 #instrument_list,
 #user_location {
     color: #fefefe;
@@ -39,6 +39,7 @@
     font-family: "Oxygen",
     sans-serif; 
     padding: .8rem;
+    margin: 0 .5rem .5rem 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -48,15 +49,15 @@
 
      #profile_header_wrapper {
          height: 500px;
-         padding: 4rem 0;
      }
 
-     #profile_header {
+     .page_header {
          padding-top: 2rem;
      }
 
-     #profile_header h1 {
+     .page_header h1 {
          font-size: 2.75rem;
+         padding-top: 9rem;
      }
 }
 

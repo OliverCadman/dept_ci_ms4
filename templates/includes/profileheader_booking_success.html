@@ -37,32 +37,9 @@
                                                                                                     {% endwith %}
                                                                                                 {% endif %}
                                                                                             {% endif %}">
-                     {% if p == "booking_success" or p == "booking_detail" %}
-                        {% if p == "booking_success" %}
-                            {% if not tier_type == 2 %}
-                                {% with event.related_invitation.invite_receiver as invite_receiver %}
-                                    {% if invite_receiver.profile_image %}
-                                        <div class="opaque-overlay"></div>
-                                    {% endif %}
-                                {% endwith %}
-                            {% else %}
-                                {% with event.related_job.confirmed_member as confirmed_member %}
-                                    {% if confirmed_member.profile_image %}
-                                        <div class="opaque-overlay"></div>
-                                    {% endif %}
-                                {% endwith %}
-                            {% endif %}
-                        {% else %}
-                            {% with booking.related_invitation.invite_sender as invite_sender %}
-                                {% if invite_sender.profile_image %}
-                                    <div class="opaque-overlay"></div>
-                                {% endif %}
-                            {% endwith %}
-                    {% endif %}
-                    {% elif p == "user_profile" %}
-                        <div class="opaque-overlay"></div>
-                    {% endif %}                                                                       
-                    <div id="profile_header" class="ms-lg-2">
+                                                                 
+                    <div class="page_header" class="ms-lg-2">
+                        <div class="opaque_overlay"></div>
                         <!-- Header for Profile Page (Small Screens) -->
                         {% if p == "user_profile" %}
                         <h1>
@@ -92,19 +69,19 @@
                             {% if p == "booking_success" %}
                                 {% if not tier_type == 2 %}
                                     {% with event.related_invitation.invite_receiver as invite_receiver %}
-                                        <h1 id="{% if not invite_receiver.profile_image %}booking_success_fallback_header{% endif %}" class="text-center">
+                                        <h1 id="{% if not invite_receiver.profile_image %}booking_success_fallback_header{% endif %}" class="text-center position-relative">
                                             {% if invite_receiver.first_name %}
                                                 You have booked {{ invite_receiver.first_name }}
                                             {% else %}
                                                 You have booked {{ invite_receiver.user.username }}
                                             {% endif %}
                                         </h1>
-                                        <div class="header-btn-wrapper">
+                                        <div class="header-btn-wrapper {% if p == "booking_success" %}position-absolute{% endif %}">
                                             <a href="{% url "dashboard" event.related_invitation.invite_sender.slug %}?page=jobs&section=tier_one&subsection=invites_sent&filter={{event.pk}}" class="btn custom_success inset_light_shadow">Message {% if invite_receiver.first_name %}{{invite_receiver.first_name}}{% else %}{{ invite_receiver.user.username }}{% endif %}</a>
                                         </div>
                                         {% if not invite_receiver.profile_image %}
                                             <div id="dept_logo_fallback_container">
-                                                <figure id="dept_logo_wrapper_sm">
+                                                <figure id="dept_logo_wrapper_sm" class="position-relative">
                                                     {% include 'includes/dept-logo.html' %}
                                                 </figure>
                                             </div>
@@ -222,7 +199,7 @@
                                     {% endif %}
                                 </h1>
                                 <div class="btn_wrapper_lg">
-                                    <a href="{% url "dashboard" event.related_invitation.invite_sender.slug %}?page=jobs&section=tier_one&subsection=invites_sent&filter={{event.pk}}" class="btn">Message {% if invite_receiver.first_name %}{{invite_receiver.first_name}}{% else %}{{ invite_receiver.user.username }}{% endif %}</a>
+                                    <a href="{% url "dashboard" event.related_invitation.invite_sender.slug %}?page=jobs&section=tier_one&subsection=invites_sent&filter={{event.pk}}" class="btn btn_lg cta-btn-light">Message {% if invite_receiver.first_name %}{{invite_receiver.first_name}}{% else %}{{ invite_receiver.user.username }}{% endif %}</a>
                                 </div>
                             {% endif %}
                         {% endwith %}
