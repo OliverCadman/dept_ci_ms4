@@ -1,7 +1,7 @@
 {% load notification_tags %}
 {% load static %}
 <a href="{% url 'home' %}" class="navbar-brand d-md-none d-block">
-    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo, Home Link" width="50" height="50" id="logo-home-link">
+    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo, Home Link" width="50" height="50" class="logo-home-link">
 </a>
 <ul class="notification-message-links">
     {% if request.user.is_authenticated %}
@@ -11,5 +11,5 @@
     {% endif %}
 </ul>
 <a href="{% url 'home' %}" class="navbar-brand d-none d-md-inline">
-    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo, Home Link" width="50" height="50" id="logo-home-link">
+    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo, Home Link" width="50" height="50" class="logo-home-link">
 </a>

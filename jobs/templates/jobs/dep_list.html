@@ -26,7 +26,7 @@
             {% include "jobs/includes/filter_accordion.html" %}
         {% endwith %}
     </aside>
-    <section>
+    <div>
         <!-- Results Container -->
         <div class="container-fluid findadep_results_container p-0">
             <div class="row d-flex justify-content-center m-0">
@@ -116,9 +116,9 @@
                 {% endif %}
             </div>
         </div>
-    </section>
+    </div>
     <!-- Bottom section with itemised list of benefits -->
-    <section id="benefits_section">
+    <aside id="benefits_section">
         <div class="container" id="benefits_container">
             <div class="row">
                 <div class="col-12 col-lg-6" id="benefits_wrapper">
@@ -154,9 +154,9 @@
         </div>
         <!-- Hero Image -->
         <div id="benefits_hero_wrapper" class="d-none d-lg-block">
-            <img srcset="{{MEDIA_URL}}dept_findadep_hero2.webp, {{MEDIA_URL}}dept_findadept_hero2.jpg" alt="Female vocalist in music studio" width="1200" height="1458" id="findadep_hero2">
+            <img src="{{MEDIA_URL}}dept_findadep_hero2.webp" alt="Female vocalist in music studio" width="1200" height="1458" id="findadep_hero2">
         </div>
-    </section>
+    </aside>
 {% endblock %}
 
 <!-- Custom JS -->

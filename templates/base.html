@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block extra_meta %}
+    <!-- Meta tags -->
+    {% endblock %}
     <!-- Favicon Links -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{MEDIA_URL}}favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="{{MEDIA_URL}}favicons/favicon-32x32.png">
@@ -38,7 +41,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- Toastify JS CDN -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{% static 'js/toastify.js' %}"></script>
     {% endblock %}
     {% block extra_head %}
@@ -57,9 +60,9 @@
             <button class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#main-nav"
-            aria-controls="mobileNavigation"
-            aria-expanded="False"
-            aria-label="Toggle navigation">
+            aria-controls="main-nav"
+            aria-expanded="false"
+            aria-label="Toggle navifation dropdown">
                 <span class="navbar-toggler-icon">
                     <i class="fas fa-bars navbar-mobile-toggler"></i>
                 </span>
@@ -95,6 +98,7 @@
                             <a href="{% url 'account_logout' %}">Sign Out</a>
                         </li>
                         {% endif %}
+                    </ul>
                     <ul class="footer-links d-lg-none d-none d-md-block">
                         {% include 'includes/footer-social-links.html' %}
                     </ul>
@@ -154,7 +158,7 @@
         <script src="{% static "js/notification.js" %}"></script>
         <script src="{% static "js/ajax_error_message.js" %}"></script>
         <!-- Define MEDIA_URL to use for javascript -->
-        <script type="text/javascript">
+        <script>
             let mediaUrl = "{{MEDIA_URL}}"
         </script>
     {% endblock %}

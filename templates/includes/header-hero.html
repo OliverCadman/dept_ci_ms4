@@ -8,11 +8,11 @@
                     {% if p == "user_profile_form" %}
                     <div id="dept-logo-wrapper-sm">
                         <figure>
-                            <img srcset="{{MEDIA_URL}}dept-logo.png, {{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
+                            <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="75" height="75" id="dept-logo-sm">
                         </figure>
                     </div>
                     {% endif %}
-                    <h1 class="text-center {% if p == "user_profile_form" %}edit_profile_header{% endif %}{% if p == "checkout_success" %}header_shadow{% endif %}">
+                    <h2 class="text-center {% if p == "user_profile_form" %}edit_profile_header{% endif %}{% if p == "checkout_success" %}header_shadow{% endif %}">
                         <!-- Dynamically render header relative to page -->
                         {% if p == "user_profile_form" %}
                             {% if request.session.form_page == 1 %}
@@ -43,7 +43,7 @@
                         {% else %}
                             Thankyou
                         {% endif %}
-                    </h1>
+                    </h2>
                         {% if p == "checkout_success" %}
                             {% if subscribed_user.is_paid %}
                                 <p class="med_small_text text-center">
@@ -111,7 +111,7 @@
             </div>
     </section>
     {% if not p == "dashboard" and not p == "booking_form" and not p == "booking_success" and not p == "dep_list" and not p == "job_list" and not p == "tier_two_booking_form" %}
-    <section class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile linear_bg{% elif p == "choose_subscription" %}linear_bg{% elif p == "checkout_success" %}checkout_success{% endif %}">
+    <div class="d-block d-lg-none dynamic-lead-section-sm {% if p == "user_profile_form" %}edit_profile linear_bg{% elif p == "choose_subscription" %}linear_bg{% elif p == "checkout_success" %}checkout_success{% endif %}">
         {% if p == "user_profile_form" or p == "choose_subscription" %}
             <div class="opaque_overlay"></div>
         {% endif %}
@@ -165,7 +165,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     {% endif %}
         </div>
     <section class="dynamic-hero-section-lg {% if p == "user_profile_form" %}edit_profile{% elif p == "choose_subscription" %}choose_subscription{% elif p == "dashboard" %}short{% elif p == "checkout_success" %}checkout_success{% elif p == "booking_form" or p == "tier_two_booking_form" %}height_55vh{% endif %}{% if p == "dep_list" %}dep_list {% elif p == "job_list" %}job_list{% endif %} d-none d-lg-block">
@@ -173,12 +173,12 @@
             {% if p == "user_profile_form" %}
             <div id="dept-logo-wrapper">
                 <figure>
-                    <img srcset="{{MEDIA_URL}}dept-logo.png, {{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="300" height="300" id="dept-logo">
+                    <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" width="300" height="300" id="dept-logo">
                 </figure>
             </div>
             {% endif %}
             <div class="dynamic-header {% if p == "dep_list" %}dep_list_header{% elif p == "job_list" %}job_list{% elif p == "checkout_success" %}checkout_success{% endif %}">
-                <h1 class="edit_profile_header">
+                <h2 class="edit_profile_header">
                 {% if p == "user_profile_form" %}
                     {% if request.session.form_page == 1 %}
                         Edit Your Profile
@@ -208,7 +208,7 @@
                 {% else %}
                     Thankyou
                 {% endif %}
-                </h1>
+                </h2>
                 {% if p == "checkout_success" %}
                     {% if subscribed_user.is_paid %}
                         <p class="med_small_text width_45">
@@ -258,19 +258,21 @@
                 <div class="opaque_overlay"></div>
             {% endif %}
              {% if p == "dep_list" %}
-                <img srcset="{{MEDIA_URL}}dept_findadep_landing.webp, {{MEDIA_URL}}dept_findadep_landing.jpg" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
+                <img src="{{MEDIA_URL}}dept_findadep_landing.webp" alt="DepT - Find-a-dep Hero" width="800" height="600" id="findadep_hero_image">
              {% elif p == "job_list" %}
-                <img srcset="{{MEDIA_URL}}dept_joblist_hero.webp, {{MEDIA_URL}}dept_joblist_hero.jpg" alt="DepT - Job List Hero" width="900" height="500" id="joblist_hero">
+                <img src="{{MEDIA_URL}}dept_joblist_hero.webp" alt="DepT - Job List Hero" width="900" height="500" id="joblist_hero">
             {% endif %}
             <div class="success-button-wrapper">
                 <div id="dynamic-lead-header-lg">
-                    <h2 class="text-center white_font primary_font header_shadow large_text">
-                        {% if p == "checkout_success" %}
+                    {% if p == "checkout_success" %}
+                        <h2 class="text-center white_font primary_font header_shadow large_text">
                             Get yourself noticed
+                        </h2>
                        {% elif p == "choose_subscription" %}
+                        <h2 class="text-center white_font primary_font header_shadow_large_text">
                             Our Tier Two Policy
-                       {% endif %}
-                    </h2>
+                        </h2>
+                    {% endif %}
                 </div>
                 {% if p == "choose_subscription" %}
                     <hr class="block_divider_stub_light">
