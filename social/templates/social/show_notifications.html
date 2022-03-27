@@ -1,17 +1,15 @@
 <!-- Template to serve notifications provided by inclusion tag -->
-
 {% load static %}
-
-<div class="dropdown" id="notification_dropdown_container">
+<div class="dropdown notification_dropdown_container">
     {% if notifications.count > 0 %}
-    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target="#notification_dropdown" data-bs-auto-close="outside" aria-expanded="false" id="notification_btn">
+    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target=".notification_dropdown" data-bs-auto-close="outside" aria-expanded="false" class="notification_btn">
         <i class="fas fa-bell notification_icon"></i>
             <span class="badge bg-danger position-absolute start-75 top-0 translate-middle rounded-pill notification_count_icon">{{ notifications.count }}</span>
     </button>
     {% else %}
     <a href=""><i class="far fa-bell notification_icon"></i></a>
     {% endif %}
-    <ul class="dropdown-menu animate__animated animate__fadeInDown" id="notification_dropdown">
+    <ul class="dropdown-menu notification_dropdown animate__animated animate__fadeInDown">
         {% for notification in notifications %}
             {% if notification.related_invitation %}
                 <!-- Received Invitation -->
@@ -30,7 +28,7 @@
                                             height="40"
                                             class="notification_profile_img">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -62,7 +60,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -94,7 +92,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -125,7 +123,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -155,7 +153,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -187,7 +185,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -219,7 +217,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -249,7 +247,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
@@ -281,7 +279,7 @@
                                             width="40"
                                             height="40">
                                         {% else %}
-                                            <img srcset="{% get_media_prefix %}dept-logo.webp, {% get_media_prefix %}dept-logo.png" alt="DepT Logo" width="40" height="40">
+                                            <img src="{% get_media_prefix %}dept-logo.webp" alt="DepT Logo" width="40" height="40">
                                         {% endif %}   
                                     </div>
                                     <div class="notification_text">
