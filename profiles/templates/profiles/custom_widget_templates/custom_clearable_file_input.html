@@ -6,8 +6,8 @@
         <br>
         {{ widget.input_text }}
     {% endif %}
-        <span class="btn btn-file">
+        <span class="btn btn-file p-0">
             <input id="new-image" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
         </span>
-        <strong><p class="text-danger" id="filename"></p></strong>
+        <p class="text-danger" id="filename"><strong></strong></p>
         
