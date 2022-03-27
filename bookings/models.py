@@ -10,6 +10,7 @@ from jobs.models import Job
 
 import uuid
 import datetime
+import pytz
 
 
 class Invitation(models.Model):
@@ -341,9 +342,12 @@ class Review(models.Model):
         round_time() function is used to round the
         time objects to the nearest minute.
         """
+        utc = pytz.UTC
 
         rounded_modified_date = self.round_time(
             self.review_modified, roundTo=1*60)
         rounded_created_date = self.round_time(
             self.review_created, roundTo=1*60)
-        return rounded_modified_date > rounded_created_date
+        return (
+            utc.localize(rounded_modified_date) >
+            rounded_created_date)
