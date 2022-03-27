@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from profiles.models import UserProfile
 
-# Create your tests here.
 
 class TestHomePage(TestCase):
     """
@@ -21,7 +20,6 @@ class TestHomePage(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home/index.html")
-    
 
     def test_get_home_page_by_name(self):
         """
@@ -53,7 +51,6 @@ class TestHomePageRedirect(TestCase):
         )
         self.client.login(username=username, password=password)
 
-    
     def test_redirect_url_if_no_subscription_chosen(self):
         """
         Attempt to visit home page when user is logged in, and
@@ -61,11 +58,12 @@ class TestHomePageRedirect(TestCase):
         and correct template is used.
         """
         response = self.client.get("/", follow=True)
-        self.assertRedirects(response, "/subscribe/choose_subscription/", status_code=302, 
-                             target_status_code=200)
-        self.assertTemplateUsed(response, "subscriptions/subscription_choices.html")
+        self.assertRedirects(
+            response, "/subscribe/choose_subscription/", status_code=302,
+            target_status_code=200)
+        self.assertTemplateUsed(
+            response, "subscriptions/subscription_choices.html")
 
-    
     def test_redirect_reverse_if_no_subscription_chosen(self):
         """
         Attempt to visit home page when user is logged in, and
@@ -73,6 +71,8 @@ class TestHomePageRedirect(TestCase):
         and correct template is used.
         """
         response = self.client.get("/", follow=True)
-        self.assertRedirects(response, reverse("choose_subscription"), status_code=302, 
-                             target_status_code=200)
-        self.assertTemplateUsed(response, "subscriptions/subscription_choices.html")
+        self.assertRedirects(
+            response, reverse("choose_subscription"), status_code=302,
+            target_status_code=200)
+        self.assertTemplateUsed(
+            response, "subscriptions/subscription_choices.html")
