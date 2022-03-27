@@ -118,7 +118,7 @@
                                         {% endif %}
                                     </p>
                                 {% endwith %}
-                                    {% if not invite_sender.profile_image %}
+                                    {% if not booking.related_invitation.invite_sender.profile_image %}
                                     <div id="dept_logo_fallback_container">
                                         <figure id="dept_logo_wrapper_sm" class="position-relative">
                                             {% include 'includes/dept-logo.html' %}
