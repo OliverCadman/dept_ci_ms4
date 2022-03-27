@@ -35,7 +35,7 @@
         {% endwith %}
     </aside>
     <!-- Results -->
-    <section>
+    <div class="results_container">
         <div class="container-fluid">
             <div class="row d-flex justify-content-center">
             <div class="col-12 p-0">
@@ -68,7 +68,7 @@
                             {% elif job.job_poster.profile_image %}
                                 <img src="{{ job.job_poster.profile_image.url }}" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% else %}
-                                <img srcset="{{MEDIA_URL}}dept_card_image_default.webp, {{MEDIA_URL}}dept_card_image_default.png" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
+                                <img src="{{MEDIA_URL}}dept_card_image_default.webp" alt="{{ job.job_title }}" class="card-img-top job_image" width="300" height="200">
                             {% endif %}
                             <div class="card-body">
                                 <div class="card_detail">
@@ -152,14 +152,14 @@
             {% endif %}
             </div>
         </div>
-    </section>
+    </div>
     <!-- Job Post Modal -->
     <aside>
         <div class="modal fade" id="job_advertisement_modal">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="primary_font">Need a Musician?</h2>
+                        <h2 class="primary_font m-0">Need a Musician?</h2>
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body modal_form_container">
@@ -195,8 +195,6 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header secondary_bg">
-                        <h4 id="job_title" class="med_text white_font primary_font">
-                        </h4>
                         <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-light job_detail_wrapper">
@@ -230,15 +228,6 @@
                                         <div id="job_description_wrapper">
                                             <p id="job_description" class="secondary_font"></p>
                                         </div>
-                                    </div>
-                                    <div class="col-12 cta_btns">
-                                        {% if request.user.is_authenticated %}
-                                            {% if current_user.is_paid %}
-                                                <a href="#" type="button" class="btn custom_success secondary_font white_font d-block w-100" id="register_interest_btn">
-                                                    I'm Interested
-                                                </a>
-                                             {% endif %}
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -274,4 +263,5 @@
     <script src="{% static "jobs/js/job_detail_modal.js" %}"></script>
     <script src={% static "jobs/js/filter.js" %}></script>
     <script src="{% static "js/delete_alert_modals.js" %}"></script>
+    <script src="{% static "js/form_ajax.js" %}"></script>
 {% endblock %}
