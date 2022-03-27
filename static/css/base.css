@@ -173,6 +173,10 @@ body {
     border-radius: 20px;
 }
 
+.bottom_border {
+    border-bottom: 1px solid #ccc;
+}
+
 .column_end {
     display: flex;
     flex-direction: column;
@@ -309,7 +313,6 @@ body {
 }
 
 .form-btn {
-    background-color: #1a2342;
     color: #fefefe;
     font-family: "Open Sans", sans-serif;
 }
@@ -414,6 +417,13 @@ body {
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* ----- Toastify ------ */
+
+.toastify {
+    display: flex;
+    justify-content: space-between;
 }
 
 /* -------------------------- Website Content -------------------------- */
@@ -541,11 +551,11 @@ body {
 
 /* ------ Notifications -------  */
 
-#notification_dropdown_container {
+.notification_dropdown_container {
     position: static;
 }
 
-#notification_dropdown_container .dropdown-menu {
+.notification_dropdown_container .dropdown-menu {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -555,7 +565,7 @@ body {
     overflow: auto;
 }
 
-#notification_dropdown_container .dropdown-item {
+.notification_dropdown_container .dropdown-item {
     padding: .5rem;
     border-top: 1px solid #4e4e4e;
     display: flex;
@@ -563,7 +573,7 @@ body {
     align-items: center;
 }
 
-#notification_dropdown_container .dropdown-item p {
+.notification_dropdown_container .dropdown-item p {
     margin: 0 0 0 .5rem;
     width: 97%;
 }
@@ -732,6 +742,14 @@ body {
         font-size: 0.75rem;
     }
 
+    .top_border_modal {
+        border-top: 2px solid #d1d1d1;
+    }
+
+    .right_border_modal {
+        border-right: 2px solid #d1d1d1;
+    }
+
     /* Global Modal Styles */
 
     .modal_profile_image_thumbnail {
@@ -775,7 +793,7 @@ body {
 
     /* Notifications */
 
-    #notification_dropdown_container .dropdown-menu {
+    .notification_dropdown_container .dropdown-menu {
         padding: 0;
         border-radius: 0;
         border-top-width: 0;
@@ -908,15 +926,13 @@ body {
         transition: all 0.3s;
     }
 
-
-
     /* Notifications */
 
-    #notification_dropdown_container .dropdown-menu {
+    .notification_dropdown_container .dropdown-menu {
         width: 35%;
     }
 
-    #notification_dropdown_container .dropdown-item:hover {
+    .notification_dropdown_container .dropdown-item:hover {
         cursor: pointer;
     }
 
@@ -945,6 +961,10 @@ body {
         background-color: #2a3868;
         color: #fefefe;
     }   
+
+    .form-btn.submit_btn:hover {
+        background-color: #2c7222;
+    }
 
 }
 
