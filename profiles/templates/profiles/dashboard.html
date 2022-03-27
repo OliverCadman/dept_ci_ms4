@@ -308,7 +308,7 @@
                                                 <div class="accordion-collapse show" id="filter_dropdown" aria-labelledby="accordion_header" data-bs-parent="#filter_accordion">
                                                     <div class="accordion-body">
                                                         <ul id="sidebar_filter_list">
-                                                            <li class="bottom_border">
+                                                            <li>
                                                                 <a class="{% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" and current_filter == "all" or current_page == "jobs" and current_section == "tier_two" and current_subsection == "offers_sent" and current_filter == "all" %}active{% endif %}"
                                                                 href="{% url "dashboard" current_user %}?page=jobs&section=tier_two&subsection={% if current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}posted_jobs{% else %}offers_sent{% endif %}&filter=all">All</a>
                                                        
