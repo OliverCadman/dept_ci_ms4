@@ -7,7 +7,7 @@
     object-fit: cover;
 }
 
-#profile_header h1#booking_success_fallback_header {
+#profile_header h1.booking_success_fallback_header {
     color: #111;
 }
 
