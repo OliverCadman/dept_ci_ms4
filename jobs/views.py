@@ -205,12 +205,10 @@ def post_job(request):
             form = job_form.save(commit=False)
             form.job_poster = user_profile
             form.save()
-            messages.success(request, "Your job has been posted.")
-            return redirect(reverse("job_list"))
+            success_msg = "Your job has been posted."
+            return JsonResponse({ "success_msg": success_msg })
         else:
-            print(job_form.errors)
-            messages.error(request, "Please make sure your form is valid.")
-            return redirect(reverse("job_list"))
+            return JsonResponse({ "errors": job_form.errors.as_json() })
 
         
 
