@@ -37,8 +37,8 @@ else:
 DEBUG = "DEVELOPMENT" in os.environ
 
 # Use HTTPS in production
-# if not "DEVELOPMENT" in os.environ:
-#     SECURE_SSL_REDIRECT = True
+if not "DEVELOPMENT" in os.environ:
+    SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 
@@ -150,7 +150,7 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 if "DATABASE_URL" in os.environ:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse("postgres://yitvibzqkkjpdj:8d58bd8c131d05e4e3a9e7a70d41be8a490ee6e73cce1cda950d9fd895407089@ec2-52-31-221-164.eu-west-1.compute.amazonaws.com:5432/d40bmdlirt9g8h")
     }
 
 else:
@@ -240,43 +240,43 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-    },
-    'handlers': {
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['sentry'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'raven': {
-            'level': 'INFO',
-            'handlers': ['sentry'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'INFO',
-            'handlers': ['sentry'],
-            'propagate': False,
-        },
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'sentry': {
+#             'level': 'INFO',
+#             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+#         },
+#         'console': {
+#             'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose'
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['sentry'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'raven': {
+#             'level': 'INFO',
+#             'handlers': ['sentry'],
+#             'propagate': False,
+#         },
+#         'sentry.errors': {
+#             'level': 'INFO',
+#             'handlers': ['sentry'],
+#             'propagate': False,
+#         },
+#     }
+# }
 
 
 # Internationalization
