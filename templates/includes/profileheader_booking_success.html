@@ -2,7 +2,7 @@
     <div class="row">
         <!-- Profile header with user's name, location, instruments played, reviews and contact button -->
         <div class="col-12 profile-header-container">
-            <div id="profile_header_wrapper" class="d-lg-none d-flex {% if p == "booking_detail" %}column_end{% endif %}" style="background:{% if p == "user_profile" %}
+            <div id="profile_header_wrapper" class="d-lg-none d-flex" style="background:{% if p == "user_profile" %}
                                                                                             {% if user.profile_image %}
                                                                                                 url('{{MEDIA_ROOT}}{{user.profile_image.url}}'); background-size: cover; background-repeat: no-repeat; background-position: center;
                                                                                             {% else %}
@@ -89,7 +89,7 @@
                                     {% endwith %}
                                 {% elif tier_type == 2 %}
                                     {% with event.related_job.confirmed_member as confirmed_member %}
-                                        <h1 id="{% if not confirmed_member.profile_image %}booking_success_fallback_header{% endif %}" class="text-center">
+                                        <h1 class="text-center {% if not confirmed_member.profile_image %}booking_success_fallback_header{% endif %}">
                                             {% if confirmed_member.first_name %}
                                                 You have booked {{ confirmed_member.first_name }}
                                             {% else %}
@@ -107,10 +107,10 @@
                                 {% endif %}
                             {% else %}
                                 {% with booking.related_invitation.invite_sender as invite_sender %}
-                                    <h1 id="{% if not invite_sender.profile_image %}booking_success_fallback_header{% endif %}" class="ms-2 large_text {% if not invite_sender.profile_image %}dark_font{% endif %}">
+                                    <h1  class="ms-2 large_text position-relative {% if not invite_sender.profile_image %}booking_success_fallback_header{% endif %}">
                                        Good News!
                                     </h1>
-                                    <p class="primary_font med_text {% if invite_sender.profile_image %}white_font{% else %}dark_font{% endif %} w-75 ms-2">
+                                    <p class="primary_font med_text position-relative white_font w-75 ms-2">
                                         {% if invite_sender.first_name %}
                                             {{ invite_sender.first_name }} has booked you to play {{ booking.related_invitation.event_name }}
                                         {% else %}
@@ -118,6 +118,13 @@
                                         {% endif %}
                                     </p>
                                 {% endwith %}
+                                    {% if not invite_receiver.profile_image %}
+                                    <div id="dept_logo_fallback_container">
+                                        <figure id="dept_logo_wrapper_sm" class="position-relative">
+                                            {% include 'includes/dept-logo.html' %}
+                                        </figure>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     </div>

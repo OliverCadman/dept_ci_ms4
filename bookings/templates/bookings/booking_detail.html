@@ -14,7 +14,6 @@
 <!-- Content -->
 {% block content %}
     {% with page_name as p %}
-    {{ page_name }}
         {% include "includes/profileheader_booking_success.html" %}
     {% endwith %}
     <!-- Header -->
@@ -40,7 +39,7 @@
                         {% if booking.audio_resources.all|length > 0 %}
                             {% for file in booking.audio_resources.all %}
                                 {% if not file.file_name == None or file.file_name == " " %}
-                                <a class="btn download_btn white_font secondary_font custom_success" href="{% url "download_audiofile" file.id %}">AudioFile {{ forloop.counter }}</a>
+                                <a class="btn download_btn white_font secondary_font custom_success w-100" href="{% url "download_audiofile" file.id %}">AudioFile {{ forloop.counter }}</a>
                                 {% endif %}
                             {% endfor %} 
                         {% else %}
