@@ -1,5 +1,4 @@
 $(document).on("submit", "div.modal-body form", function(e) {
-    console.log("hello")
     /*
     AJAX Request used for forms presented in modal windows.
 
@@ -9,6 +8,10 @@ $(document).on("submit", "div.modal-body form", function(e) {
     */
     e.preventDefault();
     const formElement = $(this);
+
+    if (formElement.attr("id") === "edit_review_form") {
+        return;
+    }
 
     $.ajax({
         type: $(this).attr("method"),
