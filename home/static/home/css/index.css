@@ -243,6 +243,8 @@ ol {
     border-radius: 5%;
 }
 
+/* -------------- Media Queries --------------- */
+
 /* iPhone XR, iPhone 12 Pro, Samsung Galaxy S20 Ultra, Pixel 5 */
 @media screen and (min-width: 390px) and (max-width:414px) {
     #home-hero-container-sm {
@@ -469,10 +471,6 @@ ol {
 
     /* How DepT Works */
 
-    #how-dept-works {
-        height: 80vh;
-    }
-
     .how_dept_works_section_lg {
         position: relative;
 
@@ -609,16 +607,27 @@ ol {
     }
 }
 
-@media screen and (min-width: 1500px) {
-    #how-dept-works {
-        height: 60vh;
+/* Macbook Pro 2014 */
+@media screen and (min-width: 1280px) {
+    .hero-section-lg h1 {
+        font-size: 1.75rem;
     }
+}
+
+/* Macbook Pro 2018 */
+@media screen and (min-width: 1440px) {
+     .hero-section-lg h1 {
+         font-size: 2.2rem;
+     }
+
 
     .list-circle-text p {
         font-size: 1.5rem;
     }
 }
 
+
+/* Extra Large Screens */
 @media screen and (min-width: 1920px) and (max-width: 1920px) {
     .hero-section-lg h1 {
         font-size: 3rem;
