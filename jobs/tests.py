@@ -22,6 +22,7 @@ from social.functions import reverse_querystring
 from django.utils import timezone
 import json
 
+
 class TestDeplistView(TestCase):
     """
     Unit Testing - DepList View
@@ -31,8 +32,8 @@ class TestDeplistView(TestCase):
 
     Confirm that a user can search and filter objects
     by instrument and genre.
-
     """
+
     def setUp(self):
         """
         Create two test users and give them attributes including:
@@ -40,23 +41,23 @@ class TestDeplistView(TestCase):
         - Instrument
         - Genre
         - City
-
         """
         username = "test_user_1"
         password = "test_password_1"
         email = "test_email_1"
 
         self.test_user = create_test_user(username, password, email)
-        self.test_user_profile = get_object_or_404(UserProfile, user=self.test_user)
+        self.test_user_profile = get_object_or_404(
+            UserProfile, user=self.test_user)
 
         self.username2 = "test_user_2"
         self.password2 = "test_password_2"
         self.email2 = "test_email_2"
 
-        self.test_user_2 = create_test_user(self.username2, self.password2, self.email2)
+        self.test_user_2 = create_test_user(
+            self.username2, self.password2, self.email2)
         self.test_user_profile_2 = get_object_or_404(
             UserProfile, user__username=self.test_user_2)
-
 
         # Create a test instrument to use as filter parameter.
         self.test_instrument = Instrument.objects.create(
@@ -67,17 +68,19 @@ class TestDeplistView(TestCase):
         self.test_genre = Genre.objects.create(
             genre_name="test_genre"
         )
-        
-         # Add test instrument and genre to the test_user_profile object,
-        # which should be returned in queryset upon searching by this instrument
-        # and/or genre.
-        self.test_user_profile.instruments_played.add(self.test_instrument)
+
+        # Add test instrument and genre to the test_user_profile object,
+        # which should be returned in queryset upon
+        # searching by this instrument and/or genre.
+        self.test_user_profile.instruments_played.add(
+            self.test_instrument)
         self.test_user_profile.genres.add(self.test_genre)
 
         self.test_user_profile.city = "test_city"
         self.test_user_profile.save()
 
-        self.test_user_profile_2.instruments_played.add(self.test_instrument)
+        self.test_user_profile_2.instruments_played.add(
+            self.test_instrument)
         self.test_user_profile_2.genres.add(self.test_genre)
         self.test_user_profile_2.city = "test_city"
 
@@ -86,45 +89,62 @@ class TestDeplistView(TestCase):
 
     def test_get_queryset(self):
         """
-        Test Filter Queryset Methods, with three variations of query parameters:
+        Test Filter Queryset Methods, with three
+        variations of query parameters:
 
         - With instrument and genre, without "Available Today" checked
         - With instrument and genre, with "Available Today" checked
         - With instrument, genre and city
         """
-        reverse_query_string_without_date = reverse_querystring("dep_list", query_kwargs={
-            "instrument": "test_instrument",
-            "genre": "test_genre",
-            
-        })
+        reverse_query_string_without_date = reverse_querystring(
+            "dep_list",
+            query_kwargs={
+                "instrument": "test_instrument",
+                "genre": "test_genre",
 
-        # Determine a successful response, and the context contains the correct query
-        # and context.
+            })
+
+        # Determine a successful response, and the context
+        # contains the correct query and context.
         response = self.client.get(reverse_query_string_without_date)
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["instrument"], "test_instrument")
-        self.assertTrue(response.context["genre"], "test_genre")
-        self.assertTrue(self.test_instrument in response.context["instrument_list"])
-        self.assertTrue(self.test_user_profile in response.context["dep_collection"])
 
-        reverse_query_string_with_date = reverse_querystring("dep_list", query_kwargs={
-            "instrument": "test_instrument",
-            "genre": "test_genre",
-            "available_today": True
-        })
+        self.assertEqual(
+            response.status_code, 200)
+
+        self.assertTrue(
+            response.context["instrument"], "test_instrument")
+
+        self.assertTrue(
+            response.context["genre"], "test_genre")
+
+        self.assertTrue(
+            self.test_instrument in response.context["instrument_list"])
+
+        self.assertTrue(
+            self.test_user_profile in response.context["dep_collection"])
+
+        reverse_query_string_with_date = reverse_querystring(
+            "dep_list", query_kwargs={
+                        "instrument": "test_instrument",
+                        "genre": "test_genre",
+                        "available_today": True
+                        })
 
         response = self.client.get(reverse_query_string_with_date)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["instrument"], "test_instrument")
         self.assertTrue(response.context["genre"], "test_genre")
-        self.assertTrue(self.test_instrument in response.context["instrument_list"])
-        self.assertTrue(self.test_user_profile in response.context["dep_collection"])
+        self.assertTrue(
+            self.test_instrument in response.context["instrument_list"])
+        self.assertTrue(
+            self.test_user_profile in response.context["dep_collection"])
 
-        reverse_query_string_with_city = reverse_querystring("dep_list", query_kwargs={
-            "instrument": "test_instrument",
-            "genre": "test_genre",
-            "city": "test_city"
-        })
+        reverse_query_string_with_city = reverse_querystring(
+            "dep_list", query_kwargs={
+                        "instrument": "test_instrument",
+                        "genre": "test_genre",
+                        "city": "test_city"
+                        })
 
         response = self.client.get(reverse_query_string_with_city)
 
@@ -132,10 +152,12 @@ class TestDeplistView(TestCase):
         self.assertTrue(response.context["instrument"], "test_instrument")
         self.assertTrue(response.context["genre"], "test_genre")
         self.assertTrue(response.context["city"], "test_city")
-        self.assertTrue(self.test_instrument in response.context["instrument_list"])
-        self.assertTrue(self.test_user_profile in response.context["dep_collection"])
-        self.assertEqual(response.context["dep_collection"][0].city, "test_city")
-    
+        self.assertTrue(
+            self.test_instrument in response.context["instrument_list"])
+        self.assertTrue(
+            self.test_user_profile in response.context["dep_collection"])
+        self.assertEqual(
+            response.context["dep_collection"][0].city, "test_city")
 
     def test_filter_with_sort(self):
         """
@@ -150,7 +172,8 @@ class TestDeplistView(TestCase):
 
         test_user_2 = create_test_user(username, password, email)
 
-        test_user_profile_2 = get_object_or_404(UserProfile,user__username=test_user_2)
+        test_user_profile_2 = get_object_or_404(
+            UserProfile, user__username=test_user_2)
 
         # Create a test instrument to use as filter parameter.
         test_instrument = Instrument.objects.create(
@@ -169,14 +192,14 @@ class TestDeplistView(TestCase):
         self.test_user_profile_2.average_rating = 2
         self.test_user_profile_2.save()
 
-        
-        # Sort with Average rating ascending (test_user_profile_2 should be returned first)
-        reverse_query_string_with_sort_asc = reverse_querystring("dep_list", query_kwargs={
-            "instrument": "test_instrument",
-            "genre": "test_genre",
-            "sort": "average_rating_asc"
-            
-        })
+        # Sort with Average rating ascending
+        # (test_user_profile_2 should be returned first)
+        reverse_query_string_with_sort_asc = reverse_querystring(
+            "dep_list", query_kwargs={
+                        "instrument": "test_instrument",
+                        "genre": "test_genre",
+                        "sort": "average_rating_asc"
+                        })
 
         response = self.client.get(reverse_query_string_with_sort_asc)
 
@@ -186,17 +209,23 @@ class TestDeplistView(TestCase):
         self.assertTrue(test_instrument in response.context["instrument_list"])
 
         # Confirm that the objects are returned in the correct order
-        self.assertEqual(response.context["dep_collection"][0], self.test_user_profile_2) # Avg Rating: 2
-        self.assertEqual(response.context["dep_collection"][1], self.test_user_profile) # Avg Rating: 4
 
+        # Avg Rating: 2
+        self.assertEqual(
+            response.context["dep_collection"][0], self.test_user_profile_2)
 
-        # Sort with average rating ascending (self.test_user_profile should be returned first.)
-        reverse_query_string_with_sort_desc = reverse_querystring("dep_list", query_kwargs={
-            "instrument": "test_instrument",
-            "genre": "test_genre",
-            "sort": "average_rating_desc"
-            
-        })
+        # Avg Rating: 4
+        self.assertEqual(
+            response.context["dep_collection"][1], self.test_user_profile)
+
+        # Sort with average rating ascending
+        # (self.test_user_profile should be returned first.)
+        reverse_query_string_with_sort_desc = reverse_querystring(
+            "dep_list", query_kwargs={
+                        "instrument": "test_instrument",
+                        "genre": "test_genre",
+                        "sort": "average_rating_desc"
+                        })
 
         response = self.client.get(reverse_query_string_with_sort_desc)
         self.assertEqual(response.status_code, 200)
@@ -204,9 +233,16 @@ class TestDeplistView(TestCase):
         self.assertTrue(response.context["genre"], "test_genre")
         self.assertTrue(test_instrument in response.context["instrument_list"])
 
-        # Confirm that the objects are being returned in the correct, ascending order
-        self.assertEqual(response.context["dep_collection"][0], self.test_user_profile) # Avg Rating: 4
-        self.assertEqual(response.context["dep_collection"][1], self.test_user_profile_2) # Avg Rating: 2
+        # Confirm that the objects are being
+        # returned in the correct, ascending order
+
+        # Avg Rating: 4
+        self.assertEqual(
+            response.context["dep_collection"][0], self.test_user_profile)
+
+        # Avg Rating: 2
+        self.assertEqual(
+            response.context["dep_collection"][1], self.test_user_profile_2)
 
 
 class TestJobListView(TestCase):
@@ -223,8 +259,10 @@ class TestJobListView(TestCase):
         self.password_1 = "test_password_1"
         self.email_1 = "test_email_1"
 
-        self.test_user_1 = create_test_user(self.username_1, self.password_1, self.email_1)
-        self.test_user_profile_1 = get_object_or_404(UserProfile, user=self.test_user_1)
+        self.test_user_1 = create_test_user(
+            self.username_1, self.password_1, self.email_1)
+        self.test_user_profile_1 = get_object_or_404(
+            UserProfile, user=self.test_user_1)
 
         """
         Second Test User
@@ -233,8 +271,10 @@ class TestJobListView(TestCase):
         self.password_2 = "test_password_2"
         self.email_2 = "test_email_2"
 
-        self.test_user_2 = create_test_user(self.username_2, self.password_2, self.email_2)
-        self.test_user_profile_2 = get_object_or_404(UserProfile, user=self.test_user_2)
+        self.test_user_2 = create_test_user(
+            self.username_2, self.password_2, self.email_2)
+        self.test_user_profile_2 = get_object_or_404(
+            UserProfile, user=self.test_user_2)
 
         self.test_job = Job.objects.create(
             job_poster=self.test_user_profile_1,
@@ -257,20 +297,17 @@ class TestJobListView(TestCase):
         and uses the correct template.
         """
         response = self.client.get(reverse("job_list"))
-        print("JOB_COLLECTION", response.context["job_collection"])
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed("jobs/dep_list.html")
 
-    
     def test_get_queryset(self):
         """
-        Test filtering of queryset Job list query set 
+        Test filtering of queryset Job list query set
         using two variants of query:
 
         - Event City
         - Fee Range
-
         """
         test_job_1 = create_test_job_variable_city(
             self.test_user_profile_1,
@@ -289,9 +326,10 @@ class TestJobListView(TestCase):
         response = self.client.get(reverse("job_list"))
         print("JOB_LIST_INITIAL", response.context["job_collection"])
 
-        reverse_query_string_with_event_city = reverse_querystring("job_list", query_kwargs={
-            "event_city": "test_city_1"
-        })
+        reverse_query_string_with_event_city = reverse_querystring(
+            "job_list", query_kwargs={
+                        "event_city": "test_city_1"
+                        })
 
         response = self.client.get(reverse_query_string_with_event_city)
         print(response.context["job_collection"])
@@ -310,14 +348,14 @@ class TestJobListView(TestCase):
         test_job.interested_member.add(self.test_user_profile_2)
         test_job.save()
 
-        logged_in = self.client.login(username=self.username_2, password=self.password_2)
+        logged_in = self.client.login(
+            username=self.username_2, password=self.password_2)
         self.assertTrue(logged_in)
 
         response = self.client.get(reverse("job_list"))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(test_job in response.context["current_users_jobs"])
 
-        
     def test_job_post(self):
         """
         Make a test POST request to the view's 'post' method,
@@ -339,7 +377,7 @@ class TestJobListView(TestCase):
             "event_country": "GB",
             "event_datetime": "22/03/2022 17:01:00"
         }
-        
+
         # Instantiate the request factory, along with the
         # session and message middleware required in order
         # for request factory to function.
@@ -352,11 +390,10 @@ class TestJobListView(TestCase):
         message_middleware.process_request(request)
         request.session.save()
 
-        # 
+        # Determine a successful response.
         response = post_job(request)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
-    
     def test_job_post_redirect_if_user_not_paid(self):
         """
         Confirm that an unpaid member is redirected away
@@ -409,7 +446,7 @@ class TestJobListView(TestCase):
         request.session.save()
 
         response = post_job(request)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_edit_job_GET(self):
         """
@@ -425,7 +462,8 @@ class TestJobListView(TestCase):
         test_job = self.test_job
 
         request_factory = RequestFactory()
-        request = request_factory.get(reverse("edit_job", args=[test_job.pk]))
+        request = request_factory.get(
+            reverse("edit_job", args=[test_job.pk]))
         request.user = self.test_user_1
         session_middleware = SessionMiddleware(lambda x: x)
         session_middleware.process_request(request)
@@ -442,7 +480,7 @@ class TestJobListView(TestCase):
         Confirm that the Edit Job view is restricted only
         to the user who owns the Job object.
         """
-        
+
         self.client.login(
             username=self.username_2,
             password=self.password_2
@@ -452,7 +490,8 @@ class TestJobListView(TestCase):
 
         # Request Factory and Session/Message Middleware
         request_factory = RequestFactory()
-        request = request_factory.get(reverse("edit_job", args=[test_job.pk]))
+        request = request_factory.get(
+            reverse("edit_job", args=[test_job.pk]))
         request.user = self.test_user_2
         session_middleware = SessionMiddleware(lambda x: x)
         session_middleware.process_request(request)
@@ -476,7 +515,7 @@ class TestJobListView(TestCase):
         )
 
         test_job = self.test_job
-        
+
         test_job_post_edit_dict = {
             "job_title": "test_job",
             "event_name": "test_event",
@@ -490,7 +529,8 @@ class TestJobListView(TestCase):
 
         request_factory = RequestFactory()
         request = request_factory.post(
-            reverse("edit_job", args=[test_job.pk]), test_job_post_edit_dict)
+            reverse(
+                "edit_job", args=[test_job.pk]), test_job_post_edit_dict)
         request.user = self.test_user_1
         session_middleware = SessionMiddleware(lambda x: x)
         session_middleware.process_request(request)
@@ -513,19 +553,21 @@ class TestJobListView(TestCase):
             password=self.password_1
         )
 
-        test_job = self.test_job 
+        test_job = self.test_job
 
-        response = self.client.get(reverse("delete_job", args=[test_job.pk]), follow=True)
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        
+        response = self.client.get(
+            reverse("delete_job", args=[test_job.pk]), follow=True)
+        self.assertRedirects(
+            response, reverse("job_list"),
+            status_code=302, target_status_code=200)
+
         all_jobs = Job.objects.all()
         self.assertFalse(test_job in all_jobs)
-
 
     def test_register_interest(self):
         """
         Test the view to register interest in a job,
-        and confirm a successful 302 response, with 
+        and confirm a successful 302 response, with
         redirect to the appropriate page.
 
         Confirm that the test_user_profile_2 object
@@ -533,22 +575,24 @@ class TestJobListView(TestCase):
         """
         test_job = self.test_job
 
-
         self.test_user_profile_2.subscription_chosen = True
         self.test_user_profile_2.is_paid = True
         self.test_user_profile_2.save()
 
         response = self.client.get(
-            reverse("register_interest", args=[test_job.pk, self.test_user_2]), follow=True)
-        
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        self.assertTrue(self.test_user_profile_2 in test_job.interested_member.all())
+            reverse("register_interest",
+                    args=[test_job.pk, self.test_user_2]),
+            follow=True)
 
-    
+        self.assertRedirects(response, reverse("job_list"),
+                             status_code=302, target_status_code=200)
+        self.assertTrue(
+            self.test_user_profile_2 in test_job.interested_member.all())
+
     def test_remove_offer(self):
         """
         Test the view to remove an offer for a job.
-        Confirm a successful 302 to response, with 
+        Confirm a successful 302 to response, with
         redirect to the appropriate page.
 
         Confirm that test_user_profile_2
@@ -563,15 +607,22 @@ class TestJobListView(TestCase):
         self.test_user_profile_2.save()
 
         test_job.interested_member.add(self.test_user_profile_2)
-        self.assertTrue(self.test_user_profile_2 in test_job.interested_member.all())
+        self.assertTrue(
+            self.test_user_profile_2 in test_job.interested_member.all())
 
-        response = self.client.get(reverse("remove_offer", args=[test_job.pk, self.test_user_2]), follow=True)
+        response = self.client.get(
+            reverse("remove_offer", args=[test_job.pk, self.test_user_2]),
+            follow=True)
 
         messages = list(get_messages(response.wsgi_request))
 
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        self.assertTrue(self.test_user_profile_2 not in test_job.interested_member.all())
-        self.assertEqual(str(messages[0]), "You have removed your offer for this job.")
+        self.assertRedirects(
+            response, reverse("job_list"),
+            status_code=302, target_status_code=200)
+        self.assertTrue(
+            self.test_user_profile_2 not in test_job.interested_member.all())
+        self.assertEqual(
+            str(messages[0]), "You have removed your offer for this job.")
 
     def test_remove_offer_redirect(self):
         """
@@ -579,13 +630,14 @@ class TestJobListView(TestCase):
         if they are unauthorized.
 
         Add two users (self.test_user_profile_2 and test_user_profile_3) to
-        the Job's collection of "interested members" (posted by self.test_user_profile)
+        the Job's collection of "interested members"
+        (posted by self.test_user_profile)
 
-        Sign User Two in, and attempt to access view using User Three's username as
-        argument.
+        Sign User Two in, and attempt to access view
+        using User Three's username as argument.
 
-        Confirm that User Two is redirected successfully, with the appropriate
-        message.
+        Confirm that User Two is redirected successfully,
+        with the appropriate message.
         """
 
         self.client.logout()
@@ -610,16 +662,22 @@ class TestJobListView(TestCase):
 
         user_2_logged_in = self.client.login(username=self.username_2,
                                              password=self.password_2)
-        
+
         self.assertTrue(user_2_logged_in)
 
-        response = self.client.get(reverse("remove_offer", args=[test_job.pk, test_user_profile_3]), follow=True)
+        response = self.client.get(
+            reverse("remove_offer", args=[test_job.pk, test_user_profile_3]),
+            follow=True)
 
         messages = list(get_messages(response.wsgi_request))
 
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), "You may not remove another member's offer.")
-        self.assertTrue(test_user_profile_3 in test_job.interested_member.all())
+        self.assertRedirects(
+            response, reverse("job_list"),
+            status_code=302, target_status_code=200)
+        self.assertEqual(
+            str(messages[0]), "You may not remove another member's offer.")
+        self.assertTrue(
+            test_user_profile_3 in test_job.interested_member.all())
 
     def test_redirect_if_already_removed_interest(self):
         """
@@ -634,16 +692,20 @@ class TestJobListView(TestCase):
 
         test_job = get_object_or_404(Job, pk=self.test_job.pk)
 
-        response = self.client.get(reverse("remove_offer",
-                                           args=[test_job.pk, self.test_user_profile_2]), follow=True)
+        response = self.client.get(
+            reverse("remove_offer",
+                    args=[test_job.pk, self.test_user_profile_2]),
+            follow=True)
 
         messages = list(get_messages(response.wsgi_request))
-        
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        self.assertEqual(str(messages[0]), "You already have no interest in this job.")
 
+        self.assertRedirects(
+            response, reverse("job_list"),
+            status_code=302, target_status_code=200)
 
-    
+        self.assertEqual(
+            str(messages[0]), "You already have no interest in this job.")
+
     def test_register_interest_redirect_if_user_not_paid(self):
         """
         Confirm that an unpaid user is redirected from view
@@ -657,10 +719,15 @@ class TestJobListView(TestCase):
         test_job = self.test_job
 
         response = self.client.get(
-            reverse("register_interest", args=[test_job.pk, self.test_user_2]), follow=True)
+            reverse("register_interest",
+                    args=[test_job.pk, self.test_user_2]),
+            follow=True)
 
-        self.assertRedirects(response, reverse("job_list"), status_code=302, target_status_code=200)
-        self.assertTrue(self.test_user_profile_2 not in test_job.interested_member.all())
+        self.assertRedirects(
+            response, reverse("job_list"),
+            status_code=302, target_status_code=200)
+        self.assertTrue(
+            self.test_user_profile_2 not in test_job.interested_member.all())
         self.assertEqual(len(test_job.interested_member.all()), 0)
 
     def test_job_confirmation(self):
@@ -674,7 +741,8 @@ class TestJobListView(TestCase):
         confirmed_user = self.test_user_2
 
         request_factory = RequestFactory()
-        request = request_factory.get(reverse("confirm_job_offer", args=[test_job.pk, confirmed_user]))
+        request = request_factory.get(
+            reverse("confirm_job_offer", args=[test_job.pk, confirmed_user]))
         request.user = self.test_user_1
         session_middleware = SessionMiddleware(lambda x: x)
         session_middleware.process_request(request)
@@ -687,18 +755,20 @@ class TestJobListView(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_job_confirmation_redirect_for_unauthorized_user(self):
-        
+
         self.client.logout()
 
         confirmed_user_username = "test_username"
         confirmed_user_password = "test_password"
         confirmed_user_email = "test_email"
-        
+
         confirmed_user = create_test_user(
-            confirmed_user_username, confirmed_user_password, confirmed_user_email
+            confirmed_user_username, confirmed_user_password,
+            confirmed_user_email
         )
 
-        confirmed_user_profile = get_object_or_404(UserProfile, user__username=confirmed_user)
+        confirmed_user_profile = get_object_or_404(
+            UserProfile, user__username=confirmed_user)
 
         test_job_object = get_object_or_404(Job, pk=self.test_job.pk)
         test_job_object.confirmed_member = confirmed_user_profile
@@ -706,12 +776,13 @@ class TestJobListView(TestCase):
 
         user_2_logged_in = self.client.login(
             username="test_user_2", password="test_password_2")
-        
+
         self.assertTrue(user_2_logged_in)
 
         request_factory = RequestFactory()
-        request = request_factory.get(reverse("confirm_job_offer",
-                                              args=[self.test_job.pk, confirmed_user]))
+        request = request_factory.get(
+            reverse("confirm_job_offer",
+                    args=[self.test_job.pk, confirmed_user]))
         request.user = self.test_user_2
         session_middleware = SessionMiddleware(lambda x: x)
         session_middleware.process_request(request)
@@ -722,7 +793,6 @@ class TestJobListView(TestCase):
         response = confirm_job_offer(request, self.test_job.pk, confirmed_user)
 
         self.assertEqual(response.status_code, 302)
-     
 
     def test_get_interested_members(self):
         """
@@ -732,7 +802,7 @@ class TestJobListView(TestCase):
         interest in taking a particular Job advertised on the Job List Page.
 
         Confirm that the view correctly returns the member's details
-        as a JSON object. 
+        as a JSON object.
 
         Confirm that all low-level details, such as:
 
@@ -771,22 +841,37 @@ class TestJobListView(TestCase):
         test_job_object.interested_member.add(self.test_user_profile_2)
         test_job_object.save()
 
-        response = self.client.get(reverse("get_interested_members", args=[self.test_job.pk]))
+        response = self.client.get(
+            reverse("get_interested_members", args=[self.test_job.pk]))
         print(response.content)
 
         instrument_array = []
         instrument_array.append(test_instrument.instrument_name)
 
         # Prepare the returned data to compare against the values set above.
-        control_fname = json.loads(response.content)["member_details"][0]["first_name"]
-        control_lname = json.loads(response.content)["member_details"][0]["last_name"]
-        control_instruments_played = json.loads(response.content)["member_details"][0]["instruments_played"]
-        control_job_id = json.loads(response.content)["member_details"][0]["job_id"]
-        control_username = json.loads(response.content)["member_details"][0]["username"]
-        control_city = json.loads(response.content)["member_details"][0]["city"]
-        control_country = json.loads(response.content)["member_details"][0]["country"]
-        control_profile_img = json.loads(response.content)["member_details"][0]["profile_image"]
+        control_fname = json.loads(
+            response.content)["member_details"][0]["first_name"]
 
+        control_lname = json.loads(
+            response.content)["member_details"][0]["last_name"]
+
+        control_instruments_played = json.loads(
+            response.content)["member_details"][0]["instruments_played"]
+
+        control_job_id = json.loads(
+            response.content)["member_details"][0]["job_id"]
+
+        control_username = json.loads(
+            response.content)["member_details"][0]["username"]
+
+        control_city = json.loads(
+            response.content)["member_details"][0]["city"]
+
+        control_country = json.loads(
+            response.content)["member_details"][0]["country"]
+
+        control_profile_img = json.loads(
+            response.content)["member_details"][0]["profile_image"]
 
         # Determine and confirm a successful response with all data present.
         self.assertEqual(response.status_code, 200)
@@ -794,10 +879,8 @@ class TestJobListView(TestCase):
         self.assertEqual(control_lname, self.test_user_profile_2.last_name)
         self.assertEqual(control_city, self.test_user_profile_2.city)
         self.assertEqual(control_country, "United Kingdom")
-        self.assertEqual(control_profile_img, self.test_user_profile_2.profile_image.url)
+        self.assertEqual(
+            control_profile_img, self.test_user_profile_2.profile_image.url)
         self.assertEqual(control_instruments_played, instrument_array)
         self.assertEqual(control_job_id, self.test_job.pk)
         self.assertEqual(control_username, self.test_user_2.username)
-
-
-

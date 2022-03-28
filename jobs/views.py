@@ -33,9 +33,7 @@ class DepListView(ListView):
     template_name = "jobs/dep_list.html"
 
     model = UserProfile
-    print(model)
     context_object_name = "dep_collection"
-
     paginate_by = 8
 
     def get_queryset(self):
@@ -63,13 +61,13 @@ class DepListView(ListView):
         """
 
         # Merge base context with pre context from "handle_get_params()"
-        context =  super().get_context_data(**kwargs) | self.pre_context
+        context = super().get_context_data(**kwargs) | self.pre_context
         print("CONTEXT", context)
 
         # Page name required in order to render correct header content.
         context["page_name"] = "dep_list"
 
-        # Query for a complete list of instruments, used to filter results 
+        # Query for a complete list of instruments, used to filter results
         # by instrument.
         instrument_list = Instrument.objects.all()
         context["instrument_list"] = instrument_list
@@ -86,11 +84,14 @@ class DepListView(ListView):
 
         context["selected_sort"] = context["sort"]
 
-        # Populates the "availabletoday_checkbox_selected" context key with a value.
-        # Used to check the related checkbox upon page refresh (if checked by the user).
-        context["availabletoday_checkbox_selected"] = context["available_today"] 
+        # Populates the "availabletoday_checkbox_selected"
+        # context key with a value.
+        # Used to check the related checkbox upon page refresh
+        # (if checked by the user).
+        context["availabletoday_checkbox_selected"] = (
+            context["available_today"])
 
-        # Used to apply the 'selected' attribute to the selected 
+        # Used to apply the 'selected' attribute to the selected
         # filter criteria in "Instrument" form select.
         context["selected_instrument"] = context["instrument"]
 
@@ -115,7 +116,7 @@ class JobListView(ListView):
     def get_context_data(self, **kwargs):
 
         # Merge base context with pre context from "handle_get_params()"
-        context =  super().get_context_data(**kwargs) | self.pre_context
+        context = super().get_context_data(**kwargs) | self.pre_context
 
         job_form = JobForm()
 
@@ -128,15 +129,18 @@ class JobListView(ListView):
         # Populates the "selected_fee" context key with min and max value,
         # and sets relative option attribute to selected if the value matches.
         context["selected_fee"] = f"{context['min_fee']}-{context['max_fee']}"
- 
-        # Populate the "instrument" select dropdown with values from Instrument Model.
+
+        # Populate the "instrument" select dropdown with
+        # values from Instrument Model.
         context["instrument_list"] = Instrument.objects.all()
 
         if self.request.user.is_authenticated:
 
-            current_user = get_object_or_404(UserProfile, user__username=self.request.user.username)
+            current_user = get_object_or_404(
+                UserProfile, user__username=self.request.user.username)
 
-            # Get current user's jobs to personalize CTA buttons (if they have expressed interest)
+            # Get current user's jobs to personalize CTA buttons
+            # (if they have expressed interest)
             current_users_jobs = current_user.job_set.all()
 
             context["current_user"] = current_user
@@ -144,7 +148,6 @@ class JobListView(ListView):
 
         return context
 
-    
     def get_queryset(self):
 
         """
@@ -172,11 +175,14 @@ def post_job(request):
     # Grab request user's profile to include in Job instance creationg
     # as "job_poster".
     current_user = request.user
-    user_profile = get_object_or_404(UserProfile, user__username=current_user)
+    user_profile = get_object_or_404(
+        UserProfile, user__username=current_user)
 
-    # Restrict access to post_job view if current user does not have "is_paid" status.
+    # Restrict access to post_job view if current
+    # user does not have "is_paid" status.
     if not user_profile.is_paid:
-        messages.warning(request, "You need to be a Tier Two member to post a job.")
+        messages.warning(
+            request, "You need to be a Tier Two member to post a job.")
         return redirect(reverse("job_list"))
 
     if request.method == "POST":
@@ -185,7 +191,7 @@ def post_job(request):
         event_datetime = request.POST.get("event_datetime")
         parsed_datetime = parser.parse(event_datetime)
 
-        # Prepare new request dictionary to allow inclusion of 
+        # Prepare new request dictionary to allow inclusion of
         # prepared datetime field.
         job_post_request = {
             "job_title": request.POST.get("job_title"),
@@ -193,7 +199,7 @@ def post_job(request):
             "artist_name": request.POST.get("artist_name"),
             "job_description": request.POST.get("job_description"),
             "fee": request.POST.get("fee"),
-            "event_city": request.POST.get("event_city"), 
+            "event_city": request.POST.get("event_city"),
             "event_country": request.POST.get("event_country"),
             "event_datetime": parsed_datetime,
         }
@@ -206,17 +212,16 @@ def post_job(request):
             form.job_poster = user_profile
             form.save()
             success_msg = "Your job has been posted."
-            return JsonResponse({ "success_msg": success_msg })
+            return JsonResponse({"success_msg": success_msg})
         else:
-            return JsonResponse({ "errors": job_form.errors.as_json() })
+            return JsonResponse({"errors": job_form.errors.as_json()})
 
-        
 
 class EditJobView(UpdateView):
 
     """
     Updates a given Job object using JobForm,
-    with fields pre-populated with values inputted by the 
+    with fields pre-populated with values inputted by the
     invite sender from submitting the original form from
     the job list page.
     """
@@ -239,10 +244,11 @@ class EditJobView(UpdateView):
         """
         current_job = self.get_object()
         if not current_job.job_poster.user == self.request.user:
-            messages.warning(self.request, mark_safe("You cannot browse another member's job."))
+            messages.warning(
+                self.request, mark_safe(
+                    "You cannot browse another member's job."))
             return redirect(reverse("home"))
         return super().get(*args, **kwargs)
-
 
     def post(self, request, *args, **kwargs):
         """
@@ -250,12 +256,12 @@ class EditJobView(UpdateView):
         turning it into a python datetime object, interpretable
         by Django.
         """
-        
+
         event_datetime = request.POST.get("event_datetime")
         parsed_datetime = parser.parse(event_datetime)
         request.POST = request.POST.copy()
         request.POST["event_datetime"] = parsed_datetime
-     
+
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -271,10 +277,10 @@ def delete_job(request, job_id):
     Delete Job View
     --------------------
 
-    Gets the job object using the ID passed in url, 
+    Gets the job object using the ID passed in url,
     and deletes it from the table.
 
-    If successful, a success message is displayed, 
+    If successful, a success message is displayed,
     and user is redirected back to the job_list page.
 
     If unsuccessful, an error message is displayed,
@@ -293,27 +299,31 @@ def delete_job(request, job_id):
 def register_interest(request, job_id, username):
     """
     Updates a given Job object with the profile
-    of a user who has sent an offer to do a Job. 
+    of a user who has sent an offer to do a Job.
     """
     current_job = get_object_or_404(Job, pk=job_id)
     current_user = get_object_or_404(UserProfile, user__username=username)
 
     # Disallow request user from registering interest to their own job.
     if current_job.job_poster == current_user:
-        messages.info(request, mark_safe("You can't send an offer for your own job."))
+        messages.info(
+            request, mark_safe("You can't send an offer for your own job."))
         return redirect(reverse("job_list"))
 
     # Restrict access to view to Tier Two members only.
     if not current_user.is_paid:
-        messages.warning(request, "You need to be a Tier Two member to make an offer.")
+        messages.warning(
+            request, "You need to be a Tier Two member to make an offer.")
         return redirect(reverse("job_list"))
 
-    # Add the user visiting the view to the Job's collection of interested members.
+    # Add the user visiting the view to the
+    # Job's collection of interested members.
     current_job.interested_member.add(current_user)
     current_job.interest_count += 1
     current_job.save()
 
-    # Send a Notification to the Job Poster that a user has registered interest.
+    # Send a Notification to the Job Poster that
+    # a user has registered interest.
     Notification.objects.create(
         notification_sender=current_user,
         notification_receiver=current_job.job_poster,
@@ -324,6 +334,7 @@ def register_interest(request, job_id, username):
     messages.success(request, "You have made an offer for this job.")
     return redirect(reverse("job_list"))
 
+
 def remove_offer(request, job_id, username):
     """
     Updates a given Job object with the profile of
@@ -331,20 +342,24 @@ def remove_offer(request, job_id, username):
     """
 
     current_job = get_object_or_404(Job, pk=job_id)
-    current_user = get_object_or_404(UserProfile, user__username=username)
+    current_user = get_object_or_404(
+        UserProfile, user__username=username)
 
     current_jobs_interested_members = current_job.interested_member.all()
     for member in current_jobs_interested_members:
         if member != current_user:
-            messages.warning(request, "You may not remove another member's offer.")
+            messages.warning(
+                request, "You may not remove another member's offer.")
             return redirect(reverse("job_list"))
-    
+
     if current_user not in current_jobs_interested_members:
-        messages.info(request, "You already have no interest in this job.")
+        messages.info(
+            request, "You already have no interest in this job.")
         return redirect(reverse("job_list"))
-    
+
     current_job.interested_member.remove(current_user)
-    messages.success(request, "You have removed your offer for this job.")
+    messages.success(
+        request, "You have removed your offer for this job.")
     return redirect(reverse("job_list"))
 
 
@@ -358,14 +373,16 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
 
     Create a Booking object with a relation to the confirmed job.
 
-    Set the "confirmed_member" attribute of the Job model to the 
+    Set the "confirmed_member" attribute of the Job model to the
     confirmed_user_profile.
 
     Set the "is_taken" attribute of the Job object to True.
     """
     current_job = get_object_or_404(Job, pk=job_id)
-    confirmed_user_profile = get_object_or_404(UserProfile, user__username=confirmed_user_username)
-    job_poster_profile = get_object_or_404(UserProfile, user__username=request.user.username)
+    confirmed_user_profile = get_object_or_404(
+        UserProfile, user__username=confirmed_user_username)
+    job_poster_profile = get_object_or_404(
+        UserProfile, user__username=request.user.username)
 
     # Restrict access to view to the owner of the job object.
     if current_job.job_poster.user != request.user:
@@ -390,13 +407,13 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
 
         subject = render_to_string(
             "jobs/confirmation_emails/confirmation_email_subject.txt",
-            { "job_number": job_number }
+            {"job_number": job_number}
         )
 
         # Send email to Job Poster
         body = render_to_string(
             "jobs/confirmation_emails/confirmation_email_job_poster.txt",
-            { "job": current_job }
+            {"job": current_job}
         )
 
         send_mail(
@@ -409,7 +426,7 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
         # Send email to Confirmed Member
         body = render_to_string(
             "jobs/confirmation_emails/confirmation_email_confirmed_member.txt",
-            { "job": current_job }
+            {"job": current_job}
         )
 
         send_mail(
@@ -419,17 +436,21 @@ def confirm_job_offer(request, job_id, confirmed_user_username):
             [confirmed_member_email]
         )
 
-        messages.success(request, f"{confirmed_user_profile.first_name} has been confirmed.")
+        messages.success(
+            request,
+            f"{confirmed_user_profile.first_name} has been confirmed.")
         return redirect(reverse("dashboard", args=[job_poster_profile.slug]))
     except Exception as e:
         print(f"Exception: {e}")
-        messages.error(request, f"Sorry, something went wrong. Please try again.")
+        messages.error(
+            request, f"Sorry, something went wrong. Please try again.")
         return redirect(reverse("dashboard", args=[job_poster_profile.slug]))
+
 
 def get_interested_members(request, job_id):
     """
     AJAX Handler to return details of members who have
-    registered 
+    registered.
     """
     job = get_object_or_404(Job, pk=job_id)
 
@@ -437,7 +458,7 @@ def get_interested_members(request, job_id):
         interested_members = []
         member_details = {}
         for member in job.interested_member.all():
-            
+
             members_instruments = []
 
             if member.first_name or not member.first_name == "":

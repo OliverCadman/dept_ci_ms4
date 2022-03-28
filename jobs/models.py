@@ -14,7 +14,9 @@ class JobQuerySet(models.QuerySet):
             return self.filter(**filter_params).exclude(is_taken=True)
         else:
             return self.filter(
-                **filter_params, fee__range=(min_fee, max_fee)).exclude(is_taken=True)
+                **filter_params,
+                fee__range=(min_fee, max_fee)).exclude(is_taken=True)
+
 
 class JobManager(models.Manager):
 
@@ -23,9 +25,11 @@ class JobManager(models.Manager):
 
     def filter_queryset(self, filter_params, min_fee, max_fee):
         if not min_fee and not max_fee:
-             return self.get_queryset().filter_by_params(filter_params).order_by("-id")
+            return self.get_queryset().filter_by_params(
+                 filter_params).order_by("-id")
         else:
-            return self.get_queryset().filter_by_params(filter_params, min_fee, max_fee)
+            return self.get_queryset().filter_by_params(
+                filter_params, min_fee, max_fee)
 
 
 class Job(models.Model):
@@ -50,28 +54,35 @@ class Job(models.Model):
 
         Event City (CharField) - The city where the event is taking place.
 
-        Event Country (CountryField) - The country where the event is taking place.
+        Event Country (CountryField) - The country where the
+                                       event is taking place.
 
         Event DateTime (DateTimeField) - THe date and time of the event.
 
-        Interest Count (IntegerField) - An incremental field representing the amount
-                                        of interest the job has received.
+        Interest Count (IntegerField) - An incremental field representing
+                                        the amount of interest the
+                                        job has received.
 
-        Is Taken (Boolean) - Represents whether a dep has been confirmed to play the job.
+        Is Taken (Boolean) - Represents whether a dep has
+                             been confirmed to play the job.
     """
 
     job_number = models.CharField(max_length=200, null=True, blank=True)
-    job_poster = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                   related_name="posted_jobs")
-    interested_member = models.ManyToManyField(UserProfile, null=True, blank=True)
-    confirmed_member = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True,
-                                         blank=True, related_name="confirmed_jobs")
+    job_poster = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE,
+        related_name="posted_jobs")
+    interested_member = models.ManyToManyField(
+        UserProfile, blank=True)
+    confirmed_member = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, null=True,
+        blank=True, related_name="confirmed_jobs")
     job_title = models.CharField(null=True, max_length=150)
     image = models.ImageField(upload_to="job_images", null=True, blank=True)
     event_name = models.CharField(max_length=150)
     artist_name = models.CharField(max_length=100, null=True, blank=True)
     job_description = models.TextField(max_length=500)
-    fee = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
+    fee = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, default=0)
     event_city = models.CharField(max_length=100)
     event_country = CountryField()
     event_datetime = models.DateTimeField()
@@ -99,4 +110,3 @@ class Job(models.Model):
         if not self.job_number:
             self.job_number = self.generate_job_number()
         super().save(*args, **kwargs)
-

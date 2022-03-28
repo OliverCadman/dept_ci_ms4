@@ -1,5 +1,6 @@
 import datetime
 
+
 def handle_get_params(params):
     """
     Handles GET parameters in 'Find a Dep' page,
@@ -26,13 +27,16 @@ def handle_get_params(params):
         "sort": None
     }
 
-    # ----- Dep List Params ------ 
+    # ------ Dep List Params ------
 
     # Sort by Average Rating
     if "sort" in params:
         context["sort"] = params["sort"]
         if params["sort"] != "reset":
-            sort_criteria = f'{"".join(params["sort"].split("_")[0])}_{"".join(params["sort"].split("_")[1])}'
+            average_key = "".join(params["sort"].split("_")[0])
+            rating_key = "".join(params["sort"].split("_")[1])
+            sort_criteria = (
+                f'{average_key}_{rating_key}')
             sort_direction = "".join(params["sort"].split("_")[2])
             if sort_direction == "asc":
                 context["sort_direction"] = f"{sort_criteria}"
@@ -45,7 +49,8 @@ def handle_get_params(params):
     if "instrument" in params:
         instrument_arg = params["instrument"]
         context["instrument"] = instrument_arg
-        context['search_params']["instruments_played__instrument_name__iexact"] = instrument_arg
+        context['search_params']["instruments_played__"
+                                 "instrument_name__iexact"] = instrument_arg
 
     # Search for User that is Available Today
     if "available_today" in params:
@@ -64,8 +69,7 @@ def handle_get_params(params):
         context["genre"] = genre_arg
         context["search_params"]["genres__genre_name"] = genre_arg
 
-
-    # ----- Job List ------
+    # ----- Job List Params ------
 
     # Search by Event City
     if "event_city" in params:
@@ -83,5 +87,5 @@ def handle_get_params(params):
         elif params["fee"] == "500":
             infinite_fee_arg = params["fee"]
             context["search_params"]["fee__gte"] = infinite_fee_arg
-        
+
     return context
