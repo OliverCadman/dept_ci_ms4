@@ -72,7 +72,10 @@
                                                     </a> 
                                                 </p>
                                             </div>
-                                             <span class="float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
+                                            <div class="d-md-none d-block">
+                                                <span class="float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
+                                            </div>
+                                            <span class="d-none d-md-block float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
                                         </div>
                                     </div>
                                     <div class="rating_wrapper">

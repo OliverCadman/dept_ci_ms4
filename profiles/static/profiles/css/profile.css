@@ -115,6 +115,10 @@
     margin-right: .3rem;
 }
 
+.rating_wrapper {
+    clear: both;
+}
+
 .fas.fa-star {
     filter: drop-shadow(1px 1px 1px gold);
 }
