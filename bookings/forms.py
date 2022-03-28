@@ -350,7 +350,7 @@ class ReviewForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields["review_content"].label = ""
-        self.fields["review_content"].attr["class"] = "secondary_font"
+        self.fields["review_content"].widget.attrs["class"] = "secondary_font"
 
     def clean_review_content(self):
         review_content = self.cleaned_data["review_content"]
@@ -363,7 +363,6 @@ class ReviewForm(forms.ModelForm):
 
     def clean_rating(self):
         rating = self.cleaned_data["rating"]
-        print("RATING, rating")
         if rating == 0:
             raise ValidationError("Please leave a rating.")
         else:
