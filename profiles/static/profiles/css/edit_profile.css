@@ -1,37 +1,5 @@
-.add-new-equipment-icon {
-    cursor: pointer;
-    display: inline;
-}
-
-.equipment-text-input {
-    width: 75%;
-    display: inline-block;
-    margin: 10px 5px 0 0;
-}
-
-label[for="id_equipment_name"] {
-    width: 100%;
-}
-
 .edit_profile_header {
     font-size: 2rem;
-}
-
-#edit-profile-form-container {
-    padding: 1.5rem 3rem;
-    font-family: "Oxygen", sans-serif;
-}
-
-#id_instruments_played,
-#id_genres {
-    min-height: 250px;
-    max-height: 325px;
-}
-
-.selected {
-    background-color: pink;
-    font-weight: bold;
-    transition: 0.13s ease-in-out;
 }
 
 .hide-container {
@@ -187,6 +155,38 @@ label[for="id_equipment_name"] {
     transition: all ease 0.8s;
     box-shadow: inset 100px 0px 0px 0px #7ac142;
 }
+
+/* Forms */
+
+#edit-profile-form-container {
+    padding: 1.5rem 3rem;
+    font-family: "Oxygen", sans-serif;
+}
+
+#id_instruments_played,
+#id_genres {
+    min-height: 250px;
+    max-height: 325px;
+}
+
+.equipment-text-input {
+    width: 75%;
+    display: inline-block;
+    margin: 10px 5px 0 0;
+}
+
+
+label[for="id_equipment_name"] {
+    width: 100%;
+}
+
+
+.selected {
+    background-color: pink;
+    font-weight: bold;
+    transition: 0.13s ease-in-out;
+}
+
 
 #add-audio-container {
     margin: 2.5rem 0;
