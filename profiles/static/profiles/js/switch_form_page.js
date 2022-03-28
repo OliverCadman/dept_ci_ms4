@@ -4,11 +4,6 @@
     element and the showing of the FullCalendar element.
 */
 
-let username = $("#request_user").text();
-
-// Trims the quotes off the "request_user" value
-username = username.replace(/\"/g, "");
-
 const availabilityHeader = "Your Availability";
 const avaliabilityLead = `<div class="profile-prompt-lead text-center secondary_font white_font">
                             <p>Finding a dep is quicker and easier if you know they are available on the day of your gig.</p>
