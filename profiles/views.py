@@ -132,8 +132,16 @@ class ProfileView(TemplateView):
         # reference for Invitation Form.
         self.request.session["invited_username"] = username
 
+        # Retrieve profile for the request user
+        current_user = None
+        if self.request.user.is_authenticated:
+            current_user = get_object_or_404(
+                UserProfile, user__username=self.request.user
+            )
+
         context = {
             "user": user_profile,
+            "current_user": current_user,
             "page_name": "user_profile",
             "instrument_list": instrument_list,
             "users_tracks": users_tracks,
