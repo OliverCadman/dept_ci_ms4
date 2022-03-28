@@ -21,30 +21,35 @@ $(document).on("submit", "div.modal-body form", function(e) {
 
             // If there are any validation errors...
             if (data.errors) {
-                console.log(data.errors)
                 // Clears form of any errors present, to avoid duplicates.
                 if ($(".form_error")) {
-                    $(".form_error").remove()
+                    $(".form_error").remove();
               
                 }
                 let errorData = JSON.parse(data.errors);
-                console.log(errorData)
 
                 for (let name in errorData) {
-                     let input = $("input[name='" + name + "']");
-                     let textArea = $("textarea[name='" + name + "'")
-                     if (input.attr("name") === "event_datetime") {
-                         input.next().parent().after(
+                    if(errorData.hasOwnProperty(name)) {
+                         let input = $("input[name='" + name + "']");
+                         let textArea = $("textarea[name='" + name + "'");
+                         if (input.attr("name") === "event_datetime") {
+                           input
+                             .next()
+                             .parent()
+                             .after(
+                               `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
+                             );
+                         } else {
+                           input.after(
                              `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
-                         )
-                     } else {
-                        input.after(`<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`);
-                     }
-                     if (textArea) {
-                         textArea.after(
-                           `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
-                         );
-                     }
+                           );
+                         }
+                         if (textArea) {
+                           textArea.after(
+                             `<p class="form_error secondary_font alert_style">${errorData[name][0].message}</p>`
+                           );
+                         }
+                    }
                 }
             } else {
                 // If successful, display toast and refresh page after 2.5 seconds.
@@ -69,6 +74,5 @@ $(document).on("submit", "div.modal-body form", function(e) {
         error: function(data, options, thrownError) {
             formElement.parents(".modal-body").html(data);
         }
-    })
-
-})
+    });
+});

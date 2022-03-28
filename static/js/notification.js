@@ -35,7 +35,6 @@ https://www.youtube.com/watch?v=_JKWYkz597c&t=889s
 // Function referenced from Django Documentation
 // https://docs.djangoproject.com/en/4.0/ref/csrf/
 function getCookie(name) {
-    console.log(name)
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
     const cookies = document.cookie.split(";");
@@ -54,7 +53,6 @@ function getCookie(name) {
 // Open an XMLHttpRequest
 function removeNotification(removeNotificationURL, redirectURL) {
   const csrfToken = getCookie("csrftoken");
-  console.log(csrfToken);
   let xmlHttp = new XMLHttpRequest();
 
   xmlHttp.onreadystatechange = function () {

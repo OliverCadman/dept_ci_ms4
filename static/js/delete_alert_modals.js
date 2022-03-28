@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  console.log("ready");
 
   /* Delete Invitation Modal
       --------------------------------
@@ -54,4 +53,4 @@ $(document).ready(function() {
         */
     $(deleteLink).attr("href", href);
   }
-})
+});
