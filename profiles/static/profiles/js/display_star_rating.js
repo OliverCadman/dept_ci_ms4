@@ -1,9 +1,8 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
   /*
   Display Star Ratings in User's Profile and Dashboard
   Page, along with the number of reviews a user has received.
-  */ 
+  */
 
   /* URL information needed in order to render the icons
   relative to the styling and arrangement of elements on
@@ -13,8 +12,8 @@ $(document).ready(function() {
   const currentPath = window.location.href;
   let endPoint = currentPath.split("/");
 
-  const profileEndpoint = currentPath.split("/")[3]
-  let variableEndpoint = currentPath.split("/")[4]
+  const profileEndpoint = currentPath.split("/")[3];
+  let variableEndpoint = currentPath.split("/")[4];
 
   endPoint = endPoint.slice(3).join("/");
 
@@ -27,7 +26,7 @@ $(document).ready(function() {
     displayStarRating(hiddenRatingInputs, 1, "white_font");
   } else {
     // If Dashboard Page
-    displayStarRating(hiddenRatingInputs, 2)
+    displayStarRating(hiddenRatingInputs, 2);
   }
 
   function displayStarRating(hiddenRatingInputs, index, variableColour) {
@@ -45,8 +44,8 @@ $(document).ready(function() {
       let rating = parseInt(hiddenRatingInputs[i].value);
 
       // Traverse DOM to find the star_rating_wrapper relative to each input in the loop.
-      let starRatingWrapper = hiddenRatingInputs[i].parentElement.children[index]
-
+      let starRatingWrapper =
+        hiddenRatingInputs[i].parentElement.children[index];
 
       // Create filled FontAwesome stars for each point of rating
       for (let k = 0; k < rating; k++) {
@@ -75,11 +74,12 @@ $(document).ready(function() {
 
     // Retrieve average rating from JSON script
     let averageRating = document.getElementById("average_rating").textContent;
-    const starIconContainers =
-      document.getElementsByClassName("star_icon_container");
+    const starIconContainers = document.getElementsByClassName(
+      "star_icon_container"
+    );
 
     // Loop through both containers (one for mobile, one for larger screens)
-    for (container of starIconContainers) {
+    for (let container of starIconContainers) {
       let maxRating = 5;
       averageRating = parseInt(averageRating);
       let rateDelta = maxRating - averageRating;
@@ -96,14 +96,12 @@ $(document).ready(function() {
         let outlinedStarIcon = document.createElement("i");
         outlinedStarIcon.className = "rating_star far fa-star";
         container.appendChild(outlinedStarIcon);
-        container.appendChild;
       }
 
       // Get the number of reviews from JSON Script.
       // Display the number of reviews next to the average star rating.
       let numOfReviews = document.getElementById("num_of_reviews").textContent;
       let numOfReviewsDisplay = document.createElement("span");
-
 
       if (numOfReviews > 0) {
         numOfReviewsDisplay.className = `secondary_font ${variableColour} ms-1 position-relative`;
@@ -117,4 +115,4 @@ $(document).ready(function() {
       container.appendChild(numOfReviewsDisplay);
     }
   }
-})
+});

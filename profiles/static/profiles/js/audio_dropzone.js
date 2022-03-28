@@ -95,7 +95,7 @@ Dropzone.options.audioDropzone = {
     });
   },
   init: function () {
-    userId = $("#user_id_2").val();
+    const userId = $("#user_id_2").val();
 
     const submitBtn = $("#audio_submit_btn");
 
@@ -129,7 +129,7 @@ Dropzone.options.audioDropzone = {
 
         // Display toast to inform user that can't submit
         // if they haven't selected any audio.
-        const msg = "You haven't added any audio."
+        const msg = "You haven't added any audio.";
         displayToast(msg, "#287e28");
       }
       dropZoneInstance.processQueue();
@@ -165,16 +165,9 @@ Dropzone.options.audioDropzone = {
   },
 };
 
-const availabilityHeader = "Your Availability";
-const avaliabilityLead = `<div class="profile-prompt-lead text-center secondary_font white_font">
-                            <p>Finding a dep is quicker and easier if you know they are available on the day of your gig.</p>
-                            <p>Add the dates when you are unavailable to make the depping process as smooth as possible.</p>
-                          </div>
-                          `;
-
-
 // Displays a Toast with error message in case of AJAX errors
 function displayAJAXErrorMessage(status) {
+  let errorMsg;
   if (status === 0) {
     errorMsg = "Cannot connect, please make sure you are connected";
   } else if (status === 404) {
