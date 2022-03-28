@@ -302,7 +302,8 @@ def decline_invitation(request, invitation_pk):
         return redirect(reverse_querystring("dashboard", args=[request.user],
                                             query_kwargs={
                                                 "page": "jobs",
-                                                "section": "invites_received",
+                                                "section": "tier_one",
+                                                "subsection": "invites_received",
                                                 "filter": "all"
                                             }))
     except Exception as e:
