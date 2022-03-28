@@ -244,6 +244,7 @@ body {
 .rating_star {
     color: #dabd18;
     margin: 0 .1rem;
+    cursor: pointer;
 }
 
 .cover {
