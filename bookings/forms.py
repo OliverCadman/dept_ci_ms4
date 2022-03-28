@@ -44,7 +44,7 @@ class InvitationForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    HTML("<h2 class='form-header'>Invite"
+                    HTML("<h2 class='form-header'>Invite "
                          "{% if user.first_name %}"
                          "{{user.first_name}}"
                          "{% else %}{{ user.user.username }}"
