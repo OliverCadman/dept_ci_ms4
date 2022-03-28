@@ -240,6 +240,23 @@
     </div>
 </div>
 <aside>
+     <!-- Tier One Alert Modal -->
+        <div class="modal fade" id="tier_one_alert_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header secondary_bg">
+                        <h2 class="primary_font med_small_text white_font m-0">You need to subscribe to user this feature.</h2>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body centered">
+                        <a href="{% url "choose_subscription" %}" class="btn custom_success inset_light_shadow white_font secondary_font">
+                            Subscribe Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Invitation Modal -->
     <div class="modal fade" id="invitation_modal">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -299,19 +316,18 @@
                             {% csrf_token %}
                              <h3 class='form-header'>Edit your review for {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}.</h3>
                             <div class="star_icons">
-    <span>
-        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
-        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
-        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
-        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
-        <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
-    </span>
-    <span class="rating_display edit_review_modal primary_font med_small_text light_font">
-        
-    </span>
-</div>
-                            <textarea name="review_edit" id="review_edit" cols="30" rows="10" class="textarea form-control">
-                                
+                                <span>
+                                    <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+                                    <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+                                    <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+                                    <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+                                    <i class="rating_star rating_star_edit_review_modal far fa-star"></i>
+                                </span>
+                                <span class="rating_display edit_review_modal primary_font med_small_text light_font">
+                                    
+                                </span>
+                            </div>
+                            <textarea name="review_edit" id="review_edit" cols="30" rows="10" class="textarea secondary_font form-control">  
                             </textarea>
                             <input type="hidden" name="rating" id="edit_review_modal_rating" value="0">
                             <button class="btn custom_success white_font secondary_font" type="submit">Submit</button>

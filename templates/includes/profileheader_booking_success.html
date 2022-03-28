@@ -134,7 +134,11 @@
                 <div class="header-btn-wrapper centered w-100 pt-2 pb-2 d-lg-none d-sm-flex">
                     {% if request.user.is_authenticated %}
                         {% if not request.user.username == user.user.username %}</button>
+                            {% if current_user.subscription_chosen %}
                             <button class="btn custom_success inset_light_shadow me-2" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
+                            {% else %}
+                            <button class="btn custom_success inset_light_shadow me-2" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Contact  {% if user.first_name %}{{ user.first_name }}{% else %}{{user.user.username}}{% endif %}</button>
+                            {% endif %}
                             <button class="btn custom_success inset_light_shadow ms-2" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                         {% else %}
                             <a href="{% url "edit_profile" %}" class="btn custom_success secondary_font white_font inset_light_shadow me-2">Edit My Profile</a>
@@ -177,8 +181,13 @@
                     <div class="btn_wrapper_lg">
                         {% if request.user.is_authenticated %}
                             {% if not request.user.username == user.user.username %}
+                                {% if current_user.subscription_chosen %}
                                     <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#invitation_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
                                     <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                                {% else %}
+                                    <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</button>
+                                    <button type="button" class="btn btn_lg light_bg secondary_font inset_light_shadow general_profile_cta" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
+                                {% endif %}
                             {% else %}
                                 <a href="{% url "edit_profile" %}" class="btn light_bg btn_lg edit_profile_btn inset_light_shadow">Edit My Profile</a>
                                 <button type="button"
