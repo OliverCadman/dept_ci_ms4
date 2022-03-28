@@ -1,5 +1,5 @@
 from django.test import TestCase, Client, RequestFactory
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -85,7 +85,7 @@ class TestInvitationPOSTView(TestCase):
         request.session.save()
 
         response = invitation_form_view(request)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_invitation_post_invalid(self):
         """
@@ -420,24 +420,93 @@ class TestBookingViewGETMethods(TestCase):
             self.test_user_profile
         )
 
-        test_invitation_object = Invitation.objects.get(pk=test_invitation.pk)
+        response = self.client.get(
+            reverse("accept_invitation", args=[test_invitation.pk]),
+            follow=True
+        )
 
-        # User RequestFactory to create mock request user
-        # to act as invitation receiver.
-        request_factory = RequestFactory()
-        request = request_factory.get(
-            reverse("accept_invitation",  args=[test_invitation_object.pk]))
+        messages = list(get_messages(response.wsgi_request))
 
-        request.user = self.test_user
+        redirect_url = reverse_querystring("dashboard",
+                                           args=[self.test_user_profile.slug],
+                                           query_kwargs={
+                                               "page": "jobs"
+                                           }
+        )
 
-        middleware = SessionMiddleware(lambda x: x)
-        middleware.process_request(request)
-        message_middleware = MessageMiddleware(lambda x: x)
-        message_middleware.process_request(request)
-        request.session.save()
+        self.assertRedirects(response, redirect_url,
+                             status_code=302, target_status_code=200)
 
-        response = accept_invitation(request, test_invitation_object.pk)
-        self.assertEqual(response.status_code, 302)
+        success_msg = "Great, your invitation has been accepted!"
+        self.assertEqual(str(messages[0]), success_msg)
+    
+    def test_invite_sender_invitation_acceptance_redirects(self):
+        """
+        Test redirects if invitation sender attempts to accept their
+        own invitation.
+
+        Confirm a successful redirect to the appropriate page, with
+        the appropriate error message.
+        """
+        test_invitation = create_test_invitation(
+            self.test_user_profile,
+            self.test_user_profile_2
+        )
+
+        response = self.client.get(
+            reverse("accept_invitation", args=[test_invitation.pk]),
+            follow=True
+        )
+
+        # Get messages
+        messages = list(get_messages(response.wsgi_request))
+
+        # Confirm successful redirect and error message display.
+        self.assertRedirects(response, reverse("home"), status_code=302,
+                             target_status_code=200)
+
+        error_msg = "You may not accept another member's invitation."
+        self.assertEqual(str(messages[0]), error_msg)
+        
+
+    def test_uninvited_user_acceptance_redirect(self):
+        """
+        Test redirects if uninvited user attempts to accept their
+        another user's invitation.
+
+        Confirm a successful redirect to the appropriate page, with
+        the appropriate error message.
+        """
+
+        # Create a third test user to act as invite receiver.
+        username3 = "test3"
+        password3 = "test3"
+        email3 = "test3@test.com"
+
+        test_user_3 = create_test_user(username3, password3, email3)
+        test_user_profile_3 = get_object_or_404(UserProfile,
+                                                user__username=test_user_3)
+
+        # test_user_2 acts as invite sender, test_user_3 as receiver
+        test_invitation_2 = create_test_invitation(
+            self.test_user_profile_2,
+            test_user_profile_3
+        )
+
+        response = self.client.get(
+            reverse("accept_invitation", args=[test_invitation_2.pk]),
+            follow=True
+        )
+
+        # Get messages
+        messages = list(get_messages(response.wsgi_request))
+
+        # Confirm successful redirect and error message display.
+        self.assertRedirects(response, reverse("home"), status_code=302,
+                             target_status_code=200)
+
+        error_msg = "You may not accept another member's invitation."
+        self.assertEqual(str(messages[0]), error_msg)
 
     def test_decline_invitation(self):
         """
