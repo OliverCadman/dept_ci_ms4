@@ -194,14 +194,6 @@ class Booking(models.Model):
             return self.related_job.event_name
 
 
-class SheetMusic(models.Model):
-    related_booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    file_url = models.FileField(upload_to="sheet_music")
-
-    def __str__(self):
-        return self.file_url
-
-
 @receiver(post_save, sender=Invitation)
 def create_tier_one_booking(sender, instance, created, *args, **kwargs):
     if not created:
