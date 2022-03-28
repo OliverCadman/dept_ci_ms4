@@ -60,9 +60,9 @@
                     <p class="lead">The best musicians and singers for hire.</p>
                     <div class="cta-btns mx-auto">
                         {% if not request.user.is_authenticated %}
-                        <a href="{% url "account_signup" %}" class="btn btn cta-btn secondary_font p-3 inset_light_shadow">Register</a>
+                        <a href="{% url "account_signup" %}" class="btn btn cta-btn secondary_font p-3 inset_light_shadow me-2">Register</a>
                         {% endif %}
-                        <a href="{% url "dep_list" %}" class="btn cta-btn secondary_font p-3 inset_light_shadow">Find a Dep</a>
+                        <a href="{% url "dep_list" %}" class="btn cta-btn secondary_font p-3 inset_light_shadow ms-2">Find a Dep</a>
                     </div>
                 </div>
             </div>
