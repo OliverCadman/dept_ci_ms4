@@ -9,13 +9,16 @@ from profiles.models import (UserProfile, Instrument, Genre,
 
 from bookings.models import Review
 
+from test_helpers import create_test_user
+
 import tempfile
+
 
 class TestProfileModel(TestCase):
     """
     Unit Test Profile Model
     """
-    
+
     def setUp(self):
         """
         Create user and log them in, then retrieve
@@ -34,7 +37,8 @@ class TestProfileModel(TestCase):
             password=password
         )
         self.user_profile = UserProfile.objects.get(user__username=self.user)
-        self.logged_in = self.client.login(username=username, password=password)
+        self.logged_in = self.client.login(username=username,
+                                           password=password)
 
         self.first_name = "test_fname"
         self.last_name = "test_lname"
@@ -42,7 +46,6 @@ class TestProfileModel(TestCase):
         self.country = "test_country"
         self.profile_image = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.user_info = "test_user_info"
-
 
     def test_userprofile_update(self):
         """
@@ -60,7 +63,6 @@ class TestProfileModel(TestCase):
         user_profile.user_info = self.user_info
         user_profile.save()
 
-    
         self.assertTrue(self.first_name, user_profile.first_name)
         self.assertTrue(self.last_name, user_profile.last_name)
         self.assertTrue(self.city, user_profile.city)
@@ -99,14 +101,14 @@ class TestProfileModel(TestCase):
         )
 
         # Get UserProfile for Test Review Sender to related to test Reviews.
-        test_reviewsender_userprofile = get_object_or_404(UserProfile,
-                                                          user=test_review_sender)
+        test_reviewsender_userprofile = get_object_or_404(
+            UserProfile, user=test_review_sender)
 
         # Get UserProfile for Test Review Receiver.
-        test_reviewreceiver_userprofile = get_object_or_404(UserProfile,
-                                                            user=self.user)
-        
-        # Create three reviews 
+        test_reviewreceiver_userprofile = get_object_or_404(
+            UserProfile, user=self.user)
+
+        # Create three reviews
         Review.objects.bulk_create([
             Review(
                 review_sender=test_reviewsender_userprofile,
@@ -115,26 +117,27 @@ class TestProfileModel(TestCase):
                 review_created=timezone.now(),
                 rating=3
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=test_reviewreceiver_userprofile,
                 review_content="test review 2",
                 review_created=timezone.now(),
                 rating=5
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=test_reviewreceiver_userprofile,
                 review_content="test review 3",
                 review_created=timezone.now(),
                 rating=2
-            )     
-        ])  
+            )
+        ])
 
-        # Calculate control values 
+        # Calculate control values
         control_total_rating = 3 + 5 + 2
         control_num_of_reviews = 3
-        control_average_rating = round(control_total_rating / control_num_of_reviews)
+        control_average_rating = round(
+            control_total_rating / control_num_of_reviews)
 
         # Create control dict
         control_dict = {
@@ -159,15 +162,15 @@ class TestInstrumentModel(TestCase):
         self.instrument = Instrument.objects.create(
             instrument_name="test_instrument_1"
         )
-    
+
     def test_instrument_creation(self):
         """
         Retrieve instrument instance created in setUp method,
         and confirm that the instrument names match.
         """
         control_instrument = Instrument.objects.get(pk=1)
-        self.assertTrue( self.instrument.instrument_name, "test_instrument_1")
-
+        self.assertTrue(
+            self.instrument.instrument_name, "test_instrument_1")
 
     def test_instrument_str(self):
         """
@@ -201,7 +204,6 @@ class TestGenreModel(TestCase):
         control_genre = Genre.objects.get(pk=1)
         self.assertEqual(control_genre.genre_name, "test_genre_1")
 
-
     def test_genre_str(self):
         """
         Confirm the Genre model's string method returns correct
@@ -223,19 +225,18 @@ class TestAudiofileModel(TestCase):
         """
         self.test_file = tempfile.NamedTemporaryFile(suffix=".mp3").name
         self.audiofile = AudioFile.objects.create(
-            file = self.test_file,
+            file=self.test_file,
         )
-
 
     def test_audiofile_creation(self):
         """
-        Confirm that the correct audiofile object is 
+        Confirm that the correct audiofile object is
         retrieved.
         """
         test_audiofile = AudioFile.objects.get(
             pk=1
         )
-    
+
         self.assertTrue(self.audiofile, test_audiofile)
 
     def test_audiofile_str(self):
@@ -253,7 +254,7 @@ class TestAudiofileModel(TestCase):
         control_audiofile = self.audiofile
 
         # Turn test_filepath into a string
-        test_filepath = "%s"%self.test_file
+        test_filepath = "%s" % self.test_file
 
         # Extract the filename from the string.
         test_filename = "".join(test_filepath.split("/")[-1:])
@@ -287,7 +288,52 @@ class TestUnavailableDateModel(TestCase):
 
     def test_unavailabledate_str(self):
         """
-        Confirm the UnavailableDate string method returns the 
+        Confirm the UnavailableDate string method returns the
         correct value.
         """
         self.assertEqual(str(self.unavailable_date), str(timezone.localdate()))
+
+
+class TestEquipmentModel(TestCase):
+    """
+    Unit Tests - Equipment Model
+    """
+
+    def setUp(self):
+        """
+        Create a Test User to related to the Equipment Model,
+        then create an Equipment object.
+
+        Confirm that the object is retrieved correctly,
+        and field values match those inputted upon creation.
+        """
+        username = "test"
+        password = "test"
+        email = "test@test.com"
+
+        self.test_user = create_test_user(username, password, email)
+
+        self.test_user_profile = get_object_or_404(
+            UserProfile, user__username=self.test_user)
+
+        self.test_equipment_object = Equipment.objects.create(
+            equipment_name="test_equipment",
+            related_user=self.test_user_profile
+        )
+
+        self.retrieved_object = get_object_or_404(
+            Equipment, pk=self.test_equipment_object.pk)
+
+        self.assertEqual(self.retrieved_object.equipment_name,
+                         self.test_equipment_object.equipment_name)
+        self.assertEqual(
+            self.retrieved_object.related_user,
+            self.test_equipment_object.related_user)
+
+    def test_equipment_creation(self):
+        """
+        Confirm that the Equipment object string method
+        returns the correct string representation.
+        """
+
+        self.assertEqual(str(self.retrieved_object), "test_equipment")

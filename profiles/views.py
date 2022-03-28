@@ -18,22 +18,30 @@ from social.models import Notification
 from social.forms import MessageForm
 from social.functions import reverse_querystring
 
-from .models import UserProfile, AudioFile, Equipment, UnavailableDate
+from .models import (UserProfile, AudioFile, Equipment,
+                     UnavailableDate)
 from .forms import UserProfileForm, EquipmentForm, AudioForm
-from .functions import calculate_invite_acceptance_delta, calculate_profile_progress_percentage
+from .functions import (calculate_invite_acceptance_delta,
+                        calculate_profile_progress_percentage)
 
 import datetime
 import stripe
 import logging
 import re
 
+# Instantiate Django Logger
 logger = logging.getLogger(__name__)
+
 
 @csrf_exempt
 def get_users_unavailable_dates(request, user_id):
-    current_user = get_object_or_404(UserProfile, user=user_id)
-    # TODO: Change related name of object
+    """
+    AJAX Handler to retrieve all UnavailableDate objects
+    related to a given user.
 
+    Used to populate FullCalendar in EditProfile and Profile views.
+    """
+    current_user = get_object_or_404(UserProfile, user=user_id)
     unavailable_dates = current_user.unavailable_user.all()
     date_list = []
     for date in unavailable_dates:
@@ -44,6 +52,12 @@ def get_users_unavailable_dates(request, user_id):
 
 @csrf_exempt
 def get_users_tracks(request, user_id):
+    """
+    AJAX Handler to retrieve all AudioFile objects
+    related to a given user.
+
+    Used to populate music player with user's tracks.
+    """
     current_user = get_object_or_404(UserProfile, user=user_id)
 
     if current_user is not None:
@@ -60,6 +74,24 @@ def get_users_tracks(request, user_id):
 
 
 class ProfileView(TemplateView):
+    """
+    Profile View
+    ------------------
+
+    View to display profile page with user details,
+    including:
+
+    - Name
+    - Location
+    - Instruments Played
+    - Audio
+    - Unavailable Dates
+    - Profile Image
+    - Reviews
+
+    Also utilises POST methods to post Invitation
+    and Review forms.
+    """
 
     template_name = "profiles/profile.html"
 
@@ -77,12 +109,12 @@ class ProfileView(TemplateView):
 
         if user_profile.genres:
             users_genres = user_profile.genres.all()
-            
+
             track_filename = None
             for track in users_tracks:
                 track_file_url = track.file.url
                 track_filename = track_file_url.split("/")[-1]
-        
+
         invitation_form = InvitationForm()
 
         review_form = ReviewForm(self.request.POST or None)
@@ -93,9 +125,10 @@ class ProfileView(TemplateView):
         average_rating = None
 
         if user_profile.calculate_average_rating:
-            average_rating = user_profile.calculate_average_rating["average_rating"]
-       
-        # Insert username of Profile owner into session, to use as 
+            average_rating = (
+                user_profile.calculate_average_rating["average_rating"])
+
+        # Insert username of Profile owner into session, to use as
         # reference for Invitation Form.
         self.request.session["invited_username"] = username
 
@@ -116,13 +149,12 @@ class ProfileView(TemplateView):
 
         return context
 
-
     def post(self, request, *args, **kwargs):
         """
         Post method to handle data inputted through the Review Form.
 
-        Gets the current context data of profile page and extracts the 
-        UserProfile value (from "user" key), to add to the new created 
+        Gets the current context data of profile page and extracts the
+        UserProfile value (from "user" key), to add to the new created
         Review instance as the review receiver.
 
         Review Sender's profile obtained through get_object_or_404,
@@ -133,21 +165,19 @@ class ProfileView(TemplateView):
         If form is invalid, return to the user's profile with error message.
         """
 
-
         context = self.get_context_data(**kwargs)
 
         review_receiver = context["user"]
         review_sender = request.user
 
-        review_receiver_profile = get_object_or_404(UserProfile,
-                                                    user__username=review_receiver)
-        review_sender_profile = get_object_or_404(UserProfile, user__username=review_sender)
+        review_receiver_profile = get_object_or_404(
+            UserProfile, user__username=review_receiver)
 
-        
+        review_sender_profile = get_object_or_404(
+            UserProfile, user__username=review_sender)
+
         review_form = ReviewForm(request.POST)
-        print("POST")
         if review_form.is_valid():
-            print("REVIEW_FORM", review_form)
             form = review_form.save(commit=False)
             form.review_receiver = review_receiver_profile
             form.review_sender = review_sender_profile
@@ -170,47 +200,54 @@ class ProfileView(TemplateView):
             else:
                 receiver_name = review_receiver_profile.user.username
             success_msg = f"You left a review for {receiver_name}"
-            return JsonResponse({ "success_msg": success_msg })
+            return JsonResponse({"success_msg": success_msg})
         else:
             return JsonResponse({"errors": review_form.errors.as_json()})
 
+
 def get_review_to_edit(request, review_id):
     """
-    AJAX GET Handler to retrieve a review object to populate the textarea in
-    modal window to edit a given review, in the Profile page.
+    AJAX GET Handler to retrieve a review object to
+    populate the textarea in modal window to edit a given review,
+    in the Profile page.
 
-    Upon success, returns a JSON object with review content, otherwise 
-    a JSON Response is sent, informing the user that the Review cannot be found.
+    Upon success, returns a JSON object with review content, otherwise
+    a JSON Response is sent, informing the user that the
+    Review cannot be found.
     """
     try:
         review = Review.objects.get(pk=review_id)
         review_content = review.review_content
-        return JsonResponse({ "review": review_content })
+        return JsonResponse({"review": review_content})
     except Review.DoesNotExist:
         return JsonResponse({"error": "Sorry, we can't find the review."})
+
 
 @require_POST
 def edit_review(request, review_id):
     """
-    AJAX POST Handler to process data sent through form in the Edit Review Modal
-    Window. Compates the data of field "review_content" against regex to check
-    if there are only numbers present in content. If so, throw an error.
+    AJAX POST Handler to process data sent through form in the
+    Edit Review ModalWindow. Compates the data of field "review_content"
+    against regex to check if there are only numbers present in content.
+    If so, throw an error.
 
-    If data is valid, update the retrieved review object and save, then return
-    a JSON response with success message to display as toast.
+    If data is valid, update the retrieved review object and save,
+    then return a JSON response with success message to display as toast.
     """
     review_to_edit = Review.objects.get(pk=review_id)
 
     regex = "^[0-9]+$"
     review_content = request.POST.get("review_edit")
     if re.match(regex, review_content):
-        return JsonResponse({"error": "Please enter words as well as numbers."})
+        return JsonResponse(
+            {"error": "Please enter words as well as numbers."})
     else:
         review_to_edit.review_content = request.POST.get("review_edit")
         review_to_edit.rating = request.POST.get("rating")
         review_to_edit.save()
         success_msg = "Your review has been edited."
-        return JsonResponse({ "success_msg" : success_msg })
+        return JsonResponse({"success_msg": success_msg})
+
 
 def edit_profile(request):
     """
@@ -219,7 +256,7 @@ def edit_profile(request):
 
     Handles both all GET methods for all form pages of Edit Profile page.
 
-    Retrieves the profile of the user making the request, and displays 
+    Retrieves the profile of the user making the request, and displays
     a form for the user to fill in their personal details, as well
     as a list of their equipment and collection of music.
 
@@ -227,9 +264,15 @@ def edit_profile(request):
     to the user's list of equipment.
     """
     user_profile = get_object_or_404(UserProfile, user=request.user)
-    EquipmentFormsetFactory = modelformset_factory(Equipment, form=EquipmentForm, extra=1)
+
+    EquipmentFormsetFactory = modelformset_factory(
+        Equipment, form=EquipmentForm, extra=1)
+
     queryset = user_profile.equipment.all().exclude(equipment_name="")
-    equipment_formset = EquipmentFormsetFactory(request.POST or None, queryset=queryset)
+
+    equipment_formset = EquipmentFormsetFactory(
+        request.POST or None, queryset=queryset)
+
     audio_form = AudioForm(request.POST, instance=user_profile)
 
     request.session["form_page"] = 1
@@ -241,7 +284,9 @@ def edit_profile(request):
 
     # POST request to handle personal details and Equipment Formset
     if request.method == "POST":
-        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        user_profile_form = UserProfileForm(
+            request.POST, request.FILES, instance=user_profile)
+
         if all([user_profile_form.is_valid(), equipment_formset.is_valid()]):
             parent_form = user_profile_form.save(commit=False)
             parent_form.save()
@@ -254,7 +299,7 @@ def edit_profile(request):
                 child_form.save()
 
             messages.success(request, "Profile and Equipment Info Saved.")
-            request.session["form_page"] = 2  
+            request.session["form_page"] = 2
             request.session["page_one_complete"] = True
     else:
         audio_form = AudioForm(instance=user_profile)
@@ -277,38 +322,40 @@ def upload_audio(request, username):
     second page.
 
     If '{"request": 2}' present in POST request, this informs the view
-    that the request is to remove an already-existing audio file from 
+    that the request is to remove an already-existing audio file from
     the database.
 
     Otherwise, the audiofile is to be added.
     """
-   
+
     user_profile = get_object_or_404(UserProfile, user=request.user)
     if request.method == "POST":
 
         # Check whether the request is to upload or remove files.
-        # "{'request': 2}" indicates that a file should be removed from database.
+        # "{'request': 2}" indicates that a file should be removed
+        # from database.
 
         # if not request == 2, upload audio files
         if not request.POST.get("request") == str(2):
             print(request.FILES)
-            files = [request.FILES.get('audio[%d]' % i) for i in range(0, len(request.FILES))] 
+            files = [request.FILES.get('audio[%d]' % i) for i in range(
+                     0, len(request.FILES))]
             form = AudioForm(request.POST, instance=user_profile)
             if form.is_valid():
                 try:
                     for f in files:
-                        AudioFile.objects.create(file=f, related_user=user_profile)
+                        AudioFile.objects.create(file=f,
+                                                 related_user=user_profile)
                     request.session["form_page"] = 3
                     return HttpResponse(status=200)
                 except Exception as e:
                     print("Exception:", e)
             else:
-                print("form invalid")
                 form = AudioForm(instance=user_profile)
 
-        # Else, find the audiofile to remove, and remove from database        
+        # Else, find the audiofile to remove, and remove from database
         else:
-            audiofile_to_delete =  AudioFile.objects.filter(
+            audiofile_to_delete = AudioFile.objects.filter(
                 file=request.POST.get("filename"), related_user=user_profile
             )
             try:
@@ -319,7 +366,7 @@ def upload_audio(request, username):
                 logger.exception("There was an error!")
                 print(f"Exception: {e}")
                 return HttpResponse(status=500)
-    
+
     # GET request for AJAX success callback in 'audio_dropzone.js'
     success_msg = "Audio Files Saved"
     return JsonResponse({"form_page": 3, "success_msg": success_msg})
@@ -330,14 +377,16 @@ def upload_unavailable_dates(request, user_id):
     AJAX Handler to save unavailable dates to UnavailableDate model.
 
     Called from calendar.js in Edit Profile page.
-    
+
     Grabs the date values (as a list) from the data attribute of
     the AJAX post request.
 
     Loops through the list and creates an UnavailableDate model instance,
-    with a ManytoOne relation to the UserProfile instance, and saves to the database.
+    with a ManytoOne relation to the UserProfile instance,
+    and saves to the database.
 
-    Upon success, returns as JsonResponse containing a success message and the home URL.
+    Upon success, returns as JsonResponse containing a
+    success message and the home URL.
     """
 
     user_profile = get_object_or_404(UserProfile, user=user_id)
@@ -350,33 +399,41 @@ def upload_unavailable_dates(request, user_id):
             if date_array is not None:
 
                 # Get user's existing unavailable dates
-                users_existing_dates = UnavailableDate.objects.filter(related_user=user_profile)
+                users_existing_dates = UnavailableDate.objects.filter(
+                    related_user=user_profile)
 
-                # If a date in users_existing_dates matches a date in POST, 
+                # If a date in users_existing_dates matches a date in POST,
                 # remove it from POST to avoid duplicates.
                 for existing_date in users_existing_dates:
                     for posted_date in date_array:
                         if str(existing_date.date) == posted_date:
-                          date_array.remove(posted_date)
+                            date_array.remove(posted_date)
 
                 # Create an UnavailableDate object for each date posted
                 for date in date_array:
                     try:
-                        UnavailableDate.objects.create(date=date, related_user=user_profile)
+                        UnavailableDate.objects.create(
+                            date=date, related_user=user_profile)
                     except Exception as e:
                         print(f"Exception: {e}")
                 success_msg = "Profile details saved."
                 redirect_url = reverse("profile", args=[user_profile.user])
-                return JsonResponse({ "url": redirect_url, "success_msg": success_msg})
+                return JsonResponse({
+                    "url": redirect_url, "success_msg": success_msg
+                })
         else:
             # If request 2, the purpose is to remove dates from user's table.
             existing_unavailable_dates = user_profile.unavailable_user.all()
             date_to_remove = request.POST.get("event_to_remove")
-            date_to_remove = datetime.datetime.strptime(date_to_remove, "%Y-%m-%d").date()
+            date_to_remove = datetime.datetime.strptime(
+                date_to_remove, "%Y-%m-%d").date()
+
             for unavailable_date in existing_unavailable_dates:
                 if unavailable_date.date == date_to_remove:
-                    date_object_to_remove = UnavailableDate.objects.filter(date=date_to_remove, related_user=user_profile)
+                    date_object_to_remove = UnavailableDate.objects.filter(
+                        date=date_to_remove, related_user=user_profile)
                     date_object_to_remove.delete()
+
             return HttpResponse(status=200)
 
 
@@ -397,14 +454,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     Job Page Includes:
 
-    - All Tier One engagements with sections 'Invitations Sent' and 'Inivatations Received'. 
-      Filterable by All, Pending and Confirmed.
+    - All Tier One engagements with sections 'Invitations Sent'
+      and 'Inivatations Received'. Filterable by All, Pending and Confirmed.
 
-    - (If paid), All Tier Two engagements with sections 'Offers Sent' and 'My Posted Jobs'. 
-      Filterable by All, Pending and Confirmed.
+    - (If paid), All Tier Two engagements with sections 'Offers Sent'
+      and 'My Posted Jobs'. Filterable by All, Pending and Confirmed.
 
-    
-    A link in the page's navbar is also displayed, to allow the user to manage their subscription.
+    A link in the page's navbar is also displayed, to allow the user
+    to manage their subscription.
     """
 
     template_name = "profiles/dashboard.html"
@@ -416,36 +473,46 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         away from Dashboard page if they do not match.
         """
 
-        current_user = get_object_or_404(UserProfile, user__username=self.request.user)
+        current_user = get_object_or_404(
+            UserProfile, user__username=self.request.user)
 
         url_path = self.request.get_full_path()
 
-        # Restrict access to Dashboard page to request user who owns the profile object.
+        # Restrict access to Dashboard page to request user who
+        # owns the profile object.
         user_check = "".join(url_path.split("/")[3])
         if "?" in url_path:
             user_check = user_check.split("?")[0]
         if not current_user.slug == user_check:
-            messages.warning(self.request, mark_safe("You may not visit another member's dashboard."))
-            return redirect(reverse_querystring("dashboard", args=[current_user.slug],
-                                                    query_kwargs={
-                                                        "page": "jobs",
-                                                        "section": "tier_one"
-                                                    }))
-        
-        # Restrict access to Tier Two content if user profile doesn't have "is_paid" status.
+            messages.warning(
+                self.request,
+                mark_safe("You may not visit another member's dashboard."))
+            return redirect(reverse_querystring("dashboard",
+                                                args=[current_user.slug],
+                                                query_kwargs={
+                                                    "page": "jobs",
+                                                    "section": "tier_one"
+                                                }))
+
+        # Restrict access to Tier Two content if user profile doesn't
+        # have "is_paid" status.
         tier_check = None
         if "&" in url_path:
             tier_check = "".join(url_path.split("&")[1])
             if tier_check == "section=tier_two":
                 if not current_user.is_paid:
-                    messages.warning(self.request, mark_safe("You do not have Tier Two access."))
-                    return redirect(reverse_querystring("dashboard", args=[current_user.slug],
-                                                        query_kwargs={
-                                                            "page": "jobs",
-                                                            "section": "tier_one"
-                                                        }))
+                    messages.warning(
+                        self.request,
+                        mark_safe("You do not have Tier Two access."))
+                    return redirect(
+                        reverse_querystring("dashboard",
+                                            args=[current_user.slug],
+                                            query_kwargs={
+                                                "page": "jobs",
+                                                "section": "tier_one"
+                                            }))
         return super().get(*args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         """
         Override default get_context_data to get user's dashboard data:
@@ -453,7 +520,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         - Invites they need to respond to
         - Completeness of their profile
         - Invitations sent and received
-        
+
         """
         context = super().get_context_data(**kwargs)
         current_user = self.kwargs["slug"]
@@ -462,15 +529,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         username = user_profile.user.username
 
         # Calculate number of invites the user has to respond to
-        invite_acceptance_delta = calculate_invite_acceptance_delta(username)
-        profile_progress_percentage = calculate_profile_progress_percentage(username)
+        invite_acceptance_delta = (
+            calculate_invite_acceptance_delta(username))
+
+        profile_progress_percentage = (
+            calculate_profile_progress_percentage(username))
 
         received_reviews = user_profile.received_reviews.all()
         num_of_reviews = user_profile.received_reviews.count()
         average_rating = 0
         if received_reviews:
-            average_rating = user_profile.calculate_average_rating["average_rating"]
-
+            average_rating = (
+                user_profile.calculate_average_rating["average_rating"])
 
         current_page = "dashboard"
         current_section = "tier_one"
@@ -483,7 +553,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         referer_url_path = None
         referer_url = self.request.META.get("HTTP_REFERER")
 
-        # Get the referal url path (looking for "bookings" or "bookings/edit_invitation")
+        # Get the referal url path (looking for "bookings" or
+        # "bookings/edit_invitation")
         if referer_url is not None:
             referer_url_path = "/".join(referer_url.split("/")[3:-1])
 
@@ -502,9 +573,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # elif referer_url_path == "bookings/edit_invitation":
         invitation_id = self.request.GET.get("filter")
 
-
         job_id = self.request.GET.get("filter")
-        
+
         # Set filter to Invitation ID if user visiting dashboard
         # by clicking notification "<user> has invited you to play <event>"
         if "invitation_id" in self.request.session:
@@ -525,40 +595,60 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             if "section" in self.request.GET:
                 current_section = self.request.GET["section"]
                 if current_section == "tier_one":
-                    if "subsection" in  self.request.GET:
+                    if "subsection" in self.request.GET:
                         current_subsection = self.request.GET["subsection"]
                         if current_subsection == "invites_sent":
-                            if "filter" in self.request.GET: 
+                            if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
-                                    invitations_sent = user_profile.invitations_sent.all()
+                                    invitations_sent = (
+                                        user_profile.invitations_sent
+                                        .all())
                                 elif current_filter == "pending":
-                                    invitations_sent = user_profile.invitations_sent.filter(is_accepted=False)
+                                    invitations_sent = (
+                                        user_profile.invitations_sent
+                                        .filter(
+                                            is_accepted=False))
                                 elif current_filter == "accepted":
-                                    invitations_sent = user_profile.invitations_sent.filter(is_accepted=True)
+                                    invitations_sent = (
+                                        user_profile.invitations_sent
+                                        .filter(
+                                            is_accepted=True))
                                 elif current_filter == booking_id:
-                                    invitations_sent = user_profile.invitations_sent.filter(
-                                        related_booking__pk=booking_id)
+                                    invitations_sent = (
+                                        user_profile.invitations_sent
+                                        .filter(related_booking__pk=booking_id)
+                                        )
                                 elif current_filter == invitation_id:
-                                    invitations_sent = user_profile.invitations_sent.filter(
-                                        pk=invitation_id
-                                    )
+                                    invitations_sent = (
+                                        user_profile.invitations_sent
+                                        .filter(pk=invitation_id))
                         elif current_subsection == "invites_received":
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
-                                    invitations_received = user_profile.invitations_received.all()
+                                    invitations_received = (
+                                        user_profile.invitations_received
+                                        .all())
                                 elif current_filter == "pending":
-                                    invitations_received = user_profile.invitations_received.filter(is_accepted=False)
+                                    invitations_received = (
+                                        user_profile.invitations_received
+                                        .filter(is_accepted=False)
+                                        )
                                 elif current_filter == "accepted":
-                                    invitations_received = user_profile.invitations_received.filter(is_accepted=True)
+                                    invitations_received = (
+                                        user_profile.invitations_received
+                                        .filter(is_accepted=True))
                                 elif current_filter == booking_id:
-                                    invitations_received = user_profile.invitations_received.filter(
-                                        related_booking__pk=booking_id)
+                                    invitations_received = (
+                                        user_profile.invitations_received
+                                        .filter(related_booking__pk=booking_id)
+                                        )
                                 elif current_filter == invitation_id:
-                                    invitations_received = user_profile.invitations_received.filter(
-                                        pk=invitation_id
-                                    )
+                                    invitations_received = (
+                                        user_profile.invitations_received
+                                        .filter(pk=invitation_id)
+                                        )
                 elif current_section == "tier_two":
                     if "subsection" in self.request.GET:
                         current_subsection = self.request.GET["subsection"]
@@ -566,27 +656,43 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
-                                    posted_jobs = user_profile.posted_jobs.all()
+                                    posted_jobs = (
+                                        user_profile.posted_jobs.all())
                                 elif current_filter == "pending_offers":
-                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=False, interested_member__gt=0)
+                                    posted_jobs = (
+                                        user_profile.posted_jobs
+                                        .filter(is_taken=False,
+                                                interested_member__gt=0))
                                 elif current_filter == "confirmed":
-                                    posted_jobs = user_profile.posted_jobs.filter(is_taken=True)
+                                    posted_jobs = (
+                                        user_profile.posted_jobs
+                                        .filter(is_taken=True)
+                                        )
                                 elif current_filter == job_id:
-                                    posted_jobs = user_profile.posted_jobs.filter(pk=job_id)
+                                    posted_jobs = (
+                                        user_profile.posted_jobs
+                                        .filter(pk=job_id)
+                                        )
                         elif current_subsection == "offers_sent":
                             if "filter" in self.request.GET:
                                 current_filter = self.request.GET["filter"]
                                 if current_filter == "all":
                                     offers_sent = user_profile.job_set.all()
                                 elif current_filter == "pending_offers":
-                                    offers_sent = user_profile.job_set.all().exclude(is_taken=True)
+                                    offers_sent = (
+                                        user_profile.job_set
+                                        .all()
+                                        .exclude(is_taken=True))
                                 elif current_filter == "confirmed":
-                                    offers_sent = user_profile.job_set.filter(confirmed_member=user_profile)
+                                    offers_sent = (
+                                        user_profile.job_set.filter(
+                                            confirmed_member=user_profile))
                                 elif current_filter == job_id:
-                                    offers_sent = user_profile.job_set.filter(pk=job_id)
+                                    offers_sent = (
+                                        user_profile.job_set
+                                        .filter(pk=job_id)
+                                        )
 
-                                
-                        
         # Stripe Price ID to inject into hidden input
         tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
 
@@ -599,7 +705,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             "profile_progress_percentage": profile_progress_percentage,
             "page_name": "dashboard",
             "current_user": current_user,
-            "current_page" : current_page,
+            "current_page": current_page,
             "current_section": current_section,
             "current_subsection": current_subsection,
             "current_filter": current_filter,
@@ -628,7 +734,8 @@ def delete_account(request, profile_id):
     # Ensure that a user can't maliciously delete another user's profile
     # by typing in the URL manually.
     if auth_user != request.user:
-        messages.warning(request, mark_safe("You can't delete another member's profile!"))
+        messages.warning(
+            request, mark_safe("You can't delete another member's profile!"))
         return redirect(reverse("home"))
     try:
         delete_stripe_customer(auth_user.email)

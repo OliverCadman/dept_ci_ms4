@@ -15,6 +15,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     inlines = [UserEquipmentInline]
     list_display = ["first_name", "user"]
     raw_id_fields = ["user"]
+    readonly_fields = ("pk",)
 
 
 class EquipmentAdmin(admin.ModelAdmin):

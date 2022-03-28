@@ -9,8 +9,6 @@ from django.utils.text import slugify
 
 from django.urls import reverse
 
-import datetime
-
 
 class Instrument(models.Model):
     """
@@ -52,7 +50,8 @@ class Instrument(models.Model):
     VIBRAPHONE = "Vibraphone"
     HARMONICA = "Harmonica"
 
-    # Define the choices available to the user when selecting their instruments.
+    # Define the choices available to the user when
+    # selecting their instruments.
     # Passed as 'choices' argument in CharField.
     INSTRUMENTS = [
         (VOCALS, "vocals"),
@@ -80,11 +79,14 @@ class Instrument(models.Model):
         (VIBRAPHONE, "vibraphone")
     ]
 
-
-    instrument_name = models.CharField(max_length=50, unique=True, choices=INSTRUMENTS,
-                                       null=True, blank=True, default="All")
+    instrument_name = models.CharField(
+        max_length=50, unique=True, choices=INSTRUMENTS,
+        null=True, blank=True, default="All")
 
     def __str__(self):
+        """
+        Define string representation of instrument
+        """
         return self.instrument_name
 
 
@@ -140,11 +142,14 @@ class Genre(models.Model):
         (HOUSE, "house")
     ]
 
-    genre_name = models.CharField(max_length=50, choices=GENRES, 
+    genre_name = models.CharField(max_length=50, choices=GENRES,
                                   null=True, blank=True, unique=True,
                                   default="All")
 
     def __str__(self):
+        """
+        Define string representation of genre.
+        """
         return self.genre_name
 
 
@@ -157,23 +162,18 @@ class UserProfileQueryset(models.QuerySet):
     Methods:
 
         filter_by_params():
-            Query the entire UserProfile object using filter 
-            params specified in "Find a Dep" page select 
+            Query the entire UserProfile object using filter
+            params specified in "Find a Dep" page select
             elements and buttons.
     """
-    
+
     def filter_by_params(self, filter_params, date_today, sort_params):
-    
+
         if date_today:
-            return self.filter(**filter_params).exclude(unavailable_user__date=date_today)
+            return self.filter(
+                **filter_params).exclude(unavailable_user__date=date_today)
 
         return self.filter(**filter_params).order_by(sort_params)
-    
-    def nested_filter_by_params(self, first_params, second_params):
-
-        return (
-            self.filter(**first_params) & self.filter(**second_params)
-        )
 
 
 class UserProfileManager(models.Manager):
@@ -181,6 +181,12 @@ class UserProfileManager(models.Manager):
     Custom codex manager to handle Custom UserProfileQuerySet
 
     get_queryset():
+        Preserve the original get_queryset method.
+
+    filter_queryset():
+        Calls the model's custom filter to query the model using filter
+        params provided in Dep List and Job List pages,
+        with optional 'date_today' and 'sort_params'
 
     """
 
@@ -188,17 +194,11 @@ class UserProfileManager(models.Manager):
 
         return UserProfileQueryset(self.model, using=self._db)
 
-    
     def filter_queryset(self, filter_params, date_today, sort_params):
 
         return (
             self.get_queryset().filter_by_params(
                 filter_params, date_today, sort_params)
-        )
-    
-    def nested_filter_queryset(self, first_params, second_params):
-        return (
-            self.get_queryset().nested_filter_by_params(first_params, second_params)
         )
 
 
@@ -208,7 +208,7 @@ class UserProfile(models.Model):
     ------------------------
 
     Represents a UserProfile instance.
-    
+
     All fields are editable by the user excluding:
 
     - subscription_chosen
@@ -235,44 +235,50 @@ class UserProfile(models.Model):
 
     genres - A ManyToMany field providing user with a choice list of genres.
 
-    user_info - A large text field for users to provide their pitch and details.
+    user_info - A large text field for users to provide their pitch
+                and details.
 
-    subscription_chosen - A Boolean representing if a user has chosen a subscription.
+    subscription_chosen - A Boolean representing if a user
+                          has chosen a subscription.
 
     is_paid - A Boolean representing the user's subscription status.
 
-    invitation_count - An incremental field representing 
+    invitation_count - An incremental field representing
                        how many invites a user has received.
 
     slug - A slug representation of the user's username. Used as parameter in
            profile URL.
     """
- 
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=60, null=True, blank=True)
     last_name = models.CharField(max_length=60, null=True, blank=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     country = CountryField(blank_label="Country", null=True, blank=True)
-    profile_image = models.ImageField(upload_to="uploads", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="uploads", null=True,
+                                      blank=True)
     instruments_played = models.ManyToManyField(Instrument)
     genres = models.ManyToManyField(Genre)
     user_info = models.TextField(null=True, blank=True)
     subscription_chosen = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False)
-    invitation_count = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
-    average_rating = models.IntegerField(default=0, null=True, blank=True, validators=[MinValueValidator(0)])
+    invitation_count = models.IntegerField(
+        default=0, null=True, blank=True, validators=[MinValueValidator(0)])
+    average_rating = models.IntegerField(
+        default=0, null=True, blank=True, validators=[MinValueValidator(0)])
     slug = models.SlugField(null=True, blank=True, db_index=True)
 
     # Instantiate custom UserProfileManager
-    objects=UserProfileManager()
-
+    objects = UserProfileManager()
 
     def __str__(self):
+        """
+        Define the UserProfile model's string representation.
+        """
         return self.user.username
 
-    
     def save(self, *args, **kwargs):
-        """ 
+        """
         Automatically create a slug from the user's
         username when a UserProfile object is created.
         """
@@ -285,14 +291,20 @@ class UserProfile(models.Model):
 
     @property
     def calculate_average_rating(self):
+        """
+        A property to calculate a user's average rating,
+        to be displayed as stars on the User's profile
+        and dashboard page, as well as the Dep List page.
+        """
         received_reviews = self.received_reviews.all()
-        if len(received_reviews) > 0:      
-            num_of_reviews = len(received_reviews) 
+        if len(received_reviews) > 0:
+            num_of_reviews = len(received_reviews)
             total_rating = 0
             for review in received_reviews:
                 rating = review.rating
-                total_rating += rating
-            average_rating = round(total_rating/num_of_reviews)
+                if rating is not None:
+                    total_rating += rating
+                average_rating = round(total_rating/num_of_reviews)
             return {
                 "average_rating": average_rating,
                 "num_of_reviews": num_of_reviews
@@ -323,6 +335,9 @@ class Equipment(models.Model):
                                      related_name="equipment")
 
     def __str__(self):
+        """
+        Define the Equipment model's string representation.
+        """
         return self.equipment_name
 
 
@@ -335,31 +350,35 @@ class AudioFile(models.Model):
     profile.
 
     Attributes:
-        
+
         file - The actual file being uploaded.
 
-        file_name - An auto-generated string representation of the uploaded file.
+        file_name - An auto-generated string representation of the
+                    uploaded file.
 
-        related_user - A ManyToOne field representing a relationship with a 
+        related_user - A ManyToOne field representing a relationship with a
                        given UserProfile instance. This is optional since the
                        AudioFile model is shared with the Booking model.
 
         related_booking - A ManyToOne field representing a relationship with
-                          a given Booking instance. Optional, since the AudioFile
-                          model is shared with the UserProfile model.
+                          a given Booking instance. Optional, since the
+                          AudioFile model is shared with the UserProfile
+                          model.
     """
 
     file = models.FileField(upload_to="audio", null=True, blank=True)
     file_name = models.CharField(max_length=100, null=True, blank=True)
-    related_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
-                                     related_name="users_tracks", null=True, blank=True)
-    related_booking = models.ForeignKey("bookings.Booking", on_delete=models.CASCADE,
-                                        related_name="audio_resources", null=True, blank=True)
+    related_user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE,
+        related_name="users_tracks", null=True, blank=True)
+    related_booking = models.ForeignKey(
+        "bookings.Booking", on_delete=models.CASCADE,
+        related_name="audio_resources", null=True, blank=True)
 
     def get_filename(self, file_path):
         """
         Returns the filename of the audio tracks a user uploads,
-        to be used to represent the name each track in the user profile's 
+        to be used to represent the name each track in the user profile's
         music player.
         """
         if file_path != "":
@@ -370,7 +389,6 @@ class AudioFile(models.Model):
 
             return self.file_name
 
-    
     def save(self, *args, **kwargs):
         """
         Override default save method to generated
@@ -381,19 +399,20 @@ class AudioFile(models.Model):
                 self.file_name = self.get_filename(self.file)
             super().save(*args, **kwargs)
 
-
     def __str__(self):
+        """
+        Define string representation of file.
+        """
         if self.file:
             return self.file_name
-        else:
-            return ""
+
 
 class UnavailableDate(models.Model):
     """
     Unavailable Date Model
     -------------------------
 
-    Represents an individual Date object, for the user to declare the 
+    Represents an individual Date object, for the user to declare the
     dates they are unavailable to perform.
 
     Attributes:
@@ -407,7 +426,12 @@ class UnavailableDate(models.Model):
                                      related_name="unavailable_user")
 
     def __str__(self):
+        """
+        Define the UnavailableDate model's string representation.
+        """
         return str(self.date)
+
+# ------- Signal -------
 
 
 @receiver(post_save, sender=User)
@@ -419,6 +443,6 @@ def create_or_update_user(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
         print(UserProfile.objects.get(user=instance))
-    
+
     # Otherwise, save the profile.
     instance.userprofile.save()

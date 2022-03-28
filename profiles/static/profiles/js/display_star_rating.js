@@ -106,11 +106,11 @@ $(document).ready(function() {
 
 
       if (numOfReviews > 0) {
-        numOfReviewsDisplay.className = `secondary_font ${variableColour} ms-1`;
+        numOfReviewsDisplay.className = `secondary_font ${variableColour} ms-1 position-relative`;
         numOfReviewsDisplay.textContent = `(${numOfReviews})`;
       } else {
         numOfReviewsDisplay.className =
-          "secondary_font white_font med_small_text";
+          "secondary_font white_font med_small_text position-relative";
         numOfReviewsDisplay.textContent = "No Reviews";
       }
 

@@ -1,7 +1,7 @@
 <div class="job-card">
-    {% comment %} {% if job.is_taken %}
+    {% if job.is_taken %}
         <img src="{{MEDIA_URL}}accepted_stamp.webp" alt="Invite Accepted" width="100" height="100" class="accepted_stamp">
-    {% endif %} {% endcomment %}
+    {% endif %}
     <div class="avatar_container position-relative float-end mt-3">
         <span class="badge {% if not current_page == "jobs" and current_section == "tier_two" and current_subsection == "posted_jobs" %}position-absolute{% endif %} top-0 start-0 bg-success secondary_font">Posted by {{ job.job_poster }}</span>
             {% if job.job_poster.profile_image %}

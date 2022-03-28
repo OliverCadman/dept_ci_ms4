@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
-from django.test import TestCase, Client, RequestFactory, override_settings
+from django.test import (TestCase, Client, RequestFactory,
+                         override_settings)
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -55,22 +56,30 @@ class TestProfileViewGETMethods(TestCase):
             email=email
         )
         self.user_profile = get_object_or_404(
-            UserProfile,user=self.user)
-        
+            UserProfile, user=self.user)
+
         # Instantiate a client to mimic a user
         self.client = Client()
         self.client.login(username=username, password=password)
 
-
         # Define the URLs to be called
-        self.get_users_unavailable_dates_url = reverse("get_users_unavailable_dates",
-                                                       args=[self.user.pk])
-        self.get_users_tracks_url = reverse("get_users_tracks", args=[self.user.pk])
+        self.get_users_unavailable_dates_url = reverse(
+            "get_users_unavailable_dates", args=[self.user.pk])
+
+        self.get_users_tracks_url = reverse(
+            "get_users_tracks", args=[self.user.pk])
+
         self.profile_url = reverse("profile", args=[self.user])
+
         self.edit_profile_url = reverse("edit_profile")
+
         self.upload_audio_url = reverse("upload_audio", args=[self.user])
-        self.dashboard_url = reverse("dashboard", args=[self.user_profile.slug])
-        self.delete_account_url = reverse("delete_account", args=[self.user_profile.pk])
+
+        self.dashboard_url = reverse(
+            "dashboard", args=[self.user_profile.slug])
+
+        self.delete_account_url = reverse(
+            "delete_account", args=[self.user_profile.pk])
 
 # -------------------- User Profile ----------------------
 
@@ -99,7 +108,8 @@ class TestProfileViewGETMethods(TestCase):
         json_response = response.json()
         self.assertEquals(response.status_code, 200)
         self.assertTrue("unavailable_dates" in response.json())
-        self.assertEquals(json_response["unavailable_dates"], unavailable_date_list)
+        self.assertEquals(json_response["unavailable_dates"],
+                          unavailable_date_list)
 
     def test_get_users_tracks_response(self):
         """
@@ -156,15 +166,15 @@ class TestProfileViewGETMethods(TestCase):
         )
 
         # Get UserProfile for Test Review Sender to related to test Reviews.
-        test_reviewsender_userprofile = get_object_or_404(UserProfile,
-                                                          user=test_review_sender)
+        test_reviewsender_userprofile = get_object_or_404(
+            UserProfile, user=test_review_sender)
 
         test_reviewsender_userprofile.first_name = "Test First Name"
         test_reviewsender_userprofile.save()
 
         self.user_profile.first_name = "Test First Name"
         self.user_profile.save()
-        
+
         # Create three reviews related to second mock user_profile/
         Review.objects.bulk_create([
             Review(
@@ -174,35 +184,37 @@ class TestProfileViewGETMethods(TestCase):
                 review_created=timezone.now(),
                 rating=3
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=self.user_profile,
                 review_content="test review 2",
                 review_created=timezone.now(),
                 rating=5
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=self.user_profile,
                 review_content="test review 3",
                 review_created=timezone.now(),
                 rating=2
-            )     
-        ])  
+            )
+        ])
 
         # Calculate the rating to use as a control.
         control_total_rating = 3 + 5 + 2
         control_num_of_reviews = 3
-        control_average_rating = round(control_total_rating / control_num_of_reviews)
+        control_average_rating = round(
+            control_total_rating / control_num_of_reviews)
         response = self.client.get(self.profile_url)
 
         # Confirm that the average rating in the response matches the control.
-        self.assertEqual(response.context["average_rating"], control_average_rating)
+        self.assertEqual(
+            response.context["average_rating"], control_average_rating)
 
     def test_users_tracks_in_profile_context(self):
         """
         Create a mock audio file related to self.user_profile,
-        and confirm that the file object is present in 
+        and confirm that the file object is present in
         self.user_profile's profile.
         """
         file = tempfile.NamedTemporaryFile(suffix=".mp3").name
@@ -213,13 +225,11 @@ class TestProfileViewGETMethods(TestCase):
         )
 
         response = self.client.get(self.profile_url)
-        self.assertEqual(response.context["track_filename"], audiofile.file_name)
+        self.assertEqual(
+            response.context["track_filename"], audiofile.file_name)
 
-# -------------
+    # ----------------------- Edit Profile ---------------------
 
-#----------------------- Edit Profile ---------------------
-
-        
     def test_edit_profile_url_GET(self):
         """
         Confirm that the Edit Profile URL's GET request
@@ -239,10 +249,7 @@ class TestProfileViewGETMethods(TestCase):
         self.assertTrue("success_msg" in response.json())
         self.assertTrue("form_page" in response.json())
 
-# -------------
-
 # ----------------- Dashboard --------------------
-
 
     @tag("skip_setup")
     def test_dashboard_redirect_for_unauthorized_user(self):
@@ -250,11 +257,10 @@ class TestProfileViewGETMethods(TestCase):
         Create a mock unauthorized user to act as user trying
         to visit another member's private dashboard.
 
-        Confirm that they are redirected to the appropriate 
+        Confirm that they are redirected to the appropriate
         page with a success response, if they attempt to visit
         another member's dashboard.
         """
-
 
         user_model = get_user_model()
 
@@ -297,18 +303,22 @@ class TestProfileViewGETMethods(TestCase):
         self.assertTrue(logged_in)
 
         # Attempt to visit authorized user's dashboard.
-        response = client.get(reverse("dashboard", args=[authorized_userprofile.slug]), follow=True)
+        response = client.get(reverse(
+            "dashboard", args=[authorized_userprofile.slug]),
+            follow=True)
 
         redirect_url = reverse_querystring(
             "dashboard",
             args=[unauthorized_userprofile.slug],
             query_kwargs={
-            "page": "jobs",
-            "section": "tier_one"
-        })
+                "page": "jobs",
+                "section": "tier_one"
+            })
 
-        # Confirm redirect to the url defined above, with the appropariate status codes.
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        # Confirm redirect to the url defined above,
+        # with the appropriate status codes.
+        self.assertRedirects(
+            response, redirect_url, status_code=302, target_status_code=200)
 
     def test_dashboard_redirect_if_unpaid_user_visits_tiertwo(self):
         """
@@ -323,21 +333,22 @@ class TestProfileViewGETMethods(TestCase):
                 "dashboard",
                 args=[user_profile.slug],
                 query_kwargs={
-                "page": "jobs",
-                "section": "tier_two"
-            })
+                    "page": "jobs",
+                    "section": "tier_two"
+                })
 
         redirect_url = reverse_querystring(
                 "dashboard",
                 args=[user_profile.slug],
                 query_kwargs={
-                "page": "jobs",
-                "section": "tier_one"
-            })
+                    "page": "jobs",
+                    "section": "tier_one"
+                })
 
         response = self.client.get(tier_two_access_url, follow=True)
 
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, redirect_url, status_code=302, target_status_code=200)
 
     def test_dashboard_calculate_average_rating(self):
         """
@@ -354,10 +365,10 @@ class TestProfileViewGETMethods(TestCase):
         )
 
         # Get UserProfile for Test Review Sender to related to test Reviews.
-        test_reviewsender_userprofile = get_object_or_404(UserProfile,
-                                                          user=test_review_sender)
+        test_reviewsender_userprofile = get_object_or_404(
+            UserProfile, user=test_review_sender)
 
-         # Create three reviews 
+        # Create three reviews
         Review.objects.bulk_create([
             Review(
                 review_sender=test_reviewsender_userprofile,
@@ -366,43 +377,42 @@ class TestProfileViewGETMethods(TestCase):
                 review_created=timezone.now(),
                 rating=3
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=self.user_profile,
                 review_content="test review 2",
                 review_created=timezone.now(),
                 rating=5
             ),
-             Review(
+            Review(
                 review_sender=test_reviewsender_userprofile,
                 review_receiver=self.user_profile,
                 review_content="test review 3",
                 review_created=timezone.now(),
                 rating=2
-            )     
-        ])  
+            )
+        ])
 
         # Calculate control rating
         control_total_rating = 3 + 5 + 2
         control_num_of_reviews = 3
-        control_average_rating = round(control_total_rating / control_num_of_reviews)
+        control_average_rating = round(
+            control_total_rating / control_num_of_reviews)
 
-        # Define the control dictionary.
-        control_dict = {
-            "average_rating": control_average_rating,
-            "num_of_reviews": control_num_of_reviews
-        }
-
-
-        # Confirm that the value returned in the response context matches the control.
-        response = self.client.get(reverse("dashboard", args=[self.user_profile.slug]))
-        self.assertEqual(response.context["average_rating"], control_dict)
+        # Confirm that the value returned in the response
+        # context matches the control.
+        response = self.client.get(
+            reverse("dashboard", args=[self.user_profile.slug]))
+        self.assertEqual(
+            response.context["average_rating"], control_average_rating)
+        self.assertEqual(
+            response.context["num_of_reviews"], control_num_of_reviews)
 
     def test_queryargs_in_dashboard_URL_query(self):
         """
         Test the various routes the user can take on the
         Dashboard's Job Page and confirm that they return
-        a successful response, and that the response's 
+        a successful response, and that the response's
         context matches the parameters provided in the URL query.
 
         Structured thus: (Page, Section, Subsection, Filter)
@@ -440,27 +450,31 @@ class TestProfileViewGETMethods(TestCase):
         )
 
         # Get UserProfile for Test Invitation/Job Post Sender.
-        test_poster_userprofile = get_object_or_404(UserProfile,
-                                                          user=test_poster)
+        test_poster_userprofile = get_object_or_404(
+            UserProfile, user=test_poster)
 
         # ----- Tier One ------
 
         # ----- Invites Received ------
 
         # --- Filter: All
-        dashboard_url_tierone_invites_received_all = reverse_querystring("dashboard", args=[self.user_profile.slug],
-                                            query_kwargs={
-                                                "page": "jobs",
-                                                "section": "tier_one",
-                                                "subsection": "invites_received",
-                                                "filter": "all"
-                                            })
+        dashboard_url_tierone_invites_received_all = (
+            reverse_querystring("dashboard", args=[self.user_profile.slug],
+                                query_kwargs={
+                                    "page": "jobs",
+                                    "section": "tier_one",
+                                    "subsection": "invites_received",
+                                    "filter": "all"
+                                })
+        )
+
         # Filter: All Response
         response = self.client.get(dashboard_url_tierone_invites_received_all)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_received")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_received")
         self.assertTrue(response.context["current_filter"], "all")
 
         # --- Filter: Pending
@@ -472,18 +486,21 @@ class TestProfileViewGETMethods(TestCase):
                                     "subsection": "invites_received",
                                     "filter": "pending"
                                 }))
-        
+
         # Filter: Pending Response
-        response = self.client.get(dashboard_url_tierone_invites_received_pending)
+        response = self.client.get(
+            dashboard_url_tierone_invites_received_pending)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_received")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_received")
         self.assertTrue(response.context["current_filter"], "pending")
 
-        # Filter: Accepted 
+        # Filter: Accepted
         dashboard_url_tierone_invites_received_accepted = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
@@ -492,11 +509,13 @@ class TestProfileViewGETMethods(TestCase):
                                 }))
 
         # Filter: Accepted Response)
-        response = self.client.get(dashboard_url_tierone_invites_received_accepted)
+        response = self.client.get(
+            dashboard_url_tierone_invites_received_accepted)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_received")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_received")
         self.assertTrue(response.context["current_filter"], "accepted")
 
         # Filter: Invitation ID
@@ -516,50 +535,61 @@ class TestProfileViewGETMethods(TestCase):
         test_invitation.save()
 
         dashboard_url_tierone_invites_received_invitation_id = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
                                     "subsection": "invites_received",
                                     "filter": test_invitation.pk
                                 }))
-        
+
         # Filter: Invitation ID Response
-        response = self.client.get(dashboard_url_tierone_invites_received_invitation_id)
+        response = self.client.get(
+            dashboard_url_tierone_invites_received_invitation_id)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_received")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_received")
         self.assertTrue(response.context["current_filter"], test_invitation.pk)
-        self.assertTrue(test_invitation in response.context["invitations_received"])
+        self.assertTrue(test_invitation in
+                        response.context["invitations_received"])
 
-        # Retrieve test_booking related to invitation to test filter by it's ID.
-        test_booking = get_object_or_404(Booking, related_invitation=test_invitation)
+        # Retrieve test_booking related to invitation to test filter
+        # by it's ID.
+        test_booking = get_object_or_404(
+            Booking, related_invitation=test_invitation)
 
         # Filter: Booking ID
         dashboard_url_tierone_invites_received_booking_id = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
                                     "subsection": "invites_received",
                                     "filter": test_booking.pk
                                 }))
-        
+
         # Filter: Booking ID Response
-        response = self.client.get(dashboard_url_tierone_invites_received_booking_id)
+        response = self.client.get(
+            dashboard_url_tierone_invites_received_booking_id)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_received")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_received")
         self.assertTrue(response.context["current_filter"], test_booking.pk)
-        self.assertTrue(test_invitation in response.context["invitations_received"])
+        self.assertTrue(test_invitation in
+                        response.context["invitations_received"])
 
         # -------- Invites Sent --------
 
         # Filter: All
         dashboard_tierone_url_invites_sent = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
@@ -567,36 +597,40 @@ class TestProfileViewGETMethods(TestCase):
                                     "filter": "all"
                                 }))
 
-    
         # Filter: All Response
         response = self.client.get(dashboard_tierone_url_invites_sent)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_sent")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_sent")
         self.assertTrue(response.context["current_filter"], "all")
 
         # Filter: Pending
         dashboard_url_tierone_invites_sent_pending = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
                                     "subsection": "invites_sent",
                                     "filter": "pending"
                                 }))
-        
+
         # Filter: Pending Response
-        response = self.client.get(dashboard_url_tierone_invites_sent_pending)
+        response = self.client.get(
+            dashboard_url_tierone_invites_sent_pending)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_sent")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_sent")
         self.assertTrue(response.context["current_filter"], "pending")
 
         # Filter: Accepted
         dashboard_url_tierone_invites_sent_accepted = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
@@ -605,16 +639,19 @@ class TestProfileViewGETMethods(TestCase):
                                 }))
 
         # Filter: Accepted Response
-        response = self.client.get(dashboard_url_tierone_invites_sent_accepted)                             
+        response = self.client.get(
+            dashboard_url_tierone_invites_sent_accepted)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
-        self.assertTrue(response.context["current_subsection"], "invites_sent")
+        self.assertTrue(response.context["current_subsection"],
+                        "invites_sent")
         self.assertTrue(response.context["current_filter"], "accepted")
 
         # Filter: Booking ID
         dashboard_url_tierone_invites_sent_bookingID = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "tier_one",
@@ -623,13 +660,13 @@ class TestProfileViewGETMethods(TestCase):
                                 }))
 
         # Filter: BookingID response
-        response = self.client.get(dashboard_url_tierone_invites_sent_bookingID)                             
+        response = self.client.get(
+            dashboard_url_tierone_invites_sent_bookingID)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_one")
         self.assertTrue(response.context["current_subsection"], "invites_sent")
         self.assertTrue(response.context["current_filter"], "2")
-
 
         # ------------------- Tier Two -----------------------
 
@@ -637,60 +674,62 @@ class TestProfileViewGETMethods(TestCase):
         self.user_profile.is_paid = True
         self.user_profile.save()
 
-        # ---------- Posted Jobs ------------- 
+        # ---------- Posted Jobs -------------
 
         # Filter: All
         dashboard_url_tier_two_posted_jobs_all = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "posted_jobs",
-                                "filter": "all"
-                            }))
-
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "posted_jobs",
+                                    "filter": "all"
+                                }))
 
         # Filter: All Response
-        response = self.client.get(dashboard_url_tier_two_posted_jobs_all)                             
+        response = self.client.get(
+            dashboard_url_tier_two_posted_jobs_all)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
         self.assertTrue(response.context["current_subsection"], "posted_jobs")
         self.assertTrue(response.context["current_filter"], "all")
 
-
         # Filter: Pending
         dashboard_url_tier_two_posted_jobs_pending = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "posted_jobs",
-                                "filter": "pending_offers"
-                            }))
-
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "posted_jobs",
+                                    "filter": "pending_offers"
+                                }))
 
         # Filter: Pending Response
-        response = self.client.get(dashboard_url_tier_two_posted_jobs_pending)                             
+        response = self.client.get(
+            dashboard_url_tier_two_posted_jobs_pending)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
         self.assertTrue(response.context["current_subsection"], "posted_jobs")
         self.assertTrue(response.context["current_filter"], "pending_offers")
 
-
         # Filter: Confirmed
         dashboard_url_tier_two_posted_jobs_accepted = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "posted_jobs",
-                                "filter": "confirmed"
-                            }))
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "posted_jobs",
+                                    "filter": "confirmed"
+                                }))
 
         # Filter: Confirmed Response
-        response = self.client.get(dashboard_url_tier_two_posted_jobs_accepted)                             
+        response = self.client.get(
+            dashboard_url_tier_two_posted_jobs_accepted)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
@@ -701,16 +740,18 @@ class TestProfileViewGETMethods(TestCase):
 
         # Filter: All
         dashboard_url_tier_two_offers_sent_all = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "offers_sent",
-                                "filter": "all"
-                            }))
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "offers_sent",
+                                    "filter": "all"
+                                }))
 
         # Filter: All Response
-        response = self.client.get(dashboard_url_tier_two_offers_sent_all)                             
+        response = self.client.get(
+            dashboard_url_tier_two_offers_sent_all)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
@@ -719,16 +760,18 @@ class TestProfileViewGETMethods(TestCase):
 
         # Filter: Pending
         dashboard_url_tier_two_offers_sent_pending_offers = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "offers_sent",
-                                "filter": "pending_offers"
-                            }))
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "offers_sent",
+                                    "filter": "pending_offers"
+                                }))
 
         # Filter: Pending Response
-        response = self.client.get(dashboard_url_tier_two_offers_sent_pending_offers)                             
+        response = self.client.get(
+            dashboard_url_tier_two_offers_sent_pending_offers)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
@@ -737,16 +780,18 @@ class TestProfileViewGETMethods(TestCase):
 
         # Filter: Confirmed
         dashboard_url_tier_two_offers_sent_confirmed = (
-            reverse_querystring("dashboard", args=[self.user_profile.slug],
+            reverse_querystring("dashboard",
+                                args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "offers_sent",
-                                "filter": "confirmed"
-                            }))
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "offers_sent",
+                                    "filter": "confirmed"
+                                }))
 
         # Filter: Confirmed Response
-        response = self.client.get(dashboard_url_tier_two_offers_sent_confirmed)                             
+        response = self.client.get(
+            dashboard_url_tier_two_offers_sent_confirmed)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
@@ -774,32 +819,32 @@ class TestProfileViewGETMethods(TestCase):
         Booking.objects.create(
             related_job=test_job
         )
-        
+
         test_booking = Booking.objects.get(
             related_job__event_name="test_job"
         )
 
         test_booking.booking_details_sent = True
         test_booking.save()
-        
+
         # Filter: Job ID
         dashboard_url_tier_two_offers_sent_job_pk = (
             reverse_querystring("dashboard", args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_two",
-                                "subsection": "offers_sent",
-                                "filter": test_job.pk
-                            }))
+                                    "page": "jobs",
+                                    "section": "tier_two",
+                                    "subsection": "offers_sent",
+                                    "filter": test_job.pk
+                                }))
 
-        response = self.client.get(dashboard_url_tier_two_offers_sent_job_pk)                             
+        response = self.client.get(
+            dashboard_url_tier_two_offers_sent_job_pk)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_page"], "jobs")
         self.assertTrue(response.context["current_section"], "tier_two")
         self.assertTrue(response.context["current_subsection"], "offers_sent")
         self.assertTrue(response.context["current_filter"], test_job.pk)
 
-    
         # Confirm Invitation is returned when searching by Booking ID
 
         username = "test"
@@ -807,31 +852,37 @@ class TestProfileViewGETMethods(TestCase):
         email = "test"
 
         invite_receiver = create_test_user(username, password, email)
-        invite_receiver_profile = get_object_or_404(UserProfile, user__username=invite_receiver)
+        invite_receiver_profile = get_object_or_404(
+            UserProfile, user__username=invite_receiver)
 
-        test_invitation = create_test_invitation(self.user_profile, invite_receiver_profile)
+        test_invitation = create_test_invitation(
+            self.user_profile, invite_receiver_profile)
         retrieved_invitation = Invitation.objects.get(pk=test_invitation.pk)
         retrieved_invitation.is_accepted = True
         retrieved_invitation.save()
 
-        test_booking = Booking.objects.get(related_invitation__pk=test_invitation.pk)
-        print(test_booking)
+        test_booking = Booking.objects.get(
+            related_invitation__pk=test_invitation.pk)
 
-        booking_success_response = self.client.get(reverse("booking_detail", args=[test_booking.pk]), follow=True)
+        booking_success_response = self.client.get(
+            reverse("booking_detail", args=[test_booking.pk]), follow=True)
+
         self.assertEqual(booking_success_response.status_code, 200)
 
         dashboard_url_tier_one_invites_sent_with_booking_pk = (
             reverse_querystring("dashboard", args=[self.user_profile.slug],
                                 query_kwargs={
-                                "page": "jobs",
-                                "section": "tier_one",
-                                "subsection": "invites_sent",
-                                "filter": test_booking.pk
-                            }))
-        
-        response = self.client.get(dashboard_url_tier_one_invites_sent_with_booking_pk)
+                                    "page": "jobs",
+                                    "section": "tier_one",
+                                    "subsection": "invites_sent",
+                                    "filter": test_booking.pk
+                                }))
+
+        response = self.client.get(
+            dashboard_url_tier_one_invites_sent_with_booking_pk)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(test_invitation in response.context["invitations_sent"])
+        self.assertTrue(test_invitation in
+                        response.context["invitations_sent"])
 
     def test_invitation_in_dashboard_redirect_from_clicking_notification(self):
 
@@ -840,18 +891,22 @@ class TestProfileViewGETMethods(TestCase):
         email = "test"
 
         invite_sender = create_test_user(username, password, email)
-        invite_sender_profile = get_object_or_404(UserProfile, user__username=invite_sender)
+        invite_sender_profile = get_object_or_404(
+            UserProfile, user__username=invite_sender)
 
-        test_invitation = create_test_invitation(invite_sender_profile, self.user_profile)
+        test_invitation = create_test_invitation(
+            invite_sender_profile, self.user_profile)
         retrieved_invitation = Invitation.objects.get(pk=test_invitation.pk)
         retrieved_invitation.is_accepted = True
         retrieved_invitation.save()
 
-        invitation_notification = Notification.objects.get(notification_sender=invite_sender_profile)
+        invitation_notification = Notification.objects.get(
+            notification_sender=invite_sender_profile)
 
-        response = self.client.get(reverse("invite_received_notification",
-                                           args=[invitation_notification.pk, test_invitation.pk]),
-                                           follow=True)
+        response = self.client.get(
+            reverse("invite_received_notification",
+                    args=[invitation_notification.pk, test_invitation.pk]),
+            follow=True)
 
         dashboard_url_with_invitation_pk_as_filter = reverse_querystring(
             "dashboard", args=[self.user_profile.slug],
@@ -863,10 +918,11 @@ class TestProfileViewGETMethods(TestCase):
             }
         )
 
-        self.assertRedirects(response, dashboard_url_with_invitation_pk_as_filter,
-                             status_code=302, target_status_code=200)
-        self.assertTrue(test_invitation in response.context["invitations_received"])
-
+        self.assertRedirects(
+            response, dashboard_url_with_invitation_pk_as_filter,
+            status_code=302, target_status_code=200)
+        self.assertTrue(test_invitation in
+                        response.context["invitations_received"])
 
     def test_filter_in_URL_query_from_booking_app(self):
         """
@@ -878,15 +934,15 @@ class TestProfileViewGETMethods(TestCase):
         """
 
         # Create mock user to act as invitation sender.
-        username="invite_sender"
-        password="inviter_password"
-        email="inviter_email@invite.com"
-        
+        username = "invite_sender"
+        password = "inviter_password"
+        email = "inviter_email@invite.com"
+
         test_invite_sender = create_test_user(username, password, email)
 
         # Get UserProfile for Invitation Sender to tie to Invitation object.
-        test_invitesender_userprofile = get_object_or_404(UserProfile,
-                                                          user=test_invite_sender)
+        test_invitesender_userprofile = get_object_or_404(
+            UserProfile, user=test_invite_sender)
 
         # Create invitation.
         test_invitation = Invitation.objects.create(
@@ -922,27 +978,29 @@ class TestProfileViewGETMethods(TestCase):
 
         # Define the URL for the Dashboard "Jobs" page, with booking ID in
         # filter query param.
-        dashboard_url = reverse_querystring("dashboard", args=[self.user_profile.slug],
-                                            query_kwargs={
-                                                "page": "jobs",
-                                                "section": "tier_one",
-                                                "subsection": "invites_received",
-                                                "filter": test_booking.pk
-                                            })
+        dashboard_url = reverse_querystring(
+            "dashboard", args=[self.user_profile.slug],
+            query_kwargs={
+                "page": "jobs",
+                "section": "tier_one",
+                "subsection": "invites_received",
+                "filter": test_booking.pk
+            })
 
         # Define the booking success/detail view as the referer.
         dashboard_get_header = {
             "HTTP_REFERER": booking_detail_url
-        } 
+        }
 
         # Visit Dashboard page.
         response = self.client.get(dashboard_url, **dashboard_get_header)
 
-        # Get the booking ID from the filter query to act as control against booking ID.A
-        filter_query = "".join(response.request["QUERY_STRING"].split("&")[-1:]).split("=")[-1:]
+        # Get the booking ID from the filter query to act as
+        # control against booking ID.
+        filter_query = "".join(
+            response.request["QUERY_STRING"].split("&")[-1:]).split("=")[-1:]
         filter_number = int("".join(filter_query)[-1:])
 
-        
         # Assert that the redirect returns the correct values.
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["current_filter"], test_booking.pk)
@@ -955,7 +1013,8 @@ class TestProfileViewGETMethods(TestCase):
         a successful response.
         """
         response = self.client.get(self.delete_account_url, follow=True)
-        self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, reverse("home"), status_code=302, target_status_code=200)
 
     def test_delete_account_redirect_for_unauthorized_user(self):
         """
@@ -968,16 +1027,17 @@ class TestProfileViewGETMethods(TestCase):
         email = "test"
 
         authorized_user = create_test_user(username, password, email)
-        authorized_user_profile = get_object_or_404(UserProfile, user=authorized_user)
+        authorized_user_profile = get_object_or_404(
+            UserProfile, user=authorized_user)
 
         # self.client is acting as unauthorized user
-        response = self.client.get(reverse("delete_account", args=[authorized_user_profile.pk]))
+        response = self.client.get(
+            reverse("delete_account", args=[authorized_user_profile.pk]))
         messages = list(get_messages(response.wsgi_request))
         control_msg = "You can't delete another member's profile!"
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(str(messages[0]), control_msg)
-
 
     def test_delete_stripe_customer(self):
         """
@@ -992,8 +1052,6 @@ class TestProfileViewGETMethods(TestCase):
 
         response = delete_stripe_customer(self.user.email)
         self.assertEqual(response.status_code, 200)
-      
-
 
 # ------------------------------------------------------------
 
@@ -1012,17 +1070,17 @@ class TestProfileViewPOSTMethods(TestCase):
         )
 
         self.user_profile = get_object_or_404(
-            UserProfile,user=self.user)
+            UserProfile, user=self.user)
 
         self.client = Client()
 
         self.client.login(
             username=username, password=password)
-        
 
         self.edit_profile_url = reverse("edit_profile")
         self.upload_audio_url = reverse("upload_audio", args=[self.user])
-        self.upload_unavailable_dates_url = reverse("upload_unavailability", args=[self.user_profile.pk])
+        self.upload_unavailable_dates_url = reverse(
+            "upload_unavailability", args=[self.user_profile.pk])
         self.profile_url = reverse("profile", args=[self.user])
 
     def test_profile_url_review_POST(self):
@@ -1044,14 +1102,13 @@ class TestProfileViewPOSTMethods(TestCase):
         self.user_profile.first_name = "Testing"
 
         self.user_profile_2 = get_object_or_404(
-            UserProfile,user=self.user_2)
-
+            UserProfile, user=self.user_2)
 
         post_data = {
             "review_content": "test",
             "rating": 1
         }
-        
+
         # Request Factory required to POST request to class based view.
         request_factory = RequestFactory()
         request = request_factory.post(self.profile_url, post_data)
@@ -1067,12 +1124,10 @@ class TestProfileViewPOSTMethods(TestCase):
 
         # Create request and confirm succesful status codes.
         response = ProfileView.as_view()(request, user_name=self.user)
-        print(response)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             "success_msg" in str(response.content, encoding="utf-8"))
 
-    
     def test_profile_url_review_invalid_POST_returns_JSON_response(self):
 
         # Create a mock user to act as review sender.
@@ -1107,7 +1162,6 @@ class TestProfileViewPOSTMethods(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             "errors" in str(response.content, encoding="utf-8"))
-        
 
     def test_user_profile_form_POST_success(self):
         """
@@ -1119,7 +1173,7 @@ class TestProfileViewPOSTMethods(TestCase):
         # GET request to retrieve context
         response = self.client.get(reverse("edit_profile"))
         self.assertEqual(response.status_code, 200)
-        
+
         # Create Instrument Object to add to POST data
         test_instrument = Instrument.objects.create(
             instrument_name="test_instrument"
@@ -1145,17 +1199,21 @@ class TestProfileViewPOSTMethods(TestCase):
         # https://stackoverflow.com/questions/1630754/django-formset-unit-test
         management_form = response.context["equipment_formset"].management_form
 
-        for i in 'TOTAL_FORMS', 'INITIAL_FORMS', 'MIN_NUM_FORMS', 'MAX_NUM_FORMS':
-            data['%s-%s' % (management_form.prefix, i)] = management_form[i].value()
-        
-        for i in range(response.context['equipment_formset'].total_form_count()):
+        for i in ['TOTAL_FORMS', 'INITIAL_FORMS',
+                  'MIN_NUM_FORMS', 'MAX_NUM_FORMS']:
+            data['%s-%s' % (management_form.prefix, i)] = (
+                management_form[i].value())
+
+        for i in range(
+                response.context['equipment_formset'].total_form_count()):
             # get form index 'i'
             current_form = response.context['equipment_formset'].forms[i]
 
         # retrieve all the fields
         for field_name in current_form.fields:
             value = current_form[field_name].value()
-            data['%s-%s' % (current_form.prefix, field_name)] = value if value is not None else ''
+            data['%s-%s' % (current_form.prefix, field_name)] = (
+                value if value is not None else '')
 
         # Post data to Edit Profile URL and confirm successful response.
         response = self.client.post(reverse("edit_profile"), data)
@@ -1170,7 +1228,8 @@ class TestProfileViewPOSTMethods(TestCase):
         """
 
         test_audiofile = TemporaryUploadedFile(
-            "test_audio.mp3", size=1024, charset="utf-8", content_type="audio/mpeg")
+            "test_audio.mp3", size=1024,
+            charset="utf-8", content_type="audio/mpeg")
 
         file_data = {
             "audio[0]": test_audiofile,
@@ -1207,7 +1266,6 @@ class TestProfileViewPOSTMethods(TestCase):
         response = self.client.post(self.upload_audio_url, file_data)
         self.assertEqual(response.status_code, 200)
 
-    
     def test_upload_unavailable_dates_POST(self):
         """
         Create an array of date strings to post
@@ -1232,27 +1290,6 @@ class TestProfileViewPOSTMethods(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_upload_unavailable_dates_POST_raises_exception(self):
-        """
-        Confirm an exception is raised if the date is in an 
-        incorrect format.
-        """
-        date_list = [
-            "2022/03/22",
-            "2022/03/23",
-            "2022/03/24",
-            "2022/03/25",
-            "2022/03/26",
-        ]
-
-        data = {
-            "date_array[]": date_list
-        }
-
-        self.client.post(self.upload_unavailable_dates_url, data)
-
-        self.assertRaises(Exception)
-
     def test_upload_unavailable_dates_POST_deletes_date(self):
         """
         Create an UnavailableDate object tied to the UserProfile
@@ -1269,7 +1306,7 @@ class TestProfileViewPOSTMethods(TestCase):
 
         # Define the date to remove
         date_to_remove = "2022-03-23"
-        
+
         data = {
             "event_to_remove": date_to_remove,
             "request": 2
@@ -1279,6 +1316,7 @@ class TestProfileViewPOSTMethods(TestCase):
         response = self.client.post(self.upload_unavailable_dates_url, data)
         self.assertEqual(response.status_code, 200)
 
-        # Confirm that the date is indeed removed from the user profile's collection.
+        # Confirm that the date is indeed removed from
+        # the user profile's collection.
         testusers_unavailable_dates = self.user_profile.unavailable_user.all()
         self.assertFalse(date_to_remove in testusers_unavailable_dates)

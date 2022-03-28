@@ -5,12 +5,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 
 
-from profiles.views import (ProfileView, delete_account, edit_profile, upload_audio,
-                    upload_unavailable_dates, get_users_unavailable_dates,
-                    get_users_tracks, DashboardView, delete_account)
-from profiles.models import UserProfile
+from profiles.views import (ProfileView, delete_account, edit_profile,
+                            upload_audio, upload_unavailable_dates,
+                            get_users_unavailable_dates, get_users_tracks,
+                            DashboardView, delete_account)
 
-from social.functions import reverse_querystring
+from profiles.models import UserProfile
 
 
 class TestProfileUrls(TestCase):
@@ -37,14 +37,15 @@ class TestProfileUrls(TestCase):
             email=email
         )
         self.user_profile = get_object_or_404(
-            UserProfile,user=self.user)
+            UserProfile, user=self.user)
 
     def test_profile_url_is_resolved(self):
         """
         Confirm that the Profile URL resolves correctly.
         """
         url = reverse("profile", args=[self.user])
-        self.assertEquals(resolve(url).func.__name__, ProfileView.as_view().__name__)
+        self.assertEquals(
+            resolve(url).func.__name__, ProfileView.as_view().__name__)
 
     def test_delete_account_url_is_resolved(self):
         """
@@ -93,6 +94,5 @@ class TestProfileUrls(TestCase):
         Confirm that the Dashboard URL resolves correctly.
         """
         url = reverse("dashboard", args=[self.user_profile.slug])
-        self.assertEquals(resolve(url).func.__name__, DashboardView.as_view().__name__)
-
-    
+        self.assertEquals(
+            resolve(url).func.__name__, DashboardView.as_view().__name__)
