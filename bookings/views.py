@@ -204,8 +204,16 @@ def accept_invitation(request, invitation_pk):
 
     invitation = get_object_or_404(Invitation, pk=invitation_pk)
 
+    # Restrict access to view to user who received the invite.
+    if invitation.invite_receiver.user != request.user:
+        messages.warning(
+            request,
+            mark_safe("You may not accept another member's booking."))
+        return redirect(reverse("home"))
+
     invite_receiver = get_object_or_404(UserProfile,
                                         user__username=request.user)
+
     invite_sender = get_object_or_404(UserProfile,
                                       user__username=invitation.invite_sender)
 
