@@ -107,7 +107,11 @@
                                     <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
                                     <div class="centered">
                                         {% if request.user.is_authenticated %}
-                                            <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                                            {% if current_user.subscription_chosen %}
+                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
+                                            {% else %}
+                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
+                                            {% endif %}
                                         {% else %}
                                             <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
                                         {% endif %}
