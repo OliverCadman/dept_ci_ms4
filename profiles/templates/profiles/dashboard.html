@@ -109,7 +109,7 @@
                                             </p>
                                         {% endif %}
                                         <div class="cta-btn-wrapper">
-                                            <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received" class="btn primary_bg white_font secondary_font inset_light_shadow">Respond Now</a>
+                                            <a href="{% url "dashboard" current_user %}?page=jobs&section=tier_one&subsection=invites_received&filter=all" class="btn primary_bg white_font secondary_font inset_light_shadow">Respond Now</a>
                                         </div>
                                     {% else %}
                                         <p class="secondary_font light_font text-center">
@@ -370,6 +370,7 @@
                 {% endif %}
             </section>
             <aside>
+                <!-- Invitation Detail Modal -->
             <div class="modal fade" id="invitation_detail_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -420,6 +421,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Message Modal -->
             <div class="modal fade" id="message_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -488,8 +490,8 @@
             <div class="modal fade" id="delete_job_modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="primary_font text-center">Delete this Job?</h2>
+                        <div class="modal-header secondary_bg white_font">
+                            <h2 class="primary_font text-center m-0">Delete this Job?</h2>
                             <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
