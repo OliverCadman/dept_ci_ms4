@@ -4,8 +4,7 @@ $(document).ready(function(){
     £100-£200 two pound signs, £200-£300 3 pound signs etc. */
 
     // Grab the hidden inputs placed inside cards.
-    let hiddenInputs = document.getElementsByClassName("hidden_fee_input")
-    let hiddenInputVals = hiddenInputs.value;
+    let hiddenInputs = document.getElementsByClassName("hidden_fee_input");
 
     // Grab the input values and the parent div to hold the icon wrapper
     for (let input of hiddenInputs) {
@@ -53,4 +52,4 @@ $(document).ready(function(){
         }
     }
 
-})
+});

@@ -13,8 +13,10 @@ $(document).ready(function() {
         $("#fee").html(`£${$(this).data("job-fee")}`);
         $("#job_poster").html($(this).data("job-poster"));
         $("#job_description").html($(this).data("job-description"));
-        $("#job_poster").html(`Posted by <a href="/profile/${$(this).data("job-poster")}" class="primary_font med_size">${$(this).data("job-poster")}</a>`);
-        $("#register_interest_btn").attr("href", `/jobs/register_interest/${$(this).data("job-id")}/${$(this).data("request-user")}`)
+        $("#job_poster").html(
+          `Posted by <a href="/profile/${$(this).data("job-poster")}" class="primary_font med_size">${$(this).data("job-poster")}</a>`);
+        $("#register_interest_btn").attr(
+          "href", `/jobs/register_interest/${$(this).data("job-id")}/${$(this).data("request-user")}`);
 
         if ($(this).data("job-poster-image")) {
             $("#poster_profile_img_wrapper").html(
@@ -34,5 +36,5 @@ $(document).ready(function() {
             );
         }
         
-    })
-})
+    });
+});
