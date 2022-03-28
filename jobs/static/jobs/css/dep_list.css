@@ -118,14 +118,6 @@
 
 @media screen and (min-width:992px) {
 
-    .dynamic-hero-section-lg.dep_list {
-        height: 50vh;
-    }
-
-    .dep_list_header {
-        padding-top: 5rem;
-    }
-
     #benefits_section {
         position: relative;
         padding: 3rem 0;

@@ -173,10 +173,13 @@
     
 }
 
+/* Start of larger screens */
 @media screen and (min-width: 992px){
+    /* Header Styling relative to each page */
     .dynamic-hero-section-lg.find_a_dep_landing_page,
     .dynamic-hero-section-lg.edit_profile {
-        height: 50vh;
+        height: 55vh;
+        padding-top: 1rem;
     }
 
     .dynamic-hero-section-lg.height_55vh {
@@ -195,16 +198,18 @@
         height: 56vh;
     }
 
-    .dynamic-header.job_list {
-        height: 435px;
-    }
-
     .dynamic-header.checkout_success {
         padding-top: 6rem;
     }
 
-    .dynamic-hero-section-lg.find_a_dep_landing_page {
-        padding-top: 8rem;
+    /* Dep List */
+
+    .dynamic-hero-section-lg.dep_list {
+        height: 40vh;
+    }
+
+    .dep_list_header {
+        padding-top: 5rem;
     }
 
     .dynamic-header h2 {
@@ -238,6 +243,7 @@
 
     .dynamic-header.job_list {
         padding-top: 60px;
+        height: 435px;
     }
 }
 
@@ -253,6 +259,7 @@
         font-size: 1.4rem;
     }
 
+    /* Subscription Header */
     .dynamic-hero-section-lg.choose_subscription {
         min-height: 68vh;
     }
@@ -261,34 +268,25 @@
 
 /* MacBook Pro 13inch 2018 */
 @media screen and (min-width: 1366px) {
+    /* Checkout Success */
     .dynamic-hero-section-lg.checkout_success {
         height: 54vh;
     }
 
+    /* Subscription */
     .dynamic-hero-section-lg.choose_subscription {
         height: 65vh;
     }
 }
 
+
 @media screen and (min-width: 1400px) {
-    /* .dynamic-hero-section-lg.choose_subscription {
-        height: 60vh;
-    } */
 
-    /* .dynamic-hero-section-lg.job_list {
-        height: 60vh;
-    }   */
-
-    .dynamic-hero-section-lg.checkout_success {
-        height: 59vh;
-    }
-}
-
-@media screen and (min-width: 1440px) {
     .dynamic-hero-section-lg.checkout_success {
         height: 63vh;
     }
 }
+
 
 @media screen and (min-width: 1680px) {
     .dynamic-hero-section-lg.checkout_success {
