@@ -447,7 +447,6 @@ body {
  
 }
 
-
 #main-nav ul li a {
     text-decoration: none;
     font-family: "Varela Round", sans-serif;
@@ -478,7 +477,6 @@ body {
 #dept-home-link {
     display: inline;
 }
-
 
 .notification-message-links-wrapper {
     display: flex;
@@ -763,7 +761,7 @@ body {
 
     #main-nav ul li a {
         margin: 0 1rem;
-        font-size: 1.35rem;
+        font-size: 1.2rem;
     }
 
     .notification_icon {
@@ -855,26 +853,33 @@ body {
         transition: all 0.3s;
     }
 
+    /* Navbar */
+
+     #main-nav ul li a {
+         margin: 0 1rem;
+         font-size: 1.5rem;
+     }
+
     /* 404/500 Pages */
 
-     .errorpage_section_lg {
+    .errorpage_section_lg {
          background-color: #1a2342;
          position: relative;
          margin-top: 4rem;
          height: 67vh;
      }
 
-     .errorpage_container {
+    .errorpage_container {
          padding-top: 6rem;
      }
 
-     .hero-block-divider {
+    .hero-block-divider {
          border: 2px solid white;
          width: 97%;
          margin: 0 auto !important;
      }
 
-     .error-hero-bg {
+    .error-hero-bg {
          position: absolute;
          width: 50%;
          height: 100%;
@@ -883,7 +888,7 @@ body {
          background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
      }
 
-     .error-hero-bg:after {
+    .error-hero-bg:after {
          background: linear-gradient(-85deg, transparent 5%, transparent 50%, #1a2342 50%, #1a2342 100%);
          content: '';
          width: 25%;
@@ -894,7 +899,7 @@ body {
          z-index: 2;
      }
 
-     .logo_errorpage {
+    .logo_errorpage {
          position: absolute;
          left: 40%;
          transform: translateY(50%);
@@ -902,11 +907,13 @@ body {
          height: 250px;
      }
 
-     .errorpage_msg_display {
+    .errorpage_msg_display {
          width: 40%;
-     }
+    }
 
-     /* Profile Page and Booking Detail/Success Header*/
+
+
+    /* Profile Page and Booking Detail/Success Header*/
 
     #profile_image_navbar {
         width: 150px;
