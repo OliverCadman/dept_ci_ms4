@@ -37,17 +37,22 @@ $(document).ready(function () {
     if ($("#available_today_checkbox").val() == "false") {
       $("#available_today_checkbox").prop("disabled", true);
     } else {
-      $("#available_today_checkbox").checked;
+      $("#available_today_checkbox").prop("checked", true);
     }
 
-    if($("#genre").val() == "all") {
-        $("#genre").prop("disabled", true);
-    } 
+    if ($("#genre").val() == "all") {
+      $("#genre").prop("disabled", true);
+    }
 
-    if($(".sort_selector").val() == "reset") {
+    if ($(".sort_selector").val() == "reset") {
       $(".sort_selector").prop("disabled", true);
+    }
 
-    } 
+    if ($("#fee_select")) {
+      if ($("#fee_select").val() == "all") {
+        $("#fee_select").prop("disabled", true);
+      }
+    }
   }
 
   $("#instrument_filter_form").on("submit", checkForUnusedFilterFields);
