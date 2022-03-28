@@ -20,6 +20,7 @@ $(document).ready(function () {
     addMoreBtn.copyTarget = "equipment_form_list";
     addMoreBtn.formCopyClass = "equipment_form";
     addMoreBtn.inputAttribute = "equipment_name";
+    addMoreBtn.errorMessageContainer = "equipment_error_message";
   } else {
     addMoreBtn.addEventListener("click", addMoreForms);
     addMoreBtn.copyTarget = "audio_form_list";
@@ -30,10 +31,6 @@ $(document).ready(function () {
 
   function addMoreForms(e) {
     e.preventDefault();
-
-    console.log(e.currentTarget.copyTarget);
-    console.log(e.currentTarget.formCopyClass);
-    console.log(e.currentTarget.inputAttribute);
 
     // The div where the added input field will be appended
     const formCopyTarget = document.getElementById(e.currentTarget.copyTarget);
@@ -67,10 +64,20 @@ $(document).ready(function () {
       if (currentForms.length < 15) {
         formCopyTarget.append(formCopyEmptyEl);
       } else {
-        const errorMessageContainer = document.getElementById(
+        let errorMessageContainer = document.getElementById(
           e.currentTarget.errorMessageContainer
         );
         let errorMessage = "You cannot add more than 15 files.";
+        errorMessageContainer.innerText = errorMessage;
+      }
+    } else {
+      if (currentForms.length < 5) {
+        formCopyTarget.append(formCopyEmptyEl);
+      } else {
+        let errorMessageContainer = document.getElementById(
+          e.currentTarget.errorMessageContainer
+        );
+        let errorMessage = "You cannot add more than 5 items."
         errorMessageContainer.innerText = errorMessage;
       }
     }
