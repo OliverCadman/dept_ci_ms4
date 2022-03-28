@@ -66,10 +66,8 @@ def invitation_form_view(request):
             form.invite_sender = invite_sender
             form.invite_receiver = invite_receiver
             form.save()
-
-            messages.success(request, "Invitation Sent")
-            return redirect(
-                reverse("profile", kwargs={"user_name": invite_receiver}))
+            success_msg = f"You have invited {invite_receiver} to your gig."
+            return JsonResponse({"success_msg": success_msg})
         else:
             return JsonResponse({"errors": invitation_form.errors.as_json()})
 
