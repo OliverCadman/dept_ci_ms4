@@ -7,6 +7,7 @@ from bookings.models import Invitation, Booking
 from jobs.models import Job
 from social.models import Message, Notification
 
+
 class TestSocialModels(TestCase):
     """
     Unit Test - Social Model
@@ -65,7 +66,8 @@ class TestSocialModels(TestCase):
         control_message = Message.objects.get(pk=test_message.pk)
         self.assertEqual(test_message, control_message)
 
-        message_str = f"Message from {self.user_profile_1} to {self.user_profile_2}"
+        message_str = (
+            f"Message from {self.user_profile_1} to {self.user_profile_2}")
         self.assertEqual(str(test_message), message_str)
 
     def test_notification_creation_and_string_method(self):
@@ -87,6 +89,6 @@ class TestSocialModels(TestCase):
         self.assertEqual(test_notification, control_notification)
 
         notification_str = (
-            f"Notification from {self.user_profile_1} to {self.user_profile_2}")
+            f"Notification from {self.user_profile_1}"
+            f" to {self.user_profile_2}")
         self.assertEqual(str(test_notification), notification_str)
-
