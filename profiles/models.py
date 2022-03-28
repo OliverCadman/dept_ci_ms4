@@ -165,6 +165,9 @@ class UserProfileQueryset(models.QuerySet):
             Query the entire UserProfile object using filter
             params specified in "Find a Dep" page select
             elements and buttons.
+
+            Users with 'is_paid' status get priority listing
+            by default, regardless of sort params.
     """
 
     def filter_by_params(self, filter_params, date_today, sort_params):
@@ -173,7 +176,7 @@ class UserProfileQueryset(models.QuerySet):
             return self.filter(
                 **filter_params).exclude(unavailable_user__date=date_today)
 
-        return self.filter(**filter_params).order_by(sort_params)
+        return self.filter(**filter_params).order_by("-is_paid", sort_params)
 
 
 class UserProfileManager(models.Manager):
