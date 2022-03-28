@@ -241,6 +241,19 @@
     }
 }
 
+/* Macbook Pro 13 inch 2014*/
+@media screen and (min-width: 1280px) {
+    
+    /* Dep List Header */
+    .dynamic-header.dep_list_header h2 {
+        font-size: 3rem;
+    }
+
+    .dynamic-header.dep_list_header p {
+        font-size: 1.4rem;
+    }
+}
+
 @media screen and (min-width: 1366px) {
     .dynamic-hero-section-lg.checkout_success {
         height: 54vh;
