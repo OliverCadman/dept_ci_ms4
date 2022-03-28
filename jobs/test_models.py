@@ -44,7 +44,6 @@ class TestJobModel(TestCase):
             2022, 2, 23, 19, 36, 57))
         self.assertEqual(self.test_job.job_description, "test_desc")
         self.assertEqual(self.test_job.job_poster, self.test_user_profile_1)
-        
 
     def test_job_str(self):
         """
@@ -54,18 +53,12 @@ class TestJobModel(TestCase):
         control_str = f"{self.test_user_profile_1}'s job: {self.test_job.event_name}"
         self.assertEqual(str(self.test_job), control_str)
 
-    
     def test_filter_queryset(self):
 
-        filter_params = {"event_city__iexact" : "test_city"}
+        filter_params = {"event_city__iexact": "test_city"}
 
         query = Job.objects.filter_queryset(
             filter_params=filter_params,
             min_fee=1,
             max_fee=inf
         )
-
-        print(query)
-
-
-        
