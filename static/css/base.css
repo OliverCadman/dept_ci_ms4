@@ -1,3 +1,26 @@
+/*
+CSS Styles - Base
+
+Provides Global style rules shared across multiple
+elements throughout the website.
+
+Includes styling for:
+
+- Utility Classes (Flex, width, height etc)
+- Navigation Bar
+- Footer 
+- Fonts
+- Forms
+- CTA Buttons
+- Notifications
+- Background Colours
+- Font Colours
+- Opaque Overlays
+- 404 Page
+- 500 Page 
+- AnimateCSS Rules
+*/
+
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oxygen:wght@300;400&family=Jost:wght@300;400;500&family=Roboto:wght@300;400&family=Varela+Round&display=swap');
 
@@ -644,6 +667,8 @@ body {
     display: flex;
     justify-content: center;
 }
+
+/* Footer Lead paragraph */
 
 .about-dept-wrapper p,
 .about-dept-wrapper a {

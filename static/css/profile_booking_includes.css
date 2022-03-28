@@ -1,3 +1,9 @@
+/* CSS Styles -  Profile and Booking Success/Details Header 
+
+CSS for includes file which is shared between
+Profile and Booking Success/Detail pages.
+*/
+
 .profile-header-container {
     padding: 50px 0 0 0;
     position: relative;
@@ -24,15 +30,6 @@
     color: #fefefe;
 }
 
-.opaque-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.603);
-}
-
 .header-btn-wrapper a,
 .header-btn-wrapper button {
     color: #fefefe;
@@ -42,6 +39,20 @@
     margin: 0 .5rem .5rem 0;
 }
 
+#finalized_booking_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#profile_image {
+    object-fit: cover;
+}
+
+#profile_header h1.booking_success_fallback_header {
+    color: #111;
+}
+
+/* Media Queries */
 @media screen and (min-width: 768px) {
      .profile-header-container {
          padding-top: 65px;

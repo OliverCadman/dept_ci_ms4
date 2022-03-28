@@ -1,3 +1,8 @@
+/* CSS Styling - Auth
+
+    Styling for elements in Django AllAuth templates.
+*/
+
 .auth-section {
     padding: 3rem 0;
     position: relative;
@@ -7,9 +12,6 @@
 
 .auth-container {
     padding-top: 39px;
-    /* min-height: 85vh; */
-
-
 }
 
 .auth-section.verify,
@@ -55,14 +57,9 @@
 
 }
 
-/* .auth-form-wrapper {
-   max-width: 750px;
-} */
-
 .textInput {
     border-radius: 40px;
 }
-
 
 .form-label,
 .textInput,
@@ -98,8 +95,8 @@
 
 }
 
+/* Media Queries */
 @media screen and (min-width: 768px) {
-
     .auth-container {
         min-height: 60vh;
     }
