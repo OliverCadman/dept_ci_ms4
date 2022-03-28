@@ -5,6 +5,9 @@ from django.conf import settings
 from django.urls import reverse
 
 import urllib.parse
+import stripe
+
+from unittest.mock import patch
 
 from profiles.models import UserProfile
 
@@ -28,7 +31,7 @@ Test cases for Subscription Routes, Views and Config
 
 
 class TestSubscriptionApp(TestCase):
-    
+
     def setUp(self):
         """
         Create a mock user and log them in.
@@ -38,11 +41,13 @@ class TestSubscriptionApp(TestCase):
         email = "test@test.com"
         user_model = get_user_model()
         self.user = user_model.objects.create_user(username=username,
-                                           password=password,
-                                           email=email
-                                        )
+                                                   password=password,
+                                                   email=email
+                                                   )
         login = self.client.login(username=username, password=password)
         self.assertTrue(login)
+
+        self.customer_portal_url = reverse("customer_portal")
 
     def test_subscription_choice_view(self):
         """
@@ -71,7 +76,7 @@ class TestSubscriptionApp(TestCase):
         response = self.client.get("/subscribe/config/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content,
-                             { "public_key" : settings.STRIPE_PUBLIC_KEY })
+                             {"public_key": settings.STRIPE_PUBLIC_KEY})
 
     def test_session_id_in_checkout(self):
         """
@@ -91,16 +96,19 @@ class TestSubscriptionApp(TestCase):
         if they attempt to visit the subscription choice page.
         """
         self.client.logout()
-        response = self.client.get("/subscribe/choose_subscription/", follow=True)
+        response = self.client.get(
+            "/subscribe/choose_subscription/", follow=True)
 
         request_path_url = "/subscribe/choose_subscription/"
-        self.assertRedirects(response, reverse_querystring("account_login",
-                             query_kwargs={ "next" : urllib.parse.quote(request_path_url) }),
-                             status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, reverse_querystring(
+                "account_login",
+                query_kwargs={"next": urllib.parse.quote(request_path_url)}),
+            status_code=302, target_status_code=200)
 
     def test_checkout_success_view(self):
         """
-        Confirm that the checkout success routing is correct, and 
+        Confirm that the checkout success routing is correct, and
         that the correct template is used.
         """
         self.client.get("/subscribe/choose_subscription")
@@ -124,7 +132,7 @@ class TestSubscriptionApp(TestCase):
         the user to the home page.
         """
         cancel_url = settings.DOMAIN_ROOT
-        
+
         tier_one_price_id = settings.STRIPE_TIERONE_PRICE_ID
         request_post_data = {
             "price_id": tier_one_price_id
@@ -146,4 +154,23 @@ class TestSubscriptionApp(TestCase):
         user_profile.subscription_chosen = True
         user_profile.save()
         response = self.client.get("/subscribe/success/", follow=True)
-        self.assertRedirects(response, reverse("home"), status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, reverse("home"), status_code=302, target_status_code=200)
+
+    def test_customer_portal(self):
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.Customer.create(
+            email=self.user.email
+        )
+
+        response = self.client.post(self.customer_portal_url)
+        self.assertEqual(response.status_code, 302)
+
+    @patch("subscriptions.views.customer_portal",
+           side_effect=Exception("Exception!"))
+    def test_customer_portal_exception(self, portal_mock):
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe_customer = stripe.Customer.create(email=self.user.email)
+        self.assertRaises(Exception, portal_mock)
+
+        stripe.Customer.delete(stripe_customer.id)

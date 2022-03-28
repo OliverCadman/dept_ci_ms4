@@ -9,8 +9,23 @@ import stripe
 
 
 class StripeWH_Handler:
+    """
+    Stripe Webhook Handler
+
+    Listens for Stripe events and updates a subscribed
+    UserProfile model with the subscription status and
+    'is_paid' status, if they have chosen the Tier Two
+    option.
+
+    Stripe Events Include:
+        - checkout.session.completed
+        - customer.subscription.updated
+    """
 
     def __init__(self, request):
+        """
+        Initialize the class with request.
+        """
         self.request = request
 
     def handle_event(self, event):
@@ -33,13 +48,11 @@ class StripeWH_Handler:
         """
 
         intent = event.data.object
-        print("INTENT")
-        print(intent)
         subscribed_username = intent.metadata.customer_username
-     
+
         user_model = get_user_model()
         subscribing_user = user_model.objects.get(username=subscribed_username)
-  
+
         user_profile = UserProfile.objects.get(user=subscribing_user)
 
         if intent.mode == "subscription":
@@ -52,24 +65,14 @@ class StripeWH_Handler:
             tier_two_price_id = settings.STRIPE_TIERTWO_PRICE_ID
 
             subscription = stripe.Subscription.retrieve(subscription_id)
-            print("Retrieved subscription:", subscription)
-
-            print('Subscription price id:', subscription["items"].data[0].price.id)
 
             # Update UserProfile model with paid-subscription-status
             if subscription["items"].data[0].price.id == tier_two_price_id:
                 user_profile.is_paid = True
                 user_profile.save()
-                
+
         return HttpResponse(
             content=f"Checkout completed: {event['type']}"
-        )
-
-    def handle_customer_subscription_created(self, event):
-
-        return HttpResponse(
-            content=f"Subscription schedule created: {event['type']}",
-            status=200
         )
 
     def handle_customer_subscription_updated(self, event):
@@ -80,17 +83,18 @@ class StripeWH_Handler:
 
         Grab the Price IDs from the event object and
         compare them with the Price IDs stored in
-        variables in settings.py. 
+        variables in settings.py.
 
         Revoke 'is_paid' status if Tier One Price ID matches,
         or add 'is_paid' status if Tier Two Price ID matches.
         """
 
-        subscription = event.data.object 
+        subscription = event.data.object
         stripe_customer_id = subscription["customer"]
         stripe_customer = stripe.Customer.retrieve(stripe_customer_id)
         customer_email = stripe_customer.email
-        customer_profile = get_object_or_404(UserProfile, user__email=customer_email)
+        customer_profile = get_object_or_404(
+            UserProfile, user__email=customer_email)
 
         subscription_price_id = subscription["items"].data[0].price.id
 
@@ -105,46 +109,5 @@ class StripeWH_Handler:
 
         return HttpResponse(
             content=f"Subscription schedule updated: {event['type']}",
-            status=200
-        )
-
-    
-
-    def handle_payment_intent_succeeded(self, event):
-        """
-        Handle the payment_intent.succeeded webhook
-        """
-
-        intent = event.data.object
-        # print("intent:", intent)
-
-        return HttpResponse(
-            content=f"Payment intent succeeded, nice one: {event['type']}",
-            status=200
-        )
-
-    def handle_payment_intent_failed(self, event):
-        return HttpResponse(
-            content=f"Payment intent failed: {event['type']}"
-        )
-
-    def handle_invoice_requires_action(self, event):
-
-        return HttpResponse(
-            content=f"Action needed: {event['type']}"
-        )
-
-    def handle_invoice_upcoming(self, event):
-
-        return HttpResponse(
-            content=f"Invoice upcoming: {event['type']}"
-        )
-    
-   
-
-    def handle_invoice_created(self, event):
-
-        return HttpResponse(
-            content=f"Invoice created: {event['type']}",
             status=200
         )
