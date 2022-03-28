@@ -108,7 +108,7 @@ $(document).ready(function () {
         numOfReviewsDisplay.textContent = `(${numOfReviews})`;
       } else {
         numOfReviewsDisplay.className =
-          "secondary_font white_font med_small_text position-relative";
+          "secondary_font white_font position-relative";
         numOfReviewsDisplay.textContent = "No Reviews";
       }
 
