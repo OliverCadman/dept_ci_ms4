@@ -8,12 +8,15 @@ from profiles.models import UserProfile
 
 
 class IndexView(View):
+    """
+    Index View
+    ------------------
+
+    Displays the website's home page.
+    """
     def get(self, request):
-
-        if request.user.is_authenticated:
-            current_user = get_object_or_404(
-                UserProfile, user__username=request.user)
-            if not current_user.subscription_chosen:
-                return redirect(reverse("choose_subscription"))
-
+        """
+        GET request to display the website's
+        home page.
+        """
         return render(request, "home/index.html")
