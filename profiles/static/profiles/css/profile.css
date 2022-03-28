@@ -173,23 +173,29 @@
 
 /* Genre Badges */
 
-.genre_badge {
-    background: rgb(189, 219, 180);
-    color: #353535;
-    font-family: "Oxygen", sans-serif;
+.item_badge {
+    background-color: #1a2342ce;
     padding: 1rem;
-    font-size: 1.15rem;
     border-radius: 50px;
     display: block;
     width: 60%;
-    margin: .5rem;
+    margin: 0.3rem;
     clear: both;
-    font-weight: 500;
     letter-spacing: 1px;
 }
 
-.genre_badge.pushed {
+.item_badge.pushed {
     float: right;
+}
+
+/* Equipment List */
+
+#equipment_list_wrapper {
+    padding: 1.5rem 0;
+}
+
+.equipment_item_wrapper {
+    padding: 0 .3rem;
 }
 
 /* Invitation Form */
@@ -214,6 +220,16 @@
         width: 50%;
     }
 
+    /* Sidebar */
+
+    .sidebar_header {
+        font-size: 1.75rem;
+    }
+
+    .equipment_badge {
+        text-align: center;
+    }
+
     #calendar_container {
         display: inline-block;
         border-right: 8px solid #222;
@@ -221,10 +237,7 @@
 
     #genre_list_container {
         width: 50%;
-    }
-
-    .sidebar_header {
-        font-size: 1.75rem;
+        float: right;
     }
 }
 
@@ -249,18 +262,13 @@
         font-size: 1.25rem;
     }
 
+    /* Sidebar */
+
     .sidebar_lg {
         border-left: 4px solid #222;
         padding: 1rem 2rem;
         background-color: #f1f0f0;
     }
-
-    /* .profile-card {
-        background-color: #efefef;
-        border-radius: 5px;
-        box-shadow: 0 3px 6px -1px rgba(0, 0, 0, .12),
-        0 10px 36px -4px rgba(77, 96, 232, .3);
-    } */
 
     #calendar_container {
         width: 100%;
@@ -271,11 +279,14 @@
         margin-left: 0.5rem;
     }
 
-    /* Genre Badges */
-
     #genre_list_container {
         width: 100%;
+        float: none;
     }
+
+     .equipment_badge {
+         text-align: left;
+     }
 
     /* Review Wrapper */
 

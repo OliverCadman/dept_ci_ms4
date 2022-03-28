@@ -219,6 +219,7 @@
                     </div>
                 </div>
             {% endif %}
+            <!-- User's Unavailability Calendar -->
             <div id="calendar_container" class="profile-card {% if users_genres|length > 0 %}custom-w-50{% else %}custom-w-100{% endif %}">
                 <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
                 <input type="hidden" value="{{user_id}}" id="user_id">
@@ -226,15 +227,32 @@
                 <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
                 <div id="calendar_wrapper"></div>
             </div>
+            <!-- User's Genre List -->
             {% if users_genres %}
-                <div id="genre_list_container" class="float-md-end">
+                <div id="genre_list_container">
                     <h5 class="sidebar_header">My Genres</h5>
                     <div id="genre_list_wrapper">
                         {% for genre in users_genres %}
                             {% if forloop.counter|divisibleby:"2" %}
-                            <span class="badge genre_badge pushed">{{ genre }}</span>   
+                            <span class="badge item_badge pushed primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>   
                             {% else %}
-                            <span class="badge genre_badge">{{ genre }}</span>
+                            <span class="badge item_badge primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            <!-- User's Equipment List -->
+            {% if users_equipment %}
+                <div id="equipment_list_container">
+                    <h5 class="sidebar_header">My Equipment</h5>
+                    <div id="equipment_list_wrapper">
+                        {% for equipment in users_equipment %}
+                            <div class="equipment_item_wrapper">
+                                <p class="primary_font light_weight med_text ms-2 equipment_badge">{{ equipment }}</p>   
+                            </div>
+                            {% if not forloop.last %}
+                            <hr>
                             {% endif %}
                         {% endfor %}
                     </div>

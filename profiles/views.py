@@ -109,6 +109,9 @@ class ProfileView(TemplateView):
 
         if user_profile.genres:
             users_genres = user_profile.genres.all()
+        
+        if user_profile.equipment:
+            users_equipment = user_profile.equipment.all()
 
             track_filename = None
             for track in users_tracks:
@@ -146,6 +149,7 @@ class ProfileView(TemplateView):
             "instrument_list": instrument_list,
             "users_tracks": users_tracks,
             "users_genres": users_genres,
+            "users_equipment": users_equipment,
             "track_filename": track_filename,
             "username": user_profile.user,
             "user_id": user_profile.user.id,
