@@ -371,7 +371,7 @@ class ReviewForm(forms.ModelForm):
     # Define form widgets
     review_content = forms.CharField(label="Leave your review",
                                      widget=forms.Textarea(attrs={
-                                         "placeholder": "Tell the community"
+                                         "placeholder": "Tell the community "
                                          "what you think"
                                      }))
 
