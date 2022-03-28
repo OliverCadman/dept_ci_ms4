@@ -243,25 +243,6 @@
 
 @media screen and (min-width: 992px) {
     
-    .user_location {
-        font-size: 1.4rem;
-    }
-
-    .user_instruments_lg {
-        font-family: "Oxygen", sans-serif;
-        font-size: 2rem;
-        width: 80%
-    }
-
-    .edit_user_details_btn_wrapper {
-        float: right;
-    }
-
-    .edit_user_details_btn {
-        top: inherit;
-        font-size: 1.25rem;
-    }
-
     /* Sidebar */
 
     .sidebar_lg {
