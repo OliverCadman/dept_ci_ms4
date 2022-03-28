@@ -187,9 +187,6 @@ def webhook(request):
           ),
         'checkout.session.completed': (
           handler.handle_checkout_completed
-          ),
-        'charge.succeeded': (
-          handler.handle_payment_intent_succeeded
           )
     }
 
