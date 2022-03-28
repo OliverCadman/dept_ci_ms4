@@ -14,11 +14,15 @@ $(document).ready(function () {
 
           // If first item is active, then use jquery .next() to find next li element,
           // and add active class.
-          (activeItem.is(":last-child")
-            ? (activeItem.removeClass("active"),
-              (activeItem = carouselList.find(">li:first-child").addClass("active")))
-            : (activeItem.removeClass("active").next().addClass("active"),
-              (activeItem = activeItem.next())))
+          if (activeItem.is(":last-child")) {
+            activeItem.removeClass("active");
+            activeItem = carouselList.find(">li:first-child");
+            activeItem.addClass("active");
+          } else {
+            activeItem.removeClass("active");
+            activeItem.next().addClass("active");
+            activeItem = activeItem.next();
+          }
       }, carouselSpeed);
   });
 });
