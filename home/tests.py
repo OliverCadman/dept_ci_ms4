@@ -50,29 +50,3 @@ class TestHomePageRedirect(TestCase):
             password=password
         )
         self.client.login(username=username, password=password)
-
-    def test_redirect_url_if_no_subscription_chosen(self):
-        """
-        Attempt to visit home page when user is logged in, and
-        check if redirect url resolves with success status code,
-        and correct template is used.
-        """
-        response = self.client.get("/", follow=True)
-        self.assertRedirects(
-            response, "/subscribe/choose_subscription/", status_code=302,
-            target_status_code=200)
-        self.assertTemplateUsed(
-            response, "subscriptions/subscription_choices.html")
-
-    def test_redirect_reverse_if_no_subscription_chosen(self):
-        """
-        Attempt to visit home page when user is logged in, and
-        check if redirect reverse resolves with success status code,
-        and correct template is used.
-        """
-        response = self.client.get("/", follow=True)
-        self.assertRedirects(
-            response, reverse("choose_subscription"), status_code=302,
-            target_status_code=200)
-        self.assertTemplateUsed(
-            response, "subscriptions/subscription_choices.html")
