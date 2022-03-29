@@ -7,14 +7,14 @@ If a musician booked for a gig has an unforeseen circumstance that means they ha
 serves to alleviate the stress of scouring through their contacts to find a last-minute replacement, by providing the opportunity
 to quickly and easily 'dep out' gigs to the musicians using the DepT network.
 
-Through DepT, artists can discover one another, increase revenue through their art, and build communities.
+Through DepT, artists can discover one another, increase revenue through their art, and build communities. 
 
 By building communities, artists will acquire a diverse workspace and connect with a wider network.
 
 # Overview
 
 DepT comes from the word “to dep”, which is a term that is commonly used within the music industry to describe a musician who takes the place of a
-regular band member temporarily - usually when a band member has fallen ill, has a personal issue, or more commonly has been offered a better-paid gig (such as a tour).
+regular band member temporarily - usually when a band member has fallen ill, has a personal issue, or more commonly has been offered a better-paid gig (such as a tour). 
 
 The idea for the platform is born out of the personal struggle of finding last-minute “deps” outside of my immediate network.
 Also, due to Covid-19, connecting with other artists and finding work has been difficult.
@@ -27,23 +27,23 @@ Also, due to Covid-19, connecting with other artists and finding work has been d
 
 What problems/pain points do you experience when searching for a dep?
 
-- _"My immediate network is limited by the number of musicians in my contact list"_
+* *"My immediate network is limited by the number of musicians in my contact list"*
 
-- _"My immediate network is limited to the locality of the area in which I live and work."_
+* *"My immediate network is limited to the locality of the area in which I live and work."*
 
-- _"It takes a lot of time and effort to source a suitable dep, especially when the situation is time-sensitive"_
+* *"It takes a lot of time and effort to source a suitable dep, especially when the situation is time-sensitive"*
 
-- _"A dep's availability (or lack thereof) can only be determined through a phone call or text, which is not time-effective."_
+* *"A dep's availability (or lack thereof) can only be determined through a phone call or text, which is not time-effective."*
 
-- _"A limited network of deps in the local area can result in travelling a long distance to a gig, which increases environmental impact."_
+* *"A limited network of deps in the local area can result in travelling a long distance to a gig, which increases environmental impact."*
 
-- _"There's a lack of opportunity to make myself more discoverable among a wider network of musicians."_
+* *"There's a lack of opportunity to make myself more discoverable among a wider network of musicians."*
 
 ## Ideal Users
 
-- Musicians/artists operating in the music industry who need to 'dep' out a gig.
-- Musicians/artists operating in the music industry who are looking for job opportunities.
-- Bookers/band-leaders/producers who are in need of a last-minute musician/artist to provide their services.
+* Musicians/artists operating in the music industry who need to 'dep' out a gig.
+* Musicians/artists operating in the music industry who are looking for job opportunities.
+* Bookers/band-leaders/producers who are in need of a last-minute musician/artist to provide their services.
 
 ## Project Goal
 
@@ -76,11 +76,11 @@ As a Tier One member of the website, I want...
 1. To be able to upload samples of my music to my profile, so I can showcase my skills and expertise.
 2. A link to my profile to be listed on a page, so potential clients/musicians will be able to find me easily.
 3. To be able to find other members using the service, so I am able to find a dep easily in the case that I can't make a gig.
-4. To be notified when I get a job offer from a another member, so I can respond quickly and professionally.
-5. To be able to message a member with a response without leaving the website, to make the process run as smoothly as possible.
-6. To be able to message other members of the website, so I can grow my network.
-7. To display reviews/ratings from members for who I have provided services, so I can improve my reputation in the community.
-8. To access a dashboard displaying a record of ratings and reviews, so I can take account of how much I am benefitting from the service.
+3. To be notified when I get a job offer from a another member, so I can respond quickly and professionally.
+4. To be able to message a member with a response without leaving the website, to make the process run as smoothly as possible.
+5. To be able to message other members of the website, so I can grow my network.
+6. To display reviews/ratings from members for who I have provided services, so I can improve my reputation in the community.
+7. To access a dashboard displaying a record of ratings and reviews, so I can take account of how much I am benefitting from the service.
 
 ##### Tier Two Membership (Paid)
 
@@ -105,33 +105,34 @@ As a member who is looking for a dep musician, I want...
 8. To be notified when I have received a response from a dep I have messaged, so I can confirm the arrangement quickly and smoothly.
 9. To be able to send a confirmed dep a document with job details (with location, timings, number of sets etc), to allow for effective communication.
 
+
 ### Strategy Summary
 
 Taking the project goal and the user stories into account, below is bulletted summary of the user needs and project objectives, required to achieve an MVP.
 
 #### User Needs
 
-- To be able to navigate the site intuitively and with ease.
-- To be able to register, log in, and log out.
-- To be able to subscribe to a Tier 1 or Tier 2 subscription.
-- To be able to upgrade from a Tier 1 to a Tier 2 subscription.
-- To be able to find other musicians to dep a gig to.
-- To be able to display a calendar of days where I am available/unavailable.
-- To be able to find listed jobs.
-- To hear samples of a potential dep's music.
-- To be able to message a potential dep with a job offer.
-- To be able to receive a message from a contacted dep, to receive confirmation or refusal of a request.
-- To be able to send details of a job to a confirmed dep.
-- To be notified whenever I receive a message from another user of the website.
+* To be able to navigate the site intuitively and with ease.
+* To be able to register, log in, and log out.
+* To be able to subscribe to a Tier 1 or Tier 2 subscription.
+* To be able to upgrade from a Tier 1 to a Tier 2 subscription.
+* To be able to find other musicians to dep a gig to.
+* To be able to display a calendar of days where I am available/unavailable.
+* To be able to find listed jobs.
+* To hear samples of a potential dep's music.
+* To be able to message a potential dep with a job offer.
+* To be able to receive a message from a contacted dep, to receive confirmation or refusal of a request.
+* To be able to send details of a job to a confirmed dep.
+* To be notified whenever I receive a message from another user of the website.
 
 #### Project Objectives
 
-- To allow all users of the website to navigate the website with minimum cognitive overload.
-- To allow musicians to dep out their gigs with ease.
-- To offer clients a stress-free way to find a dep musician to provide their services.
-- To provide an end-to-end searching, messaging and booking service for all users.
-- To paywall features between Tier 1/Tier 2 users.
-- To provide incentives for Tier 1 users to upgrade to Tier 2.
+* To allow all users of the website to navigate the website with minimum cognitive overload.
+* To allow musicians to dep out their gigs with ease.
+* To offer clients a stress-free way to find a dep musician to provide their services.
+* To provide an end-to-end searching, messaging and booking service for all users.
+* To paywall features between Tier 1/Tier 2 users.
+* To provide incentives for Tier 1 users to upgrade to Tier 2.
 
 ## Scope
 
@@ -139,60 +140,60 @@ Taking the project goal and the user stories into account, below is bulletted su
 
 #### User Interface
 
-- Users must be able to navigate and use the website with minimum cognitive overload.
-- Users must be provided a clear path through the searching, messaging and booking process, with sufficient indicators and feedback.
-- Users should be provided notifications to users when they have been contacted.
-- Ensure the design of the website is responsive on all device sizes.
+* Users must be able to navigate and use the website with minimum cognitive overload.
+* Users must be provided a clear path through the searching, messaging and booking process, with sufficient indicators and feedback.
+* Users should be provided notifications to users when they have been contacted.
+* Ensure the design of the website is responsive on all device sizes.
 
 #### Authorization/User Management
 
-- Users must be allowed to register, confirm their email address, login and logout to the website.
-- Users must be able to reset their password, should they need to.
+* Users must be allowed to register, confirm their email address, login and logout to the website.
+* Users must be able to reset their password, should they need to.
 
 #### Dep Profiles
 
-- Allow users to create, visit and edit a profile.
-- Allow users to upload samples of their music to their profile.
-- Implement a music player to allow for playback of their music.
-- Provide a calendar for users to input and show their availability.
-- Display star rating and reviews.
-- Allow users to delete profile.
+* Allow users to create, visit and edit a profile.
+* Allow users to upload samples of their music to their profile.
+* Implement a music player to allow for playback of their music.
+* Provide a calendar for users to input and show their availability. 
+* Display star rating and reviews.
+* Allow users to delete profile.
 
 #### Dashboard
 
-- Users can visit their own dashboard page.
-- Users should be able to view metric data including completed jobs, repeat business, and number of different clients.
-- Users should be able to see how many invites and active engagements they have received from clients.
+* Users can visit their own dashboard page.
+* Users should be able to view metric data including completed jobs, repeat business, and number of different clients.
+* Users should be able to see how many invites and active engagements they have received from clients.
 
 #### Tier One/Tier Two Content
 
-- Messaging between users of the website.
-- Notifications to users who have been contacted.
-- A page listing the musicians using the service.
-- Search/filter functionality to filter for a musician specializing in a specific genre/style.
+* Messaging between users of the website.
+* Notifications to users who have been contacted.
+* A page listing the musicians using the service.
+* Search/filter functionality to filter for a musician specializing in a specific genre/style.
 
 #### Tier Two Content
 
-- Create a paywall between Tier One and Tier Two content.
-- Place links to Tier Two profiles at the top of the list of musicians on the relevant page.
-- Create a page displaying a list of jobs offered by clients, offered only to Tier Two users.
-- Allow users to upgrade from a Tier One to a Tier Two account.
+* Create a paywall between Tier One and Tier Two content.
+* Place links to Tier Two profiles at the top of the list of musicians on the relevant page.
+* Create a page displaying a list of jobs offered by clients, offered only to Tier Two users.
+* Allow users to upgrade from a Tier One to a Tier Two account.
 
 #### Booking
 
-- Provide a page with a form to allow for users to message a potential dep with a job offer.
-- Provide a page with a form to allow for users to message a confirmed dep with job details.
+* Provide a page with a form to allow for users to message a potential dep with a job offer.
+* Provide a page with a form to allow for users to message a confirmed dep with job details.
 
 #### Messaging
 
-- Messaging functionality between deps and clients.
-- Ability to message clients/deps from profiles, artist-list page and notifications.
+* Messaging functionality between deps and clients.
+* Ability to message clients/deps from profiles, artist-list page and notifications.
 
 #### Notifications
 
-- Display a clickable icon in the navbar, along with account of a user's unread notifications.
-- A dropdown list of all notifications a user has received.
-- When a notification has been read, update the database accordingly.
+* Display a clickable icon in the navbar, along with account of a user's unread notifications.
+* A dropdown list of all notifications a user has received.
+* When a notification has been read, update the database accordingly.
 
 ## Structure
 
@@ -202,30 +203,30 @@ Taking the project goal and the user stories into account, below is bulletted su
 
 To achieve an effective, intuitive architecture that is simple to navigate, there are two primary users that need to be taken into consideration:
 
-- Members looking for work
-- Members looking for a dep
+* Members looking for work
+* Members looking for a dep
 
-Taking this into account, it is important to provide two clear paths through the website. One which suits the dep who is signing up to the service,
+Taking this into account, it is important to provide two clear paths through the website. One which suits the dep who is signing up to the service, 
 and another which suits the member who is searching for a dep.
 
 The common denominator between these two types of user is the need to view notifications and messages easily. Since the model of the website is centered around
 communication (clients contacting deps and vice versa), it is of primary importance that both users are always able to keep track of when they have been contacted.
-In an attempt to provide intuitive navigation in this regard, both users must have the ability to view notifications and messages from a Navigation Bar,
+In an attempt to provide intuitive navigation in this regard, both users must have the ability to view notifications and messages from a Navigation Bar, 
 which persists across all pages of the website. Furthermore, the website must provide sufficient navigational aids in the NavBar, and an abundance of 'call-to-action' buttons
 which provide a clear path through the website, relative to the type of user.
 
 #### Navbar
 
-The navigation bar will persist across all pages of the website, allowing the user to navigate to any page with ease.
+The navigation bar will persist across all pages of the website, allowing the user to navigate to any page with ease. 
 
 #### Home Page
 
 The home page is the landing page of the website. At the top level, a lead paragraph will brief the user of the clear purpose of the website.
 Three call-to-action buttons will be featured:
 
-- Sign In - Takes the user to through the website's authentication process.
-- Find a Dep - Takes the user to the dep list page.
-- Post a Job - Takes the user to a page to post a specific job.
+* Sign In - Takes the user to through the website's authentication process.
+* Find a Dep - Takes the user to the dep list page.
+* Post a Job - Takes the user to a page to post a specific job.
 
 The section below will display a list of links directed towards a user who is looking for a dep. These links will be categorized based
 on the instrument/service that's required (Pianist, Violinist, Cellist, Drummer etc).
@@ -240,19 +241,19 @@ Users will be allowed to register, create an account, login, logout and reset th
 
 Following the user registering, the website's sign up process will proceed with presenting the user with two membership options:
 
-- Tier One (Free)
-- Tier Two (Paid)
+* Tier One (Free)
+* Tier Two (Paid)
 
 Each option will detail the price, the services that the subscription offers, along with an incentive for the user to select a Tier Two membership.
 
 Selecting Tier One will take the user directly to a page to add more details to their profile.
 
-Selecting Tier Two will take the user through a Stripe payment procedure.
+Selecting Tier Two will take the user through a Stripe payment procedure. 
 
 #### Profile
 
 At the top level, an image of the member will be presented, along with the instruments that they play, their location,
-and a call-to-action to book this member.
+ and a call-to-action to book this member.
 
 If the profile belongs to the user visiting, a call-to-action to edit their profile will be presented clearly.
 
@@ -306,13 +307,13 @@ An email will also be sent to both parties involved in the booking.
 
 Users wanting to post a job to the Job Page can do so through a form.
 
-The form will prompt the user to enter the type of engagement (such as function, festival, or studio work),
+The form will prompt the user to enter the type of engagement (such as function, festival, or studio work), 
 the fee, location, instrument required, and setlist (if applicable).
 
 #### Job List Page
 
 Premium deps will be able to view a bulletin board of jobs posted by other members. Jobs will be presented on individual cards, which open modal windows displaying information about the job.
-Deps can register their interest in a particular job by messaging the member who posted the job, from the modal window.
+Deps can register their interest in a particular job by messaging the member who posted the job, from the modal window. 
 
 The member who posted the job will then receive notification of a dep's interest. The notification will prompt to either accept or decline the request, or visit the dep's profile.
 
@@ -320,7 +321,7 @@ The member who posted the job will then receive notification of a dep's interest
 
 The project makes use of the SQlite Relational Database to handle data served throughout the website during development, and will be migrated to postgresql upon deployment.
 
-### Schema
+### Schema 
 
 #### Iteration 1
 
@@ -342,20 +343,20 @@ The project makes use of the SQlite Relational Database to handle data served th
 
 ### Wireframes
 
-- [Home Page](documentation/wireframes/dept_homepage.pdf)
-- [Register](documentation/wireframes/dept_register.pdf)
-- [Subscribe](documentation/wireframes/dept_subscribe.pdf)
-- [Sign In](documentation/wireframes/dept_sign_in.pdf)
-- [Edit Profile (Page 1)](documentation/wireframes/dept_edit_profile_1.pdf)
-- [Edit Profile (Page 2)](documentation/wireframes/dept_edit_profile_2.pdf)
-- [Profile](documentation/wireframes/dept_profile.pdf)
-- [Find a Dep (Instrument List)](documentation/wireframes/dept_find_a_dep.pdf)
-- [Find a Dep (Dep List)](documentation/wireframes/dept_dep_list.pdf)
-- [Job List Page](documentation/wireframes/dept_find_a_job.pdf)
-- [Dashboard](documentation/wireframes/dept_dashboard.pdf)
-- [Enquiries](documentation/wireframes/dept_enquiries.pdf)
-- [Booking Form](documentation/wireframes/dept_booking_form.pdf)
-- [Booking Confirmation](documentation/wireframes/dept_booking_confirmation.pdf)
+* [Home Page](documentation/wireframes/dept_homepage.pdf)
+* [Register](documentation/wireframes/dept_register.pdf)
+* [Subscribe](documentation/wireframes/dept_subscribe.pdf)
+* [Sign In](documentation/wireframes/dept_sign_in.pdf)
+* [Edit Profile (Page 1)](documentation/wireframes/dept_edit_profile_1.pdf)
+* [Edit Profile (Page 2)](documentation/wireframes/dept_edit_profile_2.pdf)
+* [Profile](documentation/wireframes/dept_profile.pdf)
+* [Find a Dep (Instrument List)](documentation/wireframes/dept_find_a_dep.pdf)
+* [Find a Dep (Dep List)](documentation/wireframes/dept_dep_list.pdf)
+* [Job List Page](documentation/wireframes/dept_find_a_job.pdf)
+* [Dashboard](documentation/wireframes/dept_dashboard.pdf)
+* [Enquiries](documentation/wireframes/dept_enquiries.pdf)
+* [Booking Form](documentation/wireframes/dept_booking_form.pdf)
+* [Booking Confirmation](documentation/wireframes/dept_booking_confirmation.pdf)
 
 ## Surface
 
@@ -363,41 +364,48 @@ The project makes use of the SQlite Relational Database to handle data served th
 
 ![Colour Scheme for Background Colours of DepT Website](documentation/readme_images/colour_palette/dept_background_colours.png)
 
-- Space Cadet (#1a2342)
+* Space Cadet (#1a2342)
+    - This colour is consistently used as the background for all top-level headers throughout the website, to provide a sufficient contrast against the white text that it sits behind, while also maintaining a satisfying, reputable aesthetic.
 
-  - This colour is consistently used as the background for all top-level headers throughout the website, to provide a sufficient contrast against the white text that it sits behind, while also maintaining a satisfying, reputable aesthetic.
+* Independence (#45425a)
+    - Used for the navigation bar, footer and header background in modal alerts, and also as the background in one mid-level section of the home page, and in modal forms (Invitation Form, Job Post Form and Review Form). This colour was chosen primarily due to it's contrast between the primary background colour (Space Cadet). Furthermore, it also provided a pleasing contrast to the foreground colours that it sits behind (white font colour, and golden colour used for rating stars). 
+* White (#FFF)
+    - Used for mid-level elements throughout the website, where most of the interaction takes place, and features are presented. The developer experimented with less "basic" background colours for mid-level elements to achieve a more "artistic" look, but after consideration it was determined that it was more necessary to contrast the darker, more-bold top-level elements with a more-standard colour which presented it's foreground elements sufficiently.
 
-- Independence (#45425a)
-  - Used for the navigation bar, footer and header background in modal alerts, and also as the background in one mid-level section of the home page, and in modal forms (Invitation Form, Job Post Form and Review Form). This colour was chosen primarily due to it's contrast between the primary background colour (Space Cadet). Furthermore, it also provided a pleasing contrast to the foreground colours that it sits behind (white font colour, and golden colour used for rating stars).
-- White (#FFF)
+* Cultured (#EEE)
+    - Used to provide a small contrast against the white background of some mid-level elements, such as the filter accordion (featured in the Dep List and Job List pages). This background colour is used also for the wrappers for all form elements throughout the website.
 
-  - Used for mid-level elements throughout the website, where most of the interaction takes place, and features are presented. The developer experimented with less "basic" background colours for mid-level elements to achieve a more "artistic" look, but after consideration it was determined that it was more necessary to contrast the darker, more-bold top-level elements with a more-standard colour which presented it's foreground elements sufficiently.
+* Violet Web (#FF91EF) & Lemon (#FFF900)
+    - These two colours are used in combination with a linear-gradient with an light opaque overlay. Used as the background colour for the Sign Out page, and also for the authorization flow when a user resets their password. Furthermore, this colour is used on large screens to show secondary-lead text in top-level elements of certain pages (Checkout Success, Dashboard, Edit Profile), and as the background for default card-images and user profile images in the case where a user hasn't added a profile image.
 
-- Cultured (#EEE)
-
-  - Used to provide a small contrast against the white background of some mid-level elements, such as the filter accordion (featured in the Dep List and Job List pages). This background colour is used also for the wrappers for all form elements throughout the website.
-
-- Violet Web (#FF91EF) & Lemon (#FFF900)
-
-  - These two colours are used in combination with a linear-gradient with an light opaque overlay. Used as the background colour for the Sign Out page, and also for the authorization flow when a user resets their password. Furthermore, this colour is used on large screens to show secondary-lead text in top-level elements of certain pages (Checkout Success, Dashboard, Edit Profile), and as the background for default card-images and user profile images in the case where a user hasn't added a profile image.
-
-- Smoky Black (#111)
-  - Used as the background colour for filter-accordions in the Dep List and Job List pages. Since the top-level header background is already rather dark, and the mid-level contrasts heavily with a sheer white, it was decided that a darker, almost black colour was required to draw the user's attention to this filter-accordion feature.
+* Smoky Black (#111)
+    - Used as the background colour for filter-accordions in the Dep List and Job List pages. Since the top-level header background is already rather dark, and the mid-level contrasts heavily with a sheer white, it was decided that a darker, almost black colour was required to draw the user's attention to this filter-accordion feature.
 
 ### Foreground Colours
 
 ![Colour Scheme for Foreground Colours of DepT Website](documentation/readme_images/colour_palette/dept_foreground_colours.png)
 
-- Space Cadet (#1a2342)
+* Space Cadet (#1a2342)
+    - In addition to using this colour for backgrounds, it is used as the background for some buttons throughout the website. Featured in the Edit Profile pages ('Add More Gear'/'Add More Audio' buttons), as well as buttons in metrics cards in the first section of the Dashboard page. This colour was chosen so as not to provide too much suggestivity to the role of the button, suggesting that the call-to-action is of a neutral nature.
 
-  - In addition to using this colour for backgrounds, it is used as the background for some buttons throughout the website. Featured in the Edit Profile pages ('Add More Gear'/'Add More Audio' buttons), as well as buttons in metrics cards in the first section of the Dashboard page. This colour was chosen so as not to provide too much suggestivity to the role of the button, suggesting that the call-to-action is of a neutral nature.
+* Sea Green (#0E8347)
+    - Heavy use of this colour is made as the backgrounf for buttons throughout the website, including those to visit profiles, invite members to gigs, post jobs, leave reviews and close modal alert windows. This colour is chosen as it suggests that the call-to-action that the button represents is of a positive nature.
 
-- Sea Green (#0E8347)
+* Ruby Red (#9C1E1E)
+    - Also used as background for buttons throughout the website, this colour is used for call-to-actions which are of an alertive nature, such as when a user decides to delete a job, invitation, profile or review. Additionally, this colour is used as the font colour for form errors.
 
-  - Heavy use of this colour is made as the backgrounf for buttons throughout the website, including those to visit profiles, invite members to gigs, post jobs, leave reviews and close modal alert windows. This colour is chosen as it suggests that the call-to-action that the button represents is of a positive nature.
+* Bronze (#CF8036)
+    - This colour is used to highlight active sections in the Dashboard 'Jobs' Page, to inform the user whether they are on a tier-one or tier-two section, and whether they are on their 'Received Invitations' or 'Sent Invitations' section. This active colour contrasts against the alternative button's black background, and will hopefully serve to clearly indicate which section of the Dashboard's Job Page the user is browsing.
 
-- Ruby Red (#9C1E1E)
+* Amber (#FFC107)
+    - Used for button styling on cards to display invitations sent by a user, specifically for the button inviting the user to 'Send Complete Details' for a particular invitation. This colour was chosen to indicate to the user that there is action that might need to be taken.
 
-  - Also used as background for buttons throughout the website, this colour is used for call-to-actions which are of an alertive nature, such as when a user decides to delete a job, invitation, profile or review. Additionally, this colour is used as the font colour for form errors.
+* Spanish Grey (#9B9A9A)
+    - Used to display user details on cards displayed in the Dep List page. Since the cards are fairly small, and a relatively large amount of textual information is presented on these cards, it was deemed that this colour would serve to provide enough contrast while not busying the screen real-estate, and retaining a pleasing aesthetic.
 
-- Bronze (#CF8036)
+* White (#FAFAFA)
+    - Used for font colours throughout the website, in sections that use a darker background colour. Chosen primarily to provide sufficient contrast.
+
+* Eerie Black (#202020)
+     - Used for font colours that sit on top of lighter background colours, again to provide sufficient contrast.
+
