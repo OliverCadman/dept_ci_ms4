@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
+from django.conf.global_settings import (DATE_INPUT_FORMATS,
+                                         DATETIME_INPUT_FORMATS)
+import dj_database_url
 import os
 if os.path.exists("env.py"):
     import env
-
-import dj_database_url
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if "DEVELOPMENT" in os.environ:
-    SECRET_KEY="django-insecure-+g^39#35xtu$q540-jf!muwh+##!r06mx2n#-yc2%ml_%md%*^"
+    SECRET_KEY = get_random_secret_key()
 else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
@@ -37,7 +37,7 @@ else:
 DEBUG = "DEVELOPMENT" in os.environ
 
 # Use HTTPS in production
-if not "DEVELOPMENT" in os.environ:
+if "DEVELOPMENT" not in os.environ:
     SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
@@ -45,7 +45,6 @@ ALLOWED_HOSTS = ['dept-ci-ms4.herokuapp.com', '127.0.0.1']
 SITE_ID = 2
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -75,6 +74,7 @@ INSTALLED_APPS = [
     # S3Boto3Storage
     'storages',
 
+    # Raven (Logging)
     'raven.contrib.django.raven_compat',
 ]
 
@@ -106,13 +106,14 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 ROOT_URLCONF = 'dept.urls'
 
+# Use production domain when project is deployed.
 if "DEVELOPMENT" in os.environ:
     DOMAIN_ROOT = "http://127.0.0.1:8000/"
 else:
     DOMAIN_ROOT = "http://dept-ci-ms4.herokuapp.com/"
+
 
 TEMPLATES = [
     {
@@ -142,8 +143,8 @@ TEMPLATES = [
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
+# Define Web Application
 WSGI_APPLICATION = 'dept.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -155,12 +156,13 @@ if "DATABASE_URL" in os.environ:
 
 else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
 
+# Static and Media File URLs
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
@@ -180,7 +182,6 @@ if "USE_AWS" in os.environ:
     # Set Signature Version to access files in Bucket
     AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION")
 
-
     # Static and Media Files
     STATICFILES_STORAGE = "custom_storages.StaticStorage"
     STATICFILES_LOCATION = "static"
@@ -192,11 +193,9 @@ if "USE_AWS" in os.environ:
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
 
-if not "DEVELOPMENT" in os.environ:
+# Use boto3 storage in production
+if "DEVELOPMENT" not in os.environ:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
 # Email confirmation to be used in development
@@ -213,6 +212,7 @@ else:
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 
 
+# Authentication config
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
@@ -240,43 +240,43 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'verbose': {
-#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-#         },
-#     },
-#     'handlers': {
-#         'sentry': {
-#             'level': 'INFO',
-#             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-#         },
-#         'console': {
-#             'level': 'INFO',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'verbose'
-#         }
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['sentry'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#         'raven': {
-#             'level': 'INFO',
-#             'handlers': ['sentry'],
-#             'propagate': False,
-#         },
-#         'sentry.errors': {
-#             'level': 'INFO',
-#             'handlers': ['sentry'],
-#             'propagate': False,
-#         },
-#     }
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['sentry'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'raven': {
+            'level': 'INFO',
+            'handlers': ['sentry'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'INFO',
+            'handlers': ['sentry'],
+            'propagate': False,
+        },
+    }
+}
 
 
 # Internationalization
@@ -291,7 +291,7 @@ USE_L10N = False
 
 USE_TZ = True
 
-# Subscription Tier Prices 
+# Subscription Tier Prices
 TIER_ONE_PRICE = "0.00"
 TIER_TWO_PRICE = "7.99"
 
@@ -299,12 +299,12 @@ TIER_TWO_PRICE = "7.99"
 STRIPE_TIERONE_PRICE_ID = os.getenv("STRIPE_TIERONE_PRICE_ID")
 STRIPE_TIERTWO_PRICE_ID = os.getenv("STRIPE_TIERTWO_PRICE_ID")
 
-# Stripe API Credentials 
+# Stripe API Credentials
 
 if "DEVELOPMENT" in os.environ:
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
-    STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET") 
+    STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
 else:
     STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
@@ -314,8 +314,6 @@ else:
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-from django.conf.global_settings import DATE_INPUT_FORMATS, DATETIME_INPUT_FORMATS
 
 DATE_INPUT_FORMATS += ("%d-%m-%Y",)
 DATETIME_INPUT_FORMATS += ("%d-%m-%Y %H:%M",)
