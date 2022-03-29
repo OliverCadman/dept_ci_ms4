@@ -566,8 +566,86 @@ Users have the option to skip a step, or return to a previous form page at their
 
 #### Dashboard
 
+Each registered user has access to a dashboard. The top level header features a navigation bar with links to:
 
+* **Dashboard**
+* **Jobs**
+* **Your Membership**
 
+The 'Dashboard' and 'Jobs' links take the user to the respective child-pages of the parent 'Dashboard' page, while the 'Your Membership' link takes the user to the page to choose their subscription.
 
+#### Page One
 
+The first child page of the dashboard page features the user's profile metrics, such as:
+
+* Their subscription status
+* Invitations they have yet to respond to
+* How complete their profile is (represented as a progress bar)
+* Their average rating
+
+Each item of metric data is presented as a card, with a call-to-action below each item. If a user has Tier One status, a list of Tier Two benefits and a button is presented, inviting them to upgrade their subscription. If a user has not yet subscribed, they are presented with a card inviting them to subscribe so that they can appear in searches and invite other members to jobs.
+
+ If a user hasn't completed their profile, a call-to-action is presented to visit their Edit Profile page to complete their profile. 
+
+ If a user has some invites they need to respond to, a call-to-action is presented, inviting the user to visit their Jobs page and respond to their pending invites.
+ 
+Lastly, if a user has no reviews, a button is provided to take the user to the DepList page, to 'meet the community'. 
+
+#### Jobs Page
+
+The second child page of the Dashboard page is where the user can keep track of their active jobs. This page is split into two sections, "Tier One" and "Tier Two", which are accessible through navigation buttons.
+
+##### Tier One
+
+The Tier One section displays all invitations a user has sent or received. These two criteria are split into respective sections:
+
+* Invitations Sent
+* Invitations Received 
+
+Each section is accessible through navigation buttons.
+
+Both sent and received invitations are filterable by:
+
+* All
+* Pending
+* Confirmed
+
+The invitations themselves are presented as cards, featuring the high-level details of a particular engagement.
+
+All cards for invitations that have been sent and pending a response, feature buttons for the user to edit or delete their invitation. 
+
+All cards for invitations that have been received and pending a response, feature buttons for the invited user to either accept or decline an invitation.
+
+If an invitation receiver has accepted an invitation, the card presenting that particular invitation then features a button to 'Send Complete Details', and take the invitation sender to a booking form, where they can finalize their booking.
+
+Once an invitation receiver has accepted an invitation, a disabled button is presented informing that the accepted invitation is 'Waiting for Details'. Once the invitation sender has finalized the booking, the disabled button is replaced with a button to 'View Full Details', which takes the user to a Booking Detail page.
+
+Both invitation senders and invitation receivers involved in an active engagement are able to message eachother about the engagement, by opening a modal chat window from clicking a button "Message <user>". Any messages that have been previously sent will persist, and be displayed in the modal window upon a later visit. 
+
+##### Tier Two
+
+The Tier Two section displays all information about any jobs a Tier Two member has posted or made an offer for. Similarly to the Tier One section these two criteria are split into respective sections:
+
+* Posted Jobs
+* Offers Sent
+
+Each section is accessible through navigation buttons.
+
+Simlarly to Tier One, posted jobs and offers-sent are filterable by:
+
+* All
+* Pending
+* Confirmed
+
+Jobs are also presented on cards, featuring high-level details about the job the user has posted, or a job they have made an offer to play.
+
+If the user has posted a job, the card displays information on how many other users are interested in taking the job. Clickable avatars of the interested members are displayed, which are linked to their respective profiles. A button is also displayed inviting the job poster to 'Choose a Member'. This opens a modal window displaying a list of all users who have expressed interest in taking a job. From here, the Job Poster can select one of the members to take the job.
+
+If no offers have been made for the job, the 'Choose a Member' button is replaced with a disabled button displaying text content 'No Offers Received.
+
+If a Job Poster has not yet chosen a member to take the job, they can either delete or edit their invitation, using buttons presented on the card.
+
+Once a Job Poster has confirmed a member a line of communication is opened, and the Job Poster/Confirmed Member can exchange messages by use of a chat modal window, accessible through a button "Message <user>", displayed on a card. The list of avatars is replaced with an avatar of the confirmed member. Furthermore, similarly to the Tier One booking flow, the Job Poster is presented with a button to 'Send Complete Details', which takes them to a page to finalize their booking.
+
+If a user has sent an offer to play a job that another user has posted, and has been confirmed, they are presented with a disabled button with text content 'Awaiting Full Details'. Once the Job Poster has finalized the booking through the booking form, this button is replaced with a button to 'View Full Details'.
 
