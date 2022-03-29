@@ -1,16 +1,3 @@
-#finalized_booking_header {
-    display: flex;
-    justify-content: space-between;
-}
-
-#profile_image {
-    object-fit: cover;
-}
-
-#profile_header h1.booking_success_fallback_header {
-    color: #111;
-}
-
 #dept_logo_wrapper_sm {
     display: flex;
     justify-content: center;
@@ -40,10 +27,7 @@
     position: relative;
 }
 
-
-
-
-
+/* Media Queries */
 @media screen and (min-width: 768px){
     #booking_id_wrapper_hr {
         margin: 0;
@@ -58,8 +42,4 @@
         background-color: #71627a;
         right: 50%;
     }
-}
-
-@media screen and (min-width: 1920px) {
-
 }

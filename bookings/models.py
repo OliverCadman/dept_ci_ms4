@@ -11,6 +11,7 @@ from jobs.models import Job
 import uuid
 import datetime
 
+
 class Invitation(models.Model):
     """
     Invitation Model

@@ -84,4 +84,3 @@ class DownloadS3Object(object):
                 return None
         else:
             return None
-    

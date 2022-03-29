@@ -62,27 +62,26 @@ $(document).ready(function() {
                         starIcons[i].className = inactiveStarIcon;
                     }
                 }
-            })         
+            });         
 
         
         });
     }
     
     function displayRatingNumber(ratingEl, number) {
-        console.log(number)
         // Update span element with new rating (out of 5)
         ratingEl.textContent = `${number}/5`;
 
+        // Look for DOM element in Review modal
         if (!ratingEl.classList.contains("edit_review_modal")) {
-                const ratingInput = document.getElementById("id_rating");
-                ratingInput.value = number;
-                console.log(ratingInput);
-                console.log(ratingInput.value)
+            const ratingInput = document.getElementById("id_rating");
+            ratingInput.value = number;
         } else {
+            // Look for DOM element in Edit Review Modal
             const ratingInputEditReview = document.getElementById("edit_review_modal_rating");
             ratingInputEditReview.value = number;
             console.log(ratingInputEditReview);
             console.log(ratingInputEditReview.value);
         }
     }
-})
+});

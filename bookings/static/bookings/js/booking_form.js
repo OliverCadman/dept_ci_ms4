@@ -45,7 +45,7 @@ $(document).ready(function () {
       toggler.attr("checked", false);
       // Clear textarea if checkbox uncheck after inputting information
       if (elementToDisable.val() !== "") {
-        elementToDisable.val("")
+        elementToDisable.val("");
       }
       elementToDisable.prop("disabled", true);
     }

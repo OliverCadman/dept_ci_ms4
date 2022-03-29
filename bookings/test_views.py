@@ -431,15 +431,14 @@ class TestBookingViewGETMethods(TestCase):
                                            args=[self.test_user_profile.slug],
                                            query_kwargs={
                                                "page": "jobs"
-                                           }
-        )
+                                           })
 
         self.assertRedirects(response, redirect_url,
                              status_code=302, target_status_code=200)
 
         success_msg = "Great, your invitation has been accepted!"
         self.assertEqual(str(messages[0]), success_msg)
-    
+
     def test_invite_sender_invitation_acceptance_redirects(self):
         """
         Test redirects if invitation sender attempts to accept their
@@ -467,7 +466,6 @@ class TestBookingViewGETMethods(TestCase):
 
         error_msg = "You may not accept another member's invitation."
         self.assertEqual(str(messages[0]), error_msg)
-        
 
     def test_uninvited_user_acceptance_redirect(self):
         """

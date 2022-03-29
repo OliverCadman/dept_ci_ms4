@@ -206,7 +206,7 @@ def accept_invitation(request, invitation_pk):
 
     # Restrict access to view to user who received the invite.
     if (invitation.invite_receiver.user != request.user or
-        invitation.invite_sender.user == request.user) :
+            invitation.invite_sender.user == request.user):
         messages.warning(
             request,
             mark_safe("You may not accept another member's invitation."))
@@ -308,18 +308,21 @@ def decline_invitation(request, invitation_pk):
         invitation.delete()
         messages.success(request, mark_safe(
             f"You declined {invite_sender_name}'s invitation."))
-        return redirect(reverse_querystring("dashboard", args=[request.user],
-                                            query_kwargs={
-                                                "page": "jobs",
-                                                "section": "tier_one",
-                                                "subsection": "invites_received",
-                                                "filter": "all"
-                                            }))
+        return redirect(
+            reverse_querystring("dashboard",
+                                args=[request.user],
+                                query_kwargs={
+                                    "page": "jobs",
+                                    "section": "tier_one",
+                                    "subsection": "invites_received",
+                                    "filter": "all"
+                                }))
     except Exception as e:
         messages.error(
             request, "Sorry, something went wrong, please try again.")
         return redirect(
-            reverse_querystring("dashboard", args=[request.user],
+            reverse_querystring("dashboard",
+                                args=[request.user],
                                 query_kwargs={
                                     "page": "jobs",
                                     "section": "invites_received",
