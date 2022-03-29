@@ -470,6 +470,39 @@ Animation effects are employed in the website's 'Edit My Profile' page, used in 
 
 ## Existing Features
 
+### Subscriptions
+
+The [Stripe](https://stripe.com/gb) framework provides functionality for users to subscribe to the DepT service.
+
+The subscriptions page provides the user a choice between either subscribing as a Tier One member, or as a Tier Two member.
+The subscription choices are presented on relative cards, with a list of benefits tied to each subscription tier, along with a button inviting the user to subscribe.
+
+Upon selection of a subscription tier, the user is redirected to a Stripe checkout, where the user can enter their card details and finalize their subscription. If a user decides to cancel their subscription, they may click Stripe's 'cancel' button, and be redirected back to DepT's Home Page.
+
+If a user has already subscribed, the subscription card which is paired with their subscription status is indicated through the text content of the card's button, which will display 'Your Current Subscription'.
+
+If a user wishes to update their subscription plan, they may click on the alternative card's button. Upon clicking, they will be redirected to Stripe's customer portal, which keeps a track of the subscribed user's status, and allow the user to make any changes to their subscription.
+
+
+### Find a Dep
+
+This page features a collection of all members who are registered and subscribed to the platform. Each dep is presented on a card, with high-level details and average review rating displayed (in the form of star icons, and number of reviews). Each card features a button to visit the member's profile page.
+
+The collection is filterable by:
+
+* Instrument
+    - Presented as a dropdown
+* Location
+    - Presented as a search text input
+* Genre
+    - Presented as a dropdown
+* Available Today
+    - Presented as a checkbox
+
+Additionally, a visitor can sort the collection of deps by rating, from low to high and high to low.
+
+Tier Two members have priority and are featured at the top of the list, regardless of search and sort criteria.
+
 ### Profiles
 
 [Django Allauth](https://django-allauth.readthedocs.io/en/latest/installation.html) is employed to handle user-management and provide authorization flow for registering, signing in, logging out, and resetting a user's password. Upon registration to the platform, a signal is sent to create a User Profile, which shares a One-To-One relationship with the auth-user model.
@@ -525,6 +558,26 @@ Additionally, a calendar is featured displaying the user's unavailable dates (ma
 Below the music player and calendar, a small list of the user's Genre expertise is displayed, along with any equipment information they would like to submit. 
 
 The music player, calendar, genre list and equipment list are displayed as a sidebar on large screens, and collapse to full-width columns on tablet and mobile devices.
+
+##### Modals
+
+###### Invitation Modal
+Should a user visiting the profile decide they want to invite the profile owner to play a gig. They may click a button to open a modal window to send an Invitation. Here they can provide gig details such as:
+
+* Event Name
+* Artist Name
+* Event City
+* Event Country
+* Date and Time of the Event
+* The Fee
+* Additional Information
+
+Form validation is provided using AJAX. 
+
+The invitation modal is accessible only to members who have subscribed to the platform.
+
+###### Review Modal
+Should a user like to leave a review to the profile owner, they may click on a button to open a modal window to leave a review. The form features clickable star icons to leave a rating from 1-5, and submit text content using the text area provided in the form.
 
 #### Edit Profile Page
 
@@ -622,7 +675,7 @@ Once an invitation receiver has accepted an invitation, a disabled button is pre
 
 Both invitation senders and invitation receivers involved in an active engagement are able to message eachother about the engagement, by opening a modal chat window from clicking a button "Message <user>". Any messages that have been previously sent will persist, and be displayed in the modal window upon a later visit. 
 
-##### Tier Two
+##### Tier Two (Premium)
 
 The Tier Two section displays all information about any jobs a Tier Two member has posted or made an offer for. Similarly to the Tier One section these two criteria are split into respective sections:
 
@@ -648,4 +701,193 @@ If a Job Poster has not yet chosen a member to take the job, they can either del
 Once a Job Poster has confirmed a member a line of communication is opened, and the Job Poster/Confirmed Member can exchange messages by use of a chat modal window, accessible through a button "Message <user>", displayed on a card. The list of avatars is replaced with an avatar of the confirmed member. Furthermore, similarly to the Tier One booking flow, the Job Poster is presented with a button to 'Send Complete Details', which takes them to a page to finalize their booking.
 
 If a user has sent an offer to play a job that another user has posted, and has been confirmed, they are presented with a disabled button with text content 'Awaiting Full Details'. Once the Job Poster has finalized the booking through the booking form, this button is replaced with a button to 'View Full Details'.
+
+Note, the Tier Two section is only accessible to users who have a Tier Two subscription.
+
+### Find a Job
+
+This page features a collection of all jobs that have been posted by members using the Tier Two service. 
+
+A button is displayed in the page's header, inviting a user to 'Post a Job'. This triggers a modal window with a form for the user to provide details about the job, which will then be displayed on a card below. If a Tier One user clicks this button, an alert modal is displayed informing the user that they need to subscribe to Tier Two to post a job.
+
+Similarly to the 'Find a Dep' page, all jobs are presented on individual cards, which high-level information about the job, and an image representing the artist or nature of the job that has been posted. Visual indicators are displayed to represent how lucrative the job is, by way of dollar signs (one dollar sign being not very lucrative, and five dollar signs being very lucrative).
+
+The cards feature two buttons:
+
+* View Details
+    - Opens a modal window displaying further details about a job.
+
+* Make An Offer
+    - A user can click this button to register interest in taking this job.
+    - If clicked, the user can 'Remove the Offer' by clicking the same button.
+    - This feature is only accessible for Tier Two users.
+
+ As with the 'Find a Dep' page, Jobs are filterable by:
+
+ * Location
+    - Presented as a search text input
+* Fee Range
+    - Presented as a select dropdown
+
+### Booking Form
+
+For Tier One or Tier Two users who have confirmed a member on their posted job, or had their invitation accepted, they can visit a booking form where they can finalize their booking. 
+
+Here they are prompted to provide the venue address, any audio resources that would be useful for the acquired dep to peruse, and any travel or backline information.
+
+Django's ``modelformset_factory`` is employed to dynamically add extra audio file fields to the form, should the user wish to provide more than one audio file. A maximum of five audio files can be added.
+
+### Booking Details
+
+The booking details page is shared between both Tier One and Tier Two engagements.
+
+Once a booking has been finalized, both the invitation sender/invitation receiver (Tier One) or job_poster/confirmed_member (Tier Two) can visit this page to browse the finalized details of a given booking. 
+
+If the invitation receiver/confirmed member is visiting this page, they are presented with two buttons to:
+
+* Download the Booking Details as PDF
+    - Useful if the venue the event is taking place might be in an area with no internet.
+
+* Download any audio files that have been submitted, if any.
+
+### Notifications
+
+Notifications are in important aspect of a social networking website such as DepT. With this, there is a notification dropdown
+which persists across all pages within the website's navigation bar. The dropdown button is represented with a bell icon, along with a Bootstrap 'badge', which displayed how many notifications a user has been sent.
+
+Notifications to a user are sent in the following events:
+
+#### Tier One
+
+* A user has received an invitation from another user.
+* A user has accepted another user's invitation.
+* A user has received a message about an active engagement.
+* A user has accepted another user's invitation.
+* A user has received booking details for an accepted invitation.
+* A user has decline another user's invitation.
+
+#### Tier Two
+* A user has registered interest in another user's posted job.
+* A user who has registered interest in a posted job has been confirmed.
+* A user has received booking details for a confirmed job.
+* A user has received a message about a confirmed job.
+
+Both Tier One and Tier Two users are sent notifications whenever they receive a review.
+
+### Responsive Design
+
+The Bootstrap framework was used to provide responsivity across all device screen sizes, using their pre-defined 
+widths from 320px and up. Additionally, heavy use of CSS media queries have been made to re-arrange and re-style certain header and navigation elements featured in the website, and to ensure that the website is also responsive on extra large screens. 
+
+All screen sizes have been taken into consideration when developing the website, to maximise responsivity and ensure a positive user-experience across all screen sizes.
+
+## Features For Future Implementation
+
+### Aynschronous Messaging and Notifications
+
+In the initial planning stages of the website's development lifecycle, the developer embarked on tutorials in creating a chat service using the [Django Channels](https://channels.readthedocs.io/en/stable/) integration, which uses web sockets and asynchronous functions to provide real-time messaging. The developer sought to include this functionality in the MVP of the original website, and extend this functionality to offering users real-time notifications.
+
+However, it was later discovered that this was all well and good on a development server, but deploying an Asynchronous Server Gateway Interface (ASGI) is rather a lot more involved than deploying on a standard Web Server Gateway Interface, which the developer was more familiar with. 
+
+In the interests of time, and taking into consideration the priority of the other features that were central to the website, the developer determined that it was best to focus on the features to achieve a Minimal Viable Product. It is the developer's intention to undergo further research and practice to integrate asynchronous web sockets, and allow for real time message and notifications.
+
+### Google Calendar API Integration
+
+In the case of users adding their unavailable dates, the present deployment of the website requires that users update their unavailability calendar manually, which means they have to remember to log in, cycle through their calendar, and submit their unavailable dates each time they have receive a job either due to, or in spite of, the DepT service.
+
+With this in mind, it would be useful to integrate the Google Calendar API, so the user's unavailability calendar is updated automatically whenever they add a job to their calendar in Google. This would most likely substantially improve the UX of DepT, as users would benefit from less manual labour when using the service.
+
+It is the developer's intention to implement this functionality for future releases.
+
+### Customised Emails with Attachments
+
+At present, emails sent to a user (for accepted invitations/booking details that have been sent), have no customizing or branding, and are presented in their most-basic format. Furthermore, there are no options to add attachments for PDF or audio files. It would serve a better UX if emails were branded and more functional, and it would reinforce trust in the DepT brand.
+With this, it is important to customize and enhance the emailing service in future releases.
+
+### Sheet Music Resources
+
+It was the developer's original intention to provide the option for users to submit sheet music (as PDF files) in the website's Booking Form when finalizing an accepted booking/confirmed job. However, the time it took to develop the other features of the website meant that this was neglected in favour of developing the core aspects of the website in order to reach a Minimal Viable Product. Once the project is submitted, the developer will create a new branch on the repository, and implement this functionality for the next release.
+
+# Technologies Used
+
+## Development
+
+* The project was developed using the [Visual Studio Code 2](https://code.visualstudio.com/) IDE.
+* The project was debugged using a combination of [Chrome Devtools](https://developer.chrome.com/docs/devtools/) and print statements in displayed in the Python terminal.
+* [Sentry] was used along with Python Logger to log errors in the production version of the website, as print statements of course weren't an option in such circumstances
+
+## Design
+
+* The [FontAwesome](https://fontawesome.com/) icon library was used to provide icons to the website's user interface.
+* [TinyPNG](https://tinypng.com/) was used to compress image files.
+* [Convertio](https://convertio.co/png-webp/) was used to convert jpeg and png image files into a webp format.
+* [remove.bg](https://www.remove.bg/) was used to remove the background from the website's logo.
+* The projects wireframes were created using the [balsamiq](https://balsamiq.com/) wireframe suite.
+* Entity Relationship Diagrams were created using [LucidChart](https://www.lucidchart.com/).
+
+## Languages
+
+### HTML
+* Used alongside the Django Template Language to create templates throughout the website.
+
+### CSS
+* Used to style and position all elements across the website.
+
+### JavaScript
+* Used to provide interactivity to the many of the website's features.
+* jQuery is used to perform AJAX, fetch and post requests to the website's backend.
+
+### Python
+* Python was used to build the website's backend, and to serve data to the client.
+
+## Python Libraries
+
+The website's backend infrastructure was developed using Python 3.9.9.
+
+|Library|Usage|Environment|
+|----|----|----|
+|[Django](https://www.djangoproject.com/)|Framework|Both| 
+|[Django Allauth](https://django-allauth.readthedocs.io/en/latest/installation.html)|User Management|Both|
+|[Stripe](https://stripe.com/gb)|Subscriptions|Both|
+|[Django Storages](https://django-storages.readthedocs.io/en/latest/)|Production Storage Backend|Production|
+|[Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)|Amazon Media/Static File Management|Production|
+|[Django Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/)|Bootstrap Form Rendering|Both|
+|[Crispy Bootstrap 5](https://pypi.org/project/crispy-bootstrap5/)|Crispy Template Pack|Both|
+|[Django Countries](https://pypi.org/project/django-countries/)|CountryField form widget|Both|
+|[Django Bootstrap Datepicker Plus](https://pypi.org/project/django-bootstrap-datepicker-plus/)|DateTimes select form widget|Both|
+|[xhtml2pdf](https://pypi.org/project/xhtml2pdf/)|Processing PDF Files|Both|
+|[Raven](https://raven.readthedocs.io/en/stable/integrations/logging.html)|Logging|Production|
+|[DJ Database URL](https://pypi.org/project/dj-database-url/)|Database Configuration|Production|
+|[Psycobg2-binary](https://pypi.org/project/psycopg2-binary/)|PostgreSQL DB Config|Production|
+|[Pillow](https://pypi.org/project/Pillow/2.2.1/)|Image Processing|Both|
+|[Gunicorn](https://gunicorn.org/)|HTTP Server|Production|
+|[Coverage](https://coverage.readthedocs.io/en/6.3.2/)|Unit Test Coverage|Development|
+
+## Other Libraries/Frameworks
+
+* [Bootstrap](https://getbootstrap.com/)
+    - The Bootstrap Grid System was employed to ensure responsivity across all device sizes.
+    - The website also makes fairly heavy use of Bootstrap's components, including buttons, badges, dropdowns and accordions.
+* [SoundManager](http://www.schillmania.com/projects/soundmanager2/)
+    - The SoundManager library was used to provide an interactive music player to play audio files on a user profile. 
+* [FullCalendar](https://fullcalendar.io/)
+    - The FullCalendar API was used to provide an interative calendar in the website's 'Edit My Profile Page'
+    - Also used to display a user's unavailability calendar on their profile.
+* [Dropzone JS](https://www.dropzone.dev/js/)
+    - DropzoneJS was employed to provide drag-and-drop functionality when a user submits their audio files to display on their profile.
+* [Toastify JS](https://apvarun.github.io/toastify-js/)
+    - Used to display messages across all pages of the website.
+* [xhtml2pdf](https://pypi.org/project/xhtml2pdf/)
+    - The xhtml2pdf Python library was used to render booking details in a PDF format, to be downloaded by the user.
+
+For a full list of the website's dependencies, please visit the [requirements.txt](requirements.txt) file.
+
+
+
+
+
+
+
+
+
 
