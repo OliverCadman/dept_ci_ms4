@@ -63,8 +63,8 @@ As a visitor using the website for the first time, I want...
 
 As a potential member, I want...
 
-1. Testimonies to be displayed and easily found, so I can determine the quality and effectiveness of the service.
-2. To easily find out what benefits I get from being a paying member, so I can determine whether the service is worth my money.
+1. To easily find out what benefits I get from being a paying member, so I can determine whether the service is worth my money.
+2. To browse the website without having to register.
 3. To be able to register to the website, so I can manage and display a profile.
 
 #### Deps For Hire
@@ -880,6 +880,11 @@ The website's backend infrastructure was developed using Python 3.9.9.
 
 For a full list of the website's dependencies, please visit the [requirements.txt](requirements.txt) file.
 
+## Database
+
+[PostgreSQL](https://www.postgresql.org/) is used to for data storage in the deployed version of the website. This service
+is managed via [Heroku](https://www.heroku.com).
+
 ## Technologies for Testing
 
 * The project's HTML files were tested for validation using the [W3C Markup Validation Service](https://validator.w3.org/)
@@ -895,8 +900,9 @@ For a full list of the website's dependencies, please visit the [requirements.tx
 * Static and Media Files are hosted using [Amazon AWS S3](https://aws.amazon.com/s3/)
 * The website is hosted using [Heroku](https://www.heroku.com)
 
+# Testing
 
-
+Testing information can be found in a seperate [TESTING.md](TESTING.md) file.
 
 
 
