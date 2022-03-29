@@ -1,12 +1,13 @@
 /**
- * SoundManager 2: "Bar UI" player - CSS
- * Copyright (c) 2014, Scott Schiller. All rights reserved.
- * http://www.schillmania.com/projects/soundmanager2/
- * Code provided under BSD license.
- * http://schillmania.com/projects/soundmanager2/license.txt
+  Bar UI CSS
+
+  CSS Styling for Music Player featured on the website's profile page.
+  Code taken from the SoundManager Bar UI library.
+
+  https: //rickluna.com/wp/2016/02/how-to-use-soundmanager2-with-bar-ui/
+
  */
 
- @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600&family=Lato:wght@300;400;700&display=swap');
 
 
 .sm2-bar-ui {
@@ -218,8 +219,7 @@
  /* filter: xray; */
  /* pending W3 standard */
  filter: invert(1);
- /* not you, IE < 10. */
- filter: none\9;
+
 }
 
 .sm2-bar-ui .bd a {
@@ -583,7 +583,7 @@
 
 .sm2-extra-controls .sm2-icon-previous,
 .sm2-extra-controls .sm2-icon-next {
- backgound-size: 53%;
+ background-size: 53%;
 }
 
 .sm2-icon-shuffle {
@@ -961,7 +961,6 @@
  background-color: rgba(0,0,0,0.25);
  border-radius: 3px;
  padding: 0px 3px;
- box-sizing: padding-box;
 }
 
 .sm2-bar-ui.dark-text .label {
