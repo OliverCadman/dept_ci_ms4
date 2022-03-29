@@ -176,7 +176,8 @@ class UserProfileQueryset(models.QuerySet):
             return self.filter(
                 **filter_params).exclude(unavailable_user__date=date_today)
 
-        return self.filter(**filter_params).order_by(sort_params, "-is_paid")
+        return self.filter(**filter_params).order_by(
+            sort_params, "-is_paid").exclude(subscription_chosen=False)
 
 
 class UserProfileManager(models.Manager):
