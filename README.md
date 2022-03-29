@@ -436,6 +436,14 @@ The font [Oxygen](https://fonts.google.com/specimen/Oxygen) was chosen to presen
 
 The font [Open Sans](https://fonts.google.com/specimen/Open+Sans) was chosen to present bottom-level text content in the website's footer. Used to provide a little contrast against the secondary font, to reinforce the role of the footer while not being too contrasting.
 
+### Header Design
+
+![Header Design for DepT Website](documentation/readme_images/fonts/dept_tertiary_font.png)
+
+When on large screens, many headers throughout the website are split into two halves. The left half of the header generally features header content along with any lead paragraphs, while the second half of the header, contrasting in colour, serves to act as a window, either displaying further text content (as is the case in the Dashboard and Edit Profile pages), or displaying a user's profile image (in the Profile, Booking Detail and Booking Success pages). A user's profile image is displayed as a background image on mobile/tablet devices, to retain responsivity while also maximising design flexibility.
+
+Since the website is centered around social interaction and networking, it was deemed important that a user's profile image should be displayed in any pages which are centered around networking, such as the Profile, Booking Detail and Booking Success Page. Therefore the initial decision was made that these types of pages provide a header 'window' displaying a user's profile image. This split-header design decision was then extended throughout the headers on most other pages of the website, to provide stylistic consistency.
+
 ### Visual Effects
 
 #### Box Shadow
@@ -457,4 +465,90 @@ Hover effects for top-level buttons are employed on large screens, which change 
 #### Animations
 
 Animation effects are employed in the website's 'Edit My Profile' page, used in the breadcrumb nav elements to indicate which section of the form a user is currently on. Once a user submits a section's form, the breadcrumb animates a colour fill, to indicate to the user that they have completed a section of the form page. The decision to use animated breadcrumbs should serve to make the form-filling process feel a little less mundane and boring, and provide the user with a feeling of progression.
+
+# Features
+
+## Existing Features
+
+### Profiles
+
+[Django Allauth](https://django-allauth.readthedocs.io/en/latest/installation.html) is employed to handle user-management and provide authorization flow for registering, signing in, logging out, and resetting a user's password. Upon registration to the platform, a signal is sent to create a User Profile, which shares a One-To-One relationship with the auth-user model.
+
+#### Profile Page
+
+##### Header
+
+![DepT Profile Header, Large Screens](documentation/readme_images/profile/dept_profile_header_lg.png)
+
+A user's profile page serves as the base for a user to present themselves and the services they can provide, and is the first point of contact for a user who is searching for another user to play their gig.
+
+The header of the profile page provides such details as a user's:
+
+* Full Name
+    - If no name has yet been provided, this defaults to the user's username
+
+* Location 
+    - Not displayed if no location has been provided.
+
+* Instruments they play
+    - Not displayed if no instruments have been provided.
+
+* Review Rating (represented by stars)
+    - "No Reviews" is displayed if a user has no reviews
+
+* Profile Image
+    - Defaults to the DepT Logo with a linear-gradient background if no profile image provided.
+
+Below the header are two buttons, inviting the visiting user to either:
+
+* Contact the user who owns the profile.
+* Leave the user a review.
+
+If user is unauthenticated, these buttons will take the user to the login page, and then will be re-directed back to the
+profile page.
+
+Furthermore, if a user doesn't have subscription status, a modal pop-up is shown, indicating that they need to subscribe in order to invite users to play gigs.
+
+If the user visiting the profile is the profile owner, the two buttons change to invite the profile owner to either:
+
+* Edit their Profile
+* Delete their Profile
+
+##### Body
+
+[Dept Profile Body, Large Screens](documentation/readme_images/profile/dept_profile_body_lg.png)
+
+The main body of the page is where the user can make their pitch, and provide an in-depth overview of their expertise and services they can provide. Reviews for a user are displayed below the user's pitch. The body also features the an interactive music player, which the visiting user can use to sample any music the profile owner has uploaded to their profile. 
+
+Additionally, a calendar is featured displaying the user's unavailable dates (marked in a light red colour), so the visiting user can quickly determine whether the profile owner will be available to play a gig. 
+
+Below the music player and calendar, a small list of the user's Genre expertise is displayed, along with any equipment information they would like to submit. 
+
+The music player, calendar, genre list and equipment list are displayed as a sidebar on large screens, and collapse to full-width columns on tablet and mobile devices.
+
+#### Edit Profile Page
+
+A registered user can access a page where they can edit their personal and profile details. This page is split into three sections:
+
+* Personal Details
+    - Here the user can provide their name, location, instruments and genres of expertise, a list of their equipment, and a textarea where they may provided a detailed overview of their expertise, and make their pitch.
+
+    Should the user decide they want to make a change, the initial data they provided will be presented as values in all
+    the relevant fields when they next visit the page.
+
+* Audio Files
+    - Here the user may upload any audio files that they believe may be of interest to other users of the website.
+    The Graphical User Interface is in the form of a drag-and-drop window (provided by [DropzoneJS](https://www.dropzone.dev/js/)), where users can choose to either click the window to open their file system and choose files manually, or drag and drop their files into the window. Upon loading of an audiofile, a widget is shown, displaying the name of the audio file they have added, and their filesize. 
+
+    Files no larger than 5MB may be uploaded.
+
+     Should the user decide they want to delete a file, the initial audio files they provided will be presented as widgets in the GUI, with an option to remove the file presented below the GUI.
+
+* Unavailable Dates
+    - The third and final form of the Edit Profile Page features a GUI calendar (provided by [FullCalendar](https://fullcalendar.io/)), where users can submit dates where they are unavailable. Users can interact with the calendar by cycling through each month (by clicking the caret buttons in the top right corner of the header), and clicking on dates where they are unavailable. Upon clicking a particular date, the background colour of the date they clicked will turn a light red, to indicate that this date has been selected, and provide feedback to the user.
+
+    Should the user like to de-select a date, they may click the date again, which will remove the date from the collection to be submitted, and return the colour of the date to a white colour.
+
+    If the user wants to make a change after submitting the form, all dates they have already selected will be presented as initial data on the calendar.
+
 
