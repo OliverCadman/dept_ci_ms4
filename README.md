@@ -409,3 +409,49 @@ The project makes use of the SQlite Relational Database to handle data served th
 * Eerie Black (#202020)
      - Used for font colours that sit on top of lighter background colours, again to provide sufficient contrast.
 
+### Logo
+
+![Image of DepT Logo](documentation/readme_images/logo/dept-logo.png)
+
+A simple, white-on-black logo was designed to represent the website's brand, serving to clearly present the intention of the website without any artistic frills, while also looking sleek and reliable. Displayed in the website's navbar, home page header and in authorization flows, as well as a default logo in the Booking Details/Booking Success pages, should a user profile image not be available for use. Additionally, this logo is featured on any cards in Dep List and Job List pages where a user profile image hasn't been provided.
+
+### Typography
+
+#### Primary Font
+
+![Primary Font for DepT Website](documentation/readme_images/fonts/dept_primary_font.png)
+
+The font [Josefin Sans](https://fonts.google.com/specimen/Josefin+Sans) is used for top-level header elements throughout the website, as well as modal headers, and text content on job cards.
+Intended to provide some personality and sleekness against the more utilitarian fonts used for the mid-level elements, and draw the user's attention while also remaining not-too overbearing.
+
+![Secondary Font for DepT Website](documentation/readme_images/fonts/dept_secondary_font.png)
+
+#### Secondary Font
+
+The font [Oxygen](https://fonts.google.com/specimen/Oxygen) was chosen to present the text-content of mid-level body elements of the website. Intended to provide a more functional, utilitarian feel to contrast against the more-suggestive header font, and not be too overbearing or provide congitive overload, particularly for sections of the website that contain a relatively substantial amount of text content.
+
+![Tertiary Font for DepT Website](documentation/readme_images/fonts/dept_tertiary_font.png)
+
+#### Tertiary Font
+
+The font [Open Sans](https://fonts.google.com/specimen/Open+Sans) was chosen to present bottom-level text content in the website's footer. Used to provide a little contrast against the secondary font, to reinforce the role of the footer while not being too contrasting.
+
+### Visual Effects
+
+#### Box Shadow
+The website makes heavy use of the box-shadow, primarily to present form elements and cards in Dep List and Job List pages. Since a white background is used for the body of many pages of the website, and the form elements are a lighter grey colour, a box-shadow helps to provide some depth to the light-coloured elements that sit against a white background, and make the website feel a little less two-dimensional.
+
+#### Colour Gradient
+
+![Linear Gradient](documentation/readme_images/visual_effects/dept_linear_gradient.png)
+
+A linear gradient with opaque-overlay was employed to between the colours Violet Web (#FF91EF) & Lemon (#FFF900) with, as a background colour fo most pages used in the authorization flow. The decision to use this effect was purely of an aesthetic nature, in the hope that it serves to relax the user and reinforce the role of the pages, in addition to adding a little artistic flare and interest.
+
+#### Hover Effects
+
+Hover effects for top-level buttons are employed on large screens, which change a button's neutral off-white colour to a less neutral colour which indicates the nature of the call-to-action the button represents. Used so as not to busy the top-level with too much colour, and minimise cognitive overload.
+
+#### Animations
+
+Animation effects are employed in the website's 'Edit My Profile' page, used in the breadcrumb nav elements to indicate which section of the form a user is currently on. Once a user submits a section's form, the breadcrumb animates a colour fill, to indicate to the user that they have completed a section of the form page. The decision to use animated breadcrumbs should serve to make the form-filling process feel a little less mundane and boring, and provide the user with a feeling of progression.
+
