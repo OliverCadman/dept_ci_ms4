@@ -80,4 +80,4 @@ function removeNotification(removeNotificationURL, redirectURL) {
   xmlHttp.open("DELETE", removeNotificationURL, true);
   xmlHttp.setRequestHeader("X-CSRFToken", csrfToken);
   xmlHttp.send();
-};
+}

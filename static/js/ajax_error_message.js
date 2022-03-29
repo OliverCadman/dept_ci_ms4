@@ -1,5 +1,6 @@
 // Displays a Toast with error message in case of AJAX errors
 function displayAJAXErrorMessage(status) {
+  let errorMsg;
   if (status === 0) {
     errorMsg = "Cannot connect, please make sure you are connected";
   } else if (status === 404) {
