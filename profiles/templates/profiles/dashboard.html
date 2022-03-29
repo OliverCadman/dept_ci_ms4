@@ -51,6 +51,7 @@
                     <div class="container w-100">
                         <div class="row d-flex justify-content-center">
                             <div class="col-12 col-md-8">
+                                {% if user_profile.subscription_chosen %}
                                     {% if user_profile.is_paid %}
                                         <div class="membership_detail_card_wrapper dashboard-card">
                                             <h3 class="text-center mt-4 primary_font large_text">
@@ -91,6 +92,32 @@
                                                 </form>
                                             </div>
                                         {% endif %}
+                                    {% else %}
+                                    <!-- If no subscription has been chosen -->
+                                        <div class="dashboard-card membership_detail_card_wrapper">
+                                                <h3 class="mt-4 primary_font med_text text-center">
+                                                    You haven't chosen a subscription.
+                                                </h3>
+                                                <p class="text-center">
+                                                    Subscribe now to benefit from our services. 
+                                                </p>
+                                                <ul class="benefits-list fa-ul">
+                                                    <li>
+                                                        <i class="fa-li fas fa-check-circle check-icon"></i>
+                                                        Find and connect with other musicians
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-li fas fa-check-circle check-icon"></i>
+                                                        Appear in searches
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa-li fas fa-check-circle check-icon"></i>
+                                                        Get invited to jobs
+                                                    </li>
+                                                </ul>
+                                                    <button type="submit" class="subscription_btn">Subscribe</button>
+                                            </div>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
