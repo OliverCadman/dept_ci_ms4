@@ -15,13 +15,13 @@ $(document).ready(function() {
             return res.json(); })
          .then((data) => {
              // Initialize Stripe object
-             stripe = Stripe(data.public_key)
+             const stripe = Stripe(data.public_key);
 
              /* Posts price_id data to be handled by checkout session 
              in the backend, and handles session ID from returned data
              to be allow for stripe checkout redirect. */
              $(".checkout-portal").click(function(e) {
-                 const inputId = e.target.parentElement.children[1].id
+                 const inputId = e.target.parentElement.children[1].id;
                  if (inputId === "tier_one_price_id") {
                     $.post({
                       url: "/subscribe/checkout/",
@@ -64,15 +64,8 @@ $(document).ready(function() {
                        }
                      });
                  }
-             })
-           
-         })
-     })
-   })
-})
-
-
-
-
-                
-
+             });
+         });
+     });
+   });
+});
