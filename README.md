@@ -441,11 +441,14 @@ The font [Open Sans](https://fonts.google.com/specimen/Open+Sans) was chosen to 
 #### Box Shadow
 The website makes heavy use of the box-shadow, primarily to present form elements and cards in Dep List and Job List pages. Since a white background is used for the body of many pages of the website, and the form elements are a lighter grey colour, a box-shadow helps to provide some depth to the light-coloured elements that sit against a white background, and make the website feel a little less two-dimensional.
 
+#### Text Shadow
+The foreground elements in pages that employ a linear gradient background colour have a slight shadow effect applied, to provide a little depth between the foreground and the background, and make the page feel more three-dimensional.
+
 #### Colour Gradient
 
 ![Linear Gradient](documentation/readme_images/visual_effects/dept_linear_gradient.png)
 
-A linear gradient with opaque-overlay was employed to between the colours Violet Web (#FF91EF) & Lemon (#FFF900) with, as a background colour fo most pages used in the authorization flow. The decision to use this effect was purely of an aesthetic nature, in the hope that it serves to relax the user and reinforce the role of the pages, in addition to adding a little artistic flare and interest.
+A linear gradient with opaque-overlay was employed to between the colours Violet Web (#FF91EF) & Lemon (#FFF900) with, as a background colour for most pages used in the authorization flow. The decision to use this effect was purely of an aesthetic nature, in the hope that it serves to relax the user and reinforce the role of the pages, in addition to adding a little artistic flare and interest.
 
 #### Hover Effects
 
