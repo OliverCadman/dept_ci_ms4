@@ -197,8 +197,7 @@
                                 data-profile-id="{{ user.pk }}">Delete my Profile</button>
                             {% endif %}
                         {% else %}
-                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn_lg light_bg">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
-                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn_lg light_bg">Leave a Review</a>
+                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn btn_lg light_bg secondary_font general_profile_cta inset_light_shadow">Contact {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}</a>
                         {% endif%}
                     </div>
                 </div>
