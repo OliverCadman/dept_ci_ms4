@@ -24,10 +24,6 @@ Includes styling for:
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oxygen:wght@300;400&family=Jost:wght@300;400;500&family=Roboto:wght@300;400&family=Varela+Round&display=swap');
 
-body,
-html {
-    min-height: 100%,
-}
 
 body {
     padding: 0;
@@ -160,7 +156,7 @@ body {
 }
 
 .linear_bg {
-    background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
+    background: linear-gradient(90deg, rgb(255, 145, 239) 0%, rgb(255, 249, 0) 100%);
 }
 
 .dark_bg {
