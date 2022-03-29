@@ -3,6 +3,14 @@ from .views import (DepListView, JobListView, delete_job, post_job,
                     register_interest, get_interested_members,
                     confirm_job_offer, EditJobView, delete_job, remove_offer)
 
+"""
+Job URLs
+----------------
+
+URL Routing for the Jobs App
+"""
+
+
 urlpatterns = [
     path('find_a_dep', DepListView.as_view(), name="dep_list"),
     path('find_a_job', JobListView.as_view(), name="job_list"),

@@ -10,6 +10,7 @@ from test_helpers import create_test_user, create_test_job
 import datetime
 from math import inf
 
+
 class TestJobModel(TestCase):
     """
     Unit Testing for the Job Model, to confirm that
@@ -50,7 +51,8 @@ class TestJobModel(TestCase):
         Confirm that the Job model's string method returns
         the correct string representation.
         """
-        control_str = f"{self.test_user_profile_1}'s job: {self.test_job.event_name}"
+        control_str = (
+            f"{self.test_user_profile_1}'s job: {self.test_job.event_name}")
         self.assertEqual(str(self.test_job), control_str)
 
     def test_filter_queryset(self):
