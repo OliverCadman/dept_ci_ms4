@@ -877,10 +877,27 @@ The website's backend infrastructure was developed using Python 3.9.9.
     - DropzoneJS was employed to provide drag-and-drop functionality when a user submits their audio files to display on their profile.
 * [Toastify JS](https://apvarun.github.io/toastify-js/)
     - Used to display messages across all pages of the website.
-* [xhtml2pdf](https://pypi.org/project/xhtml2pdf/)
-    - The xhtml2pdf Python library was used to render booking details in a PDF format, to be downloaded by the user.
 
 For a full list of the website's dependencies, please visit the [requirements.txt](requirements.txt) file.
+
+## Technologies for Testing
+
+* The project's HTML files were tested for validation using the [W3C Markup Validation Service](https://validator.w3.org/)
+* The project's CSS files were tested for validation using the [W3C CSS Validation Service](https://jigsaw.w3.org/css-validator/)
+* Python PEP8 compliancy validation was tested using [PEP8 Online](http://pep8online.com/)
+* Validation of the website's JavaScript files were performed using [JSHint](https://jshint.com/)
+* The website's accessibility and performance was measured using Google Chrome's [Lighthouse](https://developers.google.com/web/tools/lighthouse) feature.
+* Unit Testing for the backend was performed using [Django's Testing Tools](https://docs.djangoproject.com/en/3.2/topics/testing/tools/)
+
+## Hosting
+
+* The CDNs which provide the FontAwesome, Dropzone, Bootstrap and Toastify libraries are served through [jsdelivr](https://www.jsdelivr.com/) and [cloudflare](https://www.cloudflare.com/en-gb/).
+* Static and Media Files are hosted using [Amazon AWS S3](https://aws.amazon.com/s3/)
+* The website is hosted using [Heroku](https://www.heroku.com)
+
+
+
+
 
 
 
