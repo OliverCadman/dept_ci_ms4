@@ -29,24 +29,3 @@ class TestHomePage(TestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home/index.html")
-
-
-class TestHomePageRedirect(TestCase):
-    """
-    Test for direct to subscription page if user hasn't
-    chosen a subscription.
-    """
-
-    def setUp(self):
-        """
-        Create user and log them in
-        """
-        username = "test"
-        password = "abc123"
-        self.client = Client()
-        user_model = get_user_model()
-        self.user = user_model.objects.create_user(
-            username=username,
-            password=password
-        )
-        self.client.login(username=username, password=password)
