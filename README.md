@@ -88,7 +88,7 @@ As a Tier Two member of the website, I want...
 
 1. All privileges provided by Tier One Membership.
 2. To have access to a job listing, so I can find jobs that are in my area.
-3. To be able to filter jobs by location or type (live performance, session work etc) so I can more granularly search for a suitable job.
+3. To be able to filter jobs by location or fee range, so I can more granularly search for a suitable job.
 4. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
 
 #### Members in need of a Dep
@@ -339,12 +339,6 @@ The project makes use of the SQlite Relational Database to handle data served th
 
 ![Database Schema (Iteration 4) for Dept Website](documentation/er_diagram/dept_er_diagram_4.png)
 
-#### Iteration 5
-
-![Database Schema (Iteration 5) for Dept Website](documentation/er_diagram/dept_er_diagram_5.png)
-
-
-
 ## Skeleton
 
 ### Wireframes
@@ -364,41 +358,5 @@ The project makes use of the SQlite Relational Database to handle data served th
 * [Booking Form](documentation/wireframes/dept_booking_form.pdf)
 * [Booking Confirmation](documentation/wireframes/dept_booking_confirmation.pdf)
 * [Messages](documentation/wireframes/dept_messages.pdf)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
