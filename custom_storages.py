@@ -6,6 +6,7 @@ Custom Storages to store Media and Static
 Files using Amazon AWS, in production.
 """
 
+
 class StaticStorage(S3Boto3Storage):
     """
     Define location for static files.
