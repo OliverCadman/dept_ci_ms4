@@ -516,7 +516,7 @@ If the user visiting the profile is the profile owner, the two buttons change to
 
 ##### Body
 
-[Dept Profile Body, Large Screens](documentation/readme_images/profile/dept_profile_body_lg.png)
+![Dept Profile Body, Large Screens](documentation/readme_images/profile/dept_profile_body_lg.png)
 
 The main body of the page is where the user can make their pitch, and provide an in-depth overview of their expertise and services they can provide. Reviews for a user are displayed below the user's pitch. The body also features the an interactive music player, which the visiting user can use to sample any music the profile owner has uploaded to their profile. 
 
@@ -527,6 +527,8 @@ Below the music player and calendar, a small list of the user's Genre expertise 
 The music player, calendar, genre list and equipment list are displayed as a sidebar on large screens, and collapse to full-width columns on tablet and mobile devices.
 
 #### Edit Profile Page
+
+##### The Three Pages
 
 A registered user can access a page where they can edit their personal and profile details. This page is split into three sections:
 
@@ -550,5 +552,22 @@ A registered user can access a page where they can edit their personal and profi
     Should the user like to de-select a date, they may click the date again, which will remove the date from the collection to be submitted, and return the colour of the date to a white colour.
 
     If the user wants to make a change after submitting the form, all dates they have already selected will be presented as initial data on the calendar.
+
+##### Breadcrumbs
+
+Considering that the form is split into three pages, it was deemed necessary to provide breadcrumb navigation so that the user can feel some progression in what might feel like a long, drawn-out process, and provide a feeling that they are working towards a goal. 
+
+Upon submission of each form, the breadcrumbs animate, and are filled with a green colour to indicate to the user that they have just completed a form section. On large screens, the breadcrumbs are presented as text. When collapsing to small screens, 
+the text content is replaced with FontAwesome icons, to visually represent the purpose of each form page.
+
+##### Skip Step/Go Back Buttons
+
+Users have the option to skip a step, or return to a previous form page at their will. If the user chooses to skip a step instead of submitting a form, the breadcrumbs will not animate and fill with colour.
+
+#### Dashboard
+
+
+
+
 
 
