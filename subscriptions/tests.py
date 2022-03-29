@@ -141,7 +141,7 @@ class TestSubscriptionApp(TestCase):
         self.client.post("/subscribe/checkout/", request_post_data)
         response = self.client.get(cancel_url)
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed("home/index.html")
 
     def test_success_redirect_if_no_checkout_token(self):

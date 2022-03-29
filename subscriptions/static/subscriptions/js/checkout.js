@@ -36,6 +36,7 @@ $(document).ready(function() {
                           // TODO: Customise error handling
                         throw Error("An error has occurred!");
                       } else {
+                        console.log(data);
                         return stripe.redirectToCheckout({
                           sessionId: data.session_id,
                         });
@@ -56,6 +57,7 @@ $(document).ready(function() {
                         // TODO: Customise error handling
                          throw Error("An error has occurred!");
                        } else {
+                         console.log(data);
                          return stripe.redirectToCheckout({
                            sessionId: data.session_id,
                          });

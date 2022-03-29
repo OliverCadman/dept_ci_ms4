@@ -69,14 +69,10 @@
     border-radius: 0 0 20px 20px;
     height: 55px;
     font-family: "Open Sans", sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     border: none;
     background-color: #333138;
     color: #eee;
-}
-
-@media screen and (min-width: 768px) {
-    
 }
 
 @media screen and (min-width: 992px) {
@@ -89,6 +85,8 @@
     }
 }
 
-@media screen and (min-width:1920px) {
-    
+@media screen and (min-width: 320px) and (max-width: 320px) {
+    .subscription_btn {
+        font-size: 1rem;
+    }
 }
