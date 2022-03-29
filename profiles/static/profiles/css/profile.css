@@ -274,9 +274,6 @@
     .rating_star:hover {
         filter: drop-shadow(1px 1px 4px gold);
     }
-
-
-
 }
 
 @media screen and (min-width: 320px) and (max-width: 320px) {

@@ -1,5 +1,4 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
   /* Initialize Global Variables */
   let calendar;
 
@@ -14,7 +13,6 @@ $(document).ready(function() {
   const options = {
     attributes: true,
   };
-
 
   // Check for "hidden" className change on calendar container.
 
@@ -56,7 +54,7 @@ $(document).ready(function() {
     });
   }
 
-// ------------------------------------------------------
+  // ------------------------------------------------------
 
   function initCalendar(existingUnavailableDates) {
     /* Initialize the FullCalendar, and populate with
@@ -66,7 +64,7 @@ $(document).ready(function() {
     let eventArray = [];
     let eventId = 1;
     if (existingUnavailableDates) {
-      for (date of existingUnavailableDates) {
+      for (let date of existingUnavailableDates) {
         let eventObject = {
           id: eventId++,
           start: date,
@@ -146,7 +144,6 @@ $(document).ready(function() {
       id, startDate and styling. 
       */
     const event = {
-      id: uuidv4(),
       date: startDate,
       display: "background",
       backgroundColor: "#ee9ea2",
@@ -154,84 +151,74 @@ $(document).ready(function() {
     calendar.addEvent(event);
   }
 
-  function uuidv4() {
-    /* Creates a unique identifier for a created FullCalendar Event  */
-    
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-      (
-        c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-      ).toString(16)
-    );
-  }
-
-   function collectDateArray() {
-        /*
+  function collectDateArray() {
+    /*
           Collects dates added to FullCalendar's
           collection of added events, and prepares
           them into the correct format, to be posted
           to the backend.
         */
-        let dates = calendar.getEvents();
-        let ISOStringFormattedDateArray = [];
+    let dates = calendar.getEvents();
+    let ISOStringFormattedDateArray = [];
 
-        for (let i = 0; i < dates.length; i++) {
-            let rawDateString = dates[i]._instance.range.start
-            .toISOString()
-            .split("T")[0];
-            ISOStringFormattedDateArray.push(rawDateString);
-         }
+    for (let i = 0; i < dates.length; i++) {
+      let rawDateString = dates[i]._instance.range.start
+        .toISOString()
+        .split("T")[0];
+      ISOStringFormattedDateArray.push(rawDateString);
+    }
 
-        return ISOStringFormattedDateArray;
-   }
+    return ISOStringFormattedDateArray;
+  }
 
   // ---------- Submit Unavailable Dates ---------- //
   const submitBtn = $("#submit_unavailability");
   let isSubmitting = false;
 
   submitBtn.on("click", function () {
-      let dateArray = collectDateArray();
+    let dateArray = collectDateArray();
 
-      // Removes any duplicate dates from dateArray
-      dateArray = [...new Set(dateArray)];
+    // Removes any duplicate dates from dateArray
+    dateArray = [...new Set(dateArray)];
 
-      // Avoids duplicate post requests
-      if (isSubmitting) {
-          return;
-        }
-      isSubmitting = true;
-      const url = `/profile/upload_unavailability/${userId}`;
+    // Avoids duplicate post requests
+    if (isSubmitting) {
+      return;
+    }
+    isSubmitting = true;
+    const url = `/profile/upload_unavailability/${userId}`;
 
-      // Post to /profile/upload_unavailability URL
-      $.post({
-          url: url,
-          headers: {
-              "X-CSRFToken": csrfToken,
-          },
-          data: {
-            date_array: dateArray,
-          },
-          success: function (res) {
-              isSubmitting = false;
+    // Post to /profile/upload_unavailability URL
+    $.post({
+      url: url,
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
+      data: {
+        date_array: dateArray,
+      },
+      success: function (res) {
+        isSubmitting = false;
 
-              /* Fill third breadcrumb upon successful submission
+        /* Fill third breadcrumb upon successful submission
               and display toast. Then redirect.
               */
-              $("#third_breadcrumb_sm").addClass("fill-breadcrumb-sm");
-              $("#third_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm");
-              $("#third_breadcrumb").addClass("fill-breadcrumb");
-              $("#third_breadcrumb_text").addClass("dark-text");
+        $("#third_breadcrumb_sm").addClass("fill-breadcrumb-sm");
+        $("#third_breadcrumb_icon").addClass("fill-breadcrumb-icon-sm");
+        $("#third_breadcrumb").addClass("fill-breadcrumb");
+        $("#third_breadcrumb_text").addClass("dark-text");
 
-              const successMsg = "You updated your calendar.";
-              displayToast(successMsg, "#287e28");
+        const successMsg = "You updated your calendar.";
+        displayToast(successMsg, "#287e28");
 
-              setTimeout(() => {
-                  window.location.href = res.url;
-              }, 2500);
-          },
-          error: function (err) {
-              console.log(err);
-          },
-       });
-       return false;
+        setTimeout(() => {
+          window.location.href = res.url;
+        }, 2500);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+    return false;
   });
-})
+});

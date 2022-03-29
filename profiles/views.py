@@ -109,7 +109,7 @@ class ProfileView(TemplateView):
 
         if user_profile.genres:
             users_genres = user_profile.genres.all()
-        
+
         if user_profile.equipment:
             users_equipment = user_profile.equipment.all()
 
@@ -575,8 +575,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         # Set filter to Booking ID if user visiting dashboard
         # from Booking Success/Detail Page.
-        if (referer_url_path == "bookings/success"
-            or referer_url_path == "bookings/booking_detail"):
+        if (referer_url_path == "bookings/success" or
+                referer_url_path == "bookings/booking_detail"):
             booking_id = self.request.GET.get("filter")
 
         # # Set filter to Invitation ID if user visiting dashboard
