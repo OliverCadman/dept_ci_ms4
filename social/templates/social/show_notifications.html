@@ -2,12 +2,12 @@
 {% load static %}
 <div class="dropdown notification_dropdown_container">
     {% if notifications.count > 0 %}
-    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target=".notification_dropdown" data-bs-auto-close="outside" aria-expanded="false" class="notification_btn">
+    <button class="btn position-relative" data-bs-toggle="dropdown" data-bs-target=".notification_dropdown" data-bs-auto-close="outside" name="notification_button" aria-expanded="false" class="notification_btn">
         <i class="fas fa-bell notification_icon"></i>
             <span class="badge bg-danger position-absolute start-75 top-0 translate-middle rounded-pill notification_count_icon">{{ notifications.count }}</span>
     </button>
     {% else %}
-    <a href=""><i class="far fa-bell notification_icon"></i></a>
+    <i class="far fa-bell notification_icon"></i>
     {% endif %}
     <ul class="dropdown-menu notification_dropdown animate__animated animate__fadeInDown">
         {% for notification in notifications %}
