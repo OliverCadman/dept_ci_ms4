@@ -2,7 +2,15 @@
 
 {% extends "base.html" %}
 
+<!-- Title -->
 {% block title %}500 Error{% endblock %}
+
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, 500 Error. Internal Server Error">
+    <meta name="keywords" content="Deputise, error, page, server, internal, error, return, home">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
 
 {% block content %}
     <!-- 500 Header, Message and CTA for Mobile and Tablet Devices -->
@@ -30,9 +38,7 @@
                         <p class="primary_font med_weight white_font large_text">Sorry, we are having server issues.</p>
                         <a href="{% url "home" %}" class="btn cta-btn-light secondary_font p-3 w-100 med_text">Take me Home</a>
                     </div>
-                    <div class="error
-                    
-                    -hero-bg d-none d-lg-block">
+                    <div class="error-hero-bg d-none d-lg-block">
                         <img src="{{MEDIA_URL}}dept-logo.webp" alt="DepT Logo" height="100" width="100" class="logo_errorpage">
                     </div>
                 </div>
