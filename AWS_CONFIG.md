@@ -1,5 +1,7 @@
 # Amazon AWS S3 Bucket Configuration
 
+[Click here to return to README.md](README.md)
+
 This project uses the cloud-based storage service [Amazon S3](https://aws.amazon.com/s3/?nc2=type_a) to serve static and media files in production.
 
 In order to create your own S3 Bucket to connect to your app, follow these steps.
