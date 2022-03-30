@@ -1,9 +1,21 @@
 {% extends "base.html" %}
+<!-- Load Static -->
 {% load static %}
+
+<!-- Load Crispy Forms Tags -->
 {% load crispy_forms_tags %}
 
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, music networking. Edit User Profile.">
+    <meta name="keywords" content="Deputise, profile, edit, audio, add, dates, details,">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
+
+<!-- Title -->
 {% block title %}Edit Your Profile{% endblock %}
 
+<!-- CSS -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "profiles/css/edit_profile.css" %}">
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
@@ -11,6 +23,7 @@
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 {% endblock %}
 
+<!-- Import Dropzone JS -->
 {% block corejs %}
     {{block.super}}
     <!-- DropZone JS for file upload -->
@@ -18,39 +31,39 @@
 {% endblock %}
 
 {% block content %}
-
     <!-- Page Header -->
-        {% with page_name as p %}
-        {% include 'includes/header-hero.html' %}
-        {% endwith %}
+    {% with page_name as p %}
+    {% include 'includes/header-hero.html' %}
+    {% endwith %}
+
     <!-- Profile Form -->
-        <div class="container-fluid" id="breadcrumb_container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb-wrapper d-none d-md-block">
-                        <div class="breadcrumb-list">
-                            <div class="breadcrumb {% if request.session.form_page == 2  and request.session.page_one_complete %}fill-breadcrumb{% endif %}"><span class="{% if not request.session.form_page == 1 and request.session.page_one_complete %}dark-text{% endif %}">Profile Details</span></div>
-                            <div class="breadcrumb" id="second_breadcrumb"><span id="second_breadcrumb_text">Your Music</span></div>
-                            <div class="breadcrumb" id="third_breadcrumb"><span id="third_breadcrumb_text">Your Availability</span></div>
-                        </div>
+    <div class="container-fluid" id="breadcrumb_container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrapper d-none d-md-block">
+                    <div class="breadcrumb-list">
+                        <div class="breadcrumb {% if request.session.form_page == 2  and request.session.page_one_complete %}fill-breadcrumb{% endif %}"><span class="{% if not request.session.form_page == 1 and request.session.page_one_complete %}dark-text{% endif %}">Profile Details</span></div>
+                        <div class="breadcrumb" id="second_breadcrumb"><span id="second_breadcrumb_text">Your Music</span></div>
+                        <div class="breadcrumb" id="third_breadcrumb"><span id="third_breadcrumb_text">Your Availability</span></div>
                     </div>
-                    <div class="breadcrumb-wrapper d-md-none d sm-block">
-                        <div class="breadcrumb-list-sm">
-                            <div class="breadcrumb-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-sm{% endif %}">
-                                <span><i class="fa-solid fa-user breadcrumb-icon-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-icon-sm{% endif %}"></i></span>
-                            </div>
-                            <div class="breadcrumb-sm" id="second_breadcrumb_sm">
-                                <span><i class="fa-solid fa-music breadcrumb-icon-sm" id="second_breadcrumb_icon"></i></span>
-                            </div>
-                            <div class="breadcrumb-sm" id="third_breadcrumb_sm">
-                                <span><i class="fa-solid fa-calendar-plus breadcrumb-icon-sm" id="third_breadcrumb_icon"></i></span>
-                            </div>
+                </div>
+                <div class="breadcrumb-wrapper d-md-none d sm-block">
+                    <div class="breadcrumb-list-sm">
+                        <div class="breadcrumb-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-sm{% endif %}">
+                            <span><i class="fa-solid fa-user breadcrumb-icon-sm {% if not request.session.form_page == 1 %}fill-breadcrumb-icon-sm{% endif %}"></i></span>
+                        </div>
+                        <div class="breadcrumb-sm" id="second_breadcrumb_sm">
+                            <span><i class="fa-solid fa-music breadcrumb-icon-sm" id="second_breadcrumb_icon"></i></span>
+                        </div>
+                        <div class="breadcrumb-sm" id="third_breadcrumb_sm">
+                            <span><i class="fa-solid fa-calendar-plus breadcrumb-icon-sm" id="third_breadcrumb_icon"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+    </div>
+    <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div id="edit-profile-form-container" class="form-container {% if not request.session.form_page == 1 %}hidden{% endif %}">
@@ -101,7 +114,7 @@
                                     <div id="empty_form" class="hidden">
                                         {{ equipment_formset.empty_form|crispy }}
                                     </div>
-                                     <!-- Display error if more than 5 forms are added to formset -->
+                                        <!-- Display error if more than 5 forms are added to formset -->
                                     <p id="equipment_error_message" class="alert_style"></p>
                                     <button type="button" class="btn equipment_form_btn primary_bg white_font mb-3" id="add_more_btn">Add More Gear</button>
                                 {% endif %}
@@ -145,7 +158,7 @@
                         {% csrf_token %}
                         <input type="hidden" id="user_id_3" value={{user_id}}>
                         <div id="calendar_wrapper">
-    
+
                         </div>
                         <div class="submit-btn-wrapper d-block d-md-flex justify-content-around">
                             <a class="btn form-btn primary_bg me-1 inset_light_shadow me-1 mb-2 mb-md-0" href="{% url "edit_profile" %}?form_page=2"><span class="me-2"><i class="fa-solid fa-circle-chevron-left"></i></span>Go Back</a>
@@ -157,13 +170,13 @@
             </div>
         </div>    
     </div>
-    {% endblock %}
-    {% block postload_js %}
-        {{block.super}}
-        <!-- JavaScript defined in Media subclass in EquipmentForm Form Model -->
-        {{equipment_form.media}}
-        <script src="{% static "profiles/js/audio_dropzone.js" %}"></script>
-        <script src="{% static "profiles/js/formset.js" %}"></script>
-        <script src="{% static "profiles/js/calendar.js" %}"></script>
-        <script src="{% static "profiles/js/switch_form_page.js" %}"></script>
-    {% endblock %}
+{% endblock %}
+{% block postload_js %}
+    {{block.super}}
+    <!-- JavaScript defined in Media subclass in EquipmentForm Form Model -->
+    {{equipment_form.media}}
+    <script src="{% static "profiles/js/audio_dropzone.js" %}"></script>
+    <script src="{% static "profiles/js/formset.js" %}"></script>
+    <script src="{% static "profiles/js/calendar.js" %}"></script>
+    <script src="{% static "profiles/js/switch_form_page.js" %}"></script>
+{% endblock %}

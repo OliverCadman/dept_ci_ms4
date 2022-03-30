@@ -1,267 +1,284 @@
 {% extends "base.html" %}
+<!-- Load Static -->
 {% load static %}
+
+<!-- Load Crispy Forms Tags and custom template tags -->
 {% load crispy_forms_tags %}
 {% load custom_tags %}
 {% crispy invitation_form invitation_form.helper %}
 
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, music networking. User Profile.">
+    <meta name="keywords" content="Deputise, profile, details, personal, music, dates, unavailable, calendar, reviews">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
 
+<!-- Title -->
 {% block title %}DepT - Your Profile{% endblock %}
+
+<!-- CSS -->
 {% block extra_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "css/profile_booking_includes.css" %}">
     <link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
     <link rel="stylesheet" href="{% static "profiles/css/bar-ui.css" %}">
 {% endblock %}
+
+<!-- Import Soundmanager JS Elements -->
 {% block corejs %}
     {{ block.super }}
     <script src="{% static 'profiles/js/soundmanager2.js' %}"></script>
     <script src="{% static 'profiles/js/bar-ui.js' %}"></script>
 {% endblock %}
+
+<!-- Define Form Media for Bootstrap DatePicker Plus Usage -->
 {% block extra_head %}
     {{ form.media }}
 {% endblock %}
-{% block content %}
-{% with page_name as p %}
-    {% include "includes/profileheader_booking_success.html" %}
-{% endwith %}
 
-<div class="container-fluid bg-light">
-    <div class="row">
-        <!-- User Description and Reviews -->
-        <div class="col-12 col-lg-8 description-review-container pb-4">
-            {% if user.user_info %}
-                <div class="user-desc-wrapper secondary_font">
-                    <p class="secondary_font">{{user.user_info|linebreaks}}</p>
-                </div>
-                <hr>
-            {% endif %}
-            <div id="review_container">
-                <h5 class="primary_font">
-                   What the community says about 
-                    {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}
-                </h5>
-                <div id="review_wrapper">
-                    {% if user.received_reviews.all|length > 0 %}
-                        {% for review in user.received_reviews.all|sort_by:"-id" %}
-                            <div class="single_review_container">
-                                <div class="review_content light_bg">
-                                    <div class="review_header">
-                                        <div class="review_sender_details">
-                                            <div class="review_sender_img">
-                                                {% if review.review_sender.profile_image %}
-                                                    <img src="{{ review.review_sender.profile_image.url}}" alt="{{review.review_sender.user.username}}"
-                                                    width="40"
-                                                    height="40"
-                                                    class="circle_border cover review_sender_img">
+<!-- Main Content -->
+{% block content %}
+    {% with page_name as p %}
+        {% include "includes/profileheader_booking_success.html" %}
+    {% endwith %}
+    <div class="container-fluid bg-light">
+        <div class="row">
+            <!-- User Description and Reviews -->
+            <div class="col-12 col-lg-8 description-review-container pb-4">
+                {% if user.user_info %}
+                    <div class="user-desc-wrapper secondary_font">
+                        <p class="secondary_font">{{user.user_info|linebreaks}}</p>
+                    </div>
+                    <hr>
+                {% endif %}
+                <div id="review_container">
+                    <h5 class="primary_font">
+                    What the community says about 
+                        {% if user.first_name %}{{user.first_name}}{% else %}{{ user.user.username }}{% endif %}
+                    </h5>
+                    <div id="review_wrapper">
+                        {% if user.received_reviews.all|length > 0 %}
+                            {% for review in user.received_reviews.all|sort_by:"-id" %}
+                                <div class="single_review_container">
+                                    <div class="review_content light_bg">
+                                        <div class="review_header">
+                                            <div class="review_sender_details">
+                                                <div class="review_sender_img">
+                                                    {% if review.review_sender.profile_image %}
+                                                        <img src="{{ review.review_sender.profile_image.url}}" alt="{{review.review_sender.user.username}}"
+                                                        width="40"
+                                                        height="40"
+                                                        class="circle_border cover review_sender_img">
+                                                    {% else %}
+                                                        <img src="{{MEDIA_URL}}dept-logo.webp" alt="{{review.review_sender.user.username}}"
+                                                        width="40"
+                                                        height="40"
+                                                        class="circle_border cover review_sender_img">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="review_sender">
+                                                    <p class="primary_font small_text">
+                                                        By
+                                                    <a href="{% url "profile" review.review_sender.user.username%}">
+                                                            {% if review.review_sender.first_name %}
+                                                            {{ review.review_sender.first_name }} {{ review.review_sender.last_name }}
+                                                            {% else %}
+                                                            {{ review.review_sender.user.username }}
+                                                            {% endif %}
+                                                        </a> 
+                                                    </p>
+                                                </div>
+                                                <div class="d-md-none d-block">
+                                                    <span class="float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
+                                                </div>
+                                                <span class="d-none d-md-block float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="rating_wrapper">
+                                            <input type="hidden" name="rating" value={{ review.rating }} class="review_rating_no">
+                                            <!-- Star Icons Created in display_star_rating.js file -->
+                                            <div class="rating">
+        
+                                            </div>
+                                        </div>
+                                        <div class="review">
+                                            <p class="secondary_font">
+                                                {{ review.review_content }}
+                                            </p>
+                                        </div>
+                                        <div class="edit_delete_btn_wrapper float-end">
+                                            <button type="button"
+                                            class="btn custom_success white_font edit_review_modal_trigger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#edit_review_modal"
+                                            data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                                {% if not request.user.username == user.user.username %}
+                                    <div id="no_reviews_container">
+                                        <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                        <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
+                                        <div class="centered">
+                                            {% if request.user.is_authenticated %}
+                                                {% if current_user.subscription_chosen %}
+                                                    <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                                                 {% else %}
-                                                    <img srcset="{{MEDIA_URL}}dept-logo.webp, {{MEDIA_URL}}dept-logo.png" alt="{{review.review_sender.user.username}}"
-                                                    width="40"
-                                                    height="40"
-                                                    class="circle_border cover review_sender_img">
+                                                    <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
                                                 {% endif %}
-                                            </div>
-                                            <div class="review_sender">
-                                                <p class="primary_font small_text">
-                                                    By
-                                                <a href="{% url "profile" review.review_sender.user.username%}">
-                                                        {% if review.review_sender.first_name %}
-                                                        {{ review.review_sender.first_name }} {{ review.review_sender.last_name }}
-                                                        {% else %}
-                                                        {{ review.review_sender.user.username }}
-                                                        {% endif %}
-                                                    </a> 
-                                                </p>
-                                            </div>
-                                            <div class="d-md-none d-block">
-                                                <span class="float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
-                                            </div>
-                                            <span class="d-none d-md-block float-end xs_text light_font secondary_font">{% if review.is_modified %} (Edited) {% endif %}{{ review.review_created|date:"d/m/Y H:i" }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="rating_wrapper">
-                                        <input type="hidden" name="rating" value={{ review.rating }} class="review_rating_no">
-                                        <!-- Star Icons Created in display_star_rating.js file -->
-                                        <div class="rating">
-    
-                                        </div>
-                                    </div>
-                                    <div class="review">
-                                        <p class="secondary_font">
-                                            {{ review.review_content }}
-                                        </p>
-                                    </div>
-                                    <div class="edit_delete_btn_wrapper float-end">
-                                        <button type="button"
-                                        class="btn custom_success white_font edit_review_modal_trigger"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#edit_review_modal"
-                                        data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                            {% if not request.user.username == user.user.username %}
-                                <div id="no_reviews_container">
-                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
-                                    <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
-                                    <div class="centered">
-                                        {% if request.user.is_authenticated %}
-                                            {% if current_user.subscription_chosen %}
-                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                                             {% else %}
-                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
+                                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
                                             {% endif %}
-                                        {% else %}
-                                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
-                                        {% endif %}
+                                        </div>
                                     </div>
-                                </div>
-                            {% else %}
-                                <div id="no_reviews_container">
-                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
-                                    <p class="med_small_text secondary_font light_font text-center">Complete some jobs to increase your review rate!</p>
-                                </div>
-                            {% endif %}
-                    {% endif %}
+                                {% else %}
+                                    <div id="no_reviews_container">
+                                        <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                        <p class="med_small_text secondary_font light_font text-center">Complete some jobs to increase your review rate!</p>
+                                    </div>
+                                {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
-            <!-- Music Player -->
-            {% if users_tracks|length > 0 %}
-                <div id="music_player_wrapper" class="profile-card">
-                    <h3 class="sidebar_header">My Music</h3>
-                    <div id="music_player">
-                        <div class="sm2-bar-ui playlist-open">
-                            <div class="bd sm2-main-controls">
-                                <div class="sm2-inline-texture"></div>
-                                <div class="sm2-inline-gradient"></div>
-                                    <div class="sm2-inline-element sm2-button-element">
-                                    <div class="sm2-button-bd">
-                                        <a href="#play" class="sm2-inline-button sm2-icon-play-pause">Play / pause</a>
+            <div class="col-12 col-lg-4 music_player_container sidebar_lg p-0">
+                <!-- Music Player -->
+                {% if users_tracks|length > 0 %}
+                    <div id="music_player_wrapper" class="profile-card">
+                        <h3 class="sidebar_header">My Music</h3>
+                        <div id="music_player">
+                            <div class="sm2-bar-ui playlist-open">
+                                <div class="bd sm2-main-controls">
+                                    <div class="sm2-inline-texture"></div>
+                                    <div class="sm2-inline-gradient"></div>
+                                        <div class="sm2-inline-element sm2-button-element">
+                                        <div class="sm2-button-bd">
+                                            <a href="#play" class="sm2-inline-button sm2-icon-play-pause">Play / pause</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="sm2-inline-element sm2-inline-status">
-                                <div class="sm2-playlist">
-                                    <div class="sm2-playlist-target"><ul class="sm2-playlist-bd"><li><b>SonReal</b> - LA<span class="label">Explicit</span></li></ul></div>
-                                </div>
-                                <div class="sm2-progress">
-                                    <div class="sm2-row">
-                                        <div class="sm2-inline-time">0:00</div>
-                                        <div class="sm2-progress-bd">
-                                            <div class="sm2-progress-track">
-                                                <div class="sm2-progress-bar"></div>
-                                                    <div class="sm2-progress-ball">
-                                                        <div class="icon-overlay"></div>
+                                    <div class="sm2-inline-element sm2-inline-status">
+                                    <div class="sm2-playlist">
+                                        <div class="sm2-playlist-target"><ul class="sm2-playlist-bd"><li><b>SonReal</b> - LA<span class="label">Explicit</span></li></ul></div>
+                                    </div>
+                                    <div class="sm2-progress">
+                                        <div class="sm2-row">
+                                            <div class="sm2-inline-time">0:00</div>
+                                            <div class="sm2-progress-bd">
+                                                <div class="sm2-progress-track">
+                                                    <div class="sm2-progress-bar"></div>
+                                                        <div class="sm2-progress-ball">
+                                                            <div class="icon-overlay"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="sm2-inline-duration">0:00</div>
                                             </div>
-                                            <div class="sm2-inline-duration">0:00</div>
+                                        </div>
+                                    </div>
+                                    <div class="sm2-inline-element sm2-button-element sm2-volume">
+                                        <div class="sm2-button-bd">
+                                            <span class="sm2-inline-button sm2-volume-control volume-shade"></span>
+                                                <a href="#volume" class="sm2-inline-button sm2-volume-control">volume</a>
+                                        </div>
+                                    </div>
+                                    <div class="sm2-inline-element sm2-button-element">
+                                        <div class="sm2-button-bd">
+                                            <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
+                                        </div>
+                                    </div>
+                                    <div class="sm2-inline-element sm2-button-element">
+                                        <div class="sm2-button-bd">
+                                            <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                        </div>
+                                    </div>
+                                    <div class="sm2-inline-element sm2-button-element sm2-menu">
+                                        <div class="sm2-button-bd">
+                                            <a href="#menu" class="sm2-inline-button sm2-icon-menu">menu</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="sm2-inline-element sm2-button-element sm2-volume">
-                                    <div class="sm2-button-bd">
-                                        <span class="sm2-inline-button sm2-volume-control volume-shade"></span>
-                                            <a href="#volume" class="sm2-inline-button sm2-volume-control">volume</a>
+                                <div class="bd sm2-playlist-drawer sm2-element" style="height: 147px;">
+                                    <div class="sm2-inline-texture">
+                                        <div class="sm2-box-shadow"></div>
                                     </div>
-                                </div>
-                                <div class="sm2-inline-element sm2-button-element">
-                                    <div class="sm2-button-bd">
-                                        <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
-                                    </div>
-                                </div>
-                                <div class="sm2-inline-element sm2-button-element">
-                                    <div class="sm2-button-bd">
-                                        <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
-                                    </div>
-                                </div>
-                                <div class="sm2-inline-element sm2-button-element sm2-menu">
-                                    <div class="sm2-button-bd">
-                                        <a href="#menu" class="sm2-inline-button sm2-icon-menu">menu</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bd sm2-playlist-drawer sm2-element" style="height: 147px;">
-                                <div class="sm2-inline-texture">
-                                    <div class="sm2-box-shadow"></div>
-                                </div>
-                                <div class="sm2-playlist-wrapper">
-                                    <ul class="sm2-playlist-bd">
-                                        <!-- Track Name -->
-                                        <li class="selected">
-                                            <div class="sm2-row">
-                                                <div class="sm2-col sm2-wide">
-                                                    <!-- Populated by JS with track name upon playback of each track -->
+                                    <div class="sm2-playlist-wrapper">
+                                        <ul class="sm2-playlist-bd">
+                                            <!-- Track Name -->
+                                            <li class="selected">
+                                                <div class="sm2-row">
+                                                    <div class="sm2-col sm2-wide">
+                                                        <!-- Populated by JS with track name upon playback of each track -->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        {% for track in users_tracks %}
-                                            <li>
-                                            <a href="{{track.file.url}}">{{track.file_name|capfirst}}</a>
                                             </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="sm2-extra-controls">
-                                    <div class="bd">
-                                        <div class="sm2-inline-element sm2-button-element">
-                                        <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
-                                        </div>
-                                        <div class="sm2-inline-element sm2-button-element">
-                                        <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                            {% for track in users_tracks %}
+                                                <li>
+                                                <a href="{{track.file.url}}">{{track.file_name|capfirst}}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="sm2-extra-controls">
+                                        <div class="bd">
+                                            <div class="sm2-inline-element sm2-button-element">
+                                            <a href="#prev" title="Previous" class="sm2-inline-button sm2-icon-previous">&lt; previous</a>
+                                            </div>
+                                            <div class="sm2-inline-element sm2-button-element">
+                                            <a href="#next" title="Next" class="sm2-inline-button sm2-icon-next">&gt; next</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                {% endif %}
+                <!-- User's Unavailability Calendar -->
+                <div id="calendar_container" class="profile-card {% if users_genres|length > 0 %}custom-w-50{% else %}custom-w-100{% endif %}">
+                    <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
+                    <input type="hidden" value="{{user_id}}" id="user_id">
+                    <h4 class="sidebar_header">My Availability</h4>
+                    <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
+                    <div id="calendar_wrapper"></div>
                 </div>
-            {% endif %}
-            <!-- User's Unavailability Calendar -->
-            <div id="calendar_container" class="profile-card {% if users_genres|length > 0 %}custom-w-50{% else %}custom-w-100{% endif %}">
-                <!-- Username to be used in AJAX call to get user's selected unavailable dates -->
-                <input type="hidden" value="{{user_id}}" id="user_id">
-                <h4 class="sidebar_header">My Availability</h4>
-                <p class="text-center"><small>(Dates I am unavailable are marked in red)</small></p>
-                <div id="calendar_wrapper"></div>
+                <!-- User's Genre List -->
+                {% if users_genres %}
+                    <div id="genre_list_container">
+                        <h5 class="sidebar_header">My Genres</h5>
+                        <div id="genre_list_wrapper">
+                            {% for genre in users_genres %}
+                                {% if forloop.counter|divisibleby:"2" %}
+                                <span class="badge item_badge pushed primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>   
+                                {% else %}
+                                <span class="badge item_badge primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- User's Equipment List -->
+                {% if users_equipment %}
+                    <div id="equipment_list_container">
+                        <h5 class="sidebar_header">My Equipment</h5>
+                        <div id="equipment_list_wrapper">
+                            {% for equipment in users_equipment %}
+                                <div class="equipment_item_wrapper">
+                                    <p class="primary_font light_weight med_text ms-2 equipment_badge">{{ equipment }}</p>   
+                                </div>
+                                {% if not forloop.last %}
+                                <hr>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
-            <!-- User's Genre List -->
-            {% if users_genres %}
-                <div id="genre_list_container">
-                    <h5 class="sidebar_header">My Genres</h5>
-                    <div id="genre_list_wrapper">
-                        {% for genre in users_genres %}
-                            {% if forloop.counter|divisibleby:"2" %}
-                            <span class="badge item_badge pushed primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>   
-                            {% else %}
-                            <span class="badge item_badge primary_font med_text light_weight inset_light_shadow">{{ genre }}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-            <!-- User's Equipment List -->
-            {% if users_equipment %}
-                <div id="equipment_list_container">
-                    <h5 class="sidebar_header">My Equipment</h5>
-                    <div id="equipment_list_wrapper">
-                        {% for equipment in users_equipment %}
-                            <div class="equipment_item_wrapper">
-                                <p class="primary_font light_weight med_text ms-2 equipment_badge">{{ equipment }}</p>   
-                            </div>
-                            {% if not forloop.last %}
-                            <hr>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
-</div>
-<aside>
+    <aside>
      <!-- Tier One Alert Modal -->
         <div class="modal fade" id="tier_one_alert_modal">
             <div class="modal-dialog modal-dialog-centered">
@@ -386,13 +403,13 @@
     <script src="{% static "bookings/js/rating.js" %}"></script>
     <script src="{% static "js/form_ajax.js" %}"></script>
     <script src="{% static "js/delete_alert_modals.js" %}"></script>
-    <script>
+   <script>
         $(function() {
             $("#date_time_picker").datetimepicker({
                 format: "DD-MM-YY HH:mm:ss",
             })
         })
-    </script>
+    </script> 
     {{ average_rating|json_script:"average_rating" }}
     {{ num_of_reviews|json_script:"num_of_reviews" }}
 {% endblock %}

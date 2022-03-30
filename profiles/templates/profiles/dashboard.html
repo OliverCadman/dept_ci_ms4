@@ -1,7 +1,19 @@
 {% extends "base.html" %}
+<!-- Load Static -->
 {% load static %}
+
+<!-- Load Custom Template Tags -->
 {% load custom_tags %}
 
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, music networking. Profile user's dashboard.">
+    <meta name="keywords" content="Deputise, job, invitation, post, invite collection, musician, advertise, dashboard, tier one, tier two, metrics, analytics">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
+
+<!-- Title -->
+{% block title %}Your Dashboard{% endblock %}
 
 <!-- CSS -->
 {% block extra_css %}
@@ -10,8 +22,7 @@
     <link rel="stylesheet" href="{% static "profiles/css/dashboard.css" %}">
 {% endblock %}
 
-{% block title %}Your Dashboard{% endblock %}
-
+<!-- Main Content -->
 {% block content %}
     <!-- Header -->
     {% with page_name as p %}
@@ -19,7 +30,7 @@
     {% endwith %}
         <div id="dashboard_breadcrumb_wrapper">
             <nav aria-label="breadcrumb">
-                <!-- Nav Links for Tablet Devices and Up -->
+                <!-- Nav Breadcrumb Links for Tablet Devices and Up -->
                 <ol class="breadcrumb d-none d-md-flex">
                     <li class="breadcrumb-item dashboard">
                         <a href="{% url "dashboard" current_user %}?page=dashboard" class="{% if current_page == "dashboard" %}active{% endif %}">Dashboard</a>
@@ -31,7 +42,7 @@
                         <a href="{% url "choose_subscription" %}" class="{% if current_page == "membership" %}active{% endif %}">Your Membership</a>
                     </li>
                 </ol>
-                <!-- Nav Link for Mobile Only -->
+                <!-- Nav Breadcrumb Links for Mobile Only -->
                 <ul class="d-flex justify-content-center d-md-none dashboard_nav_mobile">
                     <li class="dashboard mobile">
                         <a href="{% url "dashboard" current_user %}?page=dashboard"><i class="fas fa-dashboard {% if current_page == "dashboard" %}active{% endif %}"></i></a>
@@ -50,6 +61,7 @@
                 <div id="dashboard_container">
                     <div class="container w-100">
                         <div class="row d-flex justify-content-center">
+                            <!-- Subscription Cards -->
                             <div class="col-12 col-md-8">
                                 {% if user_profile.subscription_chosen %}
                                     {% if user_profile.is_paid %}
@@ -122,6 +134,7 @@
                                 </div>
                             </div>
                         <div class="row m-0">
+                            <!-- Invitation Count Card -->
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="invite_count_wrapper" class="dashboard-card centered_column">
                                     <h4 class="primary_font large_text text-center">Your Invites</h4>
@@ -145,6 +158,7 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            <!-- Profile Progress Card -->
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="profile_progress_bar_container" class="dashboard-card center_column">
                                     <h4 class="mt-4 primary_font text-center large_text">
@@ -176,6 +190,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Review Card -->
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div id="review_overview_container" class="dashboard-card centered_column">
                                     <input type="hidden" value="{{ average_rating.average_rating }}" class="review_rating_no">
@@ -214,6 +229,7 @@
                     </div>
                 </div>
                 {% elif current_page == "jobs" %}
+                    <!-- Job Section -->
                     <div id="job_container">
                         <div class="container-fluid">
                             <div class="row d-flex justify-content-center">
