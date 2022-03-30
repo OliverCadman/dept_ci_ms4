@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_meta %}
+    <meta name="description" content="DepT, an online networking platform for musicians to get more gigs. Bookin Detail Page">
+    <meta name="keywords" content="Deputise, booking, social media, networking, revenue, performing, booking, gigs, detail">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
 <!-- Title -->
 {% block title %}{{ booking.related_invitation.event_name }}{% endblock %}
 

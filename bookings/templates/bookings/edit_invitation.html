@@ -2,6 +2,13 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+ <!-- Meta Tags -->
+{% block extra_meta %}
+    <meta name="description" content="DepT, music networking. Edit invitation.">
+    <meta name="keywords" content="Deputise, invitation, edit, form, engagement, gigs, musician, musicians">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
+
 {% crispy invitation_form invitation_form.helper %}
 
 {% block extra_css %}
