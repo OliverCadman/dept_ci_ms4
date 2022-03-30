@@ -8,10 +8,15 @@ import uuid
 
 
 class JobQuerySet(models.QuerySet):
+    """
+    Customize queryset filtering to allow
+    for URL parameters to be dynamically added.
+    """
 
     def filter_by_params(self, filter_params, min_fee, max_fee):
         if not min_fee and not max_fee:
-            return self.filter(**filter_params).exclude(is_taken=True)
+            return self.filter(**filter_params).exclude(
+                is_taken=True).order_by("-id")
         else:
             return self.filter(
                 **filter_params,
@@ -19,6 +24,10 @@ class JobQuerySet(models.QuerySet):
 
 
 class JobManager(models.Manager):
+    """
+    Override default Django queryset manager,
+    to allow for custom filter parameters.
+    """
 
     def get_queryset(self):
         return JobQuerySet(self.model, using=self._db)
