@@ -57,6 +57,10 @@ in the website's Dep List and Job List pages.
     margin-left: 1.75rem;
 }
 
+.sort_select_wrapper {
+    display: inherit;
+}
+
 /* Media Queries */
 @media screen and (min-width: 768px) {
     .icon-inside {
