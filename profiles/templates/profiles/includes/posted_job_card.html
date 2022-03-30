@@ -53,12 +53,13 @@
                 <button type="button" class="btn disabled secondary_font invitation_card_btn">No Offers Received</button>
             {% endif %}
             <div class="edit_delete_btn_wrapper">
-                <a href="{% url "edit_job" job.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2"><i class="fas fa-edit"></i></a>
+                <a href="{% url "edit_job" job.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2" aria-label="edit_job"><i class="fas fa-edit"></i></a>
                 <button
                 class="btn alert_bg secondary_font white_font confirm_job_delete_btn"
                 data-bs-toggle="modal"
                 data-bs-target="#delete_job_modal"
-                data-job-id="{{ job.pk }}"><i class="fas fa-times"></i></button>
+                data-job-id="{{ job.pk }}"
+                aria-label="delete_job"><i class="fas fa-times"></i></button>
             </div>
         {% else %}
             <a href="{% url "tier_two_booking_form" job.pk %}?event_tier=tier_two" class="btn send_details_btn bg-warning secondary_font">Send Complete Details</a>

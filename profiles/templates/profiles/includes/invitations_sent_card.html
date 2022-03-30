@@ -30,12 +30,13 @@
         </button>
         {% if not invitation.is_accepted %}
             <div class="edit_delete_btn_wrapper tier_one">
-                <a href="{% url "edit_invitation" invitation.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2"><i class="fas fa-edit"></i></a>
+                <a href="{% url "edit_invitation" invitation.pk %}" class="btn custom_success secondary_font white_font ms-2 me-2" aria-label="edit_invitation"><i class="fas fa-edit"></i></a>
                 <button
                 class="btn alert_bg secondary_font white_font confirm_invite_delete_btn"
                 data-bs-toggle="modal"
                 data-bs-target="#confirm_invite_delete_modal"
-                data-invitation-id="{{ invitation.pk }}"><i class="fas fa-times"></i></button>
+                data-invitation-id="{{ invitation.pk }}"
+                aria-label="delete_invitation"><i class="fas fa-times"></i></button>
             </div>
         {% else %}
             <a href="{% url "booking_form" invitation.pk %}?event_tier=tier_one" class="btn invitation_card_btn bg-warning text-dark">Send Complete Details</a>
