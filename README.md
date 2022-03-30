@@ -1255,7 +1255,7 @@ In `dept/settings.py`, set the following configurations:
     * `ALLOWED_HOSTS [https://dept-ci-ms4.herokuapp.com, <your_local_host_domain>]`
 
 * Configure your Database to use the Postgres Database in production
- ```
+```
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
