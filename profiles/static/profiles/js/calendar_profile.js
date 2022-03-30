@@ -65,5 +65,29 @@ $(document).ready(function () {
     });
 
     calendar.render();
+
+    /* Remove all role attributes from FullCalender's
+      auto-generated table, which is used to display
+      their calendar.
+
+      Necessary since these role attributes were causing
+      validation errors in the W3C HTML Markup Validation Checker.
+    */
+
+    // Get all td elements and remove 'role' attribute
+    const tableDataCells = document.querySelectorAll("td");
+    for (let cell of tableDataCells) {
+      cell.removeAttribute("role");
+    }
+
+    // Get all tr elements and remove 'role' attribute
+    const tableRows = document.querySelectorAll("tr");
+    for (let row of tableRows) {
+      row.removeAttribute("role");
+    }
+    // Get tbody element and remove 'role' attribute
+    const tableBody = document.querySelector("tbody");
+    tableBody.removeAttribute("role");
   }
+
 });

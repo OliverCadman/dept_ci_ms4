@@ -1,4 +1,23 @@
 $(document).ready(function () {
+  /* 
+    Renders a calendar provided by FullCalendar JS,
+    allowing the user to submit their unavailable dates
+    in the 'Edit My Profile' page.
+
+    Dates are clickable, and upon a selection of a date,
+    a FullCalendar 'event' is created, and added to an array.
+
+    The array collects all dates a user has selected, and upon 
+    form submission, and AJAX post request sends the data to
+    the backend for processing and saving.
+
+    If a user has already submitted dates in the past and is
+    returning to edit the calendar, an AJAX request is performed
+    and returns a collection of the user's currently-submitted
+    unavailable dates, which are readily displayed on the calendar.
+
+  */
+
   /* Initialize Global Variables */
   let calendar;
 
@@ -14,11 +33,11 @@ $(document).ready(function () {
     attributes: true,
   };
 
-  // Check for "hidden" className change on calendar container.
-
   /* When fired, an AJAX call is made to the backend to get user's 
      unavailable dates. */
   const observer = new MutationObserver(callback);
+
+  // Check for "hidden" className change on calendar container.
   observer.observe(calendarContainer, options);
   function callback(mutationList, observer) {
     mutationList.forEach(function (mutation) {
@@ -89,6 +108,31 @@ $(document).ready(function () {
       events: eventArray,
     });
     calendar.render();
+
+    /* Remove all role attributes from FullCalener's
+      auto-generated table, which is used to display
+      their calendar.
+
+      Necessary since these role attributes were causing
+      validation errors in the W3C HTML Markup Validation Checker.
+    */
+
+    // Get all td elements and remove 'role' attribute
+    const tableDataCells = document.querySelectorAll("td");
+    for (let cell of tableDataCells) {
+      cell.removeAttribute("role");
+    }
+
+    // Get all tr elements and remove 'role' attribute
+    const tableRows = document.querySelectorAll("tr");
+    for (let row of tableRows) {
+      row.removeAttribute("role");
+    }
+
+    // Get tbody element and remove 'role' attribute
+    const tableBody = document.querySelector("tbody");
+    tableBody.removeAttribute("role");
+  
 
     // Event handler for dateClick, call function logDate()
     calendar.on("dateClick", logDate, { passive: true });
