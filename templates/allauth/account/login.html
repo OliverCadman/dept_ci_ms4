@@ -4,6 +4,13 @@
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, Sign in to the Platform">
+    <meta name="keywords" content="Deputise, sign in, login, member">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
+
 {% block title %}Sign In{% endblock %}
 
 {% block inner_content %}
