@@ -1,6 +1,6 @@
 # DepT - Testing Documentation
 
-If you wish to return to the main README file, please visit [README.md](README.Md)
+If you wish to return to the main README file, please visit [README.md](README.md)
 
 # Markup Validation
 
@@ -495,33 +495,33 @@ Below is an itemised list of the each app and the test files associated with the
 
 ## Home
 
-[Test Views](home/test_views.py)
-[Test URLs](home/test_urls.py)
+* [Test Views](home/test_views.py)
+* [Test URLs](home/test_urls.py)
 
 ## Bookings
 
-[Test Views](bookings/test_views.py)
-[Test Forms](bookings/test_forms.py)
+* [Test Views](bookings/test_views.py)
+* [Test Forms](bookings/test_forms.py)
 
 ## Jobs
 
-[Test Models](jobs/test_models.py)
-[Test Views](jobs/test_views.py)
+* [Test Models](jobs/test_models.py)
+* [Test Views](jobs/test_views.py)
 
 ## Profiles
 
-[Test Models](profiles/test_models.py)
-[Test Views](profiles/test_views.py)
-[Test URLs](profiles/test_urls.py)
+* [Test Models](profiles/test_models.py)
+* [Test Views](profiles/test_views.py)
+* [Test URLs](profiles/test_urls.py)
 
 ## Social
 
-[Test Models](social/test_models.py)
-[Test Views](social/test_views.py)
+* [Test Models](social/test_models.py)
+* [Test Views](social/test_views.py)
 
 ## Subscriptions
 
-[Test Views](subscriptions/test_views.py)
+* [Test Views](subscriptions/test_views.py)
 
 ### Result
 
