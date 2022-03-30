@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
+<!-- Title -->
 {% block title %} Success! {% endblock %}
 
+<!-- Meta Tags -->
+ {% block extra_meta %}
+    <meta name="description" content="DepT, Subscription Success">
+    <meta name="keywords" content="Deputise, subscribe, musician, tier one, tier two, subscription, member, success">
+    <meta name="author" content="Oliver Cadman">
+{% endblock %}
+
+<!-- CSS -->
 {% block extra_css %}
 <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
 {% endblock %}
 
+<!-- Content -->
 {% block content %}
     {% with page_name as p %}
         {% include "includes/header-hero.html" %}
