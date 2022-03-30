@@ -2,6 +2,51 @@
 
 [Click Here to return to README.md](README.md)
 
+# Table of Contents
+
+* [Markup Validation](#markup-validation)
+    * [HTML](#html)
+        * [HTML Validation Issues](#html-validation-issues)
+            * [Subscriptions](#subscription-page)
+                * [Stripe Validation Errors (rectified)](#stripe-validation-errors-rectified)
+            * [Profile Page](#profile-page)
+                * [FullCalendar Validation Errors](#full-calendar-validation-errors)
+                    * ["Role" attributes on td, tr and tbody elements (rectified)](#"role"-attributes-on-td-tr-and-tbody-elements-rectified)   
+                    * [FullCalendar Table Markup Errors](#fullcalendar-table-markup-errors)
+            * [Overview](#overview)
+    * [CSS](#css)
+    * [PEP8 Compliancy](#pep8-compliancy)
+    * [JS Validation](#js-validation)
+        * [Unused/Undefined Variables](#unusedundefined-variables)
+            * [Unused Variables](#unused-variables)
+            * [Undefined Variables](#undefined-variables)
+* [Testing User Stories from UX Section of README.MD](#testing-user-stories-from-ux-section-of-readmemd)
+    * [First Time Visitors](#first-time-visitors)
+    * [Tier One Members](#tier-one-members)
+    * [Members in need of a dep](#members-in-need-of-a-dep)
+    * [Tier Two members](#tier-two-members)
+* [Automated Testing](#automated-testing)
+    * [Home](#home)
+    * [Bookings](#bookings)
+    * [Jobs](#jobs)
+    * [Profiles](#profiles)
+    * [Social](#social)
+    * [Subscriptions](#subscriptions)
+    * [Result](#result)
+    * [Test Coverage](#test-coverage)
+    * [Issues Testing Exceptions/Webhooks](#issues-testing-exceptionswebhooks)
+* [Lighthouse Testing](#lighthouse-testing)
+    * [Tested Pages](#tested-pages)
+    * [Performance/Best Practice Issues - Attempts to Rectify](#performancebest-practice-issues---attempts-to-rectify)
+* [Significant Known Bugs](#significant-known-bugs)
+    * [Immutable QueryDict when Accessing Invitation Messages](#immutable-querydict-when-accessing-invitation-messages)
+    * [Filtering Dep List and Job List - All Query Parameters Sent at Once](#filtering-dep-list-and-job-list---all-query-parameters-sent-at-once)
+    * [Boto3 Audio Download - Signature Version](#boto3-audio-download---signature-version)
+    
+
+
+
+
 # Markup Validation
 
 ## HTML
@@ -66,7 +111,7 @@ This effectively removed the offending attributes of the Stripe iframe, and allo
 
 ##### Full Calendar Validation Errors
 
-##### "Role" Attributes on td, tr, and tbody elements (rectified)
+###### "Role" Attributes on td, tr, and tbody elements (rectified)
 
 Similarly to the issues faced by a third-party package in the Subscription page, issues were faced when validating the automatically-generated HTML table, generating by the [FullCalendar](https://fullcalendar.io/) API.
 
@@ -98,7 +143,7 @@ The developer was able to rectify some, but not all of the errors. They created 
 
 This effectively removed the offending attributes from the _FullCalendar_ table, and allowed these elements to pass the W3C HTML Validator with no errors.
 
-##### FullCalendar Table Markup Errors
+###### FullCalendar Table Markup Errors
 
 ![Screenshot of FullCalendar Validation Errors](documentation/readme_images/validation/fullcalendar_validation_errors_2.png)
 
@@ -255,11 +300,11 @@ The following files have been ran through the JSHint Validator:
 - Subscriptions
   - checkout.js
 
-## Unused/Undefined Variables
+### Unused/Undefined Variables
 
 JSHint threw warnings related to the use of unused/undefined variables.
 
-### Unused Variables
+#### Unused Variables
 
 The following custom functions are the "unused variables" flagged by JSHint:
 
@@ -280,7 +325,7 @@ The following custom functions are the "unused variables" flagged by JSHint:
 
 These functions are defined in a seperate file to keep the workspace clean, and are used across other files involved in the project. Though the functions aren't being used in the file they are defined in, it is indeed being used in other files of the project.
 
-### Undefined Variables
+#### Undefined Variables
 
 The following custom functions and variables are the "undefined variables" flagged by JSHint:
 
@@ -576,7 +621,7 @@ Below is an itemised list of the each app and the test files associated with the
 
 - [Test Views](subscriptions/test_views.py)
 
-### Result
+## Result
 
 All 113 tests that were performed passed with no errors or failures.
 
@@ -589,7 +634,7 @@ The coverage report returned **93%** coverage across the application. Below is a
 
 ![Screenshot of DepT Testing Coverage Report](documentation/readme_images/coverage/test_coverage_report.png)
 
-### Issues Testing Exceptions/Webhooks
+## Issues Testing Exceptions/Webhooks
 
 Efforts were made to test the project's exception handlers, as well as the Stripe webhooks.
 
