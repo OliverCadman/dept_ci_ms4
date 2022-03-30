@@ -1297,44 +1297,42 @@ In your IDE's terminal, install the following packages:
 3. Create a file named `custom_storages.py` in the root of your project.
 4. In `dept/settings.py` and `storages` to your list of `INSTALLED_APPS`.
 5. Configure your Amazon S3 in `dept/settings.py like thus:`
-    *   ```
-        if "USE_AWS" in os.environ:
-            # Cache control
-            AWS_S3_OBJECT_PARAMETERS = {
-                'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
-                'CacheControl': 'max-age=94600000'
-            }
-            # Bucket Config
-            AWS_STORAGE_BUCKET_NAME = "dept-bucket"
-            AWS_S3_REGION_NAME = "eu-west-2"
-            AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-            AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-            AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-            AWS_DOWNLOAD_EXPIRE = 5000
+```
+if "USE_AWS" in os.environ:
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94600000'
+    }
+    # Bucket Config
+    AWS_STORAGE_BUCKET_NAME = "dept-bucket"
+    AWS_S3_REGION_NAME = "eu-west-2"
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_DOWNLOAD_EXPIRE = 5000
 
-            # Set Signature Version to access files in Bucket
-            AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION")
+    # Set Signature Version to access files in Bucket
+    AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION")
 
-            # Static and Media Files
-            STATICFILES_STORAGE = "custom_storages.StaticStorage"
-            STATICFILES_LOCATION = "static"
+    # Static and Media Files
+    STATICFILES_STORAGE = "custom_storages.StaticStorage"
+    STATICFILES_LOCATION = "static"
 
-            MEDIAFILES_STORAGE = "custom_storages.MediaStorage"
-            MEDIAFILES_LOCATION = "media"
+    MEDIAFILES_STORAGE = "custom_storages.MediaStorage"
+    MEDIAFILES_LOCATION = "media"
 
-            # Override Static and Media File URLS in production
-            STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
-            MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
-    ```
-
-
+    # Override Static and Media File URLS in production
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+```
 
 6. Configure boto3 file storage to handle user uploads in production:
-    * ```
-    # Use boto3 storage in production
-    if "DEVELOPMENT" not in os.environ:
-        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    ```
+```
+# Use boto3 storage in production
+if "DEVELOPMENT" not in os.environ:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+```
 
 7. Lastly, visit your Amazon S3 Bucket, and add a `/media` directory along side your `static/` directory.
     * Make sure you remove `DISABLE_COLLECTSTATIC` from your environment variables, so Amazon AWS can locate all of the static files.
