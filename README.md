@@ -76,11 +76,13 @@ As a Tier One member of the website, I want...
 1. To be able to upload samples of my music to my profile, so I can showcase my skills and expertise.
 2. A link to my profile to be listed on a page, so potential clients/musicians will be able to find me easily.
 3. To be able to find other members using the service, so I am able to find a dep easily in the case that I can't make a gig.
-3. To be notified when I get a job offer from a another member, so I can respond quickly and professionally.
-4. To be able to message a member with a response without leaving the website, to make the process run as smoothly as possible.
-5. To be able to message other members of the website, so I can grow my network.
-6. To display reviews/ratings from members for who I have provided services, so I can improve my reputation in the community.
-7. To access a dashboard displaying a record of ratings and reviews, so I can take account of how much I am benefitting from the service.
+4. To be notified when I get a job offer from a another member, so I can respond quickly and professionally.
+5. To be able to message a member with a response or any questions without leaving the website, to make the process run as smoothly as possible.
+6. To be able to message other members of the website, so I can grow my network.
+7. To display reviews/ratings from members for who I have provided services, so I can improve my reputation in the community.
+8. To access a dashboard displaying a record of ratings and reviews, so I can take account of how much I am benefitting from the service.
+9. To be able to manage my subscription, so I can update my subscription tier when I like.
+10. To be able to browse the Tier Two 'Find a Job' page without subscribing, so I can determine whether subscribing to a Tier Two service is worth the money.
 
 ##### Tier Two Membership (Paid)
 
@@ -89,7 +91,11 @@ As a Tier Two member of the website, I want...
 1. All privileges provided by Tier One Membership.
 2. To have access to a job listing, so I can find jobs that are in my area.
 3. To be able to filter jobs by location or fee range, so I can more granularly search for a suitable job.
-4. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
+4. To be able to post a job that's in need of a dep, so I can be sure that my job gets the attention of Tier Two deps.
+5. To be able to edit or delete a job that I've posted, in case I have made a mistake, or that I've found someone to do the job from outside the website.
+6. To be notified when I received an offer for a job I've posted, so I can determine which member might be the right fit, with efficiency.
+7. The members who have expressed interest in my job to be clearly visible, so I can inspect who might be a good fit, with ease.
+8. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
 
 #### Members in need of a Dep
 
@@ -98,10 +104,10 @@ As a member who is looking for a dep musician, I want...
 1. A page where I can search for dep musicians, so I can easily begin to find a dep.
 2. To be able to filter musicians by their expertise, instrument or style of music they play, and location, so I can find a dep which suits my needs.
 3. To be able to visit a dep's profile page, so I can find out more information about their experience and expertise.
-4. To be able to find the locations of the respective deps, so I can find a dep in my local area.
-5. To view a calendar of available/unavailable dates, so I can find out if a dep is available before pursuing further.
-6. To hear samples of a dep's music, so I can be confident that they will provide a good service.
-7. To be able to message a potential dep from within the website, so that no unnecessary time is wasted.
+4. To view a calendar of available/unavailable dates, so I can find out if a dep is available before pursuing further.
+5. To hear samples of a dep's music, so I can be confident that they will provide a good service.
+6. To be able to message a potential dep with an invitation from within the website, so that no unnecessary time is wasted.
+7. To be able to or edit or delete my invitation, in the case that I make an error in the form, or I find another dep from another source.
 8. To be notified when I have received a response from a dep I have messaged, so I can confirm the arrangement quickly and smoothly.
 9. To be able to send a confirmed dep a document with job details (with location, timings, number of sets etc), to allow for effective communication.
 
@@ -903,6 +909,135 @@ is managed via [Heroku](https://www.heroku.com).
 # Testing
 
 Testing information can be found in a seperate [TESTING.md](TESTING.md) file.
+
+# Deployment
+
+## Prerequisite
+
+In order to deploy this project, you need to have the following:
+
+* An account with Amazon AWS.
+* An account with Heroku
+* An account with Stripe
+* A Gmail account with 2-step verification enabled, and a password to tie to this application.
+
+## Deployment to Heroku
+
+To deploy the project to Heroku, take these steps:
+
+* Navigate to the [Heroku](https://www.heroku.com) home page.
+* Create an account, or log in if you have an account already.
+    * If you are creating account, make sure to select `Python` as your primary language.
+
+### Creating an App
+
+![Screenshot of Heroku 'Create App'](documentation/readme_images/deployment/heroku_create_app.png)
+
+* Once logged in, click on the dropdown 'New' and click 'Create App'.
+
+![Screenshot of Heroku 'Select app name and region'](documentation/readme_images/deployment/heroku_appname_region.png)
+
+* Create your own App name and select your nearest region, then click 'Create App'.
+
+### Initial Deployment
+
+![Screenshot of Heroku 'Deployment'](documentation/readme_images/deployment/heroku_deploy.png)
+
+* Head over to your app's dashboard, and select the tab reading 'Deployment'.
+
+![Screenshot of Heroku 'Connect to Github'](documentation/readme_images/deployment/heroku_connect_github.png)
+
+* To connect to Github, click on the button reading 'Github'
+* Enter your Github credentials.
+* Search for the repository you would like to connect to, and click 'Connect'.
+
+![Screenshot of Heroku 'Automatic Deployment'](documentation/readme_images/deployment/heroku_connect_github.png)
+
+If you would like to deploy your project automatically once your Github repository is connected, click 'Enable Automatic Deploys"
+
+## Environment Variables
+
+The complete list of environment variables needed to run the project are as follows:
+
+### Production
+
+|Key|Value|
+|----|----|
+|SECRET_KEY|<Generated Django Secret Key>|
+|DATABASE_URL|<your_database_url>|
+|AWS_ACCESS_KEY_ID|<your_aws_access_key_id>|
+|AWS_SECRET_ACCESS_KEY|<your_aws_secret_access_key>|
+|AWS_S3_SIGNATURE_VERSION|s3v4|
+|ALLOWED_AUDIOFILE_EXTENSIONS|[.mp3, .mp4, .wav, .aac, .m4a, .flac]|
+|STRIPE_PUBLIC_KEY|<your_stripe_public_key>|
+|STRIPE_SECRET_KEY|<your_stripe_secret_key>|
+|STRIPE_WH_SECRET|<your_stripe_wh_secret>|
+|STRIPE_TIERONE_PRICE_ID|<your_stripe_tierone_price_id>|
+|STRIPE_TIERTWO_PRICE_ID|<your_stripe_tiertwo_price_id>|
+|EMAIL_HOST_PASSWORD|<your_email_host_password>|
+|EMAIL_HOST_USER|<your_email_host_username>|
+|USE_AWS|True|
+
+### Obtaining your Django SECRET KEY
+
+In order to deploy your project successfully, you will need a secret key.
+Visit [Django Secret Key Generator to Generate Your Key](https://miniwebtool.com/django-secret-key-generator/)
+
+### Get your Postgres Database URL
+
+To add your Postgres URL to your production environment variables, follow these steps:
+
+* In your heroku dashboard, navigate to your project's **Resources**
+
+![Screenshot of Heroku 'Connect to PostgreSQL'](documentation/readme_images/deployment/heroku_postgres.png)
+
+* In the 'Add-ons' search bar, type 'postgres', and select 'Heroku Postgres'.
+* Select 'Hobby Dev - Free' to access the free version.
+* Click "Submit Order Form" to connect to Heroku PostgreSQL.
+
+* Navigate to your Settings tab
+* Scroll down and click "Reveal Config Vars"
+* Copy your Database URL
+* Temporarily add `DISABLE_COLLECTSTATIC = 1` to your config vars.
+* Add the Postgres URL to your Environment variables
+
+### Amazon S3 Bucket Access Key ID and Secret Access Key
+
+To configure your Amazon S3 Bucket and obtain your credentials to add to the environment variables, [visit this link](AWS_CONFIG.md)
+
+### Stripe Keys
+
+
+#### Connect your PostGres Database URL in settings.py
+
+* In your local environment, install the following packages:
+    * `pip3 install dj_database_url`
+    * `pip3 install psycopg2-binary`
+
+* Then run the command `pip freeze > requirements.txt`
+
+* Then, navigate to the project root, and locate `dept/settings.py`
+* Import `dj_database_url` at the top of your file
+
+* Connect your settings.py file to your Postgres Database URL
+    *  ```
+         DATABASES = {
+        'default': dj_database_url.parse(<your_database_url>)
+    }
+    ```
+
+* Then, run `python3 manage.py migrate` to migrate your data to the production database.
+
+#### Create a superuser
+
+* To create a superuser to act as admin, run `python3 manage.py createsuperuser` in your project environment's terminal.
+* Give your superuser a name, email an password.
+* Then, disconnect your production database URL from your settings.py file.
+
+#### Use seperate configuration between development and production
+
+
+
 
 
 
