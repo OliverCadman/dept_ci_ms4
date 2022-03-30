@@ -34,7 +34,8 @@ accompanying HTML file, include:
 
 .dynamic-hero-section-sm.checkout_success {
     color: #111;
-    padding-top: 10rem;
+    padding-top: 8rem;
+    padding-bottom: 2rem;
     min-height: 75vh;
     background: linear-gradient(90deg, rgb(255 145 239) 0%, rgba(255, 249, 0, 1) 100%);
 }
