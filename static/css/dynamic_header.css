@@ -266,6 +266,15 @@ accompanying HTML file, include:
     .dynamic-hero-section-lg.choose_subscription {
         height: 65vh;
     }
+
+    /* Dep List */
+    .dynamic-header.dep_list_header h2 {
+        font-size: 4rem;
+    }
+
+    .dynamic-header.dep_list_header p {
+        font-size: 1.6rem;
+    }
 }
 
 
