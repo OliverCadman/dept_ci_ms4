@@ -1,5 +1,7 @@
 # DepT - A platform created by artists, for artists.
 
+![DepT - AmIResponsive?](documentation/readme_images/dept-amiresponsive.png)
+
 Dept is a full-stack, community-led, subscription-based platform allowing musicians and artists to advertise their skills and services
 to band leaders, producers, other artists, or any client that requires a last-minute musician to provide a service.
 
@@ -10,6 +12,158 @@ to quickly and easily 'dep out' gigs to the musicians using the DepT network.
 Through DepT, artists can discover one another, increase revenue through their art, and build communities. 
 
 By building communities, artists will acquire a diverse workspace and connect with a wider network.
+
+# Table of Contents
+
+* [Overview](#overview)
+* [UX](#ux)
+    * [Strategy](#strategy)
+        * [Stakeholder Interviews](#stakeholder-interviews)
+        * [Ideal Users](#ideal-users)
+        * [Project Goal](#project-goal)
+        * [User Stories](#user-stories)
+            * [First Time Visitors](#first-time-visitors)
+            * [Potential Members](#potential-members)
+            * [Deps For Hire](#deps-for-hire)
+                * [Tier One Membership (Free)](#tier-one-membership-free)
+                * [Tier Two Membership (Paid)](#tier-two-membership-paid)
+            * [Members in need of a dep](#members-in-need-of-a-dep)
+        * [Strategy Summary](#strategy-summary)
+            * [User Needs](#user-needs)
+            * [Project Objectives](#project-objectives)
+    * [Scope](#scope)
+        * [User Interface](#user-interface)
+        * [Authorization/User Management](#authorizationuser-management)
+        * [Dep Profiles](#dep-profiles)
+        * [Dashboard](#dashboard)
+        * [Tier One/Tier Two Content](#tier-onetier-two-content)
+        * [Tier Two Content](#tier-two-content)
+        * [Booking](#booking)
+        * [Messaging](#messaging)
+        * [Notifications](#notifications)
+    * [Structure](#structure)
+        * [Informational Architecture](#informational-architecture)
+            * [General Considerations](#general-considerations)
+            * [Navbar](#navbar)
+            * [Home Page](#home-page)
+            * [Account Management](#account-management)
+            * [Sign Up/Subscription](#sign-upsubscription)
+            * [Profile](#profile)
+            * [Dashboard](#dashboard)
+            * [Find a Dep](#find-a-dep)
+            * [Invite Form](#invite-form)
+            * [Invite Page](#invite-page)
+            * [Booking Form](#booking-form)
+            * [Booking Confirmation](#booking-confirmation)
+            * [Post a Job](#post-a-job)
+            * [Job List Page](#job-list-page)
+        * [Database Structure](#database-structure)
+            * [Schema](#schema)
+                * [Iteration One](#iteration-1)
+                * [Iteration Two](#iteration-2)
+                * [Iteration Three](#iteration-3)
+                * [Iteration Four](#iteration-4)
+    * [Skeleton](#skeleton)
+        * [Wireframes](#wireframes)
+    * [Surface](#surface)
+        * [Background Colours](#background-colours)
+        * [Foreground Colours](#foreground-colours)
+        * [Logo](#logo)
+        * [Typography](#typography)
+            * [Primary Font](#primary-font)
+            * [Secondary Font](#secondary-font)
+            * [Tertiary Font](#tertiary-font)
+        * [Header Design](#header-design)
+        * [Visual Effects](#visual-effects)
+            * [Box Shadow](#box-shadow)
+            * [Text Shadow](#text-shadow)
+            * [Colour Gradient](#colour-gradient)
+            * [Hover Effects](#hover-effects)
+            * [Animations](#animiations)
+* [Features](#features)
+    * [Existing Features](#existing-features)
+        * [Subscriptions](#subscriptions)
+        * [Find a Dep](#find-a-dep-1)
+        * [Profiles](#profiles)
+            * [Profile Page](#profile-page)
+                * [Header](#header)
+                * [Body](#body)
+                * [Modals](#modals)
+                    * [Invitation Modal](#invitation-modal)
+                    * [Review Modal](#review-modal)
+            * [Edit Profile Page](#edit-profile-page)
+                * [Edit Profile Pages](#edit-profile-pages)
+                * [Breadcrumbs](#breadcrumbs)
+                * [Skip Step/Go Back Buttons](#skip-stepgo-back-buttons)
+            * [Dashboard](#dashboard-2)
+                * [Page One](#page-one)
+                * [Jobs Page](#jobs-page)
+                    * [Tier One](#tier-one)
+                    * [Tier Two (Premium)](#tier-two-premium)
+        * [Find a Job](#find-a-job)
+        * [Booking Form](#booking-form)
+        * [Booking Details](#booking-details)
+        * [Notifications](#notifications-1)
+            * [Tier One](#tier-one)
+            * [Tier Two](#tier-two)
+    * [Responsive Design](#responsive-design)
+* [Features for future implementation](#features-for-future-implementation)
+    * [Asynchronous Messaging and Notifications](#aynschronous-messaging-and-notifications)
+    * [Google Calendar API Integrations](#google-calendar-api-integration)
+    * [Customised Emails with Attachments](#customised-emails-with-attachments)
+    * [Sheet Music Resources](#sheet-music-resources)
+* [Technologies Used](#technologies-used)
+    * [Development](#development)
+    * [Design](#design)
+    * [Languages](#languages)
+        * [HTML](#html)
+        * [CSS](#css)
+        * [JavaScript](#javascript)
+        * [Python](#python)
+            * [Python Libraries](#python-libraries)
+    * [Other Libraries/Frameworks](#other-librariesframeworks)
+    * [Database](#database)
+    * [Technologies for Testing](#technologies-for-testing)
+    * [Hosting](#hosting)
+* [Testing](#testing)
+* [Deployment](#deployment)
+    * [Prerequisite](#prerequisite)
+    * [Deployment to Heroku](#deployment-to-heroku)
+        * [Creating an App](#creating-an-app)
+        * [Initial Deployment](#initial-deployment)
+    * [Environment Variables](#environment-variables)
+        * [Production Environment](#production-environment)
+        * [Your Django SECRET_KEY](#your-django-secret-key)
+            * [Amazon S3 Bucket ACCESS_KEY_ID and SECRET_ACCESS_KEY](#amazon-s3-bucket-access-key-id-and-secret-access-key)
+            * [Stripe Credentials](#stripe-credentials)
+            * [Gmail Credentials](#gmail-credentials)
+        * [Get your Postgres Database URL](#get-your-postgres-database-url)
+        * [Create your Postgres Database URL in settings.py ](#connect-your-postgres-database-url-in-settingspy)
+        * [Create a superuser](#create-a-superuser)
+        * [Create your Production and Development Config](#create-your-production-and-development-config)
+        * [Connect your Amazon S3 Bucket to Django](#connect-your-amazon-s3-bucket-to-django)
+        * [Visit Heroku and Launch The App](#visit-heroku-and-launch-the-app)
+    * [Running the Project in your Local Environment](#running-the-project-in-your-local-environment)
+        * [Forking the local repository](#forking-the-local-repository)
+        * [Cloning the repository](#cloning-the-repository)
+        * [Downloading the files as a ZIP](#downloading-the-files-as-a-zip)
+        * [Install project dependencies](#install-project-dependencies)
+        * [Local Environment variables](#local-environment-variables)
+* [Credits](#credits)
+    * [Code](#code)
+     * [Dropzone JS](#dropzone-js)
+     * [FullCalendar](#fullcalendar)
+     * [ToastifyJS](#toastifyjs)
+     * [Formset Factory](#formset-factory)
+     * [to_dict() function](#todict-function)
+     * [Notifications](#notifications-2)
+     * [handle_GET_params()/UserProfile custom queryset](#handlegetparamsuserprofile-custom-filter-queryset)
+     * [Stripe Subscription/Customer Portal](#stripe-subscriptionscustomer-portal)
+    * [Design](#design)
+    * [Text Content](#text-content)
+    * [Logo](#logo-1)
+    * [Images](#images)
+* [Acknowledgements](#acknowledgements)
 
 # Overview
 
@@ -39,13 +193,13 @@ What problems/pain points do you experience when searching for a dep?
 
 * *"There's a lack of opportunity to make myself more discoverable among a wider network of musicians."*
 
-## Ideal Users
+### Ideal Users
 
 * Musicians/artists operating in the music industry who need to 'dep' out a gig.
 * Musicians/artists operating in the music industry who are looking for job opportunities.
 * Bookers/band-leaders/producers who are in need of a last-minute musician/artist to provide their services.
 
-## Project Goal
+### Project Goal
 
 To provide a sleek, efficient and trustworthy booking service, enabling musicians to dep out their gigs and for clients to find dep musicians, all with minimum stress.
 
@@ -323,25 +477,25 @@ Deps can register their interest in a particular job by messaging the member who
 
 The member who posted the job will then receive notification of a dep's interest. The notification will prompt to either accept or decline the request, or visit the dep's profile.
 
-## Database Structure
+### Database Structure
 
 The project makes use of the SQlite Relational Database to handle data served throughout the website during development, and will be migrated to postgresql upon deployment.
 
-### Schema 
+#### Schema 
 
-#### Iteration 1
+##### Iteration 1
 
 ![Database Schema for DepT Website](documentation/er_diagram/dept_er_diagram_1.png)
 
-#### Iteration 2
+##### Iteration 2
 
 ![Database Schema (Iteration 2) for Dept Website](documentation/er_diagram/dept_er_diagram_2.png)
 
-#### Iteration 3
+##### Iteration 3
 
 ![Database Schema (Iteration 3) for Dept Website](documentation/er_diagram/dept_er_diagram_3.png)
 
-#### Iteration 4
+##### Iteration 4
 
 ![Database Schema (Iteration 4) for Dept Website](documentation/er_diagram/dept_er_diagram_4.png)
 
@@ -587,7 +741,7 @@ Should a user like to leave a review to the profile owner, they may click on a b
 
 #### Edit Profile Page
 
-##### The Three Pages
+##### Edit Profile Pages
 
 A registered user can access a page where they can edit their personal and profile details. This page is split into three sections:
 
@@ -633,7 +787,7 @@ Each registered user has access to a dashboard. The top level header features a 
 
 The 'Dashboard' and 'Jobs' links take the user to the respective child-pages of the parent 'Dashboard' page, while the 'Your Membership' link takes the user to the page to choose their subscription.
 
-#### Page One
+##### Page One
 
 The first child page of the dashboard page features the user's profile metrics, such as:
 
@@ -650,11 +804,11 @@ Each item of metric data is presented as a card, with a call-to-action below eac
  
 Lastly, if a user has no reviews, a button is provided to take the user to the DepList page, to 'meet the community'. 
 
-#### Jobs Page
+##### Jobs Page
 
 The second child page of the Dashboard page is where the user can keep track of their active jobs. This page is split into two sections, "Tier One" and "Tier Two", which are accessible through navigation buttons.
 
-##### Tier One
+###### Tier One
 
 The Tier One section displays all invitations a user has sent or received. These two criteria are split into respective sections:
 
@@ -681,7 +835,7 @@ Once an invitation receiver has accepted an invitation, a disabled button is pre
 
 Both invitation senders and invitation receivers involved in an active engagement are able to message eachother about the engagement, by opening a modal chat window from clicking a button "Message <user>". Any messages that have been previously sent will persist, and be displayed in the modal window upon a later visit. 
 
-##### Tier Two (Premium)
+###### Tier Two (Premium)
 
 The Tier Two section displays all information about any jobs a Tier Two member has posted or made an offer for. Similarly to the Tier One section these two criteria are split into respective sections:
 
@@ -1081,7 +1235,7 @@ To add your Postgres URL to your production environment variables, follow these 
 
 * Then, run `python3 manage.py migrate` to migrate your data to the production database.
 
-#### Create a superuser
+### Create a superuser
 
 * To create a superuser to act as admin, run `python3 manage.py createsuperuser` in your project environment's terminal.
 * Give your superuser a name, email an password.
@@ -1221,7 +1375,7 @@ To clone the repository and download onto your system, take the following steps:
 5. Open your terminal and type `git clone <the repository link>`.
 6. Open up the project in your favourite IDE and have fun!
 
-### Downloading the files as a zip.
+### Downloading the files as a ZIP
 
 Alternatively you can download the repositories files as a zip folder:
 
@@ -1256,6 +1410,78 @@ As with the production environment variables, you will need to provide values to
 |EMAIL_HOST_USER|<your_email_host_username>|
 
 Once you have your environment variables added, you can start to have fun and play around with the project.
+
+# Credits
+
+## Code
+
+### Dropzone JS
+The developer used the [DropzoneJS](https://www.dropzone.dev/js/) API to create the drag-and-drop functionality in the website's 'Edit My Profile' page.
+
+### FullCalendar
+The developer used the [FullCalendar](https://fullcalendar.io/) library to render both the interactive calendar in the 'Edit My Profile' page, and as well as the 'Profile' page.
+
+### ToastifyJS
+The [ToastifyJS](https://apvarun.github.io/toastify-js/) library is used to display notifications.
+
+### Formset Factory
+The code to dynamically render form elements using Django's [modelformset_factory](https://docs.djangoproject.com/en/4.0/ref/forms/models/) was referenced from a YouTube tutorial:
+
+Title: 61 - Manage QuerySets with Django Formsets + modelformset factory - Python & Django Tutorial Series
+Uploader: Coding Entrepeneurs
+Link: https://www.youtube.com/watch?v=6wHx-X1tEiY
+
+### to_dict() function
+The website's `to_dict()` function was referenced from a [post on StackOverflow](https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact)
+
+### Notifications
+The website's notifications were build with reference from a Youtube Tutorial:
+
+Title: Building a Social Media App With Python 3 and Django: Part 12 User Notifications
+Uploader: Legion Script
+Link: https://www.youtube.com/watch?v=_JKWYkz597c
+
+### handle_GET_params()/UserProfile Custom Filter Queryset
+
+Custom queryset filter methods are used on the UserProfile and Job Models, to filter
+through the UserProfile and Job objects in the 'Find a Dep' and 'Find a Job' pages, respectively.
+
+The code to process the query parameters and the models was originally referenced from Benjamin Kavanagh's
+project [CIRPG](https://github.com/BAK2K3/CIRPG/blob/main/codex/functions.py), and customised to the needs of
+my own project.
+
+### Stripe Subscriptions/Customer Portal
+
+The code to integrate Stripe Subscriptions and the Customer Portal were referenced from [Stripe's Official Documentation](https://stripe.com/docs).
+
+The query parameter code can be found here: https://github.com/BAK2K3/CIRPG/blob/main/codex/functions.py
+
+The custom filter-queryset code can be found here: https://github.com/BAK2K3/CIRPG/blob/main/codex/models.py
+
+## Design
+
+The UI design of the project - in particular the headers and home page - was inspired by the website [SoundBetter](https://soundbetter.com/).
+
+## Text Content
+
+All text content was created by the developer.
+
+## Logo
+
+The logo was originally designed by the developer's good friend (and original conceiver of the project idea), [Sim Virdi](https://www.simvirdi.com/)
+
+## Images
+
+All static images are stock images, provided by [Pexels](https://www.pexels.com/) and [Shutterstock](https://www.shutterstock.com/).
+
+# Acknowledgements
+
+* Thanks to Adegbenga Adeye for giving me his vote of confidence when it all was getting a bit much.
+* Thanks to my two really good friends Dwayne Kilvington and Sim Virdi, for coming up with the idea while
+drunk on New Years Eve, 2020.
+* Thanks to my girlfriend Dani, for supporting me throughout every step of the - sometimes painful but nevertheless invaluable - development process.
+
+I have poured every ounce of my being into this final project for Code Institute. I hope you enjoy my work.
 
 
 
