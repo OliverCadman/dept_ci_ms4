@@ -50,7 +50,7 @@ accompanying HTML file, include:
      z-index: auto;
  }
 
- .dynamic-header {
+ .dynamic-header-wrapper {
      position: relative;
  }
 
@@ -65,14 +65,14 @@ accompanying HTML file, include:
      z-index: 2;
  }
 
-.dynamic-header h2 {
+.dynamic-header-wrapper h2 {
     font-family: "Josefin Sans", sans-serif;
     font-size: 3rem;
     color: #fefefe;
     clear: both;
 }
 
-.dynamic-header p {
+.dynamic-header-wrapper p {
     font-family: "Oxygen", sans-serif;
     color: #fefefe;
     clear: both;
@@ -144,7 +144,7 @@ accompanying HTML file, include:
 
 @media screen and (min-width: 768px) {
 
-    .dynamic-header h2 {
+    .dynamic-header-wrapper h2 {
         font-size: 4rem;
     }
 
@@ -188,7 +188,7 @@ accompanying HTML file, include:
         height: 56vh;
     }
 
-    .dynamic-header.checkout_success {
+    .dynamic-header-wrapper.checkout_success {
         padding-top: 6rem;
     }
 
@@ -202,12 +202,12 @@ accompanying HTML file, include:
         padding-top: 5rem;
     }
 
-    .dynamic-header h2 {
+    .dynamic-header-wrapper h2 {
         font-size: 4rem;
         margin-left: 1rem;
     }
 
-    .dynamic-header p {
+    .dynamic-header-wrapper p {
         margin-left: 1rem;
     }
 
@@ -231,7 +231,7 @@ accompanying HTML file, include:
 
     /* Job List */
 
-    .dynamic-header.job_list {
+    .dynamic-header-wrapper.job_list {
         padding-top: 60px;
         height: 435px;
     }
@@ -241,11 +241,11 @@ accompanying HTML file, include:
 @media screen and (min-width: 1280px) {
 
     /* Dep List Header */
-    .dynamic-header.dep_list_header h2 {
+    .dynamic-header-wrapper.dep_list_header h2 {
         font-size: 3rem;
     }
 
-    .dynamic-header.dep_list_header p {
+    .dynamic-header-wrapper.dep_list_header p {
         font-size: 1.4rem;
     }
 
@@ -269,11 +269,11 @@ accompanying HTML file, include:
     }
 
     /* Dep List */
-    .dynamic-header.dep_list_header h2 {
+    .dynamic-header-wrapper.dep_list_header h2 {
         font-size: 4rem;
     }
 
-    .dynamic-header.dep_list_header p {
+    .dynamic-header-wrapper.dep_list_header p {
         font-size: 1.6rem;
     }
 }
@@ -306,7 +306,7 @@ accompanying HTML file, include:
          padding-top: 6rem;
      }
 
-    .dynamic-header.checkout_success {
+    .dynamic-header-wrapper.checkout_success {
         padding-top: 10rem;
     }
 
