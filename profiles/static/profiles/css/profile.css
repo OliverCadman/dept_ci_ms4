@@ -107,6 +107,10 @@
     padding: 1rem;
 }
 
+.review_sender_link {
+    color: #0c59cc;
+}
+
 .edit_delete_btn_wrapper {
     position: absolute;
     bottom: 0;

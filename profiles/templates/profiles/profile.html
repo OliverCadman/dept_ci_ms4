@@ -80,7 +80,7 @@
                                                 <div class="review_sender">
                                                     <p class="primary_font small_text">
                                                         By
-                                                    <a href="{% url "profile" review.review_sender.user.username%}">
+                                                    <a href="{% url "profile" review.review_sender.user.username%}" class="review_sender_link">
                                                             {% if review.review_sender.first_name %}
                                                             {{ review.review_sender.first_name }} {{ review.review_sender.last_name }}
                                                             {% else %}
@@ -107,39 +107,41 @@
                                                 {{ review.review_content }}
                                             </p>
                                         </div>
-                                        <div class="edit_delete_btn_wrapper float-end">
-                                            <button type="button"
-                                            class="btn custom_success white_font edit_review_modal_trigger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit_review_modal"
-                                            data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
-                                        </div>
+                                        {% if request.user == current_user.user %}
+                                            <div class="edit_delete_btn_wrapper float-end">
+                                                <button type="button" name="edit_review"
+                                                class="btn custom_success white_font edit_review_modal_trigger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#edit_review_modal"
+                                                data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
                         {% else %}
-                                {% if not request.user.username == user.user.username %}
-                                    <div id="no_reviews_container">
-                                        <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
-                                        <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
-                                        <div class="centered">
-                                            {% if request.user.is_authenticated %}
-                                                {% if current_user.subscription_chosen %}
-                                                    <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
-                                                {% else %}
-                                                    <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
-                                                {% endif %}
+                            {% if not request.user.username == user.user.username %}
+                                <div id="no_reviews_container">
+                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                    <p class="med_small_text secondary_font light_font text-center">Be the first to send a review.</p>
+                                    <div class="centered">
+                                        {% if request.user.is_authenticated %}
+                                            {% if current_user.subscription_chosen %}
+                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#review_modal">Leave a Review</button>
                                             {% else %}
-                                                <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
+                                                <button type="button" class="btn custom_success secondary_font white_font" data-bs-toggle="modal" data-bs-target="#tier_one_alert_modal">Leave a Review</button>
                                             {% endif %}
-                                        </div>
+                                        {% else %}
+                                            <a href="{% url "account_login" %}?next={{request.path}}" class="btn custom_success secondary_font white_font">Sign in to Leave a Review</a>
+                                        {% endif %}
                                     </div>
-                                {% else %}
-                                    <div id="no_reviews_container">
-                                        <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
-                                        <p class="med_small_text secondary_font light_font text-center">Complete some jobs to increase your review rate!</p>
-                                    </div>
-                                {% endif %}
+                                </div>
+                            {% else %}
+                                <div id="no_reviews_container">
+                                    <h6 class="large_text primary_font light_font text-center">No Reviews</h6>
+                                    <p class="med_small_text secondary_font light_font text-center">Complete some jobs to increase your review rate!</p>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -395,6 +397,7 @@
     </div>
 </aside>
 {% endblock %}
+<!-- Extra JS -->
 {% block postload_js %}
     {{ block.super }}
     <script src="{% static "profiles/js/calendar_profile.js" %}"></script>
