@@ -1227,11 +1227,11 @@ To add your Postgres URL to your production environment variables, follow these 
 * Import `dj_database_url` at the top of your file
 
 * Connect your settings.py file to your Postgres Database URL
-    *  ```
-         DATABASES = {
-        'default': dj_database_url.parse(<your_database_url>)
+```
+DATABASES = {
+    'default': dj_database_url.parse(<your_database_url>)
     }
-    ```
+```
 
 * Then, run `python3 manage.py migrate` to migrate your data to the production database.
 
@@ -1252,33 +1252,33 @@ In `dept/settings.py`, set the following configurations:
 * Allowed Hosts
     * `ALLOWED_HOSTS [https://dept-ci-ms4.herokuapp.com, <your_local_host_domain>]`
 * Configure your Database to use the Postgres Database in production
-    * ```
-    if 'DATABASE_URL' in os.environ:
-        DATABASES = {
-            'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+ ```
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': django.db.backends.sqlite3,
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': django.db.backends.sqlite3,
-                'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
-            }
-        }
-    ```
+    }
+```
 * Configure your email settings for production:
-    * ```
-    if "DEVELOPMENT" in os.environ:
-        EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-        DEFAULT_FROM_EMAIL = "hello@dept.com"
-    else:
-        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-        EMAIL_USE_TLS = True
-        EMAIL_PORT = 587
-        EMAIL_HOST = "smtp.gmail.com"
-        EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-        EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-        DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
-    ```
+```
+if "DEVELOPMENT" in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = "hello@dept.com"
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
+```
 ### Connect your Amazon S3 Bucket to Django
 
 In order for Amazon S3 to serve your static and media files in production. Some configuration for Django is required.
