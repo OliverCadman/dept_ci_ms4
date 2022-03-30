@@ -320,7 +320,7 @@ With this, the developer is satisfied that these warnings can be dismissed.
     * Users receive notifications about all events related to an invitation/booking.
     * Users can click the notification to be taken to the relative card on their dashboard page, where they can make further actions about the given invitation/booking.
 
-5. To be able to message a member with a response without leaving the website, to make the process run as smoothly as possible.
+5. To be able to message a member with a response, or any questions, without leaving the website, to make the process run as smoothly as possible.
     * Each active invitation is presented on it's own card, in the user's dashboard page.
     * From these cards, the user can either choose to message the other member about the invitation, accept the invitation, or decline the invitation.
     * All messaging, accepting and declining events send a notification to the other user invovled in the active invitation.
@@ -344,6 +344,11 @@ With this, the developer is satisfied that these warnings can be dismissed.
     * The card displaying the tier that the user is not currently subscribed to features a button, which redirects the user to a Stripe customer portal, to manage their subscription.
     * The website's dashboard also features a navigation link which reads 'Manage My Subscription', so they can visit the Subscription page from multiple points of the website.
 
+10. To be able to browse the Tier Two 'Find a Job' page without subscribing, so I can determine whether subscribing to a Tier Two service is worth the money.
+    * Tier One members may browse the Tier Two page with no restrictions.
+    * If a Tier One member likes the look of the page and would like to get involved by clicking on a button to 'Post a Job' or 'Send an Offer', they are presented with an alert that they need Tier Two access to use that service.
+    * The alert modal window features a button inviting the user to subscribe to the Tier Two service, and reap the benefits of being a Tier Two member.
+
 ### As a Tier Two member of the website, I want...
 
 1. All privileges provided by Tier One Membership.
@@ -359,7 +364,31 @@ With this, the developer is satisfied that these warnings can be dismissed.
     * The accordion bar also features a select dropdown, where a user can search by fee range.
     * Fee amounts are presented graphically on the cards through dollar signs, indicating how lucrative a job is.
 
-4. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
+4. To be able to post a job that's in need of a dep, so I can be sure that my job gets the attention of Tier Two deps.
+    * Tier Two members are able to post a job from the 'Find a Job' page.
+    * This page clearly features a call-to-action in her page header.
+    * The form to post a job advertisement opens in a modal window, so they are
+    not redirected away from the 'Find a Job' page.
+    * Members who post a job will see their job post immediately on the 'Find a Job' page.
+
+5. To be able to edit or delete a job that I've posted, in case I have made a mistake, or that I've found someone to do the job from outside the website.
+    * Members who have posted a job are able to edit their job from a seperate page.
+    * The page is accessible via to points; either from the dashboard, or from the 'Find a Job' Page.
+    * The job card on either of these pages features a link to either edit or delete a job.
+    * If a member chooses to delete a job, a modal alert window is displayed, to confrim the deletion of the job.
+
+6. To be notified when I received an offer for a job I've posted, so I can determine which member might be the right fit, with efficiency.
+    * A notification object is created each time another Tier Two member registers interest in a job. 
+    * All notifications are presented in a dropdown in the website's navigation bar, so they are available across all pages of the website.
+    * Clicking a notification will direct the job poster to the dashboard card, displaying the job post in question.
+
+
+7. The members who have expressed interest in my job to be clearly visible, so I can inspect who might be a good fit, with ease.
+    * Upon landing on the job post card, a list of all the members who have registered interest is displayed with their profile avatars.
+    * Each avatar is clickable, which will take the job poster to the profile of the member who has registered interest.
+    * The card also features a button to 'Choose A Member'. If the job poster would like to do a quick inspection from the dashboard, they may see a list of all the interest members, along with their profile images, and instruments they play.
+
+8. To be listed at the top of searches when a potential client/musician is searching for a dep, so I can have a better chance of getting the work.
     * The User Profile model's queryset methods are designed to prioritise Tier Two members, regardless of rating.
 
 ### As a member who is looking for a dep musician, I want...
@@ -410,7 +439,7 @@ With this, the developer is satisfied that these warnings can be dismissed.
     * Upon sending the booking form, an email and notification is sent to the confirmed member.
     * Upon clicking the notification, the confirmed member is taken directly to the page featuring the finalized booking details that the booker has sent.
 
-    
+
 
 
 
