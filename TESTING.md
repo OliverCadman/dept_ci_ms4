@@ -651,7 +651,7 @@ Google Chrome’s ‘Lighthouse’ extension for its DevTools feature was used t
 
 ![Screenshot of Lighthouse Results for Booking Success/Detail Page](documentation/readme_images/lighthouse/lighthouse_booking_success.png)
 
-## Performance Issues/Attempts To Rectify
+## Performance/Best Practice Issues - Attempts To Rectify
 
 The principal warning that was thrown by Google Lighthouse was generally related to the performance of pages, specifically the 'Largest Contentful Paint'. 
 
@@ -686,6 +686,120 @@ This solution was effective, but only when rendering on the client-side, when th
 With this, the developer attempted to implement the same code but in the Edit Profile Form's `cleaned_data` method. However, the attempts were not fruitful, as the way the code was currently implemented required the image file to be saved to the database before any conversion was made, therefore skipping any conversion before saving to the database.
 
 It is the developer's intention to encounter a useful solution to this issue, and the lighthouse performance error will surely be improved upon the next release.
+
+# Significant Known Bugs
+
+## Immutable QueryDict when accessing invitation messages
+
+**Status**: Fixed
+
+The project's Dashboard features a chat message window which allows users to send messages to one another about a particular invitation. 
+
+In order to get previously sent messages, an AJAX GET Handler was implemented, to return a queryset of existing messages for a current invitation as a `JSONResponse`, to be displayed in the chat window.
+
+Consideirng that Django objects aren't `JSON Serializable`, the `Message` object needed to be prepared before being passed into the `JSONResponse`. The developer initially attempted this used Django's `model_to_dict()` function. However it became apparent that this method wasn't preserving the object's values, and was removing a non-editable field `date_of_message`.
+
+Research was made into an alternative method, and the developer happened upon an [article post on StackOverflow](https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact), which provided an answer to the problem.
+
+The code used is thus (featured in [bookings/functions.py](bookings/functions.py)):
+
+```
+from itertools import chain
+
+
+def to_dict(instance):
+    """
+    Alternative to python's 'model_to_dict' function, which
+    was excluding the non-editable 'date_of_message' field.
+
+    https://stackoverflow.com/questions/21925671/
+    convert-django-model-object-to-dict-with-all-of-the-fields-intact
+    """
+
+    opts = instance._meta
+    data = {}
+    for f in chain(opts.concrete_fields, opts.private_fields):
+        data[f.name] = f.value_from_object(instance)
+    for f in opts.many_to_many:
+        data[f.name] = [i.id for i in f.value_from_object(instance)]
+    return data
+```
+
+This method of converting the object to a dictionary provided a solution, and all fields of the Message object were
+then passed into the `JSONResponse` correctly.
+
+## Filtering Dep List and Job List - All Query Parameters sent at once
+
+**Status**: Fixed
+
+The *Dep List* and *Job List* pages of the project feature filter and search functionality. 
+
+The initial goal of this functionality as to allow users to filter the query one criteria at a time, so the URL could be built as such:
+
+* First Search
+    * `/jobs/find_a_dep?instrument=Guitar`
+
+* Second Search with another criteria added
+    * `jobs/find_a_dep?instrument=Guitar&location=Manchester`
+
+* Third Search with another criteria added
+    * `jobs/find_a_dep?instrument=Guitar&location=Manchester&genre=Pop`
+
+However, the initial implementation of this functionality resulted in all query parameters being included in the GET request. This resulted in the URL GET request looking something akin to this:
+
+`/jobs/find_a_dep?instrument=Guitar&location=&genre=&available_today=`
+
+Of course, this query would not return any results.
+
+After some consideration and experimenting, a solution was found, involving some JavaScript code to disable the form elements immediately before submitting the form. The code flow is outline below:
+
+* User clicks submit button.
+* Define the form field's initial values in JavaScript.
+* JavaScript code looks through the form field's values.
+* If any initial default values are found to match the values defined, those form elements are disabled, and not added to the 'GET' request.
+* Submit the form
+
+This code elegantly solved the issue, and search criteria could then be added to the 'GET' request individually.
+
+## Boto3 Audio Download - Signature Version
+
+**Status**: Fixed
+
+The project includes a feature for users to download audio files from a *Booking Detail* page, which are added by the member who has sent them a booking.
+
+In development, these files downloaded without issue, but upon deployment, it was discovered that a production backend needed to be configured in order to serve files as downloads from the Amazon S3 Bucket.
+
+The developer [created a class](bookings/classes.py) to handle this functionality. However, upon manual testing, a 403 error was being thrown:
+
+`The authorization mechanism you have provided is not supported. Please use AWS4-HMAC-SHA256.`
+
+Upon research, it was found that the Signature Version which `boto3` originally used was outdated. 
+
+To remedy this, `boto3` needed to have it's Signature Version updated in order to be authenticated correctly:
+
+```
+from botocore.client import Config
+
+def create_boto3_session(self):
+        """
+        Instantiate a boto3 client
+        """
+        client = boto3.client(
+            "s3",
+            config=Config(signature_version="s3v4"),
+            region_name=self.region,
+            aws_access_key_id=self.access_key,
+            aws_secret_access_key=self.secret_key
+        )
+
+        return client
+
+```
+
+In the instance method of the class the developer created, the `boto3` object needed it's `config` variable updating, which was possible using `botocore.client`'s class `Config`.
+
+Once this signature version was added, the tests passed, and audio files could be downloaded.
+
 
 
 
