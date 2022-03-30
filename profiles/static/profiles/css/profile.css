@@ -190,6 +190,10 @@
 
 /* Equipment List */
 
+#equipment_list_container {
+    clear: both;
+}
+
 #equipment_list_wrapper {
     padding: 1.5rem 0;
 }
