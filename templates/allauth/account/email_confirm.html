@@ -3,12 +3,13 @@
 {% load i18n %}
 {% load account %}
 
-{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+{% block title %}Confirm Your Email Address{% endblock %}
 
 
 {% block inner_content %}
 <section class="auth-section linear_bg verify">
     <div class="container linear_bg auth-container verify">
+        <div class="opaque_overlay"></div>
         <div class="row">
             <div class="col-12 col-lg-8 mt-5">
                 <h1 class="auth-header white_font header_shadow primary_font dark mt-4">{% trans "Confirm E-mail Address" %}</h1>
