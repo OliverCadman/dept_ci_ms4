@@ -1247,10 +1247,13 @@ In `dept/settings.py`, set the following configurations:
 
 * Secret Key
     * `SECRET_KEY = os.environ.get(SECRET_KEY, '')`
+
 * Debug:
     * `DEBUG = 'DEVELOPMENT' in os.environ`
+
 * Allowed Hosts
     * `ALLOWED_HOSTS [https://dept-ci-ms4.herokuapp.com, <your_local_host_domain>]`
+
 * Configure your Database to use the Postgres Database in production
  ```
 if 'DATABASE_URL' in os.environ:
@@ -1265,6 +1268,7 @@ else:
         }
     }
 ```
+
 * Configure your email settings for production:
 ```
 if "DEVELOPMENT" in os.environ:
@@ -1279,6 +1283,7 @@ else:
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 ```
+
 ### Connect your Amazon S3 Bucket to Django
 
 In order for Amazon S3 to serve your static and media files in production. Some configuration for Django is required.
