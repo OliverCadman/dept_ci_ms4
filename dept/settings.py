@@ -86,7 +86,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -171,6 +171,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 if "USE_AWS" in os.environ:
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94600000'
+    }
     # Bucket Config
     AWS_STORAGE_BUCKET_NAME = "dept-bucket"
     AWS_S3_REGION_NAME = "eu-west-2"
@@ -192,6 +197,7 @@ if "USE_AWS" in os.environ:
     # Override Static and Media File URLS in production
     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+
 
 # Use boto3 storage in production
 if "DEVELOPMENT" not in os.environ:
@@ -240,43 +246,45 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+# Enable error logging in production
+if "DEVELOPMENT" not in os.environ:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            },
         },
-    },
-    'handlers': {
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        'handlers': {
+            'sentry': {
+                'level': 'INFO',
+                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            },
+            'console': {
+                'level': 'INFO',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose'
+            }
         },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+        'loggers': {
+            'django': {
+                'handlers': ['sentry'],
+                'level': 'INFO',
+                'propagate': True,
+            },
+            'raven': {
+                'level': 'INFO',
+                'handlers': ['sentry'],
+                'propagate': False,
+            },
+            'sentry.errors': {
+                'level': 'INFO',
+                'handlers': ['sentry'],
+                'propagate': False,
+            },
         }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['sentry'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'raven': {
-            'level': 'INFO',
-            'handlers': ['sentry'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'INFO',
-            'handlers': ['sentry'],
-            'propagate': False,
-        },
     }
-}
 
 
 # Internationalization
