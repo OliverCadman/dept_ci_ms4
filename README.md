@@ -959,7 +959,7 @@ If you would like to deploy your project automatically once your Github reposito
 
 The complete list of environment variables needed to run the project are as follows:
 
-### Production
+### Production Environment
 
 |Key|Value|
 |----|----|
@@ -978,10 +978,70 @@ The complete list of environment variables needed to run the project are as foll
 |EMAIL_HOST_USER|<your_email_host_username>|
 |USE_AWS|True|
 
-### Obtaining your Django SECRET KEY
+#### Your Django SECRET KEY
 
 In order to deploy your project successfully, you will need a secret key.
 Visit [Django Secret Key Generator to Generate Your Key](https://miniwebtool.com/django-secret-key-generator/)
+
+Add this to as the value to your environment variable `SECRET_KEY`
+
+#### Amazon S3 Bucket Access Key ID and Secret Access Key
+
+To configure your Amazon S3 Bucket and obtain your credentials to add to the environment variables, [visit this link](AWS_CONFIG.md).
+
+Once you have configured your S3 Bucket, add your `AMAZON_ACCESS_KEY_ID` and `AMAZON_SECRET_ACCESS_KEY` values to the website's environment variables.
+
+
+#### Stripe Credentials
+
+In order to authenticate successful requests with Stripe, you will need five keys:
+
+* STRIPE_PUBLIC_KEY - The client-side key, used to tokenize requests to create a 'checkout session'.
+* STRIPE_SECRET_KEY - The server side key, used to call the Stripe API.
+* STRIPE_WH_SECRET - Used to verify webhook authenticity when Stripe events are triggered.
+* STRIPE_TIERONE_PRICE_ID - A unique identifier for the Tier One Subscription Price.
+* STRIPE_TIERTWO_PRICE_ID - A unique identifier for the Tier Two Subscription Price.
+
+**To create these credentials, you must:**
+1. Create a [Stripe](https://www.stripe.com) account.
+2. Once you have an account and signed in, enable "Test Mode" by clicking the switch in the top right corner.
+3. Navigate to the developer settings. Under `API Keys`, you will find your Public and Secret Keys.
+4. Add these keys to your environment variables:
+    * STRIPE_PUBLIC_KEY
+    * STRIPE_SECRET_KEY
+5. In the Developer dashboard, click the "**Products**" tab.
+6. In the "Products" page, click the button "Create Product" located in the top right corner of the dashboard.
+7. Create a name.
+8. Under "Price Information", enter your price and choose "Recurring" and select your billing frequency.
+9. Click the button which reads "**Save Product**", located in the top right corner.
+10. You will be directed to a page featuring an overview of your new product's details. 
+11. Make a note of the `Price ID`, which can be found in the 'Pricing' section of the overview.
+12. Repeat steps 4-9 to create your second price.
+13. Once you have both prices, add them to your environment variables:
+    * STRIPE_TIERONE_PRICE_ID
+    * STRIPE_TIERTWO_PRICE_ID
+14. Navigate to the your Stripe API dashboard. In the sidebar to the left, select "Webhooks".
+15. On the webhooks page, click the button reading "**Add Endpoint**", located in the top right corner.
+16. Add the endpoint URL:
+    *<your_domain_name>/subscribe/wh/*
+17. Then take your webook signing secret and at that as the value to your environment variable:
+    * STRIPE_WH_SECRET
+
+#### Gmail Credentials
+To retrieve the values to your final two keys in your production environment variables, you need to:
+
+1. Sign in or create a new Gmail account.
+2. Upon signing in, navigate to your google account settings, by clicking the small circle in the top right of your Gmail dashboard.
+3. In the sidebar to the left, click "**Security**".
+4. Scroll down until you see the section "Signing in to Google".
+5. Click "2 Step Verification" and enable.
+6. Go back to your Security dashboard, and click "App passwords" which is located beneath the button to access 2-step verification.
+7. In the dropdown which reads "Select App", choose "Other" and give your app a custom name.
+8. Do the same in dropdown which reads "Select Device"
+9. Click "**Generate password**".
+10. Add your Gmail address and password as values to the follow environment variables:
+    * `EMAIL_HOST_USER`
+    * `EMAIL_HOST_PASSWORD`
 
 ### Get your Postgres Database URL
 
@@ -998,17 +1058,10 @@ To add your Postgres URL to your production environment variables, follow these 
 * Navigate to your Settings tab
 * Scroll down and click "Reveal Config Vars"
 * Copy your Database URL
-* Temporarily add `DISABLE_COLLECTSTATIC = 1` to your config vars.
-* Add the Postgres URL to your Environment variables
+* Temporarily add `DISABLE_COLLECTSTATIC: True` to your config vars.
+* Check to see if your key `DATABASE_URL` exists in your Heroku environment variables, alond with your new URL as it's value.
 
-### Amazon S3 Bucket Access Key ID and Secret Access Key
-
-To configure your Amazon S3 Bucket and obtain your credentials to add to the environment variables, [visit this link](AWS_CONFIG.md)
-
-### Stripe Keys
-
-
-#### Connect your PostGres Database URL in settings.py
+### Connect your PostGres Database URL in settings.py
 
 * In your local environment, install the following packages:
     * `pip3 install dj_database_url`
@@ -1034,7 +1087,180 @@ To configure your Amazon S3 Bucket and obtain your credentials to add to the env
 * Give your superuser a name, email an password.
 * Then, disconnect your production database URL from your settings.py file.
 
-#### Use seperate configuration between development and production
+### Create your production and development config
+
+In `dept/settings.py`, set the following configurations:
+
+* Secret Key
+    * `SECRET_KEY = os.environ.get(SECRET_KEY, '')`
+* Debug:
+    * `DEBUG = 'DEVELOPMENT' in os.environ`
+* Allowed Hosts
+    * `ALLOWED_HOSTS [https://dept-ci-ms4.herokuapp.com, <your_local_host_domain>]`
+* Configure your Database to use the Postgres Database in production
+    * ```
+    if 'DATABASE_URL' in os.environ:
+        DATABASES = {
+            'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': django.db.backends.sqlite3,
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+            }
+        }
+    ```
+* Configure your email settings for production:
+    * ```
+    if "DEVELOPMENT" in os.environ:
+        EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+        DEFAULT_FROM_EMAIL = "hello@dept.com"
+    else:
+        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_USE_TLS = True
+        EMAIL_PORT = 587
+        EMAIL_HOST = "smtp.gmail.com"
+        EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+        EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+        DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
+    ```
+### Connect your Amazon S3 Bucket to Django
+
+In order for Amazon S3 to serve your static and media files in production. Some configuration for Django is required.
+
+In your IDE's terminal, install the following packages:
+
+1. `pip3 install boto3`
+2. `pip3 install django-storages`
+    * Once installed, type `pip3 freeze > requirements.txt` to add these packages to your list of dependencies.
+
+3. Create a file named `custom_storages.py` in the root of your project.
+4. In `dept/settings.py` and `storages` to your list of `INSTALLED_APPS`.
+5. Configure your Amazon S3 in `dept/settings.py like thus:`
+    *   ```
+        if "USE_AWS" in os.environ:
+            # Cache control
+            AWS_S3_OBJECT_PARAMETERS = {
+                'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+                'CacheControl': 'max-age=94600000'
+            }
+            # Bucket Config
+            AWS_STORAGE_BUCKET_NAME = "dept-bucket"
+            AWS_S3_REGION_NAME = "eu-west-2"
+            AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+            AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+            AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+            AWS_DOWNLOAD_EXPIRE = 5000
+
+            # Set Signature Version to access files in Bucket
+            AWS_S3_SIGNATURE_VERSION = os.environ.get("AWS_S3_SIGNATURE_VERSION")
+
+            # Static and Media Files
+            STATICFILES_STORAGE = "custom_storages.StaticStorage"
+            STATICFILES_LOCATION = "static"
+
+            MEDIAFILES_STORAGE = "custom_storages.MediaStorage"
+            MEDIAFILES_LOCATION = "media"
+
+            # Override Static and Media File URLS in production
+            STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
+            MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+    ```
+
+
+
+6. Configure boto3 file storage to handle user uploads in production:
+    * ```
+    # Use boto3 storage in production
+    if "DEVELOPMENT" not in os.environ:
+        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    ```
+
+7. Lastly, visit your Amazon S3 Bucket, and add a `/media` directory along side your `static/` directory.
+    * Make sure you remove `DISABLE_COLLECTSTATIC` from your environment variables, so Amazon AWS can locate all of the static files.
+
+### Visit Heroku and Launch The App
+
+Do a last minute check to see if your Django, Stripe, Amazon AWS and Gmail credentials are present in Heroku's environment variables.
+
+Click "**Launch App**", and the website should load with all static and media files displaying.
+
+## Running the Project in your Local Environment
+
+To browse or play with this project in your local IDE, you may either:
+
+* Fork this repository
+* Clone this respository
+* Download the files in a ZIP folder
+
+### Forking the local repository
+
+You can fork this repository by taking the following steps:
+
+1. Log in or sign up to Github.
+2. Navigate to [the DepT repository](https://github.com/OliverCadman/dept_ci_ms4)
+
+![Forking DepT Repository](documentation/readme_images/deployment/dept_fork_repository.png)
+
+3. Click the button in the top right corner to fork the repository, and create a copy for you to play with.
+
+### Cloning the repository
+
+**Note:**
+These steps assume that you already have the [Github CLI](https://github.com/cli/cli) installed.
+
+To clone the repository and download onto your system, take the following steps:
+
+1. Log in or sign up to Github.
+2. Navigate to [the DepT repository](https://github.com/OliverCadman/dept_ci_ms4)
+
+![Cloning DepT Repository](documentation/readme_images/deployment/dept_clone_repository.png)
+3. Click the button saying "**Code**" to open a dropdown link.
+4. Copy the github link.
+5. Open your terminal and type `git clone <the repository link>`.
+6. Open up the project in your favourite IDE and have fun!
+
+### Downloading the files as a zip.
+
+Alternatively you can download the repositories files as a zip folder:
+
+1. Navigate to the same dropdown accessible via the "**Code**" button.
+2. Click "**Download all as ZIP**".
+3. Unzip the files.
+4. Open them in your favourite IDE.
+
+### Install project dependencies
+
+In order to run the project on your local machine, you will have to install it's dependencies.
+
+To do this, just type `pip3 install -r requirements.txt`, and watch them all flood in.
+
+### Local Environment variables
+
+As with the production environment variables, you will need to provide values to the following local environment variables:
+
+|Key|Value|
+|----|----|
+|SECRET_KEY|<Generated Django Secret Key>|
+|AWS_ACCESS_KEY_ID|<your_aws_access_key_id>|
+|AWS_SECRET_ACCESS_KEY|<your_aws_secret_access_key>|
+|AWS_S3_SIGNATURE_VERSION|s3v4|
+|ALLOWED_AUDIOFILE_EXTENSIONS|[.mp3, .mp4, .wav, .aac, .m4a, .flac]|
+|STRIPE_PUBLIC_KEY|<your_stripe_public_key>|
+|STRIPE_SECRET_KEY|<your_stripe_secret_key>|
+|STRIPE_WH_SECRET|<your_stripe_wh_secret>|
+|STRIPE_TIERONE_PRICE_ID|<your_stripe_tierone_price_id>|
+|STRIPE_TIERTWO_PRICE_ID|<your_stripe_tiertwo_price_id>|
+|EMAIL_HOST_PASSWORD|<your_email_host_password>|
+|EMAIL_HOST_USER|<your_email_host_username>|
+
+Once you have your environment variables added, you can start to have fun and play around with the project.
+
+
+
+
+
 
 
 
