@@ -16,7 +16,6 @@
 <!-- Custom CSS -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static "css/dynamic_header.css" %}">
-    <link rel="stylesheet" href="{% static "css/featured_instruments.css" %}">
     <link rel="stylesheet" href="{% static "jobs/css/dep_list.css" %}">
     <link rel="stylesheet" href="{% static "jobs/css/filter_accordion.css" %}">
 {% endblock %}
@@ -173,25 +172,4 @@
     {{ block.super }}
     <script src="{% static "jobs/js/filter.js" %}"></script>
     <script src="{% static "profiles/js/display_star_rating.js" %}"></script>
-    {% comment %} <script>
-        $(".sort_selector").change(function() {
-            let selector = $(this);
-            let currentUrl = new URL(window.location);
-
-            let selectedVal = selector.val();
-
-            if (selectedVal != "reset") {
-                let sortCriteria = selectedVal.split("_")[0];
-                let sortDirection = selectedVal.split("_")[1];
-
-                currentUrl.searchParams.set("sort", sortCriteria);
-                currentUrl.searchParams.set("direction", sortDirection);
-
-                window.location.replace(currentUrl);
-              } else {
-                  window.location.delete("sort");
-                  window.location.delete("direction")
-              }
-            })
-    </script> {% endcomment %}
 {% endblock %}
