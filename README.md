@@ -503,6 +503,8 @@ The project makes use of the SQlite Relational Database to handle data served th
 
 ### Wireframes
 
+**Note**: The wireframes were made during the planning stages of the project. As the project evolved during the life-cycle of the project's development, some aspects of the final website's design may differ from those featured in the wireframes.
+
 * [Home Page](documentation/wireframes/dept_homepage.pdf)
 * [Register](documentation/wireframes/dept_register.pdf)
 * [Subscribe](documentation/wireframes/dept_subscribe.pdf)
