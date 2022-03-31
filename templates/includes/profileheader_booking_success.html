@@ -52,7 +52,7 @@
                         <div class="star_icon_container ms-2">
                                 
                         </div>
-                        <p id="instrument_list" class="position-relative ms-2">
+                        <p id="instrument_list" class="position-relative ms-2 mt-3">
                         {% if instrument_list|length > 0 %}
                             {% for instrument in instrument_list %}
                                 {{ instrument }}{% if not forloop.last %},{% endif %}
