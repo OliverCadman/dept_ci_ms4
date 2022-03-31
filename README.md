@@ -13,6 +13,14 @@ Through DepT, artists can discover one another, increase revenue through their a
 
 By building communities, artists will acquire a diverse workspace and connect with a wider network.
 
+## Note for Assessors
+
+If you would like to use Stripe to create a subscription, please use the following test card details:
+
+* **Card Number** - 4242 4242 4242 4242
+* **MM/YY** - 0424
+* **CVC** - 242
+
 # Table of Contents
 
 * [Overview](#overview)
@@ -265,7 +273,6 @@ As a member who is looking for a dep musician, I want...
 7. To be able to or edit or delete my invitation, in the case that I make an error in the form, or I find another dep from another source.
 8. To be notified when I have received a response from a dep I have messaged, so I can confirm the arrangement quickly and smoothly.
 9. To be able to send a confirmed dep a document with job details (with location, timings, number of sets etc), to allow for effective communication.
-
 
 ### Strategy Summary
 
