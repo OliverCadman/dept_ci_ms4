@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -271,6 +272,10 @@ def delete_review(request, review_id):
     """
 
     review_to_delete = get_object_or_404(Review, pk=review_id)
+    if review_to_delete.review_sender.user != request.user:
+        messages.warning(
+            request, "You may not deleted another member's review.")
+        return redirect("home")
     try:
         review_receiver = review_to_delete.review_receiver
         review_receiver_profile = get_object_or_404(
@@ -286,6 +291,7 @@ def delete_review(request, review_id):
             reverse("profile", args=[review_receiver_profile.user]))
 
 
+@login_required
 def edit_profile(request):
     """
     Edit Profile View
