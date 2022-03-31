@@ -14,7 +14,7 @@ $(document).ready(function() {
         $("#job_poster").html($(this).data("job-poster"));
         $("#job_description").html($(this).data("job-description"));
         $("#job_poster").html(
-          `Posted by <a href="/profile/${$(this).data("job-poster")}" class="primary_font med_size">${$(this).data("job-poster")}</a>`);
+          `Posted by <a class="white_font" href="/profile/${$(this).data("job-poster")}" class="primary_font med_size">${$(this).data("job-poster")}</a>`);
         $("#register_interest_btn").attr(
           "href", `/jobs/register_interest/${$(this).data("job-id")}/${$(this).data("request-user")}`);
 
