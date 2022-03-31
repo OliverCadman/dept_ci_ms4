@@ -218,7 +218,7 @@ label[for="id_equipment_name"] {
 
 #current_profile_image {
     object-fit: cover;
-    margin: 0 1.5rem;
+    margin: 1rem .75rem;
 }
 
 input#new-image {
