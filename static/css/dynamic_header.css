@@ -19,7 +19,7 @@ accompanying HTML file, include:
     position: relative;
 }
 
-.dynamic-hero-section-sm {
+.dynamic_hero_section_sm {
     background-color: #1a2342;
     padding-top: 60px;
     position: relative;
@@ -32,7 +32,7 @@ accompanying HTML file, include:
 
 }
 
-.dynamic-hero-section-sm.checkout_success {
+.dynamic_hero_section_sm.checkout_success {
     color: #111;
     padding-top: 8rem;
     padding-bottom: 2rem;
@@ -153,11 +153,11 @@ accompanying HTML file, include:
         padding-bottom: 1.5rem;
     }
 
-    .dynamic-hero-section-sm.checkout_success {
+    .dynamic_hero_section_sm.checkout_success {
         min-height: 50vh;
     }
 
-    .dynamic-hero-section-sm.padding_top_7 {
+    .dynamic_hero_section_sm.padding_top_7 {
         padding-top: 7rem;
     }
     
@@ -178,7 +178,7 @@ accompanying HTML file, include:
     }
 
     .dynamic-hero-section-lg.choose_subscription {
-        height: 60vh;
+        min-height: 60vh;
         padding-top: 5rem;
         position: absolute;
         width: 100%;
@@ -265,7 +265,7 @@ accompanying HTML file, include:
 
     /* Subscription */
     .dynamic-hero-section-lg.choose_subscription {
-        height: 65vh;
+        min-height: 65vh;
     }
 
     /* Dep List */
@@ -293,7 +293,7 @@ accompanying HTML file, include:
     }
 
     .dynamic-hero-section-lg.choose_subscription {
-        height: 45vh;
+        min-height: 45vh;
     }
 
     .dynamic-hero-section-lg.edit_profile {
