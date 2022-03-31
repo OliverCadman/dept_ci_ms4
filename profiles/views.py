@@ -537,6 +537,16 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                                                     "section": "tier_one"
                                                 }))
 
+        # Restrict access to jobs page for subscribed users only
+        current_page = self.get_context_data()["current_page"]
+        if current_page == "jobs":
+            if not current_user.subscription_chosen:
+                messages.info(
+                    self.request,
+                    "You need to subscribe to access this section")
+                return redirect(
+                    reverse("dashboard", args=[current_user.slug]))
+
         # Restrict access to Tier Two content if user profile doesn't
         # have "is_paid" status.
         tier_check = None
