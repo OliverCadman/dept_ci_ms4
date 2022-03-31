@@ -80,10 +80,10 @@ class Invitation(models.Model):
     invitation_number = models.CharField(
         max_length=50, null=False, editable=False)
     invite_sender = models.ForeignKey(
-        UserProfile, on_delete=models.SET_NULL,
+        UserProfile, on_delete=models.CASCADE,
         related_name="invitations_sent", null=True)
     invite_receiver = models.ForeignKey(
-        UserProfile, on_delete=models.SET_NULL,
+        UserProfile, on_delete=models.CASCADE,
         related_name="invitations_received", null=True)
     event_name = models.CharField(max_length=150, null=True)
     artist_name = models.CharField(
