@@ -159,6 +159,7 @@ By building communities, artists will acquire a diverse workspace and connect wi
      * [Notifications](#notifications-2)
      * [handle_GET_params()/UserProfile custom queryset](#handlegetparamsuserprofile-custom-filter-queryset)
      * [Stripe Subscription/Customer Portal](#stripe-subscriptionscustomer-portal)
+     * [SoundManager/Bar UI](#soundmanagerbar-ui)
     * [Design](#design)
     * [Text Content](#text-content)
     * [Logo](#logo-1)
@@ -1462,6 +1463,14 @@ The code to integrate Stripe Subscriptions and the Customer Portal were referenc
 The query parameter code can be found here: https://github.com/BAK2K3/CIRPG/blob/main/codex/functions.py
 
 The custom filter-queryset code can be found here: https://github.com/BAK2K3/CIRPG/blob/main/codex/models.py
+
+### SoundManager/Bar UI
+
+The JavaScript, CSS and HTML code to create the interactive music player in the website's Profile pages are taken directly from the [SoundManager](http://www.schillmania.com/projects/soundmanager2/) library.
+
+Since Soundmanager's documentation leaves a little to be desired, further assistance was taken from this article:
+ 
+* [https://rickluna.com/wp/2016/02/how-to-use-soundmanager2-with-bar-ui/](https://rickluna.com/wp/2016/02/how-to-use-soundmanager2-with-bar-ui/)
 
 ## Design
 
