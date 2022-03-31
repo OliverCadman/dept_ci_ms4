@@ -59,7 +59,7 @@ $(document).ready(function () {
         let rateDelta = maxRating - rating;
         for (let j = 0; j < rateDelta; j++) {
           let icon = document.createElement("i");
-          icon.className = "rating_star far fa-star";
+          icon.className = "rating_star far fa-star position-relative";
           starRatingWrapper.appendChild(icon);
         }
       }
@@ -95,7 +95,7 @@ $(document).ready(function () {
         // Create FontAwesome outlined stars for remainder
         for (let j = 0; j < rateDelta; j++) {
           let outlinedStarIcon = document.createElement("i");
-          outlinedStarIcon.className = "rating_star far fa-star";
+          outlinedStarIcon.className = "rating_star far fa-star position-relative";
           container.appendChild(outlinedStarIcon);
         }
 
