@@ -115,6 +115,11 @@
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#edit_review_modal"
                                                     data-review-id="{{ review.pk }}"><i class="fas fa-edit"></i></button>
+                                                    <button type="button" aria-label="Delete Review"
+                                                    class="btn alert_bg white_font delete_review_modal_trigger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#delete_review_modal"
+                                                    data-review-id="{{ review.pk }}"><i class="fas fa-times"></i></button>
                                                 </div>
                                             {% endif %}
                                         {% endif %}
@@ -380,6 +385,25 @@
             </div>
         </div>
     </div>
+    <!-- Delete Review Modal -->
+    <div class="modal fade" id="delete_review_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header secondary_bg">
+                    <h4 class="text-center primary_font m-0 white_font">Deleting this review</h4>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="secondary_font">Are you sure you want to do this?</p>
+                    <div class="cta-btn-wrapper">
+                        <a href="#" class="btn alert_bg primary_font light_weight white_font w-50 me-2 med_small_text" id="confirm_review_delete">Yes</a>
+                        <button type="button" class="btn custom_success primary_font light_weight white_font w-50 ms-2 med_small_text" data-bs-dismiss="modal" aria-label="Close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Profile Modal -->
     <div class="modal fade" id="delete_profile_modal">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">

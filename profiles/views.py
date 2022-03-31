@@ -261,6 +261,31 @@ def edit_review(request, review_id):
         return JsonResponse({"success_msg": success_msg})
 
 
+def delete_review(request, review_id):
+    """
+    A view to delete a given review.
+
+    Takes the review_id as argument to find
+    the Review object tied to it. If found,
+    delete the review.
+    """
+
+    review_to_delete = get_object_or_404(Review, pk=review_id)
+    try:
+        review_receiver = review_to_delete.review_receiver
+        review_receiver_profile = get_object_or_404(
+            UserProfile, user__username=review_receiver.user)
+        review_to_delete.delete()
+        messages.success(request, "Your review was deleted.")
+        return redirect(
+            reverse("profile", args=[review_receiver_profile.user]))
+    except Review.DoesNotExist:
+        messages.error(
+            request, "We couldn't find that review.")
+        return redirect(
+            reverse("profile", args=[review_receiver_profile.user]))
+
+
 def edit_profile(request):
     """
     Edit Profile View

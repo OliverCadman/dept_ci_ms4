@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (ProfileView, delete_account, edit_profile, upload_audio,
                     upload_unavailable_dates, get_users_unavailable_dates,
                     get_users_tracks, DashboardView, delete_account,
-                    get_review_to_edit, edit_review)
+                    get_review_to_edit, edit_review, delete_review)
 
 """
 Profiles URLS
@@ -25,7 +25,10 @@ urlpatterns = [
          name="get_users_tracks"),
     path("get_review_to_edit/<int:review_id>", get_review_to_edit,
          name="get_review_to_edit"),
-    path("edit_review/<int:review_id>", edit_review, name="edit_review"),
+    path("edit_review/<int:review_id>", edit_review,
+         name="edit_review"),
+    path("delete_review/<int:review_id>", delete_review,
+         name="delete_review"),
     path("delete_account/<int:profile_id>", delete_account,
          name="delete_account")
 ]

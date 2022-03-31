@@ -30,6 +30,21 @@ $(document).ready(function() {
     populateDeleteHrefAttribute(deleteLink, href);
   });
 
+  /*
+    Delete Review Modal
+    -------------------------------
+    Grabs review ID as data-attribute passed through
+    button to open confirmation modal, and sets the href
+    attribute of link to delete review, with review ID appended.
+  */
+
+    $(".delete_review_modal_trigger").click(function() {
+      let deleteLink = "#confirm_review_delete";
+      let href = `/profile/delete_review/${$(this).data("review-id")}`;
+
+      populateDeleteHrefAttribute(deleteLink, href);
+    })
+
   /* Delete Profile Modal
       --------------------------------
        Grabs the profile ID as data-attribute passed through
@@ -46,7 +61,7 @@ $(document).ready(function() {
   });
 
   function populateDeleteHrefAttribute(deleteLink, href) {
-    console.log(deleteLink, href);
+    console.log(href);
     /* 
         Dynamically alters the href attribute of anchor tag
         to delete an object.
