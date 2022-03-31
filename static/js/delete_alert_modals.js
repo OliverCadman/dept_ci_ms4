@@ -61,7 +61,6 @@ $(document).ready(function() {
   });
 
   function populateDeleteHrefAttribute(deleteLink, href) {
-    console.log(href);
     /* 
         Dynamically alters the href attribute of anchor tag
         to delete an object.
