@@ -149,6 +149,8 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Reconfigured to migrate from Heroku to Railway App
+
 if "DATABASE_URL" in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
