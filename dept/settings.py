@@ -37,10 +37,10 @@ else:
 DEBUG = True
 
 # Use HTTPS in production
-# if "DEVELOPMENT" not in os.environ:
-#     SECURE_SSL_REDIRECT = True
+if "DEVELOPMENT" not in os.environ:
+    SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = ['dept.up.railway.app', '127.0.0.1']
+ALLOWED_HOSTS = ['web-production-ff4d.up.railway.app', '127.0.0.1', 'dept.up.railway.app']
 
 SITE_ID = 2
 
@@ -153,7 +153,7 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 if "DATABASE_URL" in os.environ:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.parse('postgresql://postgres:zAdjU5Jdf6FHnDIbBPYh@containers-us-west-55.railway.app:6216/railway')
     }
 
 else:
