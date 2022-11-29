@@ -40,6 +40,8 @@ DEBUG = True
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
+CSRF_TRUSTED_ORIGINS = ['https://dept.up.railway.app/']
+
 ALLOWED_HOSTS = ['web-production-ff4d.up.railway.app', '127.0.0.1', 'dept.up.railway.app']
 
 SITE_ID = 2
