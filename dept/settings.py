@@ -40,7 +40,7 @@ DEBUG = True
 if "DEVELOPMENT" not in os.environ:
     SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = ['web-production-ff4d.up.railway.app', '127.0.0.1']
+ALLOWED_HOSTS = ['dept.up.railway.app', '127.0.0.1']
 
 SITE_ID = 2
 
