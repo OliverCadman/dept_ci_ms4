@@ -37,8 +37,8 @@ else:
 DEBUG = True
 
 # Use HTTPS in production
-if "DEVELOPMENT" not in os.environ:
-    SECURE_SSL_REDIRECT = True
+# if "DEVELOPMENT" not in os.environ:
+#     SECURE_SSL_REDIRECT = True
 
 ALLOWED_HOSTS = ['dept.up.railway.app', '127.0.0.1']
 
