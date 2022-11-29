@@ -114,7 +114,7 @@ ROOT_URLCONF = 'dept.urls'
 if "DEVELOPMENT" in os.environ:
     DOMAIN_ROOT = "http://127.0.0.1:8000/"
 else:
-    DOMAIN_ROOT = "https://web-production-ff4d.up.railway.app/"
+    DOMAIN_ROOT = "https://dept.up.railway.app/"
 
 
 TEMPLATES = [
