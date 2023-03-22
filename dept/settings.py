@@ -34,15 +34,15 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Use HTTPS in production
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://dept.herokuapp.com']
 
-ALLOWED_HOSTS = ['web-production-ff4d.up.railway.app', '127.0.0.1', 'dept.up.railway.app']
+ALLOWED_HOSTS = ['dept.herokuapp.com']
 
 SITE_ID = 2
 
@@ -114,7 +114,7 @@ ROOT_URLCONF = 'dept.urls'
 if "DEVELOPMENT" in os.environ:
     DOMAIN_ROOT = "http://127.0.0.1:8000/"
 else:
-    DOMAIN_ROOT = "https://dept.up.railway.app/"
+    DOMAIN_ROOT = "https://dept.herokuapp.com/"
 
 
 TEMPLATES = [
