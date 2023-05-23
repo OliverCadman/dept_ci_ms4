@@ -42,9 +42,9 @@ DEBUG = True
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'https://deptcims4-production.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'https://*.deptcims4-production.up.railway.app/']
 
-ALLOWED_HOSTS = ['https://deptcims4-production.up.railway.app/',
+ALLOWED_HOSTS = ['deptcims4-production.up.railway.app/',
                  'web-production-ff4d.up.railway.app', 
                  '127.0.0.1', 'dept.up.railway.app']
 
@@ -157,18 +157,18 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 # Reconfigured to migrate from Heroku to Railway App
 
-if "DATABASE_URL" in os.environ:
-    DATABASES = {
-        'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=1800)
-    }
+# if "DATABASE_URL" in os.environ:
+DATABASES = {
+    'default': dj_database_url.config(default="postgresql://postgres:uVhPRPl398aVdhez4Ncr@containers-us-west-178.railway.app:7450/railway", conn_max_age=1800)
+}
 
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 
 # Static and Media File URLs
 STATIC_URL = 'static/'
