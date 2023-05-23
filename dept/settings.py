@@ -44,7 +44,7 @@ DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'deptcims4-production.up.railway.app']
 
-ALLOWED_HOSTS = ['https://deptcims4-production.up.railway.app/',
+ALLOWED_HOSTS = ['deptcims4-production.up.railway.app',
                  'web-production-ff4d.up.railway.app', 
                  '127.0.0.1', 'dept.up.railway.app']
 
