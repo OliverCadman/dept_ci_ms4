@@ -42,9 +42,11 @@ DEBUG = True
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'https://deptcims4-production.up.railway.app/']
 
-ALLOWED_HOSTS = ['web-production-ff4d.up.railway.app', '127.0.0.1', 'dept.up.railway.app']
+ALLOWED_HOSTS = ['https://deptcims4-production.up.railway.app/',
+                 'web-production-ff4d.up.railway.app', 
+                 '127.0.0.1', 'dept.up.railway.app']
 
 SITE_ID = 2
 
@@ -116,7 +118,7 @@ ROOT_URLCONF = 'dept.urls'
 if "DEVELOPMENT" in os.environ:
     DOMAIN_ROOT = "http://127.0.0.1:8000/"
 else:
-    DOMAIN_ROOT = "https://dept.up.railway.app/"
+    DOMAIN_ROOT = "https://deptcims4-production.up.railway.app/"
 
 
 TEMPLATES = [
@@ -157,7 +159,15 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 if "DATABASE_URL" in os.environ:
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        'default': {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("PGNAME"),
+            "USER": os.environ.get("PGUSER"),
+            "PASSWORD": os.environ.get("PGPASSWORD"),
+            "HOST": os.environ.get("PGHOST"),
+            "PORT": os.environ.get("PGPORT")
+
+        }
     }
 
 else:
