@@ -42,7 +42,7 @@ DEBUG = True
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'https://deptcims4-production.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'deptcims4-production.up.railway.app']
 
 ALLOWED_HOSTS = ['https://deptcims4-production.up.railway.app/',
                  'web-production-ff4d.up.railway.app', 
@@ -166,7 +166,6 @@ if "DATABASE_URL" in os.environ:
             "PASSWORD": os.environ.get("PGPASSWORD"),
             "HOST": os.environ.get("PGHOST"),
             "PORT": os.environ.get("PGPORT")
-
         }
     }
 
