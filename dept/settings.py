@@ -42,9 +42,9 @@ DEBUG = True
 # if "DEVELOPMENT" not in os.environ:
 #     SECURE_SSL_REDIRECT = True
 
-CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'deptcims4-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.dept.up.railway.app', 'https://deptcims4-production.up.railway.app/']
 
-ALLOWED_HOSTS = ['deptcims4-production.up.railway.app',
+ALLOWED_HOSTS = ['https://deptcims4-production.up.railway.app/',
                  'web-production-ff4d.up.railway.app', 
                  '127.0.0.1', 'dept.up.railway.app']
 
@@ -159,14 +159,7 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 if "DATABASE_URL" in os.environ:
     DATABASES = {
-        'default': {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("PGNAME"),
-            "USER": os.environ.get("PGUSER"),
-            "PASSWORD": os.environ.get("PGPASSWORD"),
-            "HOST": os.environ.get("PGHOST"),
-            "PORT": os.environ.get("PGPORT")
-        }
+        'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=1800)
     }
 
 else:
