@@ -2,6 +2,8 @@
 
 ![DepT - AmIResponsive?](documentation/readme_images/dept-amiresponsive.png)
 
+[Check out the website](https://deptcims4-production.up.railway.app)
+
 Dept is a full-stack, community-led, subscription-based platform allowing musicians and artists to advertise their skills and services
 to band leaders, producers, other artists, or any client that requires a last-minute musician to provide a service.
 
