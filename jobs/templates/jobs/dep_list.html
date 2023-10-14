@@ -107,7 +107,7 @@
                                             </p>   
                                         </div> 
                                         <div class="profile_btn_wrapper centered">
-                                            <a href="{% url "profile" dep.slug %}" class="btn custom_success secondary_font white_font">
+                                            <a href="{% url "profile" dep.user %}" class="btn custom_success secondary_font white_font">
                                                 Contact {% if dep.first_name %}{{ dep.first_name }}{% else %}{{ dep.user.username }}{% endif %}
                                             </a>
                                         </div>
