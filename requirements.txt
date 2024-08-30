@@ -37,7 +37,6 @@ incremental==24.7.2
 jmespath==1.0.1
 oauthlib==3.2.2
 Pillow==10.4.0
-zlib-dev
 psycopg2-binary==2.9.9
 pyasn1==0.6.0
 pyasn1-modules==0.4.0
