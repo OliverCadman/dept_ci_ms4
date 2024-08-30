@@ -49,6 +49,9 @@ class TestDeplistView(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(
             UserProfile, user=self.test_user)
+        
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
 
         self.username2 = "test_user_2"
         self.password2 = "test_password_2"
@@ -58,6 +61,9 @@ class TestDeplistView(TestCase):
             self.username2, self.password2, self.email2)
         self.test_user_profile_2 = get_object_or_404(
             UserProfile, user__username=self.test_user_2)
+        
+        self.test_user_profile_2.subscription_chosen = True
+        self.test_user_profile_2.save()
 
         # Create a test instrument to use as filter parameter.
         self.test_instrument = Instrument.objects.create(
@@ -82,7 +88,9 @@ class TestDeplistView(TestCase):
         self.test_user_profile_2.instruments_played.add(
             self.test_instrument)
         self.test_user_profile_2.genres.add(self.test_genre)
+
         self.test_user_profile_2.city = "test_city"
+        self.test_user_profile_2.save()
 
         # Instantiate the client to make requests.
         self.client = Client()

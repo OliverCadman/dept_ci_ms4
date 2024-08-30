@@ -21,9 +21,13 @@ import os
 if os.path.exists("env.py"):
     import env
 
+import sentry_sdk
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+SITE_ID = "DepT"
 
 
 # Quick-start development settings - unsuitable for production
@@ -36,7 +40,7 @@ else:
     SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = "DEVELOPMENT" in os.environ
 
 # Use HTTPS in production
 # if "DEVELOPMENT" not in os.environ:
@@ -93,6 +97,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -158,18 +163,18 @@ WSGI_APPLICATION = 'dept.wsgi.application'
 
 # Reconfigured to migrate from Heroku to Railway App
 
-# if "DATABASE_URL" in os.environ:
-DATABASES = {
-    'default': dj_database_url.config(default="postgresql://postgres:uVhPRPl398aVdhez4Ncr@containers-us-west-178.railway.app:7450/railway", conn_max_age=1800)
-}
+if "DATABASE_URL" in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
 
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Static and Media File URLs
 STATIC_URL = 'static/'
@@ -255,47 +260,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Enable error logging in production
-if "DEVELOPMENT" not in os.environ:
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'verbose': {
-                'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-            },
-        },
-        'handlers': {
-            'sentry': {
-                'level': 'INFO',
-                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            },
-            'console': {
-                'level': 'INFO',
-                'class': 'logging.StreamHandler',
-                'formatter': 'verbose'
-            }
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['sentry'],
-                'level': 'INFO',
-                'propagate': True,
-            },
-            'raven': {
-                'level': 'INFO',
-                'handlers': ['sentry'],
-                'propagate': False,
-            },
-            'sentry.errors': {
-                'level': 'INFO',
-                'handlers': ['sentry'],
-                'propagate': False,
-            },
-        }
-    }
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -317,15 +281,9 @@ STRIPE_TIERONE_PRICE_ID = os.getenv("STRIPE_TIERONE_PRICE_ID")
 STRIPE_TIERTWO_PRICE_ID = os.getenv("STRIPE_TIERTWO_PRICE_ID")
 
 # Stripe API Credentials
-
-if "DEVELOPMENT" in os.environ:
-    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
-    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
-    STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
-else:
-    STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
-    STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
-    STRIPE_WH_SECRET = os.getenv("STRIPE_WH_SECRET")
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WH_SECRET = os.environ.get("STRIPE_WH_SECRET")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -334,3 +292,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATE_INPUT_FORMATS += ("%d-%m-%Y",)
 DATETIME_INPUT_FORMATS += ("%d-%m-%Y %H:%M",)
+
+sentry_sdk.init(
+    dsn=os.environ.get("SENTRY_DSN"),
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0
+)

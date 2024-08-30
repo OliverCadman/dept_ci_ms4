@@ -17,10 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
+
 from django.conf import settings
+
+def trigger_error(request):
+    return 1 / 0
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sentry-debug/', trigger_error),
     path('accounts/', include('allauth.urls')),
     path('', include("home.urls")),
     path('jobs/', include("jobs.urls")),

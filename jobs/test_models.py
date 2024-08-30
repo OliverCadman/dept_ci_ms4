@@ -62,5 +62,5 @@ class TestJobModel(TestCase):
         query = Job.objects.filter_queryset(
             filter_params=filter_params,
             min_fee=1,
-            max_fee=inf
+            max_fee=300
         )

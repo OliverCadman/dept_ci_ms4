@@ -39,6 +39,9 @@ class TestInvitationPOSTView(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(
             UserProfile, user__username=self.test_user)
+        
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
 
         username2 = "test2"
         password2 = "test2"
@@ -47,6 +50,9 @@ class TestInvitationPOSTView(TestCase):
         self.test_user2 = create_test_user(username2, password2, email2)
         self.test_user_profile_2 = get_object_or_404(
             UserProfile, user__username=self.test_user2)
+        
+        self.test_user_profile_2.subscription_chosen = True
+        self.test_user_profile.save()
 
         # Instantiate the client and login
         self.client = Client()
@@ -140,6 +146,9 @@ class TestEditInvitationPOSTView(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(
             UserProfile, user__username=self.test_user)
+        
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
 
         username2 = "test2"
         password2 = "test2"
@@ -148,6 +157,9 @@ class TestEditInvitationPOSTView(TestCase):
         self.test_user2 = create_test_user(username2, password2, email2)
         self.test_user_profile_2 = get_object_or_404(
             UserProfile, user__username=self.test_user2)
+        
+        self.test_user_profile_2.subscription_chosen = True
+        self.test_user_profile_2.save()
 
         # Instantiate the client and login
         self.client = Client()
@@ -241,6 +253,9 @@ class TestBookingViewGETMethods(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(
             UserProfile, user__username=self.test_user)
+        
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
 
         username2 = "test2"
         password2 = "test2"
@@ -249,6 +264,9 @@ class TestBookingViewGETMethods(TestCase):
         self.test_user2 = create_test_user(username2, password2, email2)
         self.test_user_profile_2 = get_object_or_404(
             UserProfile, user__username=self.test_user2)
+        
+        self.test_user_profile_2.subscription_chosen = True
+        self.test_user_profile_2.save()
 
         # Instantiate the client and login
         self.client = Client()
@@ -848,6 +866,9 @@ class TestBookingViewPOSTMethods(TestCase):
         self.test_user = create_test_user(username, password, email)
         self.test_user_profile = get_object_or_404(
             UserProfile, user__username=self.test_user)
+        
+        self.test_user_profile.subscription_chosen = True
+        self.test_user_profile.save()
 
         username2 = "test2"
         password2 = "test2"
@@ -856,6 +877,9 @@ class TestBookingViewPOSTMethods(TestCase):
         self.test_user2 = create_test_user(username2, password2, email2)
         self.test_user_profile2 = get_object_or_404(
             UserProfile, user__username=self.test_user2)
+        
+        self.test_user_profile2.subscription_chosen = True
+        self.test_user_profile.save()
 
         # Set up a test invitation object
         self.test_invitation = create_test_invitation(

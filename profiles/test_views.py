@@ -57,6 +57,10 @@ class TestProfileViewGETMethods(TestCase):
         )
         self.user_profile = get_object_or_404(
             UserProfile, user=self.user)
+        
+        # Set subscription_chosen to True in order to access 'restricted' areas.
+        self.user_profile.subscription_chosen = True
+        self.user_profile.save()
 
         # Instantiate a client to mimic a user
         self.client = Client()
@@ -294,6 +298,10 @@ class TestProfileViewGETMethods(TestCase):
 
         unauthorized_userprofile = get_object_or_404(
             UserProfile, user=unauthorized_user)
+        
+        # Enable access to dashboard (Tier One subscription).
+        unauthorized_userprofile.subscription_chosen = True
+        unauthorized_userprofile.save()
 
         # Log the unauthorized user in
         client = Client()
@@ -302,6 +310,8 @@ class TestProfileViewGETMethods(TestCase):
             password=unauthorized_password
         )
         self.assertTrue(logged_in)
+
+
 
         # Attempt to visit authorized user's dashboard.
         response = client.get(reverse(
@@ -453,6 +463,7 @@ class TestProfileViewGETMethods(TestCase):
         # Get UserProfile for Test Invitation/Job Post Sender.
         test_poster_userprofile = get_object_or_404(
             UserProfile, user=test_poster)
+        
 
         # ----- Tier One ------
 
@@ -884,6 +895,8 @@ class TestProfileViewGETMethods(TestCase):
         username = "test"
         password = "test"
         email = "test"
+
+        print(self.user_profile.__dict__)
 
         invite_sender = create_test_user(username, password, email)
         invite_sender_profile = get_object_or_404(

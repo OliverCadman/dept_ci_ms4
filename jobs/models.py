@@ -91,7 +91,7 @@ class Job(models.Model):
     artist_name = models.CharField(max_length=100, null=True, blank=True)
     job_description = models.TextField(max_length=500)
     fee = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, default=0)
+        max_digits=10, decimal_places=2, null=True, default=0.0)
     event_city = models.CharField(max_length=100)
     event_country = CountryField()
     event_datetime = models.DateTimeField()

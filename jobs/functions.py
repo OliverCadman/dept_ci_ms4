@@ -19,7 +19,7 @@ def handle_get_params(params):
         "available_today": None,
         "search_params": {},
         "min_fee": 1,
-        "max_fee": float("inf"),
+        "max_fee": 200,
         "fee": None,
         "city": None,
         "sort_params": "pk",

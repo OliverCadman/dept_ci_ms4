@@ -84,6 +84,9 @@ def create_checkout_session(request):
 
         current_user = UserProfile.objects.get(user=request.user)
         price_id = request.POST["price_id"]
+        
+        print(f"DOMAIN ROOT: {settings.DOMAIN_ROOT}")
+
 
         if not current_user.is_paid:
             DOMAIN_ROOT = settings.DOMAIN_ROOT
@@ -134,6 +137,8 @@ def customer_portal(request):
         # Grab current user's Stripe 'Customer' account details
         # to get their ID, to be passed into stripe portal session.
         customer = stripe.Customer.list(email=user_email)
+
+        print(f"DOMAIN ROOT!!! : {settings.DOMAIN_ROOT}")
 
         if customer is not None:
             customer_id = customer.data[0].id

@@ -300,21 +300,24 @@ class UserProfile(models.Model):
         to be displayed as stars on the User's profile
         and dashboard page, as well as the Dep List page.
         """
-        received_reviews = self.received_reviews.all()
-        if len(received_reviews) > 0:
-            num_of_reviews = len(received_reviews)
-            total_rating = 0
-            for review in received_reviews:
-                rating = review.rating
-                if rating is not None:
-                    total_rating += rating
-                average_rating = round(total_rating/num_of_reviews)
-            return {
-                "average_rating": average_rating,
-                "num_of_reviews": num_of_reviews
-            }
+        if self.pk is None:
+            pass
         else:
-            return None
+            received_reviews = self.received_reviews.all()
+            if len(received_reviews) > 0:
+                num_of_reviews = len(received_reviews)
+                total_rating = 0
+                for review in received_reviews:
+                    rating = review.rating
+                    if rating is not None:
+                        total_rating += rating
+                    average_rating = round(total_rating/num_of_reviews)
+                return {
+                    "average_rating": average_rating,
+                    "num_of_reviews": num_of_reviews
+                }
+            else:
+                return None
 
 
 class Equipment(models.Model):
@@ -436,8 +439,6 @@ class UnavailableDate(models.Model):
         return str(self.date)
 
 # ------- Signal -------
-
-
 @receiver(post_save, sender=User)
 def create_or_update_user(sender, instance, created, **kwargs):
     """
@@ -445,8 +446,8 @@ def create_or_update_user(sender, instance, created, **kwargs):
     or update the profile if it's already been created.
     """
     if created:
-        UserProfile.objects.create(user=instance)
-        print(UserProfile.objects.get(user=instance))
+       new_user = UserProfile.objects.create(user=instance)
+       new_user.save()
 
     # Otherwise, save the profile.
     instance.userprofile.save()
